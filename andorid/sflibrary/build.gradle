@@ -1,0 +1,62 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    //appcompat 兼容包
+    compile "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
+//    compile 'com.android.support:support-vector-drawable:25.3.1'  butterkinfe 最新版本8.7 需要的支持库等都是25.3.1
+    //cardview 控件
+    compile "com.android.support:cardview-v7:$rootProject.supportLibraryVersion"
+    //material design 设计包
+    compile "com.android.support:design:$rootProject.supportLibraryVersion"
+    compile "com.android.support:recyclerview-v7:$rootProject.supportLibraryVersion"
+    compile "com.android.support:support-v4:$rootProject.supportLibraryVersion"
+    // google core libraries for java
+    compile "com.google.guava:guava:$rootProject.guavaVersion"
+    compile "com.android.support:preference-v14:$rootProject.supportLibraryVersion"
+    // 支持Chrome Custom Tabs
+    compile "com.android.support:customtabs:$rootProject.supportLibraryVersion"
+    // 解析JSON数据
+    compile "com.google.code.gson:gson:$rootProject.gsonVersion"
+    // 图片加载
+    compile "com.github.bumptech.glide:glide:$rootProject.glideVersion"
+    // 为了保持在低版本SDK中的UI一致性，引入material data time picker库
+    compile "com.wdullaer:materialdatetimepicker:$rootProject.materialDateTimePickerVersion"
+
+    compile 'com.android.volley:volley:1.0.0'
+
+    compile 'com.github.paolorotolo:appintro:4.1.0'
+
+
+    compile 'com.jakewharton:butterknife:8.5.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
+
+    //底部tab栏
+//    compile 'com.github.ittianyu:BottomNavigationViewEx:1.2.1'
+
+    testCompile "junit:junit:$rootProject.junitVersion"
+}
