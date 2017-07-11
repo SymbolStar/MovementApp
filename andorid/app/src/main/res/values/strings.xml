@@ -1,6 +1,7 @@
 <resources>
-    <string name="app_name">andorid</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="app_name">也跑</string>
+    <string name="tab_lesson">课程</string>
+    <string name="tab_shopping">购卡</string>
+    <string name="tab_circle">圈子</string>
+    <string name="tab_myself">我的</string>
 </resources>

@@ -28,7 +28,7 @@ dependencies {
     })
     //appcompat 兼容包
     compile "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
-//    compile 'com.android.support:support-vector-drawable:25.3.1'  butterkinfe 最新版本8.7 需要的支持库等都是25.3.1
+//    compile 'com.android.support:support-vector-drawable:25.3.1'
     //cardview 控件
     compile "com.android.support:cardview-v7:$rootProject.supportLibraryVersion"
     //material design 设计包
@@ -48,15 +48,15 @@ dependencies {
     compile "com.wdullaer:materialdatetimepicker:$rootProject.materialDateTimePickerVersion"
 
     compile 'com.android.volley:volley:1.0.0'
-
-    compile 'com.github.paolorotolo:appintro:4.1.0'
-
-
-    compile 'com.jakewharton:butterknife:8.5.1'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
+//  app 导航页
+    compile 'com.github.apl-devs:appintro:v4.2.0'
+//  jakewharton annotation plugin
+    compile 'com.jakewharton:butterknife:8.7.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.7.0'
 
     //底部tab栏
-//    compile 'com.github.ittianyu:BottomNavigationViewEx:1.2.1'
+    compile 'com.github.ittianyu:BottomNavigationViewEx:1.2.1'
+    compile 'q.rorbin:badgeview:1.1.0'
 
     testCompile "junit:junit:$rootProject.junitVersion"
 }

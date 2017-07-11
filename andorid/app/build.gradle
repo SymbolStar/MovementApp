@@ -18,6 +18,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+//    在布局中绑定数据 需要补充分析
+    dataBinding {
+        enabled true
+    }
+
 }
 
 dependencies {
