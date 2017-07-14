@@ -29,4 +29,9 @@ public class LessonPresenter implements LessonContract.Presenter {
     public void start() {
 
     }
+
+    @Override
+    public void getData() {
+
+    }
 }

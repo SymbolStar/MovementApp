@@ -13,6 +13,7 @@ import android.util.Log;
 import android.util.SparseIntArray;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -68,11 +69,11 @@ public class MainActivity extends PermissionActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ActivityCollector.addActivity(this);
-
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);//初始隐藏键盘
         bind = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
         initView();
-        permissionCheck();
+//        permissionCheck();
 
         fragments = new ArrayList<>(4);
         items = new SparseIntArray(4);

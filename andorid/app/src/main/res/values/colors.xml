@@ -8,4 +8,5 @@
     <color name="bottomBackgroundColor">#1c1a26</color>
     <color name="bottomTabUnChecked">#cdcdcd</color>
     <color name="bottomTabChecked">#fece00</color>
+    <color name="warn_hint">#fffcee</color>
 </resources>

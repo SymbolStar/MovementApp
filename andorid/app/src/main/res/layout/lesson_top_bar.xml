@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="40dp"
+    android:background="@color/colorPrimary">
+    
+    <ImageView
+        android:id="@+id/iv_qr_code"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="12dp"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:src="@drawable/home_code3x"
+        android:layout_centerVertical="true"/>
+
+    <ImageView
+        android:id="@+id/iv_message"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:src="@drawable/home_information3x"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="12dp"
+        android:layout_centerVertical="true"/>
+
+    <EditText
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:paddingLeft="10dp"
+        android:layout_toLeftOf="@id/iv_message"
+        android:layout_toRightOf="@id/iv_qr_code"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:drawablePadding="5dp"
+        android:background="@drawable/search_shape"
+        android:drawableLeft="@drawable/home_search3x"
+        android:layout_centerVertical="true"
+        android:hint="@string/lesson_find_hint"
+        android:textColorHint="#726d7c"
+        android:textSize="12sp"/>
+
+</RelativeLayout>

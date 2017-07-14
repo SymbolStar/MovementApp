@@ -1,11 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/tab_lesson" />
+    <include layout="@layout/lesson_top_bar" />
+
+
+    <!--<ScrollView-->
+
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:visibility="visible">-->
+
+
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="vertical">-->
+
+
+            <!--<FrameLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="190dp">-->
+
+                <!--<android.support.v4.view.ViewPager-->
+                    <!--android:id="@+id/vp_lesson_image"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="match_parent"/>-->
+
+                <!--<me.relex.circleindicator.CircleIndicator-->
+                    <!--android:id="@+id/ci_lesson_indicator"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="48dp"-->
+                    <!--android:layout_gravity="bottom"-->
+                    <!--android:layout_marginBottom="0dp"/>-->
+
+            <!--</FrameLayout>-->
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_lesson_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="vertical"
+                android:background="#f2f2f2"
+                android:scrollbarFadeDuration="1"
+                android:fadeScrollbars="true" />
+
+
+
+
+        <!--</LinearLayout>-->
+
+    <!--</ScrollView>-->
+
+    <!--<TextView-->
+        <!--android:id="@+id/tv_text"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="@string/tab_lesson" />-->
+
+
 </LinearLayout>

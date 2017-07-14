@@ -4,4 +4,6 @@
     <string name="tab_shopping">购卡</string>
     <string name="tab_circle">圈子</string>
     <string name="tab_myself">我的</string>
+
+    <string name="lesson_find_hint">搜索场馆名称／地址／运动项目</string>
 </resources>

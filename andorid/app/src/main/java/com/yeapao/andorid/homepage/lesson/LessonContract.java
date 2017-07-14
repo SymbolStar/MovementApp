@@ -12,13 +12,16 @@ public interface LessonContract {
 
     interface View extends BaseView<Presenter> {
 
+        void showResult();
 
+        void showError();
 
     }
 
 
     interface Presenter extends BasePresenter {
 
+        void getData();
 
     }
 

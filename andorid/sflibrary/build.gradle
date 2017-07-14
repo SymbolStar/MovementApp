@@ -1,5 +1,6 @@
 apply plugin: 'com.android.library'
 
+
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
@@ -50,9 +51,12 @@ dependencies {
     compile 'com.android.volley:volley:1.0.0'
 //  app 导航页
     compile 'com.github.apl-devs:appintro:v4.2.0'
-//  jakewharton annotation plugin
-    compile 'com.jakewharton:butterknife:8.7.0'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.7.0'
+
+    compile 'me.relex:circleindicator:1.2.2@aar'
+
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+// 进度条
+    compile 'com.akexorcist:RoundCornerProgressBar:2.0.3'
 
     //底部tab栏
     compile 'com.github.ittianyu:BottomNavigationViewEx:1.2.1'
