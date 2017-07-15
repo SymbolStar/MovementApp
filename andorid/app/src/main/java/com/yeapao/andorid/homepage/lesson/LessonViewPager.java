@@ -54,6 +54,11 @@ public class LessonViewPager extends PagerAdapter {
     }
 
 
+    //如果不继承这个方法在部分手机上会出现如下错误： java.lang.UnsupportedOperationException: Required method destroyItem was not overridden
+    @Override
+    public void destroyItem(ViewGroup container, int position, Object object) {
+
+    }
 
     @Override
     public int getCount() {

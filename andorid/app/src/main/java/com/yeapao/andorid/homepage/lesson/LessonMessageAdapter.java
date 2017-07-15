@@ -2,7 +2,6 @@ package com.yeapao.andorid.homepage.lesson;
 
 import android.content.Context;
 import android.content.Intent;
-import android.icu.math.MathContext;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,12 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.scottfu.sflibrary.recyclerview.OnRecyclerViewClickListener;
 import com.scottfu.sflibrary.util.ToastManager;
 import com.yeapao.andorid.R;
-import com.yeapao.andorid.lessondetails.LessonDetailActivity;
+import com.yeapao.andorid.storedetails.StoreDetailActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -31,6 +31,9 @@ public class LessonMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
     private static Context mContext;
     private LayoutInflater inflater;
     private OnRecyclerViewClickListener mListener;
+    private LessonScreeningListener mScreeningListener;
+
+    private  static boolean isHeaderGone = false;
 
     private static final int NORMAL_TYPE = 0;
     private static final int HEADER_TYPE = 1;
@@ -49,7 +52,7 @@ public class LessonMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
             case NORMAL_TYPE:
                 return new NormalViewHolder(inflater.inflate(R.layout.item_lesson_detail_card, parent, false), mListener);
             case HEADER_TYPE:
-                return new HeaderViewHolder(inflater.inflate(R.layout.item_lesson_top, parent, false));
+                return new HeaderViewHolder(inflater.inflate(R.layout.item_lesson_top, parent, false),mScreeningListener);
         }
         return null;
     }
@@ -75,11 +78,16 @@ public class LessonMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     @Override
     public int getItemViewType(int position) {
-        if (position == 0) {
-            return HEADER_TYPE;
-        } else {
+        if (isHeaderGone) {
             return NORMAL_TYPE;
+        } else {
+            if (position == 0) {
+                return HEADER_TYPE;
+            } else {
+                return NORMAL_TYPE;
+            }
         }
+
     }
 
 
@@ -126,7 +134,7 @@ public class LessonMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
         @OnClick(R.id.tv_look_lesson_detail)
         void setTvLookLessonDetail() {
             ToastManager.showToast(mContext,"lessonDetail");
-            mContext.startActivity(new Intent(mContext, LessonDetailActivity.class));
+            mContext.startActivity(new Intent(mContext, StoreDetailActivity.class));
         }
 
         @OnClick(R.id.btn_reservation)
@@ -142,15 +150,52 @@ public class LessonMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
         }
     }
 
+    public void setScreeningListener(LessonScreeningListener listener) {
+        mScreeningListener = listener;
+    }
+
     static class HeaderViewHolder  extends RecyclerView.ViewHolder{
+
+        private LessonScreeningListener listener;
+
         @BindView(R.id.vp_lesson_image)
         ViewPager vpLessonImage;
         @BindView(R.id.ci_lesson_indicator)
         CircleIndicator ciLessonIndicator;
+        @BindView(R.id.ll_lesson_time)
+        LinearLayout llLessonTime;
+        @BindView(R.id.ll_lesson_status)
+        LinearLayout llLessonStatus;
+        @BindView(R.id.ll_lesson_scope)
+        LinearLayout llLessonScope;
 
-        HeaderViewHolder(View view) {
+        @BindView(R.id.ll_lesson_header)
+        LinearLayout llLessonHeader;
+
+        HeaderViewHolder(View view,LessonScreeningListener listener) {
             super(view);
             ButterKnife.bind(this, view);
+            this.listener = listener;
+        }
+
+        @OnClick(R.id.ll_lesson_time)
+        void lessonTimeOnClick() {
+            ToastManager.showToast(mContext,"time");
+            isHeaderGone = true;
+            listener.screeningTitle("time");
+
+        }
+        @OnClick(R.id.ll_lesson_status)
+        void lessonStatusOnClick() {
+            ToastManager.showToast(mContext,"status");
+            isHeaderGone = true;
+            listener.screeningTitle("status");
+        }
+        @OnClick(R.id.ll_lesson_scope)
+        void lessonScopeOnClick() {
+            ToastManager.showToast(mContext,"scope");
+            isHeaderGone = true;
+            listener.screeningTitle("scope");
         }
     }
 }
