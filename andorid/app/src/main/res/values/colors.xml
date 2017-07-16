@@ -2,11 +2,20 @@
 <resources>
     <color name="colorPrimary">#fece00</color>
     <color name="colorPrimaryDark">#fece00</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent">#fece00</color>
+    <!--<color name="colorAccent">#FF4081</color>-->
 
 
     <color name="bottomBackgroundColor">#1c1a26</color>
     <color name="bottomTabUnChecked">#cdcdcd</color>
     <color name="bottomTabChecked">#fece00</color>
     <color name="warn_hint">#fffcee</color>
+
+
+    <color name="bg_grey">#f2f2f2</color>
+    <color name="bg_white">#ffffff</color>
+    <color name="text_color">#37343e</color>
+    <color name="text_hint_color">#544f4f</color>
+    <color name="text_hint_title_color">#726d7c</color>
+    <color name="text_red">#ff5b45</color>
 </resources>

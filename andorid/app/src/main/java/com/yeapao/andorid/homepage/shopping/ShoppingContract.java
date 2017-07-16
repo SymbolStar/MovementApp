@@ -10,6 +10,7 @@ import com.scottfu.sflibrary.mvp.BaseView;
 public interface ShoppingContract {
 
     interface View extends BaseView<Presenter> {
+        void showResult();
     }
 
 

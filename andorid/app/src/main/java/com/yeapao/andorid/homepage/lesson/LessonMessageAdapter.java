@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.scottfu.sflibrary.recyclerview.OnRecyclerViewClickListener;
 import com.scottfu.sflibrary.util.ToastManager;
 import com.yeapao.andorid.R;
+import com.yeapao.andorid.lessondetails.LessonDetailActivity;
 import com.yeapao.andorid.storedetails.StoreDetailActivity;
 
 import butterknife.BindView;
@@ -140,6 +141,7 @@ public class LessonMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
         @OnClick(R.id.btn_reservation)
         void setBtnReservation() {
             ToastManager.showToast(mContext,"Reservation");
+            mContext.startActivity(new Intent(mContext, LessonDetailActivity.class));
         }
 
         @Override
@@ -181,20 +183,20 @@ public class LessonMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
         @OnClick(R.id.ll_lesson_time)
         void lessonTimeOnClick() {
             ToastManager.showToast(mContext,"time");
-            isHeaderGone = true;
+//            isHeaderGone = true;
             listener.screeningTitle("time");
 
         }
         @OnClick(R.id.ll_lesson_status)
         void lessonStatusOnClick() {
             ToastManager.showToast(mContext,"status");
-            isHeaderGone = true;
+//            isHeaderGone = true;
             listener.screeningTitle("status");
         }
         @OnClick(R.id.ll_lesson_scope)
         void lessonScopeOnClick() {
             ToastManager.showToast(mContext,"scope");
-            isHeaderGone = true;
+//            isHeaderGone = true;
             listener.screeningTitle("scope");
         }
     }

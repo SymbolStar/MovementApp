@@ -21,7 +21,8 @@
         android:src="@drawable/shop_share"
         android:layout_alignParentRight="true"
         android:layout_marginRight="12dp"
-        android:layout_centerVertical="true"/>
+        android:layout_centerVertical="true"
+        android:visibility="invisible"/>
 
     <TextView
         android:id="@+id/tv_title"

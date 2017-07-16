@@ -48,7 +48,10 @@ public class LessonFragmentView extends Fragment implements LessonContract.View 
 
     private LessonMessageAdapter lessonMessageAdapter;
 
+    private LinearLayoutManager llm;
+
     private boolean isGome = true;
+    private boolean mScreenIsClick = false;
 
     enum ButtonIndex {
         TIME,
@@ -110,9 +113,12 @@ public class LessonFragmentView extends Fragment implements LessonContract.View 
 
     @Override
     public void initViews(View view) {
-        final LinearLayoutManager llm = new LinearLayoutManager(getContext());
+        llm = new LinearLayoutManager(getContext());
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         rvLessonList.setLayoutManager(llm);
+
+
+//        TODO
         rvLessonList.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -122,6 +128,21 @@ public class LessonFragmentView extends Fragment implements LessonContract.View 
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
+
+//                if (mScreenIsClick ){
+//                    mScreenIsClick = false;
+////                    //获取要置顶的项在当前屏幕的位置，mIndex是记录的要置顶项在RecyclerView中的位置
+////                    int n = mIndex - mLinearLayoutManager.findFirstVisibleItemPosition();
+////                    if ( 0 <= n && n < mRecyclerView.getChildCount()){
+////                        //获取要置顶的项顶部离RecyclerView顶部的距离
+////                        int top = mRecyclerView.getChildAt(n).getTop();
+////                        //最后的移动
+//                        mRecyclerView.scrollBy(0, top);
+//                    }
+
+
+
+
                 View view = llm.findViewByPosition(0);
                 if (view == null) {
                     return;
@@ -141,6 +162,8 @@ public class LessonFragmentView extends Fragment implements LessonContract.View 
 
             }
         });
+
+
         showResult();
         initPopWindow();
     }
@@ -181,8 +204,10 @@ public class LessonFragmentView extends Fragment implements LessonContract.View 
             lessonMessageAdapter.setScreeningListener(new LessonScreeningListener() {
                 @Override
                 public void screeningTitle(String title) {
+                    isGome = false;
                     ToastManager.showToast(getActivity(), "screening");
 //                    lessonMessageAdapter.notifyItemRemoved(0);
+                    moveToPosition(1);
                     llLessonScreening.setVisibility(View.VISIBLE);
                     if (title.equals("time")) {
                         selectTime();
@@ -241,4 +266,27 @@ public class LessonFragmentView extends Fragment implements LessonContract.View 
     public void showError() {
 
     }
+
+
+    private void moveToPosition( int n) {
+        //先从RecyclerView的LayoutManager中获取第一项和最后一项的Position
+        int firstItem = llm.findFirstVisibleItemPosition();
+        int lastItem = llm.findLastVisibleItemPosition();
+        //然后区分情况
+        if (n <= firstItem ){
+            //当要置顶的项在当前显示的第一个项的前面时
+            rvLessonList.scrollToPosition(n);
+        }else if ( n <= lastItem ){
+            //当要置顶的项已经在屏幕上显示时
+            int top = rvLessonList.getChildAt(n - firstItem).getTop();
+            rvLessonList.scrollBy(0, top);
+        }else{
+            //当要置顶的项在当前显示的最后一项的后面时
+            rvLessonList.scrollToPosition(n);
+            //这里这个变量是用在RecyclerView滚动监听里面的
+            mScreenIsClick = true;
+        }
+
+    }
+
 }

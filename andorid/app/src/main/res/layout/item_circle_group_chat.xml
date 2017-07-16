@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/imageView12"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/circle_guide"
+        android:layout_marginLeft="15dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginStart="15dp" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="健身指导"
+        android:textSize="17sp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/imageView12"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/lv_group_chat_list" />
+
+    <ListView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@+id/imageView12"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:id="@+id/lv_group_chat_list" />
+
+    <TextView
+        android:id="@+id/tv_group_chat_more"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="5dp"
+        android:layout_marginRight="5dp"
+        android:text="更多"
+        app:layout_constraintBottom_toTopOf="@+id/lv_group_chat_list"
+        app:layout_constraintRight_toLeftOf="@+id/iv_group_chat_more"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/iv_group_chat_more"
+        android:layout_width="12dp"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="15dp"
+        app:layout_constraintBottom_toTopOf="@+id/lv_group_chat_list"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/buy_right"
+        android:layout_marginEnd="15dp" />
+
+</android.support.constraint.ConstraintLayout>

@@ -63,7 +63,10 @@ public abstract class BaseActivity extends AppCompatActivity{
     protected void initRightIcon(Drawable drawable) {
         ivRightImage = (ImageView) findViewById(R.id.iv_right);
         ivRightImage.setImageDrawable(drawable);
+        ivRightImage.setVisibility(View.VISIBLE);
     }
+
+
 
     protected void initTitle(String title) {
         tvTitleText = (TextView) findViewById(R.id.tv_title);
