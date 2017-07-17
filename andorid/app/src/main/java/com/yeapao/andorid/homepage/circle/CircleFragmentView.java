@@ -53,9 +53,9 @@ public class CircleFragmentView extends Fragment implements CircleContract.View 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view = View.inflate(getActivity(), R.layout.fragment_circle, null);
-
+        View view = inflater.inflate(R.layout.fragment_circle, container, false);
         unbinder = ButterKnife.bind(this, view);
+        initViews(view);
         return view;
     }
 
@@ -80,6 +80,7 @@ public class CircleFragmentView extends Fragment implements CircleContract.View 
 
     @OnClick(R.id.iv_circle_write)
     public void onViewClicked() {
+        ToastManager.showToast(getContext(),"circle_write");
     }
 
     @Override

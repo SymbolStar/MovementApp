@@ -26,15 +26,13 @@
             android:src="@drawable/circle_write" />
     </FrameLayout>
 
-    <!--<android.support.v7.widget.RecyclerView-->
-        <!--android:id="@+id/rv_circle_list"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:layout_above="@id/rl_order"-->
-        <!--android:layout_below="@id/rv_instruction"-->
-        <!--android:background="#f2f2f2"-->
-        <!--android:fadeScrollbars="true"-->
-        <!--android:scrollbarFadeDuration="1"-->
-        <!--android:scrollbars="vertical" />-->
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_circle_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#f2f2f2"
+        android:fadeScrollbars="true"
+        android:scrollbarFadeDuration="1"
+        android:scrollbars="vertical" />
 
 </LinearLayout>

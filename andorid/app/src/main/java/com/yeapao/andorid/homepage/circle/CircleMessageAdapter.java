@@ -70,10 +70,10 @@ public class CircleMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
             return GROUP_TYPE;
         } else if (position == 2) {
             return CIRCLE_TYPE;
+        } else {
+            return CIRCLE_TYPE;
         }
 
-
-        return super.getItemViewType(position);
     }
 
     static class HeaderViewHolder extends RecyclerView.ViewHolder {
