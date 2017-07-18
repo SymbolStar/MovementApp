@@ -1,5 +1,6 @@
 package com.yeapao.andorid.homepage.lesson;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -9,8 +10,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.yeapao.andorid.R;
+import com.yeapao.andorid.api.ConstantYeaPao;
+import com.yeapao.andorid.model.AdvertisementList;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -20,12 +27,13 @@ import java.util.Random;
 public class LessonViewPager extends PagerAdapter {
 
 
-    private final Random random = new Random();
     private int mSize;
+    private Context mContext;
+    private List<AdvertisementList> advertisementLists = new ArrayList<>();
 
-
-    public LessonViewPager() {
-        mSize = 2;
+    public LessonViewPager(Context context, List<AdvertisementList> lists) {
+        mContext = context;
+        advertisementLists = lists;
     }
 
 
@@ -46,10 +54,23 @@ public class LessonViewPager extends PagerAdapter {
 //                ViewGroup.LayoutParams.MATCH_PARENT);
 
 
+
+
+
+
         ImageView imageView = new ImageView(container.getContext());
-        imageView.setImageDrawable(container.getResources().getDrawable(R.drawable.home_banner1));
+//        imageView.setImageDrawable(container.getResources().getDrawable(R.drawable.home_banner1));
         imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+        Glide.with(mContext)
+                .load(ConstantYeaPao.HOST+advertisementLists.get(position).getUrl())
+                .asBitmap()
+                .placeholder(R.drawable.home_banner_take_place)
+                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                .error(R.drawable.home_banner_take_place)
+                .centerCrop()
+                .into(imageView);
         container.addView(imageView,ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT);
+
         return imageView;
     }
 
@@ -62,7 +83,7 @@ public class LessonViewPager extends PagerAdapter {
 
     @Override
     public int getCount() {
-        return mSize;
+        return advertisementLists.size();
     }
 
     @Override

@@ -2,8 +2,17 @@ package com.yeapao.andorid.homepage.lesson;
 
 import android.content.Context;
 
+import com.android.volley.VolleyError;
+import com.google.common.net.InetAddresses;
 import com.google.gson.Gson;
+import com.scottfu.sflibrary.net.CloudClient;
+import com.scottfu.sflibrary.net.JSONResultHandler;
+import com.scottfu.sflibrary.util.LogUtil;
+import com.scottfu.sflibrary.util.ToastManager;
+import com.yeapao.andorid.api.ConstantYeaPao;
 import com.yeapao.andorid.homepage.circle.CircleContract;
+import com.yeapao.andorid.model.HomeList;
+import com.yeapao.andorid.model.MessageResult;
 
 /**
  * Created by fujindong on 2017/7/11.
@@ -11,10 +20,11 @@ import com.yeapao.andorid.homepage.circle.CircleContract;
 
 public class LessonPresenter implements LessonContract.Presenter {
 
-
+    private static final String TAG = "LessonPresenter";
     private Context mContext;
     private LessonContract.View mView;
     private Gson gson = new Gson();
+    private HomeList mHomeList;
 
 
     public LessonPresenter(Context context, LessonContract.View view) {
@@ -27,11 +37,36 @@ public class LessonPresenter implements LessonContract.Presenter {
 
     @Override
     public void start() {
-
+        getData();
     }
+
+
 
     @Override
     public void getData() {
+
+
+
+        CloudClient.getHttpRequest(mContext, ConstantYeaPao.GET_HOME_LIST, new JSONResultHandler() {
+            @Override
+            public void onSuccess(String jsonString) {
+                LogUtil.e(TAG, jsonString);
+                MessageResult result = gson.fromJson(jsonString, MessageResult.class);
+                if (result.getErrmsg().equals("ok")) {
+                    mHomeList = result.getData();
+                    mView.showResult(result.getData());
+                } else {
+
+                }
+
+                mView.stopLoading();
+            }
+
+            @Override
+            public void onError(VolleyError errorMessage) {
+                LogUtil.e(TAG, errorMessage.toString());
+            }
+        });
 
     }
 }

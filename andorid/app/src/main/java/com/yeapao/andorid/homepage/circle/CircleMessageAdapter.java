@@ -47,7 +47,7 @@ public class CircleMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
             case GROUP_TYPE:
                 return new GroupChatListViewHolder(inflater.inflate(R.layout.item_circle_group_chat, parent, false));
             case CIRCLE_TYPE:
-                return new CircleItemViewHolder(inflater.inflate(R.layout.item_circle_card, parent, false));
+                return new CircleItemViewHolder(inflater.inflate(R.layout.item_circle_card, parent, false),mListener);
         }
         return null;
     }
@@ -55,6 +55,12 @@ public class CircleMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 
+    }
+
+    public void setItemClickListener(OnRecyclerViewClickListener listener) {
+        if (listener != null) {
+            mListener = listener;
+        }
     }
 
     @Override
@@ -102,7 +108,10 @@ public class CircleMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
         }
     }
 
-    static class CircleItemViewHolder extends RecyclerView.ViewHolder{
+    static class CircleItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+
+        private OnRecyclerViewClickListener OnRecyclerListener;
+
         @BindView(R.id.tv_nick_name)
         TextView tvNickName;
         @BindView(R.id.tv_publish_time)
@@ -118,9 +127,16 @@ public class CircleMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
         @BindView(R.id.tv_finger)
         TextView tvFinger;
 
-        CircleItemViewHolder(View view) {
+        CircleItemViewHolder(View view,OnRecyclerViewClickListener listener) {
             super(view);
             ButterKnife.bind(this, view);
+            this.OnRecyclerListener = listener;
+            view.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            OnRecyclerListener.OnItemClick(v,getLayoutPosition());
         }
     }
 }

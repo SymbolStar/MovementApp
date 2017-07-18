@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.util.SparseIntArray;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
@@ -269,5 +270,17 @@ public class MainActivity extends PermissionActivity {
         return this;
     }
 
+    /**
+     * 主要是为了解决在首页 店铺少的时候 无法实现筛选栏的顶部悬浮。
+     * @param ev
+     * @return
+     */
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
 
+        if (bind.bnvTab.getCurrentItem() == 0) {
+            lessonFragmentView.goneScreening();
+        }
+        return super.dispatchTouchEvent(ev);
+    }
 }

@@ -6,13 +6,15 @@
 
     <include layout="@layout/lesson_top_bar" />
 
-    <FrameLayout
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/srl_lesson"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
 
-
-
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_lesson_list"
@@ -135,7 +137,7 @@
     </FrameLayout>
 
 
-
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 
 </LinearLayout>

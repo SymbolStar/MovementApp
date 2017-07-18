@@ -18,4 +18,5 @@
     <color name="text_hint_color">#544f4f</color>
     <color name="text_hint_title_color">#726d7c</color>
     <color name="text_red">#ff5b45</color>
+    <color name="bg_circle_detail_grey">#f9f9f9</color>
 </resources>

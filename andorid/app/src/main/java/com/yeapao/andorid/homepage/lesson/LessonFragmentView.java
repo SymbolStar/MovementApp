@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,6 +17,7 @@ import com.scottfu.sflibrary.recyclerview.OnRecyclerViewClickListener;
 import com.scottfu.sflibrary.util.LogUtil;
 import com.scottfu.sflibrary.util.ToastManager;
 import com.yeapao.andorid.R;
+import com.yeapao.andorid.model.HomeList;
 import com.yeapao.andorid.storedetails.StoreDetailActivity;
 
 import butterknife.BindView;
@@ -32,6 +34,8 @@ public class LessonFragmentView extends Fragment implements LessonContract.View 
 
     @BindView(R.id.rv_lesson_list)
     RecyclerView rvLessonList;
+    @BindView(R.id.srl_lesson)
+    SwipeRefreshLayout swipeRefreshLayout;
 
     @BindView(R.id.ll_Lesson_screening)
     LinearLayout llLessonScreening;
@@ -61,9 +65,11 @@ public class LessonFragmentView extends Fragment implements LessonContract.View 
 
     ButtonIndex lastClickedIndex;
 
-    private String[] itemTime = {"今天", "本周", "最近三天"};
-    private String[] itemStatus = {"1", "2", "3"};
+    private String[] itemTime = {"今天", "最近三天", "本周"};
+    private String[] itemStatus = {"有效", "失效"};
     private String[] itemScope = {"1", "2", "3"};
+
+    private HomeList mHomeList;
 
     public LessonFragmentView() {
 
@@ -88,16 +94,21 @@ public class LessonFragmentView extends Fragment implements LessonContract.View 
         View view = inflater.inflate(R.layout.fragment_lesson, container, false);
         ButterKnife.bind(this, view);
         lastClickedIndex = ButtonIndex.TIME;
+        mPresenter.start();
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mPresenter.getData();
+            }
+        });
         initViews(view);
         return view;
-
     }
 
     @Override
     public void onResume() {
         super.onResume();
         LogUtil.e(TAG, "onResume");
-        showResult();
     }
 
     @Override
@@ -164,7 +175,8 @@ public class LessonFragmentView extends Fragment implements LessonContract.View 
         });
 
 
-        showResult();
+
+//        showResult();
         initPopWindow();
     }
 
@@ -189,10 +201,10 @@ public class LessonFragmentView extends Fragment implements LessonContract.View 
     }
 
     @Override
-    public void showResult() {
+    public void showResult(HomeList homeList) {
+        mHomeList = homeList;
         if (lessonMessageAdapter == null) {
-
-            lessonMessageAdapter = new LessonMessageAdapter(getActivity());
+            lessonMessageAdapter = new LessonMessageAdapter(getActivity(),homeList);
             rvLessonList.setAdapter(lessonMessageAdapter);
             lessonMessageAdapter.setItemClickListener(new OnRecyclerViewClickListener() {
                 @Override
@@ -223,6 +235,16 @@ public class LessonFragmentView extends Fragment implements LessonContract.View 
             rvLessonList.setAdapter(lessonMessageAdapter);
             lessonMessageAdapter.notifyDataSetChanged();
         }
+    }
+
+    @Override
+    public void startLoading() {
+        swipeRefreshLayout.setRefreshing(true);
+    }
+
+    @Override
+    public void stopLoading() {
+        swipeRefreshLayout.setRefreshing(false);
     }
 
 
@@ -257,7 +279,7 @@ public class LessonFragmentView extends Fragment implements LessonContract.View 
             return;
         }
         lastClickedIndex = ButtonIndex.SCOPE;
-        popWindowCategory.loadData(0, itemScope);
+        popWindowCategory.loadData(0, mHomeList.getAreaList());
         popWindowCategory.showAsDropDown(getActivity().findViewById(R.id.line));
         popWindowCategory.update();
     }
@@ -266,6 +288,14 @@ public class LessonFragmentView extends Fragment implements LessonContract.View 
     public void showError() {
 
     }
+
+    public void goneScreening() {
+        if (llLessonScreening.getVisibility() == View.VISIBLE) {
+            llLessonScreening.setVisibility(View.GONE);
+            isGome = true;
+        }
+    }
+
 
 
     private void moveToPosition( int n) {

@@ -25,6 +25,17 @@
         android:visibility="invisible"/>
 
     <TextView
+        android:id="@+id/tv_right"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="12dp"
+        android:layout_centerVertical="true"
+        android:text="发布"
+        android:textColor="@color/text_color"
+        android:visibility="invisible"/>
+
+    <TextView
         android:id="@+id/tv_title"
         android:layout_toLeftOf="@id/iv_right"
         android:layout_toRightOf="@id/iv_left"

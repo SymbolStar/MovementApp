@@ -28,6 +28,12 @@
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".homepage.shopping.ShoppingOrderActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".homepage.circle.CirclePublishContentActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".homepage.circle.circledetail.CircleDetailActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+
 
     </application>
 

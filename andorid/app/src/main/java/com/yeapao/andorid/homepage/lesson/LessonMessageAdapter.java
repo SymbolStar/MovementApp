@@ -12,10 +12,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.scottfu.sflibrary.recyclerview.OnRecyclerViewClickListener;
 import com.scottfu.sflibrary.util.ToastManager;
 import com.yeapao.andorid.R;
+import com.yeapao.andorid.api.ConstantYeaPao;
 import com.yeapao.andorid.lessondetails.LessonDetailActivity;
+import com.yeapao.andorid.model.HomeList;
 import com.yeapao.andorid.storedetails.StoreDetailActivity;
 
 import butterknife.BindView;
@@ -33,6 +37,7 @@ public class LessonMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
     private LayoutInflater inflater;
     private OnRecyclerViewClickListener mListener;
     private LessonScreeningListener mScreeningListener;
+    private HomeList mHomeMessageList;
 
     private  static boolean isHeaderGone = false;
 
@@ -40,9 +45,10 @@ public class LessonMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
     private static final int HEADER_TYPE = 1;
 
 
-    public LessonMessageAdapter(Context context) {
+    public LessonMessageAdapter(Context context, HomeList homeList) {
         mContext = context;
         inflater = LayoutInflater.from(context);
+        mHomeMessageList = homeList;
     }
 
 
@@ -62,12 +68,21 @@ public class LessonMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof NormalViewHolder) {
 //        TODO set lesson params
-
+            Glide.with(mContext)
+                    .load(ConstantYeaPao.HOST+mHomeMessageList.getShopScheduleList().get(position-1).getBackgroundImage())
+                    .asBitmap()
+                    .placeholder(R.drawable.home_store_take_place)
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .error(R.drawable.home_store_take_place)
+                    .centerCrop()
+                    .into(((NormalViewHolder)holder).ivLessonImage);
 
 
         } else {
 //           TODO set lesson header
-            ((HeaderViewHolder)holder).vpLessonImage.setAdapter(new LessonViewPager());
+
+            ((HeaderViewHolder)holder).vpLessonImage.setAdapter(new LessonViewPager(mContext,mHomeMessageList.getAdvertisementList()));
+
             ((HeaderViewHolder)holder).ciLessonIndicator.setViewPager(((HeaderViewHolder)holder).vpLessonImage);
             ((HeaderViewHolder)holder).vpLessonImage.setCurrentItem(0);
 
@@ -95,7 +110,7 @@ public class LessonMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     @Override
     public int getItemCount() {
-        return 6;
+        return mHomeMessageList.getShopScheduleList().size()+1;
     }
 
     public void setItemClickListener(OnRecyclerViewClickListener listener) {
@@ -155,6 +170,10 @@ public class LessonMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
     public void setScreeningListener(LessonScreeningListener listener) {
         mScreeningListener = listener;
     }
+
+
+
+
 
     static class HeaderViewHolder  extends RecyclerView.ViewHolder{
 

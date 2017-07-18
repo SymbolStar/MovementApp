@@ -24,6 +24,7 @@ public abstract class BaseActivity extends AppCompatActivity{
     private ImageView ivLeftImage;
     protected ImageView ivRightImage;
     private TextView tvTitleText;
+    private TextView tvRightTextView;
 
     protected abstract void initTopBar();
 
@@ -61,6 +62,8 @@ public abstract class BaseActivity extends AppCompatActivity{
      * @param drawable
      */
     protected void initRightIcon(Drawable drawable) {
+        tvRightTextView = (TextView) findViewById(R.id.tv_right);
+        tvRightTextView.setVisibility(View.INVISIBLE);
         ivRightImage = (ImageView) findViewById(R.id.iv_right);
         ivRightImage.setImageDrawable(drawable);
         ivRightImage.setVisibility(View.VISIBLE);
@@ -73,4 +76,12 @@ public abstract class BaseActivity extends AppCompatActivity{
         tvTitleText.setText(title);
     }
 
+
+    protected void initRightText(String content) {
+        ivRightImage = (ImageView) findViewById(R.id.iv_right);
+        ivRightImage.setVisibility(View.INVISIBLE);
+        tvRightTextView = (TextView) findViewById(R.id.tv_right);
+        tvRightTextView.setText(content);
+        tvRightTextView.setVisibility(View.VISIBLE);
+    }
 }

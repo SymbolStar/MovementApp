@@ -1,5 +1,6 @@
 package com.yeapao.andorid.homepage.circle;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,8 +12,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.google.common.base.MoreObjects;
+import com.scottfu.sflibrary.recyclerview.OnRecyclerViewClickListener;
 import com.scottfu.sflibrary.util.ToastManager;
 import com.yeapao.andorid.R;
+import com.yeapao.andorid.homepage.circle.circledetail.CircleDetailActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -81,6 +84,7 @@ public class CircleFragmentView extends Fragment implements CircleContract.View 
     @OnClick(R.id.iv_circle_write)
     public void onViewClicked() {
         ToastManager.showToast(getContext(),"circle_write");
+        startActivity(new Intent(getActivity(),CirclePublishContentActivity.class));
     }
 
     @Override
@@ -88,11 +92,17 @@ public class CircleFragmentView extends Fragment implements CircleContract.View 
         if (circleMessageAdapter == null) {
             circleMessageAdapter = new CircleMessageAdapter(getContext());
             rvCircleList.setAdapter(circleMessageAdapter);
+            circleMessageAdapter.setItemClickListener(new OnRecyclerViewClickListener() {
+                @Override
+                public void OnItemClick(View v, int position) {
+                    ToastManager.showToast(getActivity(),"onClick");
+                    startActivity(new Intent(getActivity(), CircleDetailActivity.class));
+                }
+            });
         } else {
             rvCircleList.setAdapter(circleMessageAdapter);
             circleMessageAdapter.notifyDataSetChanged();
+
         }
-
-
     }
 }
