@@ -21,12 +21,16 @@ public interface LessonContract {
 
         void showError();
 
+        void showSelectResult(HomeList homeList);
+
     }
 
 
     interface Presenter extends BasePresenter {
 
         void getData();
+
+        void getLessonScreeningData(String time, String status, String region);
 
     }
 

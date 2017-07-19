@@ -3,13 +3,16 @@ package com.yeapao.andorid.homepage.lesson;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -20,7 +23,14 @@ import com.yeapao.andorid.R;
 import com.yeapao.andorid.api.ConstantYeaPao;
 import com.yeapao.andorid.lessondetails.LessonDetailActivity;
 import com.yeapao.andorid.model.HomeList;
+import com.yeapao.andorid.model.LessonScreeningData;
+import com.yeapao.andorid.model.ShopScheduleList;
 import com.yeapao.andorid.storedetails.StoreDetailActivity;
+
+import org.w3c.dom.Text;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -38,17 +48,33 @@ public class LessonMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
     private OnRecyclerViewClickListener mListener;
     private LessonScreeningListener mScreeningListener;
     private HomeList mHomeMessageList;
+    private List<ShopScheduleList> shopScheduleList = new ArrayList<>();
 
     private  static boolean isHeaderGone = false;
 
     private static final int NORMAL_TYPE = 0;
     private static final int HEADER_TYPE = 1;
 
+    private LessonScreeningData mLessonScreeningData = new LessonScreeningData();
+
+
 
     public LessonMessageAdapter(Context context, HomeList homeList) {
         mContext = context;
         inflater = LayoutInflater.from(context);
         mHomeMessageList = homeList;
+    }
+
+    public void refreshShopScheduleList(List<ShopScheduleList> lists) {
+        mHomeMessageList.getShopScheduleList().clear();
+        mHomeMessageList.setShopScheduleList(lists);
+
+        notifyDataSetChanged();
+    }
+
+    public void refreshLessonScreening(LessonScreeningData lessonScreeningData) {
+        mLessonScreeningData = lessonScreeningData;
+        notifyItemChanged(0);
     }
 
 
@@ -77,14 +103,29 @@ public class LessonMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
                     .centerCrop()
                     .into(((NormalViewHolder)holder).ivLessonImage);
 
+            if (mHomeMessageList.getShopScheduleList().size() == 1) {
+                RecyclerView.LayoutParams layoutParams = (RecyclerView.LayoutParams) ((NormalViewHolder) holder).cvStoreCard.getLayoutParams();
+                layoutParams.bottomMargin = 900;
+                ((NormalViewHolder) holder).cvStoreCard.setLayoutParams(layoutParams);
+            } else {
+                RecyclerView.LayoutParams layoutParams = (RecyclerView.LayoutParams) ((NormalViewHolder) holder).cvStoreCard.getLayoutParams();
+                layoutParams.bottomMargin = 20;
+                ((NormalViewHolder) holder).cvStoreCard.setLayoutParams(layoutParams);
+            }
+
 
         } else {
 //           TODO set lesson header
-
             ((HeaderViewHolder)holder).vpLessonImage.setAdapter(new LessonViewPager(mContext,mHomeMessageList.getAdvertisementList()));
-
             ((HeaderViewHolder)holder).ciLessonIndicator.setViewPager(((HeaderViewHolder)holder).vpLessonImage);
             ((HeaderViewHolder)holder).vpLessonImage.setCurrentItem(0);
+
+            ((HeaderViewHolder) holder).tvLessonTime.setText(mLessonScreeningData.getScopeTimeName());
+            ((HeaderViewHolder) holder).tvLessonStatus.setText(mLessonScreeningData.getStatusName());
+            ((HeaderViewHolder) holder).tvLessonScope.setText(mLessonScreeningData.getRegionName());
+
+
+
 
         }
     }
@@ -117,6 +158,10 @@ public class LessonMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
         mListener = listener;
     }
 
+
+
+
+
     static class NormalViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private OnRecyclerViewClickListener listener;
@@ -133,6 +178,8 @@ public class LessonMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
         TextView tvLessonName;
         @BindView(R.id.iv_lesson_collect)
         ImageView ivLessonCollect;
+        @BindView(R.id.cv_store_card)
+        CardView cvStoreCard;
 
         NormalViewHolder(View view, OnRecyclerViewClickListener listener) {
             super(view);
@@ -192,6 +239,13 @@ public class LessonMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         @BindView(R.id.ll_lesson_header)
         LinearLayout llLessonHeader;
+
+        @BindView(R.id.tv_lesson_time)
+        TextView tvLessonTime;
+        @BindView(R.id.tv_lesson_status)
+        TextView tvLessonStatus;
+        @BindView(R.id.tv_lesson_scope)
+        TextView tvLessonScope;
 
         HeaderViewHolder(View view,LessonScreeningListener listener) {
             super(view);

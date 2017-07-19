@@ -32,4 +32,14 @@ public class NetImpl {
         params.put("region", "高新区");
         return params;
     }
+
+    //获取用户信息
+    public HashMap<String, String> setLessonScreening(String time, String status, String region) {
+
+        HashMap<String, String> params = new HashMap<>();
+        params.put("time", time);
+        params.put("status", status);
+        params.put("region", region);
+        return params;
+    }
 }

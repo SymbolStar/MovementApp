@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.scottfu.sflibrary.popwindow.PopWindowCategory;
 import com.scottfu.sflibrary.recyclerview.OnRecyclerViewClickListener;
@@ -18,11 +19,13 @@ import com.scottfu.sflibrary.util.LogUtil;
 import com.scottfu.sflibrary.util.ToastManager;
 import com.yeapao.andorid.R;
 import com.yeapao.andorid.model.HomeList;
+import com.yeapao.andorid.model.LessonScreeningData;
 import com.yeapao.andorid.storedetails.StoreDetailActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 
 /**
  * Created by fujindong on 2017/7/11.
@@ -36,7 +39,7 @@ public class LessonFragmentView extends Fragment implements LessonContract.View 
     RecyclerView rvLessonList;
     @BindView(R.id.srl_lesson)
     SwipeRefreshLayout swipeRefreshLayout;
-
+    Unbinder unbinder;
     @BindView(R.id.ll_Lesson_screening)
     LinearLayout llLessonScreening;
     @BindView(R.id.ll_lesson_time)
@@ -45,6 +48,13 @@ public class LessonFragmentView extends Fragment implements LessonContract.View 
     LinearLayout llLessonStatus;
     @BindView(R.id.ll_lesson_scope)
     LinearLayout llLessonScope;
+    @BindView(R.id.tv_lesson_time)
+    TextView tvLessonTime;
+    @BindView(R.id.tv_lesson_status)
+    TextView tvLessonStatus;
+    @BindView(R.id.tv_lesson_scope)
+    TextView tvLessonScope;
+
 
     private PopWindowCategory popWindowCategory = null;
 
@@ -56,6 +66,8 @@ public class LessonFragmentView extends Fragment implements LessonContract.View 
 
     private boolean isGome = true;
     private boolean mScreenIsClick = false;
+    private LessonScreeningData lessonScopeData = new LessonScreeningData();
+
 
     enum ButtonIndex {
         TIME,
@@ -65,9 +77,9 @@ public class LessonFragmentView extends Fragment implements LessonContract.View 
 
     ButtonIndex lastClickedIndex;
 
-    private String[] itemTime = {"今天", "最近三天", "本周"};
-    private String[] itemStatus = {"有效", "失效"};
-    private String[] itemScope = {"1", "2", "3"};
+    private String[] itemTime = {"全部", "今天", "最近三天", "本周"};
+    private String[] itemStatus = {"全部状态", "有效", "失效"};
+    private String[] itemScope;
 
     private HomeList mHomeList;
 
@@ -92,7 +104,7 @@ public class LessonFragmentView extends Fragment implements LessonContract.View 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         LogUtil.e(TAG, "onCreateView");
         View view = inflater.inflate(R.layout.fragment_lesson, container, false);
-        ButterKnife.bind(this, view);
+        unbinder =ButterKnife.bind(this, view);
         lastClickedIndex = ButtonIndex.TIME;
         mPresenter.start();
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -101,9 +113,11 @@ public class LessonFragmentView extends Fragment implements LessonContract.View 
                 mPresenter.getData();
             }
         });
+        swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
         initViews(view);
         return view;
     }
+
 
     @Override
     public void onResume() {
@@ -152,8 +166,6 @@ public class LessonFragmentView extends Fragment implements LessonContract.View 
 //                    }
 
 
-
-
                 View view = llm.findViewByPosition(0);
                 if (view == null) {
                     return;
@@ -175,7 +187,6 @@ public class LessonFragmentView extends Fragment implements LessonContract.View 
         });
 
 
-
 //        showResult();
         initPopWindow();
     }
@@ -185,26 +196,75 @@ public class LessonFragmentView extends Fragment implements LessonContract.View 
         popWindowCategory.initPop(getActivity(), new PopWindowCategory.PopItemClick() {
             @Override
             public void onItemClick(int position) {
-
+                LogUtil.e("LessonFragment", "pop is clicked");
+                if (lastClickedIndex == ButtonIndex.TIME) {
+                    switch (position) {
+                        case 0:
+                            lessonScopeData.setScopeTime("-1");
+                            lessonScopeData.setScopeTimeName("全部时间");
+                            break;
+                        case 1:
+                            lessonScopeData.setScopeTime("1");
+                            lessonScopeData.setScopeTimeName("今天");
+                            break;
+                        case 2:
+                            lessonScopeData.setScopeTime("3");
+                            lessonScopeData.setScopeTimeName("最近三天");
+                            break;
+                        case 3:
+                            lessonScopeData.setScopeTime("7");
+                            lessonScopeData.setScopeTimeName("本周");
+                            break;
+                    }
+                } else if (lastClickedIndex == ButtonIndex.STATUS) {
+                    if (position == 0) {
+                        lessonScopeData.setStatus("0");
+                        lessonScopeData.setStatusName("全部状态");
+                    } else if (position == 1) {
+                        lessonScopeData.setStatus("1");
+                        lessonScopeData.setStatusName("有效");
+                    } else if (position == 2) {
+                        lessonScopeData.setStatus("2");
+                        lessonScopeData.setStatusName("无效");
+                    }
+                } else if (lastClickedIndex == ButtonIndex.SCOPE) {
+                    lessonScopeData.setRegion(itemScope[position]);
+                    lessonScopeData.setRegionName(itemScope[position]);
+                }
+                setScreeningTab();
+                lessonMessageAdapter.refreshLessonScreening(lessonScopeData);
+                mPresenter.getLessonScreeningData(lessonScopeData.getScopeTime(), lessonScopeData.getStatus(),
+                        lessonScopeData.getRegion());
+                popWindowCategory.dismiss();
+                llLessonScreening.setVisibility(View.GONE);
+                isGome = true;
             }
         }, new PopWindowCategory.PopItemClick() {
             @Override
             public void onItemClick(int position) {
-
+                ToastManager.showToast(getContext(), "2222");
             }
         });
+    }
+
+
+    private void setScreeningTab() {
+        tvLessonTime.setText(lessonScopeData.getScopeTimeName());
+        tvLessonStatus.setText(lessonScopeData.getStatusName());
+        tvLessonScope.setText(lessonScopeData.getRegionName());
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        unbinder.unbind();
     }
 
     @Override
     public void showResult(HomeList homeList) {
         mHomeList = homeList;
         if (lessonMessageAdapter == null) {
-            lessonMessageAdapter = new LessonMessageAdapter(getActivity(),homeList);
+            lessonMessageAdapter = new LessonMessageAdapter(getActivity(), homeList);
             rvLessonList.setAdapter(lessonMessageAdapter);
             lessonMessageAdapter.setItemClickListener(new OnRecyclerViewClickListener() {
                 @Override
@@ -236,6 +296,12 @@ public class LessonFragmentView extends Fragment implements LessonContract.View 
             lessonMessageAdapter.notifyDataSetChanged();
         }
     }
+
+    @Override
+    public void showSelectResult(HomeList homeList) {
+        lessonMessageAdapter.refreshShopScheduleList(homeList.getShopScheduleList());
+    }
+
 
     @Override
     public void startLoading() {
@@ -279,7 +345,13 @@ public class LessonFragmentView extends Fragment implements LessonContract.View 
             return;
         }
         lastClickedIndex = ButtonIndex.SCOPE;
-        popWindowCategory.loadData(0, mHomeList.getAreaList());
+
+
+        if (mHomeList.getAreaList() != null) {
+            itemScope = mHomeList.getAreaList();
+        }
+
+        popWindowCategory.loadData(0, itemScope);
         popWindowCategory.showAsDropDown(getActivity().findViewById(R.id.line));
         popWindowCategory.update();
     }
@@ -289,6 +361,7 @@ public class LessonFragmentView extends Fragment implements LessonContract.View 
 
     }
 
+
     public void goneScreening() {
         if (llLessonScreening.getVisibility() == View.VISIBLE) {
             llLessonScreening.setVisibility(View.GONE);
@@ -297,20 +370,19 @@ public class LessonFragmentView extends Fragment implements LessonContract.View 
     }
 
 
-
-    private void moveToPosition( int n) {
+    private void moveToPosition(int n) {
         //先从RecyclerView的LayoutManager中获取第一项和最后一项的Position
         int firstItem = llm.findFirstVisibleItemPosition();
         int lastItem = llm.findLastVisibleItemPosition();
         //然后区分情况
-        if (n <= firstItem ){
+        if (n <= firstItem) {
             //当要置顶的项在当前显示的第一个项的前面时
             rvLessonList.scrollToPosition(n);
-        }else if ( n <= lastItem ){
+        } else if (n <= lastItem) {
             //当要置顶的项已经在屏幕上显示时
             int top = rvLessonList.getChildAt(n - firstItem).getTop();
             rvLessonList.scrollBy(0, top);
-        }else{
+        } else {
             //当要置顶的项在当前显示的最后一项的后面时
             rvLessonList.scrollToPosition(n);
             //这里这个变量是用在RecyclerView滚动监听里面的

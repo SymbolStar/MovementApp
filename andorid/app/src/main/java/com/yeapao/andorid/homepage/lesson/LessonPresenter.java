@@ -10,6 +10,7 @@ import com.scottfu.sflibrary.net.JSONResultHandler;
 import com.scottfu.sflibrary.util.LogUtil;
 import com.scottfu.sflibrary.util.ToastManager;
 import com.yeapao.andorid.api.ConstantYeaPao;
+import com.yeapao.andorid.api.NetImpl;
 import com.yeapao.andorid.homepage.circle.CircleContract;
 import com.yeapao.andorid.model.HomeList;
 import com.yeapao.andorid.model.MessageResult;
@@ -68,5 +69,29 @@ public class LessonPresenter implements LessonContract.Presenter {
             }
         });
 
+    }
+
+    @Override
+    public void getLessonScreeningData(String time, String status, final String region) {
+        LogUtil.e(TAG,time+" "+status+" "+region);
+        CloudClient.doHttpRequest(mContext, ConstantYeaPao.GET_HOME_SELECT, NetImpl.getInstance().setLessonScreening(time, status, region), null, new JSONResultHandler() {
+            @Override
+            public void onSuccess(String jsonString) {
+                LogUtil.e(TAG, jsonString);
+                MessageResult result = gson.fromJson(jsonString, MessageResult.class);
+                if (result.getErrmsg().equals("ok")) {
+                    mHomeList = result.getData();
+                    mView.showSelectResult(result.getData());
+                } else {
+
+                }
+                mView.stopLoading();
+            }
+
+            @Override
+            public void onError(VolleyError errorMessage) {
+                LogUtil.e(TAG,errorMessage.toString());
+            }
+        });
     }
 }
