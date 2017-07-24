@@ -3,6 +3,7 @@ package com.yeapao.andorid.homepage.lesson;
 import com.scottfu.sflibrary.mvp.BasePresenter;
 import com.scottfu.sflibrary.mvp.BaseView;
 import com.yeapao.andorid.model.HomeList;
+import com.yeapao.andorid.model.SelectHomeList;
 
 /**
  * Created by fujindong on 2017/7/11.
@@ -21,7 +22,7 @@ public interface LessonContract {
 
         void showError();
 
-        void showSelectResult(HomeList homeList);
+        void showSelectResult(SelectHomeList homeList);
 
     }
 

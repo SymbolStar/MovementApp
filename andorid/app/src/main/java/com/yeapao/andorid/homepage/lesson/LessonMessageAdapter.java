@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.scottfu.sflibrary.recyclerview.OnRecyclerViewClickListener;
@@ -24,6 +25,7 @@ import com.yeapao.andorid.api.ConstantYeaPao;
 import com.yeapao.andorid.lessondetails.LessonDetailActivity;
 import com.yeapao.andorid.model.HomeList;
 import com.yeapao.andorid.model.LessonScreeningData;
+import com.yeapao.andorid.model.SelectHomeList;
 import com.yeapao.andorid.model.ShopScheduleList;
 import com.yeapao.andorid.storedetails.StoreDetailActivity;
 
@@ -48,9 +50,11 @@ public class LessonMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
     private OnRecyclerViewClickListener mListener;
     private LessonScreeningListener mScreeningListener;
     private HomeList mHomeMessageList;
+    private SelectHomeList selectHomeList;
     private List<ShopScheduleList> shopScheduleList = new ArrayList<>();
 
     private  static boolean isHeaderGone = false;
+
 
     private static final int NORMAL_TYPE = 0;
     private static final int HEADER_TYPE = 1;
@@ -65,9 +69,9 @@ public class LessonMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
         mHomeMessageList = homeList;
     }
 
-    public void refreshShopScheduleList(List<ShopScheduleList> lists) {
+    public void refreshShopScheduleList(SelectHomeList lists) {
         mHomeMessageList.getShopScheduleList().clear();
-        mHomeMessageList.setShopScheduleList(lists);
+        mHomeMessageList.setShopScheduleList(lists.getData());
 
         notifyDataSetChanged();
     }
@@ -102,6 +106,12 @@ public class LessonMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
                     .error(R.drawable.home_store_take_place)
                     .centerCrop()
                     .into(((NormalViewHolder)holder).ivLessonImage);
+            long bespeak, total;
+            bespeak = mHomeMessageList.getShopScheduleList().get(position - 1).getBespeak();
+            total = mHomeMessageList.getShopScheduleList().get(position - 1).getTotalNumber();
+            ((NormalViewHolder) holder).roundCornerProgressBar.setProgress(bespeak);
+            ((NormalViewHolder) holder).roundCornerProgressBar.setMax(total);
+            ((NormalViewHolder) holder).tvBespeakNum.setText(String.valueOf(bespeak)+"/"+String.valueOf(total));
 
             if (mHomeMessageList.getShopScheduleList().size() == 1) {
                 RecyclerView.LayoutParams layoutParams = (RecyclerView.LayoutParams) ((NormalViewHolder) holder).cvStoreCard.getLayoutParams();
@@ -180,6 +190,10 @@ public class LessonMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
         ImageView ivLessonCollect;
         @BindView(R.id.cv_store_card)
         CardView cvStoreCard;
+        @BindView(R.id.rcp_bespeak)
+        RoundCornerProgressBar roundCornerProgressBar;
+        @BindView(R.id.tv_bespeak_num)
+        TextView tvBespeakNum;
 
         NormalViewHolder(View view, OnRecyclerViewClickListener listener) {
             super(view);

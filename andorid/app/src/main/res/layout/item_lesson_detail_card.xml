@@ -81,6 +81,7 @@
             android:layout_gravity="top|right"
             android:layout_marginRight="15dp"
             android:layout_marginTop="15dp"
+            android:visibility="gone"
             />
 
         <FrameLayout
@@ -92,6 +93,7 @@
 
 
             <com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
+                android:id="@+id/rcp_bespeak"
                 android:layout_gravity="top"
                 android:layout_width="match_parent"
                 android:layout_height="15dp"
@@ -106,6 +108,7 @@
                 app:rcBackgroundColor="@color/mdtp_white" />
 
             <TextView
+                android:id="@+id/tv_bespeak_num"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal|bottom"

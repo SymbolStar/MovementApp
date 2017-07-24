@@ -33,7 +33,29 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".homepage.circle.circledetail.CircleDetailActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".homepage.myself.tab.MyselfClockOutActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".homepage.myself.tab.MyselfPostActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".homepage.myself.tab.MyselfLessonActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".homepage.myself.tab.MyselfOrderActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".homepage.myself.tab.MyselfOrderDetailActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".LoginActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".RegisterActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
 
+        <activity
+            android:name=".ResetPasswordActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
 
     </application>
 

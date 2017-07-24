@@ -43,12 +43,14 @@
             android:drawablePadding="10dp"
             android:drawableLeft="@drawable/shop_information" />
         <TextView
+            android:id="@+id/tv_store_name"
             android:paddingTop="15dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="店铺名称 也跑减脂训练营"
             android:textSize="16sp"/>
         <TextView
+            android:id="@+id/tv_store_address"
             android:paddingTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -79,6 +81,7 @@
             android:drawableLeft="@drawable/shop_recommend" />
 
         <RelativeLayout
+            android:id="@+id/rl_lesson_reservation"
             android:layout_marginTop="15dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">

@@ -49,14 +49,16 @@
             android:layout_width="20dp"
             android:layout_height="wrap_content"
             android:src="@drawable/lesson_tittle"/>
+
         <TextView
-            android:layout_toRightOf="@id/iv_title_image"
-            android:paddingLeft="10dp"
-            android:layout_centerVertical="true"
+            android:id="@+id/tv_shop_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/iv_title_image"
+            android:paddingLeft="10dp"
             android:text="也跑减脂训练营"
-            android:textSize="17dp"/>
+            android:textSize="17dp" />
 
         <ImageView
             android:layout_width="wrap_content"
@@ -90,21 +92,23 @@
         tools:layout_constraintLeft_creator="1"
         app:layout_constraintHorizontal_bias="0.0"
         android:layout_marginTop="10dp"
-        app:layout_constraintTop_toBottomOf="@+id/textView29" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_lesson_time" />
 
-    <ImageView
-        android:id="@+id/imageView5"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
-        app:srcCompat="@color/bottomTabChecked"
+    <com.scottfu.sflibrary.customview.CircleImageView
+        android:id="@+id/iv_head"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
         android:layout_marginTop="13dp"
+        android:src="@drawable/y_you"
         app:layout_constraintTop_toBottomOf="@+id/view4"
         android:layout_marginLeft="15dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginStart="15dp" />
+        android:layout_marginStart="15dp"
+        app:border_color="@color/colorPrimary"
+        app:border_width="1dp"/>
 
     <TextView
-        android:id="@+id/textView22"
+        android:id="@+id/tv_coach_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
@@ -123,15 +127,15 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginStart="10dp"
-        android:text="TextView"
+        android:text="擅长专业"
         android:textSize="16sp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/textView24"
-        app:layout_constraintLeft_toRightOf="@+id/imageView5"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tv_good"
+        app:layout_constraintLeft_toRightOf="@+id/iv_head"
         tools:layout_constraintBaseline_creator="1"
         tools:layout_constraintLeft_creator="1" />
 
     <TextView
-        android:id="@+id/textView24"
+        android:id="@+id/tv_good"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
@@ -175,7 +179,7 @@
         android:layout_marginLeft="13dp"
         android:layout_marginStart="13dp"
         android:layout_marginTop="10dp"
-        android:text="TextView"
+        android:text="上课须知"
         android:textSize="16sp"
         app:layout_constraintLeft_toRightOf="@+id/imageView6"
         app:layout_constraintTop_toBottomOf="@+id/view5" />
@@ -184,15 +188,15 @@
         android:id="@+id/textView26"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="TextView"
-        android:layout_marginTop="10dp"
-        app:layout_constraintTop_toBottomOf="@+id/view6"
-        app:layout_constraintLeft_toLeftOf="@+id/textView25"
-        android:layout_marginRight="8dp"
-        app:layout_constraintRight_toRightOf="parent"
-        tools:layout_constraintRight_creator="1"
         android:layout_marginEnd="8dp"
-        tools:layout_constraintLeft_creator="1" />
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/lesson_hint"
+        app:layout_constraintLeft_toLeftOf="@+id/textView25"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view6"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintRight_creator="1" />
 
     <View
         android:layout_width="0dp"
@@ -231,13 +235,13 @@
         android:layout_marginStart="15dp" />
 
     <TextView
-        android:id="@+id/textView27"
+        android:id="@+id/tv_lesson_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
-        android:text="TextView"
+        android:text="课程内容"
         android:textSize="17sp"
         app:layout_constraintLeft_toRightOf="@+id/imageView7"
         app:layout_constraintTop_toBottomOf="@+id/view7" />
@@ -250,9 +254,10 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="@+id/imageView7"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView27"
+        app:layout_constraintTop_toBottomOf="@+id/tv_lesson_content"
         tools:layout_constraintRight_creator="1"
-        tools:layout_constraintLeft_creator="1" />
+        tools:layout_constraintLeft_creator="1"
+        android:id="@+id/view19" />
 
     <ImageView
         android:id="@+id/imageView8"
@@ -269,7 +274,7 @@
         app:layout_constraintHorizontal_bias="0.0" />
 
     <TextView
-        android:id="@+id/textView28"
+        android:id="@+id/tv_adress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
@@ -294,25 +299,41 @@
         android:layout_marginLeft="16dp" />
 
     <TextView
-        android:id="@+id/textView29"
+        android:id="@+id/tv_lesson_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:text="TextView"
         android:textSize="16sp"
-        app:layout_constraintLeft_toLeftOf="@+id/textView28"
-        app:layout_constraintTop_toBottomOf="@+id/textView28" />
+        app:layout_constraintLeft_toLeftOf="@+id/tv_adress"
+        app:layout_constraintTop_toBottomOf="@+id/tv_adress" />
 
     <TextView
-        android:id="@+id/textView30"
+        android:id="@+id/tv_bespeak"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="30dp"
+        android:layout_marginRight="30dp"
         android:text="TextView"
         android:textSize="16sp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/textView29"
-        android:layout_marginRight="30dp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tv_lesson_time"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_lesson_content_list"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:fadeScrollbars="true"
+        android:scrollbarFadeDuration="1"
+        android:scrollbars="vertical"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginEnd="30dp" />
+        app:layout_constraintTop_toBottomOf="@+id/view19" />
 
 
 </android.support.constraint.ConstraintLayout>

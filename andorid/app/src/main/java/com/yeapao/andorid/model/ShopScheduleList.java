@@ -26,6 +26,51 @@ public class ShopScheduleList {
     private String endTime;
     private String address;
     private String backgroundImage;
+    private int bespeak;
+    private int scheduleId;
+    private String mySchedule;
+    private String coach;
+    private String isBespeak;
+
+    public String getMySchedule() {
+        return mySchedule;
+    }
+
+    public void setMySchedule(String mySchedule) {
+        this.mySchedule = mySchedule;
+    }
+
+    public String getCoach() {
+        return coach;
+    }
+
+    public void setCoach(String coach) {
+        this.coach = coach;
+    }
+
+    public String getIsBespeak() {
+        return isBespeak;
+    }
+
+    public void setIsBespeak(String isBespeak) {
+        this.isBespeak = isBespeak;
+    }
+
+    public int getBespeak() {
+        return bespeak;
+    }
+
+    public void setBespeak(int bespeak) {
+        this.bespeak = bespeak;
+    }
+
+    public int getScheduleId() {
+        return scheduleId;
+    }
+
+    public void setScheduleId(int scheduleId) {
+        this.scheduleId = scheduleId;
+    }
 
     public int getCurriculumId() {
         return curriculumId;

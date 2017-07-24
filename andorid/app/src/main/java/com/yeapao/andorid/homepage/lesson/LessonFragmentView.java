@@ -20,6 +20,7 @@ import com.scottfu.sflibrary.util.ToastManager;
 import com.yeapao.andorid.R;
 import com.yeapao.andorid.model.HomeList;
 import com.yeapao.andorid.model.LessonScreeningData;
+import com.yeapao.andorid.model.SelectHomeList;
 import com.yeapao.andorid.storedetails.StoreDetailActivity;
 
 import butterknife.BindView;
@@ -298,8 +299,8 @@ public class LessonFragmentView extends Fragment implements LessonContract.View 
     }
 
     @Override
-    public void showSelectResult(HomeList homeList) {
-        lessonMessageAdapter.refreshShopScheduleList(homeList.getShopScheduleList());
+    public void showSelectResult(SelectHomeList homeList) {
+        lessonMessageAdapter.refreshShopScheduleList(homeList);
     }
 
 

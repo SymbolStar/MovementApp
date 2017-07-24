@@ -61,6 +61,8 @@ dependencies {
     //底部tab栏
     compile 'com.github.ittianyu:BottomNavigationViewEx:1.2.1'
     compile 'q.rorbin:badgeview:1.1.0'
+//轮播滑动多种样式
+    compile 'com.github.crosswall:Android-Coverflow:release-v1.0.4'
 
     testCompile "junit:junit:$rootProject.junitVersion"
 }

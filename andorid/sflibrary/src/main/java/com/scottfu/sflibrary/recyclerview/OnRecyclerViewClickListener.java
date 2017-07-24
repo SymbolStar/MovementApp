@@ -9,7 +9,6 @@ import android.view.View;
 public interface OnRecyclerViewClickListener {
 
     void OnItemClick(View v, int position);
-
 }
 
 

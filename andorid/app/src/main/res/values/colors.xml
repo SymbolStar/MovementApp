@@ -13,10 +13,15 @@
 
 
     <color name="bg_grey">#f2f2f2</color>
+    <color name="grey_line">#ececec</color>
     <color name="bg_white">#ffffff</color>
     <color name="text_color">#37343e</color>
     <color name="text_hint_color">#544f4f</color>
     <color name="text_hint_title_color">#726d7c</color>
     <color name="text_red">#ff5b45</color>
     <color name="bg_circle_detail_grey">#f9f9f9</color>
+    <color name="bg_lesson_text">#fedb81</color>
+    <color name="myself_lesson_status_color">#fedb81</color>
+    <color name="yellow_text_color">#ffcc00</color>
+    <color name="login_text_color">#eeeada</color>
 </resources>

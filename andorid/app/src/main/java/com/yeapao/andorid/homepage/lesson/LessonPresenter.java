@@ -14,6 +14,7 @@ import com.yeapao.andorid.api.NetImpl;
 import com.yeapao.andorid.homepage.circle.CircleContract;
 import com.yeapao.andorid.model.HomeList;
 import com.yeapao.andorid.model.MessageResult;
+import com.yeapao.andorid.model.SelectHomeList;
 
 /**
  * Created by fujindong on 2017/7/11.
@@ -38,6 +39,7 @@ public class LessonPresenter implements LessonContract.Presenter {
 
     @Override
     public void start() {
+        mView.startLoading();
         getData();
     }
 
@@ -46,9 +48,7 @@ public class LessonPresenter implements LessonContract.Presenter {
     @Override
     public void getData() {
 
-
-
-        CloudClient.getHttpRequest(mContext, ConstantYeaPao.GET_HOME_LIST, new JSONResultHandler() {
+        CloudClient.doHttpRequest(mContext, ConstantYeaPao.GET_HOME_LIST, NetImpl.getInstance().getHomeData("0"), null, new JSONResultHandler() {
             @Override
             public void onSuccess(String jsonString) {
                 LogUtil.e(TAG, jsonString);
@@ -78,10 +78,9 @@ public class LessonPresenter implements LessonContract.Presenter {
             @Override
             public void onSuccess(String jsonString) {
                 LogUtil.e(TAG, jsonString);
-                MessageResult result = gson.fromJson(jsonString, MessageResult.class);
+                SelectHomeList result = gson.fromJson(jsonString, SelectHomeList.class);
                 if (result.getErrmsg().equals("ok")) {
-                    mHomeList = result.getData();
-                    mView.showSelectResult(result.getData());
+                    mView.showSelectResult(result);
                 } else {
 
                 }

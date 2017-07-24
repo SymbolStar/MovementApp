@@ -12,7 +12,12 @@ public interface MyselfContract {
 
 
     interface View extends BaseView<Presenter> {
+
+        void showResult();
+
+
     }
+
 
     interface Presenter extends BasePresenter {
 

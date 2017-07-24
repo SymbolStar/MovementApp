@@ -15,9 +15,9 @@
         android:gravity="center"
         android:text="预约"
         android:textColor="@color/text_color"
-        android:textSize="22sp" />
+        android:textSize="18sp" />
 
-    <ScrollView
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/tv_order"
@@ -32,7 +32,7 @@
 
         </LinearLayout>
 
-    </ScrollView>
+    </android.support.v4.widget.NestedScrollView>
 
 
 </RelativeLayout>

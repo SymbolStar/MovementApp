@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/bg_white"
+    android:orientation="vertical">
+
+    <View
+        android:id="@+id/view22"
+        android:layout_width="1dp"
+        android:layout_height="0dp"
+        android:layout_marginLeft="22dp"
+        android:layout_marginStart="22dp"
+        android:background="@color/bg_grey"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_tine"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
+        android:text="4小时前"
+        android:textColor="#726d7c"
+        android:textSize="12sp"
+        app:layout_constraintLeft_toRightOf="@+id/view22"
+        app:layout_constraintTop_toTopOf="@+id/imageView5"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/tv_post_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="饮食加运动，减肥速度真的很快哦！！"
+        android:textColor="@color/text_color"
+        app:layout_constraintLeft_toLeftOf="@+id/tv_tine"
+        app:layout_constraintTop_toBottomOf="@+id/tv_tine" />
+
+    <GridView
+        android:id="@+id/gv_post_images"
+        android:layout_width="0dp"
+        android:layout_height="130dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintLeft_toLeftOf="@+id/tv_post_content"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_post_content"
+        android:layout_marginEnd="15dp" />
+
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="15dp"
+        android:background="@color/bg_grey"
+        app:layout_constraintLeft_toLeftOf="@+id/gv_post_images"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/gv_post_images" />
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/my_post_oval_shape"
+        app:layout_constraintRight_toRightOf="@+id/view22"
+        app:layout_constraintLeft_toLeftOf="@+id/view22"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="15dp" />
+</android.support.constraint.ConstraintLayout>

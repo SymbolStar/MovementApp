@@ -50,6 +50,7 @@
 
 
         <TextView
+            android:id="@+id/tv_do"
             android:background="@color/colorPrimary"
             android:layout_width="0dp"
             android:layout_height="match_parent"

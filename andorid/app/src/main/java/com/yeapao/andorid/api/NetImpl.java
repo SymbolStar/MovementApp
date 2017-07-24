@@ -23,23 +23,35 @@ public class NetImpl {
         return mNet;
     }
 
-
-    //获取用户信息
-    public  HashMap<String, String> getHomeData() {
+    //获取首页数据
+    public HashMap<String, String> getHomeData(String id) {
         HashMap<String, String> params = new HashMap<>();
-        params.put("time", "1");
-        params.put("status", "1");
-        params.put("region", "高新区");
+        params.put("id", id);
         return params;
     }
 
-    //获取用户信息
-    public HashMap<String, String> setLessonScreening(String time, String status, String region) {
 
+    //首页筛选
+    public HashMap<String, String> setLessonScreening(String time, String status, String region) {
         HashMap<String, String> params = new HashMap<>();
         params.put("time", time);
         params.put("status", status);
         params.put("region", region);
         return params;
     }
+
+
+    //课程详情
+    public HashMap<String, String> getLessonDetail(String id) {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("scheduleId", id);
+        return params;
+    }
+    //店铺详情
+    public HashMap<String, String> getStoreDetail(String id) {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("curriculumId", id);
+        return params;
+    }
+
 }

@@ -96,7 +96,7 @@ public class CircleFragmentView extends Fragment implements CircleContract.View 
                 @Override
                 public void OnItemClick(View v, int position) {
                     ToastManager.showToast(getActivity(),"onClick");
-                    startActivity(new Intent(getActivity(), CircleDetailActivity.class));
+//                    startActivity(new Intent(getActivity(), CircleDetailActivity.class));
                 }
             });
         } else {
