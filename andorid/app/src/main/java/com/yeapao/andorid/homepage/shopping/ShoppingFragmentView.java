@@ -64,6 +64,13 @@ public class ShoppingFragmentView extends Fragment implements ShoppingContract.V
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = View.inflate(getActivity(), R.layout.fragment_shopping, null);
         unbinder = ButterKnife.bind(this, view);
+        srlShoppingRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mPresenter.getData();
+            }
+        });
+        srlShoppingRefresh.setColorSchemeResources(R.color.colorPrimary);
         initViews(view);
         mPresenter.start();
         return view;
@@ -80,20 +87,12 @@ public class ShoppingFragmentView extends Fragment implements ShoppingContract.V
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         rvShoppingList.setLayoutManager(linearLayoutManager);
 
-        srlShoppingRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                mPresenter.getData();
-            }
-        });
-        srlShoppingRefresh.setColorSchemeResources(R.color.colorPrimary);
-
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        unbinder.unbind();
+//        unbinder.unbind();
     }
 
     @Override
@@ -120,6 +119,7 @@ public class ShoppingFragmentView extends Fragment implements ShoppingContract.V
 
     @Override
     public void stopLoading() {
+
         srlShoppingRefresh.setRefreshing(false);
     }
 

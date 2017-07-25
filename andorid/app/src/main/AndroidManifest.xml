@@ -56,6 +56,9 @@
         <activity
             android:name=".ResetPasswordActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".homepage.myself.tab.MyselfReservationActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
 
     </application>
 

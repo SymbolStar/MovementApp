@@ -258,7 +258,7 @@ public class LessonFragmentView extends Fragment implements LessonContract.View 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        unbinder.unbind();
+//        unbinder.unbind();
     }
 
     @Override

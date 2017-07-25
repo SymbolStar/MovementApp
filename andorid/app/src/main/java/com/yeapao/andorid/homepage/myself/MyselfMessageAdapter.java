@@ -68,7 +68,7 @@ public class MyselfMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     private void setMyselfTabModelData() {
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 6; i++) {
 
             MyselfTabModel myselfTabModel = new MyselfTabModel();
             switch (i) {

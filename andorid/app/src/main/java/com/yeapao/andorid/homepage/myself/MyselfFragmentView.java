@@ -19,6 +19,8 @@ import com.yeapao.andorid.R;
 import com.yeapao.andorid.homepage.myself.tab.MyselfLessonActivity;
 import com.yeapao.andorid.homepage.myself.tab.MyselfOrderActivity;
 import com.yeapao.andorid.homepage.myself.tab.MyselfPostActivity;
+import com.yeapao.andorid.homepage.myself.tab.MyselfReservationActivity;
+import com.yeapao.andorid.homepage.myself.tab.MyselfReservationMessageAdapter;
 import com.yeapao.andorid.model.UserData;
 
 import butterknife.BindView;
@@ -125,6 +127,8 @@ public class MyselfFragmentView extends Fragment implements MyselfContract.View 
                         MyselfLessonActivity.start(getContext());
                     } else if (name.equals("我的订单")) {
                         MyselfOrderActivity.start(getContext());
+                    } else if (name.equals("我的预约")) {
+                        MyselfReservationActivity.start(getContext());
                     }
                 }
             });
