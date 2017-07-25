@@ -24,6 +24,13 @@ public class NetImpl {
     }
 
     //获取首页数据
+    public HashMap<String, String> loginRequest(String phone,String password) {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("phone", phone);
+        params.put("password", password);
+        return params;
+    }
+    //获取首页数据
     public HashMap<String, String> getHomeData(String id) {
         HashMap<String, String> params = new HashMap<>();
         params.put("id", id);

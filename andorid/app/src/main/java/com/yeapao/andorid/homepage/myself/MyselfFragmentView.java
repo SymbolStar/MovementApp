@@ -6,17 +6,20 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.scottfu.sflibrary.recyclerview.OnRecyclerViewClickListener;
+import com.scottfu.sflibrary.util.LogUtil;
 import com.scottfu.sflibrary.util.ToastManager;
 import com.yeapao.andorid.LoginActivity;
 import com.yeapao.andorid.R;
 import com.yeapao.andorid.homepage.myself.tab.MyselfLessonActivity;
 import com.yeapao.andorid.homepage.myself.tab.MyselfOrderActivity;
 import com.yeapao.andorid.homepage.myself.tab.MyselfPostActivity;
+import com.yeapao.andorid.model.UserData;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -29,11 +32,15 @@ import butterknife.Unbinder;
 
 public class MyselfFragmentView extends Fragment implements MyselfContract.View {
 
+    private static final String TAG = "MyselfFragmentView";
+
 
     @BindView(R.id.iv_myself_setting)
     ImageView ivMyselfSetting;
     @BindView(R.id.rv_mySelf_list)
     RecyclerView rvMySelfList;
+    @BindView(R.id.v_myself_click)
+    View vMyselfClick;
     Unbinder unbinder;
 
     private MyselfContract.Presenter mPresenter;
@@ -60,6 +67,7 @@ public class MyselfFragmentView extends Fragment implements MyselfContract.View 
         View view = inflater.inflate(R.layout.fragment_myself, container, false);
         unbinder = ButterKnife.bind(this, view);
         initViews(view);
+
         return view;
     }
 
@@ -69,12 +77,17 @@ public class MyselfFragmentView extends Fragment implements MyselfContract.View 
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        LogUtil.e(TAG,"onresume");
+        mPresenter.start();
+    }
+
+    @Override
     public void initViews(View view) {
         llm = new LinearLayoutManager(getContext());
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         rvMySelfList.setLayoutManager(llm);
-
-        showResult();
     }
 
     @Override
@@ -91,7 +104,7 @@ public class MyselfFragmentView extends Fragment implements MyselfContract.View 
     }
 
     @Override
-    public void showResult() {
+    public void showResult(UserData userData) {
         if (myselfMessageAdapter == null) {
             myselfMessageAdapter = new MyselfMessageAdapter(getContext());
             rvMySelfList.setAdapter(myselfMessageAdapter);
@@ -113,7 +126,6 @@ public class MyselfFragmentView extends Fragment implements MyselfContract.View 
                     } else if (name.equals("我的订单")) {
                         MyselfOrderActivity.start(getContext());
                     }
-
                 }
             });
         } else {
@@ -122,7 +134,22 @@ public class MyselfFragmentView extends Fragment implements MyselfContract.View 
         }
     }
 
+    @Override
+    public void initViewClick(boolean flag) {
+        if (flag) {
+            vMyselfClick.setVisibility(View.VISIBLE);
+        } else {
+            vMyselfClick.setVisibility(View.GONE);
+        }
 
+    }
+
+
+    @OnClick(R.id.v_myself_click)
+    void onViewClick(View view) {
+        LogUtil.e(TAG,"onViewClick");
+        LoginActivity.start(getContext());
+    }
 
 
 

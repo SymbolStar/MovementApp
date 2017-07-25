@@ -24,6 +24,7 @@ import android.databinding.DataBindingUtil;
 import com.scottfu.sflibrary.permission.ActivityCollector;
 import com.scottfu.sflibrary.permission.PermissionActivity;
 import com.scottfu.sflibrary.permission.PermissionListener;
+import com.scottfu.sflibrary.util.LogUtil;
 import com.scottfu.sflibrary.util.ToastManager;
 import com.yeapao.andorid.databinding.ActivityMainBinding;
 import com.yeapao.andorid.homepage.circle.CircleFragmentView;
@@ -34,6 +35,7 @@ import com.yeapao.andorid.homepage.myself.MyselfFragmentView;
 import com.yeapao.andorid.homepage.myself.MyselfPresenter;
 import com.yeapao.andorid.homepage.shopping.ShoppingFragmentView;
 import com.yeapao.andorid.homepage.shopping.ShoppingPresenter;
+import com.yeapao.andorid.util.GlobalDataYepao;
 
 import java.net.FileNameMap;
 import java.util.ArrayList;

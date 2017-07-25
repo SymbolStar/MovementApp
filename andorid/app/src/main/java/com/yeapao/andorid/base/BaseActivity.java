@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -51,10 +52,19 @@ public abstract class BaseActivity extends AppCompatActivity{
         ivLeftImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //隐藏软键盘
+                View view = getWindow().peekDecorView();
+                if (view != null) {
+                    InputMethodManager inputmanger = (InputMethodManager) getSystemService(
+                            Context.INPUT_METHOD_SERVICE);
+                    inputmanger.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                }
                 LogUtil.e("initBack","initBack");
                 finish();
             }
         });
+
+
     }
 
     /**

@@ -12,5 +12,6 @@ public class ConstantYeaPao {
     public static final String GET_LESSON_DETAIL = HOST+"/curriculum/findCurriculum";
     public static final String GET_STORE_DETAIL = HOST+"/shop/findShopDetails";
     public static final String GET_SHOPPING_LIST = HOST+"/curriculum/findCurriculumList";
+    public static final String LOGIN = HOST+"/user/loginApp";
 
 }

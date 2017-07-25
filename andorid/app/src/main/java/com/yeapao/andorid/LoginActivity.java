@@ -1,5 +1,6 @@
 package com.yeapao.andorid;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,7 +9,20 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.android.volley.VolleyError;
+import com.google.gson.Gson;
+import com.scottfu.sflibrary.net.CloudClient;
+import com.scottfu.sflibrary.net.JSONResultHandler;
+import com.scottfu.sflibrary.util.CurrentActivity;
+import com.scottfu.sflibrary.util.LogUtil;
+import com.scottfu.sflibrary.util.ToastManager;
+import com.yeapao.andorid.api.ConstantYeaPao;
+import com.yeapao.andorid.api.NetImpl;
 import com.yeapao.andorid.base.BaseActivity;
+import com.yeapao.andorid.model.LoginModel;
+import com.yeapao.andorid.model.UserData;
+import com.yeapao.andorid.util.GlobalDataConstant;
+import com.yeapao.andorid.util.GlobalDataYepao;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -19,6 +33,10 @@ import butterknife.OnClick;
  */
 
 public class LoginActivity extends BaseActivity {
+
+    private static final String TAG = "LoginActivity";
+    private Gson gson = new Gson();
+    private UserData user = new UserData();
 
 
     @BindView(R.id.et_account)
@@ -32,10 +50,14 @@ public class LoginActivity extends BaseActivity {
     @BindView(R.id.tv_froget_password)
     TextView tvFrogetPassword;
 
+
+    private String phone = null;
+    private String password = null;
+
     public static void start(Context context) {
-        Intent intent = new Intent();
-        intent.setClass(context, LoginActivity.class);
-        context.startActivity(intent);
+            Intent intent = new Intent();
+            intent.setClass(context, LoginActivity.class);
+            context.startActivity(intent);
     }
 
 
@@ -45,6 +67,17 @@ public class LoginActivity extends BaseActivity {
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
         initTopBar();
+        initView();
+    }
+
+    private void initView() {
+        user = GlobalDataYepao.getUser(getContext());
+        if (user != null) {
+            phone = user.getPhone();
+            etAccount.setText(phone);
+            etAccount.clearFocus();
+            etPassword.requestFocus();
+        }
     }
 
     @Override
@@ -62,6 +95,7 @@ public class LoginActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_login:
+                loginRequest();
                 break;
             case R.id.tv_register:
                 RegisterActivity.start(getContext());
@@ -70,5 +104,45 @@ public class LoginActivity extends BaseActivity {
                 ResetPasswordActivity.start(getContext());
                 break;
         }
+    }
+
+    private void loginRequest() {
+        phone = etAccount.getText().toString();
+        password = etPassword.getText().toString();
+
+        if (phone == null|| phone.equals("")) {
+            ToastManager.showToast(getContext(),"请输入手机号");
+            return;
+        }
+
+        if (password.length() < 6) {
+            ToastManager.showToast(getContext(),"请输入至少6位的密码");
+            return;
+        }
+
+        CloudClient.doHttpRequest(getContext(), ConstantYeaPao.LOGIN,
+                NetImpl.getInstance().loginRequest(phone, password), null, new JSONResultHandler() {
+            @Override
+            public void onSuccess(String jsonString) {
+                LogUtil.e(TAG, jsonString);
+                LoginModel loginData = gson.fromJson(jsonString, LoginModel.class);
+                if (loginData.getErrmsg().equals("ok")) {
+                    UserData userData = loginData.getData();
+                    userData.setPassword(password);
+                    userData.setLogin(true);
+                    GlobalDataYepao.setUser(getContext(),userData);
+                    GlobalDataYepao.setIsLogin(true);
+                    finish();
+                } else {
+                    ToastManager.showToast(getContext(),loginData.getErrmsg());
+                }
+            }
+
+            @Override
+            public void onError(VolleyError errorMessage) {
+                ToastManager.showToast(getContext(), errorMessage.toString());
+            }
+        });
+
     }
 }

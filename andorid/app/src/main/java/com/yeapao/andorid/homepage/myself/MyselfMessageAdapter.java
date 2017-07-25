@@ -1,6 +1,8 @@
 package com.yeapao.andorid.homepage.myself;
 
 import android.content.Context;
+import android.support.constraint.ConstraintLayout;
+import android.support.constraint.ConstraintSet;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,13 +14,17 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.scottfu.sflibrary.customview.CircleImageView;
 import com.scottfu.sflibrary.recyclerview.OnRecyclerViewClickListener;
+import com.scottfu.sflibrary.util.GlideUtil;
 import com.scottfu.sflibrary.util.LogUtil;
+import com.scottfu.sflibrary.util.ScreenUtil;
 import com.scottfu.sflibrary.util.ToastManager;
 import com.yeapao.andorid.R;
 import com.yeapao.andorid.api.ConstantYeaPao;
 import com.yeapao.andorid.homepage.lesson.LessonMessageAdapter;
 import com.yeapao.andorid.homepage.myself.tab.MyselfClockOutActivity;
 import com.yeapao.andorid.model.MyselfTabModel;
+import com.yeapao.andorid.model.UserData;
+import com.yeapao.andorid.util.GlobalDataYepao;
 
 import java.math.MathContext;
 import java.util.ArrayList;
@@ -46,12 +52,17 @@ public class MyselfMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
     private static final int MYSELF_DATA_TYPE = 1;
     private static final int MYSELF_OPTION_TYPE = 2;
 
+    private ConstraintSet applyConstraintSet = new ConstraintSet();
+
+
 
     private static List<MyselfTabModel> myselfTabModels = new ArrayList<>();
+    private UserData mUserData = new UserData();
 
     public MyselfMessageAdapter(Context context) {
         mContext = context;
         inflater = LayoutInflater.from(context);
+        mUserData = GlobalDataYepao.getUser(mContext);
         setMyselfTabModelData();
 
     }
@@ -134,15 +145,27 @@ public class MyselfMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
             ((TabViewHolder) holder).ivMyselfTabIcon.setImageDrawable(myselfTabModels.get(position - 2).getViewId());
             ((TabViewHolder) holder).tvMyselfTabTitle.setText(myselfTabModels.get(position-2).getTabName());
         } else if (holder instanceof HeaderViewHolder) {
-//            Glide.with(mContext)
-//                    .load(ConstantYeaPao.HOST+mHomeMessageList.getShopScheduleList().get(position-1).getBackgroundImage())
-//                    .asBitmap()
-//                    .placeholder(R.drawable.home_store_take_place)
-//                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-//                    .error(R.drawable.home_store_take_place)
-//                    .centerCrop()
-//                    .into(((LessonMessageAdapter.NormalViewHolder)holder).ivLessonImage);
-            ((HeaderViewHolder) holder).ivAccountHead.setImageDrawable(mContext.getResources().getDrawable(R.drawable.y_you));
+            mUserData = GlobalDataYepao.getUser(mContext);
+            if (mUserData != null) {
+                GlideUtil glideUtil = new GlideUtil();
+                glideUtil.glideLoadingImage(mContext, ConstantYeaPao.HOST + mUserData.getHead(), R.drawable.y_you, ((HeaderViewHolder) holder).ivAccountHead);
+                ((HeaderViewHolder) holder).tvAccountName.setText(mUserData.getName());
+                ((HeaderViewHolder) holder).tvAccountName.setTextColor(mContext.getResources().getColor(R.color.colorPrimary));
+                applyConstraintSet.clone(((HeaderViewHolder) holder).clHeader);
+                applyConstraintSet.setMargin(R.id.tv_account_name,ConstraintSet.TOP, (int)ScreenUtil.dpToPx(mContext,40));
+                applyConstraintSet.applyTo(((HeaderViewHolder) holder).clHeader);
+                ((HeaderViewHolder) holder).tvAccountTell.setText(mUserData.getPhone());
+            } else {
+                ((HeaderViewHolder) holder).ivAccountHead.setImageDrawable(mContext.getResources().getDrawable(R.drawable.y_you));
+                ((HeaderViewHolder) holder).tvAccountName.setText("注册／登录");
+                ((HeaderViewHolder) holder).tvAccountName.setTextColor(mContext.getResources().getColor(R.color.login_text_color));
+                ((HeaderViewHolder) holder).tvAccountTell.setText("");
+                ((HeaderViewHolder) holder).ivAccountBadge.setVisibility(View.GONE);
+                applyConstraintSet.clone(((HeaderViewHolder) holder).clHeader);
+                applyConstraintSet.setMargin(R.id.tv_account_name,ConstraintSet.TOP, (int)ScreenUtil.dpToPx(mContext,50));
+                applyConstraintSet.applyTo(((HeaderViewHolder) holder).clHeader);
+            }
+
 
         }
 
@@ -177,12 +200,17 @@ public class MyselfMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
         ImageView ivAccountBadge;
         @BindView(R.id.iv_account_set_right)
         ImageView ivAccountSetRight;
+        @BindView(R.id.cl_header)
+        ConstraintLayout clHeader;
 
         HeaderViewHolder(View view, OnRecyclerViewClickListener listener) {
             super(view);
             ButterKnife.bind(this, view);
             view.setOnClickListener(this);
             this.listener = listener;
+
+
+
         }
 
         @OnClick(R.id.iv_account_head)
