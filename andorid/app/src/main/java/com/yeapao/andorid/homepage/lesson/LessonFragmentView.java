@@ -18,6 +18,7 @@ import com.scottfu.sflibrary.recyclerview.OnRecyclerViewClickListener;
 import com.scottfu.sflibrary.util.LogUtil;
 import com.scottfu.sflibrary.util.ToastManager;
 import com.yeapao.andorid.R;
+import com.yeapao.andorid.lessondetails.LessonDetailActivity;
 import com.yeapao.andorid.model.HomeList;
 import com.yeapao.andorid.model.LessonScreeningData;
 import com.yeapao.andorid.model.SelectHomeList;
@@ -271,7 +272,7 @@ public class LessonFragmentView extends Fragment implements LessonContract.View 
                 @Override
                 public void OnItemClick(View v, int position) {
                     ToastManager.showToast(getActivity(), "onclick");
-                    startActivity(new Intent(getActivity(), StoreDetailActivity.class));
+                    startActivity(new Intent(getActivity(), LessonDetailActivity.class));
                 }
             });
             lessonMessageAdapter.setScreeningListener(new LessonScreeningListener() {

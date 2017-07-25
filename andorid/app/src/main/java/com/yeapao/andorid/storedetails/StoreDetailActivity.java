@@ -1,6 +1,7 @@
 package com.yeapao.andorid.storedetails;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -67,6 +68,16 @@ public class StoreDetailActivity extends BaseActivity {
     TextView tvQualifications;
     @BindView(R.id.rb_star)
     RatingBar rbStar;
+
+
+    public static void start(Context context) {
+        Intent intent = new Intent();
+        intent.setClass(context, StoreDetailActivity.class);
+        context.startActivity(intent);
+
+    }
+
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

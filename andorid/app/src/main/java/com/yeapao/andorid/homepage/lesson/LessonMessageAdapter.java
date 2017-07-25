@@ -211,7 +211,7 @@ public class LessonMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
         @OnClick(R.id.tv_look_lesson_detail)
         void setTvLookLessonDetail() {
             ToastManager.showToast(mContext,"lessonDetail");
-            mContext.startActivity(new Intent(mContext, StoreDetailActivity.class));
+            mContext.startActivity(new Intent(mContext, LessonDetailActivity.class));
         }
 
         @OnClick(R.id.btn_reservation)

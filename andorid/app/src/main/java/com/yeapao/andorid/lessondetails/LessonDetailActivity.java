@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
@@ -25,6 +26,7 @@ import com.yeapao.andorid.base.BaseActivity;
 import com.yeapao.andorid.dialog.DialogCallback;
 import com.yeapao.andorid.dialog.DialogUtils;
 import com.yeapao.andorid.model.LessonDetailData;
+import com.yeapao.andorid.storedetails.StoreDetailActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -58,6 +60,8 @@ public class LessonDetailActivity extends BaseActivity {
     TextView tvBespeak;
     @BindView(R.id.iv_head)
     ImageView ivHead;
+    @BindView(R.id.rl_lesson_store)
+    RelativeLayout rlLessonStore;
 
     private LessonDetailData lessonDetailData;
 
@@ -104,6 +108,12 @@ public class LessonDetailActivity extends BaseActivity {
                 LogUtil.e(TAG,"rightClick");
             }
         });
+    }
+
+
+    @OnClick(R.id.rl_lesson_store)
+    void setRlStoreClick(View view) {
+        StoreDetailActivity.start(getContext());
     }
 
     @Override
