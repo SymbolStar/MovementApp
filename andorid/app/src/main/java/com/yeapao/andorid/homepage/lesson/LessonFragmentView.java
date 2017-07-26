@@ -293,6 +293,12 @@ public class LessonFragmentView extends Fragment implements LessonContract.View 
 
                 }
             });
+            lessonMessageAdapter.setReservationListener(new ReservationListener() {
+                @Override
+                public void onReservationClickListener(String scheduleId, String curriculumId, String id) {
+                    mPresenter.reservationRequest(scheduleId,curriculumId,id);
+                }
+            });
         } else {
             rvLessonList.setAdapter(lessonMessageAdapter);
             lessonMessageAdapter.notifyDataSetChanged();

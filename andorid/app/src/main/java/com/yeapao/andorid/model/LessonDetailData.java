@@ -8,10 +8,11 @@ import java.util.List;
 
 public class LessonDetailData {
 
+
     /**
      * errcode : 0
      * errmsg : ok
-     * data : {"actionEssentialsList":[{"image":["/image/12.jpg","/image/12.jpg","/image/12.jpg","/image/12.jpg"],"content":"蝶泳的泳姿动作要领包括：划水、呼吸、移臂、入水和海豚式打水。"},{"image":["/image/12.jpg","/image/12.jpg","/image/12.jpg","/image/12.jpg"],"content":"可以先从最简单的移动来感觉动作要领。"},{"image":["/image/12.jpg","/image/12.jpg","/image/12.jpg","/image/12.jpg"],"content":"本文以散级跳远技术过程，分为助跑与上板、第一跳、第二跳、以及第三跳等四个阶段，配合「单、双、双」摆臂方式，分别说明其动作要领。"},{"image":["/image/12.jpg","/image/12.jpg","/image/12.jpg","/image/12.jpg"],"content":"文章介绍了跳水转体的动作要领及转体训练的教学方法。"},{"image":["/image/12.jpg","/image/12.jpg","/image/12.jpg","/image/12.jpg"],"content":"简述了飞机斤斗飞行的基本运动关系和操纵动作要领。"}],"curriculum":{"curriculumId":1,"shopName":"也跑总店","address":"高新区运河路47号","classTimeStart":"9","classTimeEnd":"21","coach":"张","head":"/image/12.jpg","star":"4","beGoodAt":"吹牛"}}
+     * data : {"actionEssentialsList":[{"image":["/image/12.jpg","/image/12.jpg","/image/12.jpg","/image/12.jpg"],"content":"蝶泳的泳姿动作要领包括：划水、呼吸、移臂、入水和海豚式打水。","title":"第一步"},{"image":["/image/12.jpg","/image/12.jpg","/image/12.jpg","/image/12.jpg"],"content":"可以先从最简单的移动来感觉动作要领。","title":"第二步"},{"image":["/image/12.jpg","/image/12.jpg","/image/12.jpg","/image/12.jpg"],"content":"本文以散级跳远技术过程，分为助跑与上板、第一跳、第二跳、以及第三跳等四个阶段，配合「单、双、双」摆臂方式，分别说明其动作要领。","title":"第三步"},{"image":["/image/12.jpg","/image/12.jpg","/image/12.jpg","/image/12.jpg"],"content":"文章介绍了跳水转体的动作要领及转体训练的教学方法。","title":"第四步"},{"image":["/image/12.jpg","/image/12.jpg","/image/12.jpg","/image/12.jpg"],"content":"简述了飞机斤斗飞行的基本运动关系和操纵动作要领。","title":"第五步"}],"curriculum":{"curriculumId":1,"shopName":"也跑总店","address":"高新区运河路47号","classTimeStart":"2017-07-25 17:48:55.0","classTimeEnd":"2017-07-25 17:48:55.0","coach":"张","head":"/image/12.jpg","star":"4","beGoodAt":"吹牛","bespeak":19,"totalNumber":20,"linePrice":190,"onLinePrice":90}}
      */
 
     private int errcode;
@@ -44,8 +45,8 @@ public class LessonDetailData {
 
     public static class DataBean {
         /**
-         * actionEssentialsList : [{"image":["/image/12.jpg","/image/12.jpg","/image/12.jpg","/image/12.jpg"],"content":"蝶泳的泳姿动作要领包括：划水、呼吸、移臂、入水和海豚式打水。"},{"image":["/image/12.jpg","/image/12.jpg","/image/12.jpg","/image/12.jpg"],"content":"可以先从最简单的移动来感觉动作要领。"},{"image":["/image/12.jpg","/image/12.jpg","/image/12.jpg","/image/12.jpg"],"content":"本文以散级跳远技术过程，分为助跑与上板、第一跳、第二跳、以及第三跳等四个阶段，配合「单、双、双」摆臂方式，分别说明其动作要领。"},{"image":["/image/12.jpg","/image/12.jpg","/image/12.jpg","/image/12.jpg"],"content":"文章介绍了跳水转体的动作要领及转体训练的教学方法。"},{"image":["/image/12.jpg","/image/12.jpg","/image/12.jpg","/image/12.jpg"],"content":"简述了飞机斤斗飞行的基本运动关系和操纵动作要领。"}]
-         * curriculum : {"curriculumId":1,"shopName":"也跑总店","address":"高新区运河路47号","classTimeStart":"9","classTimeEnd":"21","coach":"张","head":"/image/12.jpg","star":"4","beGoodAt":"吹牛"}
+         * actionEssentialsList : [{"image":["/image/12.jpg","/image/12.jpg","/image/12.jpg","/image/12.jpg"],"content":"蝶泳的泳姿动作要领包括：划水、呼吸、移臂、入水和海豚式打水。","title":"第一步"},{"image":["/image/12.jpg","/image/12.jpg","/image/12.jpg","/image/12.jpg"],"content":"可以先从最简单的移动来感觉动作要领。","title":"第二步"},{"image":["/image/12.jpg","/image/12.jpg","/image/12.jpg","/image/12.jpg"],"content":"本文以散级跳远技术过程，分为助跑与上板、第一跳、第二跳、以及第三跳等四个阶段，配合「单、双、双」摆臂方式，分别说明其动作要领。","title":"第三步"},{"image":["/image/12.jpg","/image/12.jpg","/image/12.jpg","/image/12.jpg"],"content":"文章介绍了跳水转体的动作要领及转体训练的教学方法。","title":"第四步"},{"image":["/image/12.jpg","/image/12.jpg","/image/12.jpg","/image/12.jpg"],"content":"简述了飞机斤斗飞行的基本运动关系和操纵动作要领。","title":"第五步"}]
+         * curriculum : {"curriculumId":1,"shopName":"也跑总店","address":"高新区运河路47号","classTimeStart":"2017-07-25 17:48:55.0","classTimeEnd":"2017-07-25 17:48:55.0","coach":"张","head":"/image/12.jpg","star":"4","beGoodAt":"吹牛","bespeak":19,"totalNumber":20,"linePrice":190,"onLinePrice":90}
          */
 
         private CurriculumBean curriculum;
@@ -72,12 +73,16 @@ public class LessonDetailData {
              * curriculumId : 1
              * shopName : 也跑总店
              * address : 高新区运河路47号
-             * classTimeStart : 9
-             * classTimeEnd : 21
+             * classTimeStart : 2017-07-25 17:48:55.0
+             * classTimeEnd : 2017-07-25 17:48:55.0
              * coach : 张
              * head : /image/12.jpg
              * star : 4
              * beGoodAt : 吹牛
+             * bespeak : 19
+             * totalNumber : 20
+             * linePrice : 190
+             * onLinePrice : 90
              */
 
             private int curriculumId;
@@ -89,24 +94,10 @@ public class LessonDetailData {
             private String head;
             private String star;
             private String beGoodAt;
-            private String bespeak;
-            private String totalNumber;
-
-            public String getBespeak() {
-                return bespeak;
-            }
-
-            public void setBespeak(String bespeak) {
-                this.bespeak = bespeak;
-            }
-
-            public String getTotalNumber() {
-                return totalNumber;
-            }
-
-            public void setTotalNumber(String totalNumber) {
-                this.totalNumber = totalNumber;
-            }
+            private int bespeak;
+            private int totalNumber;
+            private int linePrice;
+            private int onLinePrice;
 
             public int getCurriculumId() {
                 return curriculumId;
@@ -179,17 +170,51 @@ public class LessonDetailData {
             public void setBeGoodAt(String beGoodAt) {
                 this.beGoodAt = beGoodAt;
             }
+
+            public int getBespeak() {
+                return bespeak;
+            }
+
+            public void setBespeak(int bespeak) {
+                this.bespeak = bespeak;
+            }
+
+            public int getTotalNumber() {
+                return totalNumber;
+            }
+
+            public void setTotalNumber(int totalNumber) {
+                this.totalNumber = totalNumber;
+            }
+
+            public int getLinePrice() {
+                return linePrice;
+            }
+
+            public void setLinePrice(int linePrice) {
+                this.linePrice = linePrice;
+            }
+
+            public int getOnLinePrice() {
+                return onLinePrice;
+            }
+
+            public void setOnLinePrice(int onLinePrice) {
+                this.onLinePrice = onLinePrice;
+            }
         }
 
         public static class ActionEssentialsListBean {
             /**
              * image : ["/image/12.jpg","/image/12.jpg","/image/12.jpg","/image/12.jpg"]
              * content : 蝶泳的泳姿动作要领包括：划水、呼吸、移臂、入水和海豚式打水。
+             * title : 第一步
              */
 
             private String content;
+            private String title;
             private List<String> image;
-            private int currentId = 0;
+            private int currentId;
 
             public int getCurrentId() {
                 return currentId;
@@ -205,6 +230,14 @@ public class LessonDetailData {
 
             public void setContent(String content) {
                 this.content = content;
+            }
+
+            public String getTitle() {
+                return title;
+            }
+
+            public void setTitle(String title) {
+                this.title = title;
             }
 
             public List<String> getImage() {

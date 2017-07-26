@@ -18,7 +18,7 @@ package com.yeapao.andorid.model;
  */
 
 public class ShopScheduleList {
-    private int curriculumId;
+    private String curriculumId;
     private String curriculumName;
     private long totalNumber;
     private long bookNumber;
@@ -27,7 +27,7 @@ public class ShopScheduleList {
     private String address;
     private String backgroundImage;
     private int bespeak;
-    private int scheduleId;
+    private String scheduleId;
     private String mySchedule;
     private String coach;
     private String isBespeak;
@@ -64,19 +64,19 @@ public class ShopScheduleList {
         this.bespeak = bespeak;
     }
 
-    public int getScheduleId() {
+    public String getScheduleId() {
         return scheduleId;
     }
 
-    public void setScheduleId(int scheduleId) {
+    public void setScheduleId(String scheduleId) {
         this.scheduleId = scheduleId;
     }
 
-    public int getCurriculumId() {
+    public String getCurriculumId() {
         return curriculumId;
     }
 
-    public void setCurriculumId(int curriculumId) {
+    public void setCurriculumId(String curriculumId) {
         this.curriculumId = curriculumId;
     }
 

@@ -1,6 +1,7 @@
 package com.yeapao.andorid.lessondetails;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,6 +20,7 @@ import com.scottfu.sflibrary.net.CloudClient;
 import com.scottfu.sflibrary.net.JSONResultHandler;
 import com.scottfu.sflibrary.util.GlideUtil;
 import com.scottfu.sflibrary.util.LogUtil;
+import com.scottfu.sflibrary.util.ToastManager;
 import com.yeapao.andorid.R;
 import com.yeapao.andorid.api.ConstantYeaPao;
 import com.yeapao.andorid.api.NetImpl;
@@ -26,7 +28,9 @@ import com.yeapao.andorid.base.BaseActivity;
 import com.yeapao.andorid.dialog.DialogCallback;
 import com.yeapao.andorid.dialog.DialogUtils;
 import com.yeapao.andorid.model.LessonDetailData;
+import com.yeapao.andorid.model.ReservationLessonModel;
 import com.yeapao.andorid.storedetails.StoreDetailActivity;
+import com.yeapao.andorid.util.GlobalDataYepao;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -40,6 +44,9 @@ public class LessonDetailActivity extends BaseActivity {
 
 
     private static final String TAG = "LessonDetailActivity";
+
+    private static final String SCHEDULEID = "SCHEDULEID";
+    
     @BindView(R.id.tv_order)
     TextView tvOrder;
     @BindView(R.id.tv_shop_name)
@@ -65,6 +72,8 @@ public class LessonDetailActivity extends BaseActivity {
 
     private LessonDetailData lessonDetailData;
 
+    private String scheduleId = "0";
+
 
     private Gson gson = new Gson();
 
@@ -73,11 +82,19 @@ public class LessonDetailActivity extends BaseActivity {
     private LessonDetailContentAdapter lessonDetailContentAdapter;
 
 
+    public static void start(Context context, String scheduleId) {
+        Intent intent = new Intent();
+        intent.setClass(context, LessonDetailActivity.class);
+        intent.putExtra(SCHEDULEID, scheduleId);
+        context.startActivity(intent);
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lesson_detail);
         ButterKnife.bind(this);
+        scheduleId = getIntent().getStringExtra(SCHEDULEID);
         initView();
         initTopBar();
         getData();
@@ -92,10 +109,13 @@ public class LessonDetailActivity extends BaseActivity {
 
     @OnClick(R.id.tv_order)
     void setTvOrder(View view) {
-        DialogUtils.showDialog(getContext(), "消息提示", "您还没有购买课程，请先购买", "线下课程", "线上课程", new DialogCallback() {
+        DialogUtils.showDialog(getContext(), "消息提示", "您还没有购买课程，请先购买",
+                "线下课程"+" ￥"+lessonDetailData.getData().getCurriculum().getLinePrice(),
+                "线上课程"+" ￥"+lessonDetailData.getData().getCurriculum().getOnLinePrice(), new DialogCallback() {
             @Override
             public void onItemClick(int position) {
                 LogUtil.e(TAG,"onitemclick");
+
             }
 
             @Override
@@ -106,6 +126,27 @@ public class LessonDetailActivity extends BaseActivity {
             @Override
             public void onRightClick() {
                 LogUtil.e(TAG,"rightClick");
+                CloudClient.doHttpRequest(getContext(), ConstantYeaPao.RESERVATION, NetImpl.getInstance().reservationLesson(scheduleId,
+                        String.valueOf(lessonDetailData.getData().getCurriculum().getCurriculumId()),
+                        String.valueOf(GlobalDataYepao.getUser(getContext()).getId())), null, new JSONResultHandler() {
+                            @Override
+                            public void onSuccess(String jsonString) {
+                                LogUtil.e(TAG, jsonString);
+                                ReservationLessonModel model = gson.fromJson(jsonString, ReservationLessonModel.class);
+                                if (model.getErrmsg().equals("ok")) {
+
+                                } else {
+                                    ToastManager.showToast(getContext(),model.getErrmsg());
+                                }
+                            }
+
+                            @Override
+                            public void onError(VolleyError errorMessage) {
+
+                            }
+                        }
+                );
+
             }
         });
     }

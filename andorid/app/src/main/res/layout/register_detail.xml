@@ -20,7 +20,7 @@
         app:layout_constraintVertical_bias="1.0" />
 
     <EditText
-        android:id="@+id/editText4"
+        android:id="@+id/et_name"
         android:layout_width="0dp"
         android:layout_height="45dp"
         android:layout_marginLeft="50dp"
@@ -39,30 +39,33 @@
         android:layout_marginEnd="50dp" />
 
     <EditText
-        android:id="@+id/editText3"
+        android:id="@+id/et_phone"
         android:layout_width="0dp"
         android:layout_height="45dp"
+        android:layout_marginEnd="50dp"
         android:layout_marginLeft="50dp"
         android:layout_marginRight="50dp"
+        android:layout_marginStart="50dp"
         android:layout_marginTop="15dp"
         android:background="@drawable/login_edit_shape"
         android:hint="手机号"
+        android:inputType="phone"
         android:paddingLeft="15dp"
         android:textColor="@color/login_text_color"
         android:textColorHint="@color/login_text_color"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText4"
-        android:layout_marginStart="50dp"
-        android:layout_marginEnd="50dp" />
+        app:layout_constraintTop_toBottomOf="@+id/et_name" />
 
     <TextView
-        android:id="@+id/editText5"
+        android:id="@+id/et_register"
         android:layout_width="0dp"
         android:layout_height="45dp"
+        android:layout_marginEnd="50dp"
         android:layout_marginLeft="50dp"
         android:layout_marginRight="50dp"
+        android:layout_marginStart="50dp"
         android:layout_marginTop="15dp"
         android:background="@drawable/login_shape"
         android:gravity="center"
@@ -73,28 +76,27 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText8"
-        android:layout_marginStart="50dp"
-        android:layout_marginEnd="50dp" />
+        app:layout_constraintTop_toBottomOf="@+id/et_passworid" />
 
     <EditText
-        android:id="@+id/editText8"
+        android:id="@+id/et_passworid"
         android:layout_width="0dp"
         android:layout_height="45dp"
+        android:layout_marginEnd="50dp"
         android:layout_marginLeft="50dp"
         android:layout_marginRight="50dp"
+        android:layout_marginStart="50dp"
         android:layout_marginTop="15dp"
         android:background="@drawable/login_edit_shape"
         android:hint="设置密码"
+        android:inputType="textPassword"
         android:paddingLeft="15dp"
         android:textColor="@color/login_text_color"
         android:textColorHint="@color/login_text_color"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText6"
-        android:layout_marginStart="50dp"
-        android:layout_marginEnd="50dp" />
+        app:layout_constraintTop_toBottomOf="@+id/editText6" />
 
     <RelativeLayout
         android:id="@+id/editText6"
@@ -107,7 +109,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText3"
+        app:layout_constraintTop_toBottomOf="@+id/et_phone"
         android:gravity="center_vertical"
         android:layout_marginStart="50dp"
         android:layout_marginEnd="50dp">
@@ -140,6 +142,7 @@
             android:layout_toLeftOf="@id/v_line"
             android:background="#00000000"
             android:hint="验证码"
+            android:inputType="number"
             android:paddingLeft="15dp"
             android:textColor="@color/login_text_color"
             android:textColorHint="@color/login_text_color" />
@@ -156,9 +159,9 @@
         android:layout_marginEnd="15dp"
         android:layout_marginRight="15dp"
         android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toBottomOf="@+id/editText8"
-        app:layout_constraintRight_toRightOf="@+id/editText8"
-        app:layout_constraintTop_toTopOf="@+id/editText8"
+        app:layout_constraintBottom_toBottomOf="@+id/et_passworid"
+        app:layout_constraintRight_toRightOf="@+id/et_passworid"
+        app:layout_constraintTop_toTopOf="@+id/et_passworid"
         app:srcCompat="@drawable/close_eye" />
 
 </android.support.constraint.ConstraintLayout>

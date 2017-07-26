@@ -98,7 +98,9 @@ public class LoginActivity extends BaseActivity {
                 loginRequest();
                 break;
             case R.id.tv_register:
-                RegisterActivity.start(getContext());
+                Intent intent = new Intent();
+                intent.setClass(getContext(), RegisterActivity.class);
+                startActivityForResult(intent,1);
                 break;
             case R.id.tv_froget_password:
                 ResetPasswordActivity.start(getContext());
@@ -144,5 +146,13 @@ public class LoginActivity extends BaseActivity {
             }
         });
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == 1) {
+            finish();
+        }
     }
 }

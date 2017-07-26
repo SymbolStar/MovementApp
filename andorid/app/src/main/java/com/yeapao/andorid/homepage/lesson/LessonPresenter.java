@@ -1,6 +1,7 @@
 package com.yeapao.andorid.homepage.lesson;
 
 import android.content.Context;
+import android.support.constraint.solver.widgets.ConstraintWidgetContainer;
 
 import com.android.volley.VolleyError;
 import com.google.common.net.InetAddresses;
@@ -14,6 +15,7 @@ import com.yeapao.andorid.api.NetImpl;
 import com.yeapao.andorid.homepage.circle.CircleContract;
 import com.yeapao.andorid.model.HomeList;
 import com.yeapao.andorid.model.MessageResult;
+import com.yeapao.andorid.model.ReservationLessonModel;
 import com.yeapao.andorid.model.SelectHomeList;
 
 /**
@@ -90,6 +92,28 @@ public class LessonPresenter implements LessonContract.Presenter {
             @Override
             public void onError(VolleyError errorMessage) {
                 LogUtil.e(TAG,errorMessage.toString());
+            }
+        });
+    }
+
+    @Override
+    public void reservationRequest(String scheduleId, String curriculumId, String id) {
+        CloudClient.doHttpRequest(mContext, ConstantYeaPao.RESERVATION,
+                NetImpl.getInstance().reservationLesson(scheduleId, curriculumId, id), null, new JSONResultHandler() {
+            @Override
+            public void onSuccess(String jsonString) {
+                LogUtil.e(TAG,jsonString);
+                ReservationLessonModel model = gson.fromJson(jsonString, ReservationLessonModel.class);
+                if (model.getErrmsg().equals("ok")) {
+
+                } else {
+                    ToastManager.showToast(mContext,model.getErrmsg());
+                }
+            }
+
+            @Override
+            public void onError(VolleyError errorMessage) {
+                ToastManager.showToast(mContext,errorMessage.toString());
             }
         });
     }

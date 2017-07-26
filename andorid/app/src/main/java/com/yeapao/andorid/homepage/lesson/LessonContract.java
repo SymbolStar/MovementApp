@@ -33,6 +33,7 @@ public interface LessonContract {
 
         void getLessonScreeningData(String time, String status, String region);
 
+        void reservationRequest(String scheduleId, String curriculumId, String id);
     }
 
 }

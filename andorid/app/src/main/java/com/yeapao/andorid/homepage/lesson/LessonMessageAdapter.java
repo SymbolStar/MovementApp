@@ -28,6 +28,7 @@ import com.yeapao.andorid.model.LessonScreeningData;
 import com.yeapao.andorid.model.SelectHomeList;
 import com.yeapao.andorid.model.ShopScheduleList;
 import com.yeapao.andorid.storedetails.StoreDetailActivity;
+import com.yeapao.andorid.util.GlobalDataYepao;
 
 import org.w3c.dom.Text;
 
@@ -49,6 +50,7 @@ public class LessonMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
     private LayoutInflater inflater;
     private OnRecyclerViewClickListener mListener;
     private LessonScreeningListener mScreeningListener;
+    private ReservationListener reservationListener;
     private HomeList mHomeMessageList;
     private SelectHomeList selectHomeList;
     private List<ShopScheduleList> shopScheduleList = new ArrayList<>();
@@ -87,7 +89,7 @@ public class LessonMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         switch (viewType) {
             case NORMAL_TYPE:
-                return new NormalViewHolder(inflater.inflate(R.layout.item_lesson_detail_card, parent, false), mListener);
+                return new NormalViewHolder(inflater.inflate(R.layout.item_lesson_detail_card, parent, false), mListener,reservationListener);
             case HEADER_TYPE:
                 return new HeaderViewHolder(inflater.inflate(R.layout.item_lesson_top, parent, false),mScreeningListener);
         }
@@ -172,9 +174,10 @@ public class LessonMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
 
 
 
-    static class NormalViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+     class NormalViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private OnRecyclerViewClickListener listener;
+        private ReservationListener reservationListener;
 
         @BindView(R.id.iv_lesson_image)
         ImageView ivLessonImage;
@@ -195,10 +198,11 @@ public class LessonMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
         @BindView(R.id.tv_bespeak_num)
         TextView tvBespeakNum;
 
-        NormalViewHolder(View view, OnRecyclerViewClickListener listener) {
+        NormalViewHolder(View view, OnRecyclerViewClickListener listener,ReservationListener reservationListener) {
             super(view);
             ButterKnife.bind(this, view);
             this.listener = listener;
+            this.reservationListener = reservationListener;
             view.setOnClickListener(this);
 
         }
@@ -217,7 +221,9 @@ public class LessonMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
         @OnClick(R.id.btn_reservation)
         void setBtnReservation() {
             ToastManager.showToast(mContext,"Reservation");
-            mContext.startActivity(new Intent(mContext, LessonDetailActivity.class));
+            int position = getLayoutPosition()-1;
+            reservationListener.onReservationClickListener(mHomeMessageList.getShopScheduleList().get(position).getScheduleId(),
+                    mHomeMessageList.getShopScheduleList().get(position).getCurriculumId(), String.valueOf(GlobalDataYepao.getUser(mContext).getId()));
         }
 
         @Override
@@ -230,6 +236,10 @@ public class LessonMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     public void setScreeningListener(LessonScreeningListener listener) {
         mScreeningListener = listener;
+    }
+
+    public void setReservationListener(ReservationListener listener) {
+        reservationListener = listener;
     }
 
 
