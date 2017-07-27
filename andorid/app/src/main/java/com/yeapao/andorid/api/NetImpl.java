@@ -31,22 +31,23 @@ public class NetImpl {
     }
 
     //用户注册
-    public HashMap<String, String> registerRequest(String username,String password,String name,String verificationCode) {
+    public HashMap<String, String> registerRequest(String username, String password, String name, String verificationCode) {
         HashMap<String, String> params = new HashMap<>();
-        params.put("username", username);
+        params.put("phone", username);
         params.put("password", password);
         params.put("name", name);
         params.put("verificationCode", verificationCode);
         return params;
     }
-
+//    TODO 首页
     //获取首页数据
-    public HashMap<String, String> loginRequest(String phone,String password) {
+    public HashMap<String, String> loginRequest(String phone, String password) {
         HashMap<String, String> params = new HashMap<>();
         params.put("phone", phone);
         params.put("password", password);
         return params;
     }
+
     //获取首页数据
     public HashMap<String, String> getHomeData(String id) {
         HashMap<String, String> params = new HashMap<>();
@@ -73,17 +74,33 @@ public class NetImpl {
     }
 
     //预约课程
-    public HashMap<String, String> reservationLesson(String scheduleId,String curriculumId, String id) {
+    public HashMap<String, String> reservationLesson(String scheduleId, String curriculumId, String id) {
         HashMap<String, String> params = new HashMap<>();
         params.put("scheduleId", scheduleId);
         params.put("curriculumId", curriculumId);
         params.put("id", id);
         return params;
     }
+
     //店铺详情
     public HashMap<String, String> getStoreDetail(String id) {
         HashMap<String, String> params = new HashMap<>();
         params.put("curriculumId", id);
+        return params;
+    }
+
+    //    TODO 我的
+//获取我的预约
+    public HashMap<String, String> getReservationList(String id) {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("id", id);
+        return params;
+    }
+    //获取我的课程
+    public HashMap<String, String> getLessonList(String id,String status) {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("id", id);
+        params.put("status", id);
         return params;
     }
 

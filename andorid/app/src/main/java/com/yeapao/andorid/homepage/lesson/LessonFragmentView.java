@@ -263,7 +263,7 @@ public class LessonFragmentView extends Fragment implements LessonContract.View 
     }
 
     @Override
-    public void showResult(HomeList homeList) {
+    public void showResult(final HomeList homeList) {
         mHomeList = homeList;
         if (lessonMessageAdapter == null) {
             lessonMessageAdapter = new LessonMessageAdapter(getActivity(), homeList);
@@ -272,7 +272,7 @@ public class LessonFragmentView extends Fragment implements LessonContract.View 
                 @Override
                 public void OnItemClick(View v, int position) {
                     ToastManager.showToast(getActivity(), "onclick");
-                    startActivity(new Intent(getActivity(), LessonDetailActivity.class));
+                    LessonDetailActivity.start(getContext(),homeList.getShopScheduleList().get(position-1).getScheduleId());
                 }
             });
             lessonMessageAdapter.setScreeningListener(new LessonScreeningListener() {

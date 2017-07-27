@@ -20,6 +20,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.scottfu.sflibrary.recyclerview.OnRecyclerViewClickListener;
 import com.scottfu.sflibrary.util.ToastManager;
+import com.yeapao.andorid.LoginActivity;
 import com.yeapao.andorid.R;
 import com.yeapao.andorid.api.ConstantYeaPao;
 import com.yeapao.andorid.lessondetails.LessonDetailActivity;
@@ -215,15 +216,20 @@ public class LessonMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
         @OnClick(R.id.tv_look_lesson_detail)
         void setTvLookLessonDetail() {
             ToastManager.showToast(mContext,"lessonDetail");
-            mContext.startActivity(new Intent(mContext, LessonDetailActivity.class));
+            String scheduleId = mHomeMessageList.getShopScheduleList().get(getLayoutPosition() - 1).getScheduleId();
+            LessonDetailActivity.start(mContext, scheduleId);
         }
 
         @OnClick(R.id.btn_reservation)
         void setBtnReservation() {
             ToastManager.showToast(mContext,"Reservation");
             int position = getLayoutPosition()-1;
-            reservationListener.onReservationClickListener(mHomeMessageList.getShopScheduleList().get(position).getScheduleId(),
-                    mHomeMessageList.getShopScheduleList().get(position).getCurriculumId(), String.valueOf(GlobalDataYepao.getUser(mContext).getId()));
+            if (GlobalDataYepao.getUser(mContext) == null) {
+                LoginActivity.start(mContext);
+            } else {
+                reservationListener.onReservationClickListener(mHomeMessageList.getShopScheduleList().get(position).getScheduleId(),
+                        mHomeMessageList.getShopScheduleList().get(position).getCurriculumId(), String.valueOf(GlobalDataYepao.getUser(mContext).getId()));
+            }
         }
 
         @Override

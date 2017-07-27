@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.scottfu.sflibrary.recyclerview.OnRecyclerViewClickListener;
 import com.yeapao.andorid.R;
+import com.yeapao.andorid.model.MyselfLessonModel;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -24,9 +25,12 @@ public class MyselfLessonMessageAdapter extends RecyclerView.Adapter<RecyclerVie
     private LayoutInflater inflater;
     private OnRecyclerViewClickListener mListener;
 
-    public MyselfLessonMessageAdapter(Context context) {
+    private MyselfLessonModel lessonModel;
+
+    public MyselfLessonMessageAdapter(Context context,MyselfLessonModel lessonModel) {
         mContext = context;
         inflater = LayoutInflater.from(context);
+        this.lessonModel = lessonModel;
     }
 
 
@@ -38,7 +42,10 @@ public class MyselfLessonMessageAdapter extends RecyclerView.Adapter<RecyclerVie
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-
+        ((ViewHolder)holder).tvMyLessonTitle.setText(lessonModel.getData().get(position).getCurriculumType());
+        ((ViewHolder) holder).tvMyLessonRemainingDay.setText(lessonModel.getData().get(position).getTime());
+        ((ViewHolder) holder).tvMyLessonRemainingClub.setText(lessonModel.getData().get(position).getSurplusNum());
+        ((ViewHolder) holder).tvMyLessonPrice.setText(lessonModel.getData().get(position).getTotalPrice());
     }
 
 
@@ -48,7 +55,7 @@ public class MyselfLessonMessageAdapter extends RecyclerView.Adapter<RecyclerVie
 
     @Override
     public int getItemCount() {
-        return 10;
+        return lessonModel.getData().size();
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{

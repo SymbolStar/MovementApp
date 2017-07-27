@@ -166,7 +166,7 @@ public class LessonDetailActivity extends BaseActivity {
 
 
     private void getData() {
-        CloudClient.doHttpRequest(getContext(), ConstantYeaPao.GET_LESSON_DETAIL, NetImpl.getInstance().getLessonDetail("1"), null, new JSONResultHandler() {
+        CloudClient.doHttpRequest(getContext(), ConstantYeaPao.GET_LESSON_DETAIL, NetImpl.getInstance().getLessonDetail(scheduleId), null, new JSONResultHandler() {
             @Override
             public void onSuccess(String jsonString) {
                 LogUtil.e(TAG, jsonString);

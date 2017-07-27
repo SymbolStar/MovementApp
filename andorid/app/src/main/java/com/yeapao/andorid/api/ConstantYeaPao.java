@@ -6,6 +6,7 @@ package com.yeapao.andorid.api;
 
 public class ConstantYeaPao {
     public static final String HOST = "http://47.92.113.97:8080/yepao";
+//    public static final String HOST = "http://192.168.2.128:8080";
 
     public static final String GET_HOME_LIST = HOST+"/home/homeList";
     public static final String GET_HOME_SELECT = HOST+"/home/selectHomeList";
@@ -16,5 +17,7 @@ public class ConstantYeaPao {
     public static final String RESERVATION = HOST+"/curriculum/saveReservation";
     public static final String  GET_VERIFICATION= HOST+"/user/verificationCode";
     public static final String  REGISTER= HOST+"/user/register";
+    public static final String  GET_RESERVATION_LIST= HOST+"/curriculum/findMyScheduleList";
+    public static final String  GET_LESSON_LIST= HOST+"/curriculum/findMyCurriculumList";
 
 }

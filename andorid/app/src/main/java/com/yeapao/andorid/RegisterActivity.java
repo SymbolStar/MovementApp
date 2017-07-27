@@ -89,27 +89,38 @@ public class RegisterActivity extends BaseActivity {
     private void doRegisterRequest(final String mobile, String password, String verificationStr, String nick) {
 
         LogUtil.e(TAG,mobile+"  "+password+"  "+verificationStr+" "+nick);
+        CloudClient.doHttpRequest(getContext(), ConstantYeaPao.REGISTER, NetImpl.getInstance().registerRequest(mobile, password, nick, verificationStr), null, new JSONResultHandler() {
+            @Override
+            public void onSuccess(String jsonString) {
+                LogUtil.e(TAG,jsonString);
+            }
 
-        CloudClient.doHttpRequest(getContext(), ConstantYeaPao.REGISTER, NetImpl.getInstance().registerRequest(mobile, password, nick, verificationStr), null
-                , new JSONResultHandler() {
-                    @Override
-                    public void onSuccess(String jsonString) {
-                        LogUtil.e(TAG,jsonString);
-                        RegisterBackModel model = gson.fromJson(jsonString, RegisterBackModel.class);
-                        if (model.getErrmsg().equals("ok")) {
-                            GlobalDataYepao.setUser(getContext(),model.getData());
-                            RegisterActivity.this.setResult(1);
-                            finish();
-                        } else {
-                            ToastManager.showToast(getContext(),model.getErrmsg());
-                        }
-                    }
+            @Override
+            public void onError(VolleyError errorMessage) {
 
-                    @Override
-                    public void onError(VolleyError errorMessage) {
-                        ToastManager.showToast(getContext(),errorMessage.toString());
-                    }
-                });
+            }
+        });
+
+//        CloudClient.doHttpRequest(getContext(), ConstantYeaPao.REGISTER, NetImpl.getInstance().registerRequest(mobile, password, nick, verificationStr), null
+//                , new JSONResultHandler() {
+//                    @Override
+//                    public void onSuccess(String jsonString) {
+//                        LogUtil.e(TAG,jsonString);
+//                        RegisterBackModel model = gson.fromJson(jsonString, RegisterBackModel.class);
+//                        if (model.getErrmsg().equals("ok")) {
+//                            GlobalDataYepao.setUser(getContext(),model.getData());
+//                            RegisterActivity.this.setResult(1);
+//                            finish();
+//                        } else {
+//                            ToastManager.showToast(getContext(),model.getErrmsg());
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onError(VolleyError errorMessage) {
+//                        ToastManager.showToast(getContext(),errorMessage.toString());
+//                    }
+//                });
 
     }
 

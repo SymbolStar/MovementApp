@@ -6,9 +6,21 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 
+import com.android.volley.VolleyError;
+import com.google.gson.Gson;
+import com.scottfu.sflibrary.net.CloudClient;
+import com.scottfu.sflibrary.net.JSONResultHandler;
+import com.scottfu.sflibrary.util.LogUtil;
+import com.yeapao.andorid.LoginActivity;
 import com.yeapao.andorid.R;
+import com.yeapao.andorid.api.ConstantYeaPao;
+import com.yeapao.andorid.api.NetImpl;
 import com.yeapao.andorid.base.BaseActivity;
+import com.yeapao.andorid.model.ReservationLessonModel;
+import com.yeapao.andorid.model.ReservationListModel;
+import com.yeapao.andorid.util.GlobalDataYepao;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,6 +38,8 @@ public class MyselfReservationActivity extends BaseActivity {
 
     private LinearLayoutManager llm;
     private MyselfReservationMessageAdapter mReservationAdapter;
+    private Gson gson = new Gson();
+    private ReservationListModel listModel;
 
     public static void start(Context context) {
         Intent intent = new Intent();
@@ -52,13 +66,31 @@ public class MyselfReservationActivity extends BaseActivity {
     }
 
     private void getData() {
+        if (TextUtils.isEmpty(String.valueOf(GlobalDataYepao.getUser(getContext()).getId()))) {
+            LoginActivity.start(getContext());
+            return;
+        }
+        CloudClient.doHttpRequest(getContext(), ConstantYeaPao.GET_RESERVATION_LIST,
+                NetImpl.getInstance().getReservationList(String.valueOf(GlobalDataYepao.getUser(getContext()).getId())), null, new JSONResultHandler() {
+                    @Override
+                    public void onSuccess(String jsonString) {
+                        LogUtil.e(TAG,jsonString);
+                         listModel = gson.fromJson(jsonString, ReservationListModel.class);
+                        if (listModel.getErrmsg().equals("ok")) {
+                                showResult();
+                        }
+                    }
 
-        showResult();
+                    @Override
+                    public void onError(VolleyError errorMessage) {
+
+                    }
+                });
     }
 
     private void showResult() {
         if (mReservationAdapter == null) {
-            mReservationAdapter = new MyselfReservationMessageAdapter(getContext());
+            mReservationAdapter = new MyselfReservationMessageAdapter(getContext(),listModel);
             rvMyReservationList.setAdapter(mReservationAdapter);
         } else {
             rvMyReservationList.setAdapter(mReservationAdapter);
