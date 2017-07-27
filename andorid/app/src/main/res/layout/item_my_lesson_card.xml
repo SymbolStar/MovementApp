@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:id="@+id/cl_lesson_card"
     android:layout_height="117dp"
     android:layout_marginBottom="5dp"
     android:layout_marginLeft="15dp"
@@ -83,8 +84,8 @@
         android:paddingRight="2dp"
         android:text="25"
         app:layout_constraintLeft_toRightOf="@+id/textView15"
-        app:layout_constraintRight_toLeftOf="@+id/textView21"
-        app:layout_constraintTop_toTopOf="@+id/textView21" />
+        app:layout_constraintRight_toLeftOf="@+id/tv_day"
+        app:layout_constraintTop_toTopOf="@+id/tv_day" />
 
     <TextView
         android:id="@+id/tv_my_lesson_remaining_club"
@@ -95,11 +96,11 @@
         android:paddingRight="2dp"
         android:text="12"
         app:layout_constraintLeft_toRightOf="@+id/textView17"
-        app:layout_constraintRight_toLeftOf="@+id/textView22"
-        app:layout_constraintTop_toTopOf="@+id/textView22" />
+        app:layout_constraintRight_toLeftOf="@+id/tv_club"
+        app:layout_constraintTop_toTopOf="@+id/tv_club" />
 
     <TextView
-        android:id="@+id/textView21"
+        android:id="@+id/tv_day"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="天"
@@ -108,11 +109,11 @@
         app:layout_constraintLeft_toRightOf="@+id/tv_my_lesson_remaining_day"
         app:layout_constraintRight_toRightOf="parent"
         tools:layout_constraintBottom_creator="1"
-        app:layout_constraintBottom_toTopOf="@+id/textView22"
+        app:layout_constraintBottom_toTopOf="@+id/tv_club"
         android:layout_marginBottom="10dp" />
 
     <TextView
-        android:id="@+id/textView22"
+        android:id="@+id/tv_club"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="节"
@@ -123,4 +124,14 @@
         tools:layout_constraintBottom_creator="1"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginBottom="17dp" />
+
+    <ImageView
+        android:id="@+id/iv_overdue"
+        android:layout_width="60dp"
+        android:layout_height="46dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginRight="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:srcCompat="@drawable/my_overdue" />
 </android.support.constraint.ConstraintLayout>

@@ -24,4 +24,6 @@
     <color name="myself_lesson_status_color">#fedb81</color>
     <color name="yellow_text_color">#ffcc00</color>
     <color name="login_text_color">#eeeada</color>
+    <color name="food_text_color">#888888</color>
+
 </resources>

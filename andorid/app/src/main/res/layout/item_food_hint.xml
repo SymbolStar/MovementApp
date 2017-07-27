@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="20dp"
+    android:background="@color/bg_white">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="注意事项"
+        android:textSize="17sp"
+        android:textColor="@color/text_color"
+        android:gravity="center"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/bg_grey"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="烹饪方式:"
+        android:textColor="@color/text_color"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="15dp"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:text="橄榄油，山茶油，花生油，大豆油，米糖油以上建议每日不超过30g"
+        android:paddingTop="8dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="调味品："
+        android:textColor="@color/text_color"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="15dp"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:text="不添加含糖类和面粉的各类调料及酱油、醋、腐乳、辣椒、生粉、勾芡、高汤、白胡椒粉。
+"
+        android:paddingTop="8dp"/>
+</LinearLayout>

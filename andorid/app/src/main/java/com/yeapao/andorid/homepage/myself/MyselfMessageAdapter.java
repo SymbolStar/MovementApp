@@ -279,7 +279,6 @@ public class MyselfMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
             ButterKnife.bind(this, view);
             this.listener = listener;
             view.setOnClickListener(this);
-
         }
 
         @Override

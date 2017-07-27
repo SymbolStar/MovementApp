@@ -100,7 +100,7 @@ public class MyselfLessonActivity extends BaseActivity {
 
     private void showResult(MyselfLessonModel model) {
         if (myselfLessonMessageAdapter == null) {
-            myselfLessonMessageAdapter = new MyselfLessonMessageAdapter(getContext(),model);
+            myselfLessonMessageAdapter = new MyselfLessonMessageAdapter(getContext(),model,status);
             rvMyLessonList.setAdapter(myselfLessonMessageAdapter);
             myselfLessonMessageAdapter.setItemOnClickListener(new OnRecyclerViewClickListener() {
                 @Override
