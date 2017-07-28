@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:background="@color/bg_white"
+    android:layout_width="match_parent"
+    android:layout_height="160dp">
+
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="10dp"
+        android:background="@color/bg_grey"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="0dp"
+        android:layout_marginRight="0dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginLeft="0dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:id="@+id/view2" />
+
+    <ImageView
+        android:id="@+id/iv_lesson"
+        android:layout_width="200dp"
+        android:layout_height="130dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view2"
+        app:srcCompat="@drawable/buy_image01" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="30dp"
+        android:text="线上"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toRightOf="@+id/iv_lesson"
+        app:layout_constraintTop_toBottomOf="@+id/view2" />
+
+    <TextView
+        android:id="@+id/textView31"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:layout_marginLeft="0dp"
+        android:text="线下"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="@+id/textView2" />
+
+    <TextView
+        android:id="@+id/tv_online_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:text="￥98"
+        android:textColor="@color/text_red"
+        android:textSize="16sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textView2"
+        app:layout_constraintLeft_toRightOf="@+id/textView2" />
+
+    <TextView
+        android:id="@+id/tv_down_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="0dp"
+        android:text="￥198"
+        android:textColor="@color/text_red"
+        android:textSize="16sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textView31"
+        app:layout_constraintLeft_toLeftOf="@+id/tv_online_price" />
+
+    <CheckBox
+        android:id="@+id/cb_online"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tv_online_price"
+        android:layout_marginRight="10dp"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <CheckBox
+        android:id="@+id/cb_down"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="0dp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tv_down_price"
+        app:layout_constraintRight_toRightOf="@+id/cb_online" />
+
+    <TextView
+        android:id="@+id/tv_shopping_title"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginTop="0dp"
+        android:background="#66000000"
+        android:gravity="center"
+        android:text="减脂营一期"
+        android:textColor="#ffffff"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toLeftOf="@+id/iv_lesson"
+        app:layout_constraintRight_toRightOf="@+id/iv_lesson"
+        app:layout_constraintTop_toTopOf="@+id/iv_lesson" />
+
+</android.support.constraint.ConstraintLayout>

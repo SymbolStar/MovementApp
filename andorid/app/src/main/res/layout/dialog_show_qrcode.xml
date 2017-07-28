@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/dialog_qrcode_shape"
+    android:orientation="vertical">
+
+
+    <com.scottfu.sflibrary.customview.CircleImageView
+        android:id="@+id/iv_qrcode_head"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        app:border_color="@color/bg_white"
+        app:border_width="2dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/y_you" />
+
+    <TextView
+        android:id="@+id/tv_qrcode_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="25dp"
+        android:text="李玉海"
+        android:textColor="@color/yellow_text_color"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_user_garde"
+        app:layout_constraintLeft_toRightOf="@+id/iv_qrcode_head"
+        app:layout_constraintTop_toTopOf="@+id/iv_user_garde"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/tv_user_tell"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="16dp"
+        android:text="18361217664"
+        android:textColor="@color/text_color"
+        app:layout_constraintLeft_toRightOf="@+id/iv_qrcode_head"
+        app:layout_constraintTop_toBottomOf="@+id/tv_qrcode_name" />
+
+    <View
+        android:id="@+id/view36"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/bg_grey"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_qrcode_head" />
+
+    <ImageView
+        android:id="@+id/iv_user_garde"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintLeft_toRightOf="@+id/tv_qrcode_name"
+        app:srcCompat="@drawable/circle_level"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="25dp" />
+
+    <ImageView
+        android:id="@+id/iv_qrcode"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="17dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view36"
+        app:srcCompat="@color/bottomBackgroundColor" />
+
+    <TextView
+        android:id="@+id/textView57"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="0dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginTop="17dp"
+        android:background="@color/bg_white"
+        android:text="扫一扫二维码，即可入场"
+        android:textSize="16sp"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_qrcode"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ImageView
+        android:id="@+id/iv_badge"
+        android:layout_width="21dp"
+        android:layout_height="24dp"
+        app:srcCompat="@drawable/circle_doyen"
+        android:layout_marginRight="9dp"
+        app:layout_constraintRight_toRightOf="@+id/iv_qrcode_head"
+        app:layout_constraintTop_toTopOf="@+id/iv_qrcode_head"
+        android:layout_marginTop="45dp" />
+</android.support.constraint.ConstraintLayout>

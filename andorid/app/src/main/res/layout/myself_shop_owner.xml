@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:background="@color/bg_grey"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:background="@color/bg_white"
+        android:id="@+id/textView61"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:text="今日数据"
+        android:textSize="18sp"
+        android:gravity="center"
+        android:textColor="@color/text_color"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="10dp"
+        app:layout_constraintHorizontal_bias="0.0" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="95dp"
+        android:background="@color/bg_white"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView61"
+        android:id="@+id/view39" />
+
+    <TextView
+        android:id="@+id/textView62"
+        android:layout_width="60dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/shop_owner_yellow_shape"
+        android:text="20"
+        android:textColor="@color/bg_white"
+        android:gravity="center"
+        android:textSize="21sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/textView63"
+        app:layout_constraintTop_toBottomOf="@+id/textView61" />
+
+    <TextView
+        android:id="@+id/textView63"
+        android:layout_width="60dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/shop_owner_blue_shap"
+        android:text="120"
+        android:textColor="@color/bg_white"
+        android:gravity="center"
+        android:textSize="21sp"
+        app:layout_constraintLeft_toRightOf="@+id/textView62"
+        app:layout_constraintRight_toLeftOf="@+id/textView64"
+        app:layout_constraintTop_toBottomOf="@+id/textView61" />
+
+    <TextView
+        android:id="@+id/textView64"
+        android:layout_width="60dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/shop_owner_red_shape"
+        android:text="2000"
+        android:gravity="center"
+        android:textColor="@color/bg_white"
+        android:textSize="21sp"
+        app:layout_constraintLeft_toRightOf="@+id/textView63"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView61" />
+
+    <TextView
+        android:id="@+id/textView65"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="今日入场"
+        android:textColor="@color/text_hint_title_color"
+        android:textSize="15sp"
+        app:layout_constraintLeft_toLeftOf="@+id/textView62"
+        app:layout_constraintRight_toRightOf="@+id/textView62"
+        app:layout_constraintTop_toBottomOf="@+id/textView62"
+        app:layout_constraintHorizontal_bias="0.0" />
+
+    <TextView
+        android:id="@+id/textView66"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="今日预约"
+        android:textColor="@color/text_hint_title_color"
+        android:textSize="15sp"
+        app:layout_constraintLeft_toLeftOf="@+id/textView63"
+        app:layout_constraintRight_toRightOf="@+id/textView63"
+        app:layout_constraintTop_toBottomOf="@+id/textView63" />
+
+    <TextView
+        android:id="@+id/textView67"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="今日销售"
+        android:textColor="@color/text_hint_title_color"
+        android:textSize="15sp"
+        app:layout_constraintLeft_toLeftOf="@+id/textView64"
+        app:layout_constraintRight_toRightOf="@+id/textView64"
+        app:layout_constraintTop_toBottomOf="@+id/textView64"
+        app:layout_constraintHorizontal_bias="0.0" />
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/bg_white"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view39"
+        android:id="@+id/rl_shopkeeper_edit">
+
+        <View
+            android:id="@+id/v_left"
+            android:layout_width="15dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:background="@color/colorPrimary"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"/>
+        <ImageView
+            android:id="@+id/iv_shopkeeper_edit"
+            android:layout_toRightOf="@id/v_left"
+            android:layout_marginLeft="15dp"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:src="@drawable/shopkeeper_edit"
+            android:layout_centerVertical="true"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textColor="@color/text_color"
+            android:gravity="center_vertical"
+            android:paddingLeft="15dp"
+            android:text="体测预约"
+            android:textSize="17sp"
+            android:layout_toRightOf="@id/iv_shopkeeper_edit" />
+
+        <ImageView
+            android:layout_width="8dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/buy_right"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_shopkeeper_lesson"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/bg_white"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rl_shopkeeper_edit">
+
+        <View
+            android:id="@+id/v_left2"
+            android:layout_width="15dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/colorPrimary" />
+
+        <ImageView
+            android:id="@+id/iv_shopkeeper_lesson"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:layout_toRightOf="@id/v_left2"
+            android:src="@drawable/shopkeeper_lesson" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@id/iv_shopkeeper_lesson"
+            android:gravity="center_vertical"
+            android:paddingLeft="15dp"
+            android:text="课程预约"
+            android:textColor="@color/text_color"
+            android:textSize="17sp" />
+
+        <ImageView
+            android:layout_width="8dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:src="@drawable/buy_right" />
+    </RelativeLayout>
+
+</android.support.constraint.ConstraintLayout>

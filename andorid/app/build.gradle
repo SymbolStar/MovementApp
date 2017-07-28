@@ -18,6 +18,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+//    在布局中绑定数据 需要补充分析
+    dataBinding {
+        enabled true
+    }
+
 }
 
 dependencies {
@@ -28,6 +33,12 @@ dependencies {
 //    compile 'com.android.support:appcompat-v7:25.3.1'
 //    compile 'com.android.support:design:25.3.1'
 //    compile 'com.android.support:support-vector-drawable:25.3.1'
+
+
+    //  jakewharton annotation plugin
+    compile 'com.jakewharton:butterknife:8.7.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.7.0'
+
     testCompile 'junit:junit:4.12'
     compile project(':sflibrary')
 }

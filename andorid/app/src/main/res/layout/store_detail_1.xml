@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="0dp"
+        android:layout_height="160dp"
+        android:scaleType="fitXY"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:srcCompat="@drawable/store_map1"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="0dp" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical"
+        android:paddingLeft="15dp"
+        android:paddingBottom="10dp"
+        android:background="@color/mdtp_white"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        android:id="@+id/linearLayout">
+
+        <TextView
+            android:paddingTop="10dp"
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="店铺信息"
+            android:textSize="17sp"
+            android:drawablePadding="10dp"
+            android:drawableLeft="@drawable/shop_information" />
+        <TextView
+            android:id="@+id/tv_store_name"
+            android:paddingTop="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="店铺名称 也跑减脂训练营"
+            android:textSize="16sp"/>
+        <TextView
+            android:id="@+id/tv_store_address"
+            android:paddingTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="店铺地址 苏州市高新区运河路47号"
+            android:textSize="16sp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical"
+        android:paddingLeft="15dp"
+        android:paddingBottom="10dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        android:background="@color/mdtp_white">
+
+        <TextView
+            android:paddingTop="10dp"
+            android:id="@+id/tv_store_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="精选推荐"
+            android:textSize="17sp"
+            android:drawablePadding="10dp"
+            android:drawableLeft="@drawable/shop_recommend" />
+
+        <RelativeLayout
+            android:id="@+id/rl_lesson_reservation"
+            android:layout_marginTop="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/iv_reservation_image"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="35dp"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/shop_reservation"/>
+
+            <TextView
+                android:layout_toRightOf="@id/iv_reservation_image"
+                android:paddingLeft="5dp"
+                android:id="@+id/tv_lesson_reservation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="课程预约"
+                android:textSize="16sp" />
+
+           <ImageView
+               android:layout_alignParentRight="true"
+               android:layout_marginRight="15dp"
+               android:layout_width="wrap_content"
+               android:layout_height="16dp"
+               android:src="@drawable/shop_right"/>
+
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

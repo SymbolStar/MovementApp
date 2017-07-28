@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <me.crosswall.lib.coverflow.core.PagerContainer
+        android:id="@+id/pager_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/bg_white">
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/overlap_pager"
+            android:layout_width="250dp"
+            android:layout_height="200dp"
+            android:layout_gravity="center" />
+    </me.crosswall.lib.coverflow.core.PagerContainer>
+
+    <TextView
+        android:id="@+id/tv_text_num"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:text="2/10"
+        android:textSize="16sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"/>
+
+    <TextView
+        android:id="@+id/tv_do_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:text="动作要领，动作要领，动作要领，动作要领，动作要领，动作要领，动作要领，动作要领，"/>
+
+</LinearLayout>

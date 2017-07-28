@@ -1,6 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimary">#fece00</color>
+    <color name="colorPrimaryDark">#fece00</color>
+    <color name="colorAccent">#fece00</color>
+    <!--<color name="colorAccent">#FF4081</color>-->
+
+
+    <color name="bottomBackgroundColor">#1c1a26</color>
+    <color name="bottomTabUnChecked">#cdcdcd</color>
+    <color name="bottomTabChecked">#fece00</color>
+    <color name="warn_hint">#fffcee</color>
+
+
+    <color name="bg_grey">#f2f2f2</color>
+    <color name="grey_line">#ececec</color>
+    <color name="bg_white">#ffffff</color>
+    <color name="text_color">#37343e</color>
+    <color name="text_hint_color">#544f4f</color>
+    <color name="text_hint_title_color">#726d7c</color>
+    <color name="text_red">#ff5b45</color>
+    <color name="bg_circle_detail_grey">#f9f9f9</color>
+    <color name="bg_lesson_text">#fedb81</color>
+    <color name="myself_lesson_status_color">#fedb81</color>
+    <color name="yellow_text_color">#ffcc00</color>
+    <color name="login_text_color">#eeeada</color>
+    <color name="food_text_color">#888888</color>
+
 </resources>
