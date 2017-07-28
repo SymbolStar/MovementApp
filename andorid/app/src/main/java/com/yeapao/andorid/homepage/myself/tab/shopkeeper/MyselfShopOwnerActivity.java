@@ -62,6 +62,7 @@ public class MyselfShopOwnerActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.rl_shopkeeper_edit:
+                PhysicalReservationActivity.start(getContext());
                 break;
             case R.id.rl_shopkeeper_lesson:
                 ShopKeeperLessonReservationActivity.start(getContext());
