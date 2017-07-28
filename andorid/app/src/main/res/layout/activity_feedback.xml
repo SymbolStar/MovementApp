@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    
+    <include layout="@layout/normal_top_bar"/>
+    
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:textSize="16sp"
+        android:background="@color/bg_white"
+        android:gravity="top"
+        android:padding="15dp"
+        android:hint="您宝贵的建议是我们前进的动力！"/>
+
+</LinearLayout>

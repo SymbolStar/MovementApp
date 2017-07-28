@@ -21,6 +21,8 @@ import com.yeapao.andorid.homepage.myself.tab.MyselfOrderActivity;
 import com.yeapao.andorid.homepage.myself.tab.MyselfPostActivity;
 import com.yeapao.andorid.homepage.myself.tab.MyselfReservationActivity;
 import com.yeapao.andorid.homepage.myself.tab.MyselfReservationMessageAdapter;
+import com.yeapao.andorid.homepage.myself.tab.MyselfSettingActivity;
+import com.yeapao.andorid.homepage.myself.tab.MyselfShopOwnerActivity;
 import com.yeapao.andorid.model.UserData;
 
 import butterknife.BindView;
@@ -102,7 +104,8 @@ public class MyselfFragmentView extends Fragment implements MyselfContract.View 
     @OnClick(R.id.iv_myself_setting)
     void onSettingClick(View view) {
         ToastManager.showToast(getContext(),"onClick");
-        LoginActivity.start(getContext());
+//        LoginActivity.start(getContext());
+        MyselfSettingActivity.start(getContext());
     }
 
     @Override
@@ -129,6 +132,9 @@ public class MyselfFragmentView extends Fragment implements MyselfContract.View 
                         MyselfOrderActivity.start(getContext());
                     } else if (name.equals("我的预约")) {
                         MyselfReservationActivity.start(getContext());
+                    } else if (name.equals("我是店长")) {
+                        MyselfShopOwnerActivity.start(getContext());
+
                     }
                 }
             });

@@ -59,6 +59,21 @@
         <activity
             android:name=".homepage.myself.tab.MyselfReservationActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".homepage.myself.tab.MyselfFoodActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".homepage.myself.tab.MyselfSettingActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".homepage.myself.tab.MyselfChangePasswordActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".homepage.myself.tab.MyselfFeedBackActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".homepage.myself.tab.MyselfShopOwnerActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
 
     </application>
 
