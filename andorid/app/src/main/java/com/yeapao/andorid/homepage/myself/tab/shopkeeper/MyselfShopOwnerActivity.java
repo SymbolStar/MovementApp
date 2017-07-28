@@ -1,4 +1,4 @@
-package com.yeapao.andorid.homepage.myself.tab;
+package com.yeapao.andorid.homepage.myself.tab.shopkeeper;
 
 import android.content.Context;
 import android.content.Intent;
@@ -64,6 +64,8 @@ public class MyselfShopOwnerActivity extends BaseActivity {
             case R.id.rl_shopkeeper_edit:
                 break;
             case R.id.rl_shopkeeper_lesson:
+                ShopKeeperLessonReservationActivity.start(getContext());
+
                 break;
         }
     }
