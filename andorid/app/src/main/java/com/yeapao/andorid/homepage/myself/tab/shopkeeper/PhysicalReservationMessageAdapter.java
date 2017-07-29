@@ -56,7 +56,7 @@ public class PhysicalReservationMessageAdapter extends RecyclerView.Adapter<Recy
         return 10;
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         private OnRecyclerViewClickListener listener;
 
@@ -82,6 +82,7 @@ public class PhysicalReservationMessageAdapter extends RecyclerView.Adapter<Recy
         public void onClick(View v) {
             if (listener != null) {
                 listener.OnItemClick(v,getLayoutPosition());
+                PhysicalTestActivity.start(mContext);
             }
         }
     }

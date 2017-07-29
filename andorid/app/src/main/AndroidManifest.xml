@@ -80,6 +80,12 @@
         <activity
             android:name=".homepage.myself.tab.shopkeeper.PhysicalReservationActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".homepage.myself.tab.shopkeeper.PhysicalTestActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".homepage.myself.tab.shopkeeper.PhysicalTestSecondActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
 
 
     </application>
