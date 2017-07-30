@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:id="@+id/cl_second_detail"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textView68"
+        android:layout_width="56dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:text="上 肢 右"
+        android:textColor="@color/text_color"
+        app:layout_constraintBaseline_toBaselineOf="@+id/et_upper_limb_left"
+        app:layout_constraintLeft_toRightOf="@+id/et_upper_limb_right" />
+
+    <TextView
+        android:id="@+id/textView95"
+        android:layout_width="56dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="0dp"
+        android:text="腰       部"
+        android:textColor="@color/text_color"
+        app:layout_constraintBaseline_toBaselineOf="@+id/et_waist"
+        app:layout_constraintLeft_toLeftOf="@+id/textView68" />
+
+    <TextView
+        android:id="@+id/textView96"
+        android:layout_width="56dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="0dp"
+        android:text="下 肢 左"
+        android:textColor="@color/text_color"
+        app:layout_constraintBaseline_toBaselineOf="@+id/et_lower_limb_left"
+        app:layout_constraintLeft_toLeftOf="@+id/textView95" />
+
+    <TextView
+        android:id="@+id/textView98"
+        android:layout_width="56dp"
+        android:layout_height="wrap_content"
+        android:text="下 肢 右"
+        android:textColor="@color/text_color"
+        app:layout_constraintBaseline_toBaselineOf="@+id/et_lower_limb_right"
+        app:layout_constraintLeft_toLeftOf="@+id/textView88" />
+
+    <EditText
+        android:id="@+id/et_lower_limb_right"
+        android:layout_width="100dp"
+        android:layout_height="35dp"
+        android:background="@drawable/physical_content_shape"
+        android:inputType="number"
+        android:paddingLeft="5dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/et_arm"
+        app:layout_constraintLeft_toRightOf="@+id/textView98"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp" />
+
+    <EditText
+        android:id="@+id/et_lower_limb_left"
+        android:layout_width="100dp"
+        android:layout_height="35dp"
+        android:background="@drawable/physical_content_shape"
+        android:inputType="number"
+        android:paddingLeft="5dp"
+        app:layout_constraintTop_toTopOf="@+id/et_lower_limb_right"
+        android:layout_marginTop="0dp"
+        app:layout_constraintLeft_toRightOf="@+id/textView96"
+        android:layout_marginLeft="8dp" />
+
+    <EditText
+        android:id="@+id/et_waist"
+        android:layout_width="100dp"
+        android:layout_height="35dp"
+        android:background="@drawable/physical_content_shape"
+        android:inputType="number"
+        android:paddingLeft="5dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/et_upper_limb_left"
+        app:layout_constraintLeft_toRightOf="@+id/textView95"
+        android:layout_marginLeft="8dp" />
+
+    <TextView
+        android:id="@+id/textView88"
+        android:layout_width="56dp"
+        android:layout_height="wrap_content"
+        android:text="臂       部"
+        android:textColor="@color/text_color"
+        app:layout_constraintBaseline_toBaselineOf="@+id/et_arm"
+        app:layout_constraintLeft_toLeftOf="@+id/textView85" />
+
+    <EditText
+        android:id="@+id/et_arm"
+        android:layout_width="100dp"
+        android:layout_height="35dp"
+        android:background="@drawable/physical_content_shape"
+        android:inputType="number"
+        android:paddingLeft="5dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/et_abdomen"
+        app:layout_constraintLeft_toRightOf="@+id/textView88"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp" />
+
+    <TextView
+        android:id="@+id/textView85"
+        android:layout_width="56dp"
+        android:layout_height="wrap_content"
+        android:text="腹       部"
+        android:textColor="@color/text_color"
+        app:layout_constraintBaseline_toBaselineOf="@+id/et_abdomen"
+        app:layout_constraintLeft_toLeftOf="@+id/textView84" />
+
+    <EditText
+        android:id="@+id/et_abdomen"
+        android:layout_width="100dp"
+        android:layout_height="35dp"
+        android:background="@drawable/physical_content_shape"
+        android:inputType="number"
+        android:paddingLeft="5dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/et_upper_limb_right"
+        app:layout_constraintLeft_toRightOf="@+id/textView85"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp" />
+
+    <TextView
+        android:id="@+id/textView84"
+        android:layout_width="56dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:text=" 上 肢 右"
+        android:textColor="@color/text_color"
+        app:layout_constraintBaseline_toBaselineOf="@+id/et_upper_limb_right"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <EditText
+        android:id="@+id/et_upper_limb_right"
+        android:layout_width="100dp"
+        android:layout_height="35dp"
+        android:background="@drawable/physical_content_shape"
+        android:inputType="number"
+        android:paddingLeft="5dp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="16dp"
+        app:layout_constraintLeft_toRightOf="@+id/textView84"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp" />
+
+    <EditText
+        android:id="@+id/et_upper_limb_left"
+        android:layout_width="100dp"
+        android:layout_height="35dp"
+        android:background="@drawable/physical_content_shape"
+        android:inputType="number"
+        android:paddingLeft="5dp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="16dp"
+        app:layout_constraintLeft_toRightOf="@+id/textView68"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp" />
+
+    <TextView
+        android:id="@+id/textView106"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="cm"
+        android:textColor="@color/text_color"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="@+id/et_upper_limb_right"
+        app:layout_constraintBaseline_toBaselineOf="@+id/et_upper_limb_right" />
+
+    <TextView
+        android:id="@+id/textView105"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="cm"
+        android:textColor="@color/text_color"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="@+id/et_abdomen"
+        app:layout_constraintBaseline_toBaselineOf="@+id/et_abdomen" />
+
+    <TextView
+        android:id="@+id/textView104"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="cm"
+        android:textColor="@color/text_color"
+        android:layout_marginRight="7dp"
+        app:layout_constraintRight_toRightOf="@+id/et_arm"
+        app:layout_constraintBaseline_toBaselineOf="@+id/et_arm" />
+
+    <TextView
+        android:id="@+id/textView103"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="cm"
+        android:textColor="@color/text_color"
+        android:layout_marginRight="7dp"
+        app:layout_constraintRight_toRightOf="@+id/et_lower_limb_right"
+        app:layout_constraintBaseline_toBaselineOf="@+id/et_lower_limb_right" />
+
+    <TextView
+        android:id="@+id/textView102"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="cm"
+        android:textColor="@color/text_color"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="@+id/et_lower_limb_left"
+        app:layout_constraintBaseline_toBaselineOf="@+id/et_lower_limb_left" />
+
+    <TextView
+        android:id="@+id/textView101"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="cm"
+        android:textColor="@color/text_color"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="@+id/et_waist"
+        app:layout_constraintBaseline_toBaselineOf="@+id/et_waist" />
+
+    <TextView
+        android:id="@+id/textView100"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="cm"
+        android:textColor="@color/text_color"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="@+id/et_upper_limb_left"
+        app:layout_constraintBaseline_toBaselineOf="@+id/et_upper_limb_left" />
+</android.support.constraint.ConstraintLayout>

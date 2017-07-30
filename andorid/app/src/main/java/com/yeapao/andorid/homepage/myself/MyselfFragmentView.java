@@ -6,7 +6,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -20,9 +19,8 @@ import com.yeapao.andorid.homepage.myself.tab.MyselfLessonActivity;
 import com.yeapao.andorid.homepage.myself.tab.MyselfOrderActivity;
 import com.yeapao.andorid.homepage.myself.tab.MyselfPostActivity;
 import com.yeapao.andorid.homepage.myself.tab.MyselfReservationActivity;
-import com.yeapao.andorid.homepage.myself.tab.MyselfReservationMessageAdapter;
 import com.yeapao.andorid.homepage.myself.tab.MyselfSettingActivity;
-import com.yeapao.andorid.homepage.myself.tab.MyselfShopOwnerActivity;
+import com.yeapao.andorid.homepage.myself.tab.shopkeeper.MyselfShopOwnerActivity;
 import com.yeapao.andorid.model.UserData;
 
 import butterknife.BindView;

@@ -72,8 +72,21 @@
             android:name=".homepage.myself.tab.MyselfFeedBackActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".homepage.myself.tab.MyselfShopOwnerActivity"
+            android:name=".homepage.myself.tab.shopkeeper.MyselfShopOwnerActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity android:name=".homepage.myself.tab.shopkeeper.ShopKeeperLessonReservationActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".homepage.myself.tab.shopkeeper.PhysicalReservationActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".homepage.myself.tab.shopkeeper.PhysicalTestActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".homepage.myself.tab.shopkeeper.PhysicalTestSecondActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+
 
     </application>
 

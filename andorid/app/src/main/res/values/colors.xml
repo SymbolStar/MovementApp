@@ -26,4 +26,10 @@
     <color name="login_text_color">#eeeada</color>
     <color name="food_text_color">#888888</color>
 
+
+    <color name="indicator_1">#ffcc00</color>
+    <color name="indicator_2">#ffd739</color>
+    <color name="indicator_3">#ffe166</color>
+    <color name="indicator_4">#fff1b9</color>
+
 </resources>
