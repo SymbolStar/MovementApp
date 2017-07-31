@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 import android.widget.TextView;
 
 import com.yeapao.andorid.R;
@@ -17,42 +16,45 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- * Created by fujindong on 2017/7/29.
+ * Created by fujindong on 2017/7/31.
  */
 
-public class PhysicalTestSecondActivity extends BaseActivity {
+public class PhysicalTestForthActivity extends BaseActivity {
 
-    private static final String TAG = "PhysicalTestSecondActivity";
-    @BindView(R.id.rv_physical_second_list)
-    RecyclerView rvPhysicalSecondList;
-    @BindView(R.id.tv_before_club)
-    TextView tvBeforeClub;
-    @BindView(R.id.tv_next_club)
-    TextView tvNextClub;
+    private static final String TAG = "PhysicalTestForthActivity";
+    @BindView(R.id.tv_physical_finish)
+    TextView tvPhysicalFinish;
+    @BindView(R.id.rv_physical_forth_list)
+    RecyclerView rvPhysicalForthList;
 
-    private PhysicalTestSecondMessageAdapter physicalTestMessageAdapter;
+
+    private PhysicalTestForthMessageAdapter physicalTestMessageAdapter;
     private LinearLayoutManager linearLayoutManager;
+
 
     public static void start(Context context) {
         Intent intent = new Intent();
-        intent.setClass(context, PhysicalTestSecondActivity.class);
+        intent.setClass(context, PhysicalTestForthActivity.class);
         context.startActivity(intent);
+
     }
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_physical_second);
+        setContentView(R.layout.activity_physical_forth);
         ButterKnife.bind(this);
         initTopBar();
         initView();
+
     }
+
 
     private void initView() {
         linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        rvPhysicalSecondList.setLayoutManager(linearLayoutManager);
+        rvPhysicalForthList.setLayoutManager(linearLayoutManager);
         getData();
     }
 
@@ -62,11 +64,11 @@ public class PhysicalTestSecondActivity extends BaseActivity {
 
     private void showResult() {
         if (physicalTestMessageAdapter == null) {
-            physicalTestMessageAdapter = new PhysicalTestSecondMessageAdapter(getContext());
-            rvPhysicalSecondList.setAdapter(physicalTestMessageAdapter);
+            physicalTestMessageAdapter = new PhysicalTestForthMessageAdapter(getContext());
+            rvPhysicalForthList.setAdapter(physicalTestMessageAdapter);
 
         } else {
-            rvPhysicalSecondList.setAdapter(physicalTestMessageAdapter);
+            rvPhysicalForthList.setAdapter(physicalTestMessageAdapter);
             physicalTestMessageAdapter.notifyDataSetChanged();
 
         }
@@ -75,9 +77,8 @@ public class PhysicalTestSecondActivity extends BaseActivity {
 
     @Override
     protected void initTopBar() {
-        initTitle("体测第二节（共四节）");
+        initTitle("体测第四节（共四节）");
         initBack();
-
     }
 
     @Override
@@ -85,15 +86,8 @@ public class PhysicalTestSecondActivity extends BaseActivity {
         return this;
     }
 
-    @OnClick({R.id.tv_before_club, R.id.tv_next_club})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.tv_before_club:
-                finish();
-                break;
-            case R.id.tv_next_club:
-                PhysicalTestThirdActivity.start(getContext());
-                break;
-        }
+    @OnClick(R.id.tv_physical_finish)
+    public void onViewClicked() {
+//        TODO 上传数据
     }
 }

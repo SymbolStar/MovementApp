@@ -17,25 +17,26 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- * Created by fujindong on 2017/7/29.
+ * Created by fujindong on 2017/7/30.
  */
 
-public class PhysicalTestSecondActivity extends BaseActivity {
+public class PhysicalTestThirdActivity extends BaseActivity {
 
-    private static final String TAG = "PhysicalTestSecondActivity";
-    @BindView(R.id.rv_physical_second_list)
-    RecyclerView rvPhysicalSecondList;
+    private static final String TAG = "PhysicalTestThirdActivity";
     @BindView(R.id.tv_before_club)
     TextView tvBeforeClub;
     @BindView(R.id.tv_next_club)
     TextView tvNextClub;
+    @BindView(R.id.rv_physical_third_list)
+    RecyclerView rvPhysicalThirdList;
 
-    private PhysicalTestSecondMessageAdapter physicalTestMessageAdapter;
+    private PhysicalTestThirdMessageAdapter physicalTestMessageAdapter;
     private LinearLayoutManager linearLayoutManager;
+
 
     public static void start(Context context) {
         Intent intent = new Intent();
-        intent.setClass(context, PhysicalTestSecondActivity.class);
+        intent.setClass(context, PhysicalTestThirdActivity.class);
         context.startActivity(intent);
     }
 
@@ -43,7 +44,7 @@ public class PhysicalTestSecondActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_physical_second);
+        setContentView(R.layout.activity_physical_third);
         ButterKnife.bind(this);
         initTopBar();
         initView();
@@ -52,7 +53,7 @@ public class PhysicalTestSecondActivity extends BaseActivity {
     private void initView() {
         linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        rvPhysicalSecondList.setLayoutManager(linearLayoutManager);
+        rvPhysicalThirdList.setLayoutManager(linearLayoutManager);
         getData();
     }
 
@@ -62,22 +63,20 @@ public class PhysicalTestSecondActivity extends BaseActivity {
 
     private void showResult() {
         if (physicalTestMessageAdapter == null) {
-            physicalTestMessageAdapter = new PhysicalTestSecondMessageAdapter(getContext());
-            rvPhysicalSecondList.setAdapter(physicalTestMessageAdapter);
+            physicalTestMessageAdapter = new PhysicalTestThirdMessageAdapter(getContext());
+            rvPhysicalThirdList.setAdapter(physicalTestMessageAdapter);
 
         } else {
-            rvPhysicalSecondList.setAdapter(physicalTestMessageAdapter);
+            rvPhysicalThirdList.setAdapter(physicalTestMessageAdapter);
             physicalTestMessageAdapter.notifyDataSetChanged();
 
         }
     }
 
-
     @Override
     protected void initTopBar() {
-        initTitle("体测第二节（共四节）");
+        initTitle("体测第三节（共四节）");
         initBack();
-
     }
 
     @Override
@@ -92,7 +91,8 @@ public class PhysicalTestSecondActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.tv_next_club:
-                PhysicalTestThirdActivity.start(getContext());
+                PhysicalTestForthActivity.start(getContext());
+
                 break;
         }
     }

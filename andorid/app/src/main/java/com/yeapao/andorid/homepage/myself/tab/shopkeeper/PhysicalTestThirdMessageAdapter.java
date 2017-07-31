@@ -22,11 +22,13 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Created by fujindong on 2017/7/29.
+ * Created by fujindong on 2017/7/30.
  */
 
-public class PhysicalTestSecondMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private static final String TAG = "PhysicalTestSecondMessageAdapter";
+public class PhysicalTestThirdMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
+
+    private static final String TAG = "PhysicalTestThirdMessageAdapter";
 
     private Context mContext;
     private LayoutInflater inflater;
@@ -34,7 +36,7 @@ public class PhysicalTestSecondMessageAdapter extends RecyclerView.Adapter<Recyc
     private ConstraintSet constraintSet1 = new ConstraintSet();
 
 
-    public PhysicalTestSecondMessageAdapter(Context context) {
+    public PhysicalTestThirdMessageAdapter(Context context) {
         mContext = context;
         inflater = LayoutInflater.from(context);
 
@@ -44,40 +46,40 @@ public class PhysicalTestSecondMessageAdapter extends RecyclerView.Adapter<Recyc
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new SecondViewHolder(inflater.inflate(R.layout.item_physical_second, parent, false));
+        return new ThirdViewHolder(inflater.inflate(R.layout.item_physical_third, parent, false));
     }
 
     @TargetApi(19)
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
 
-        if (holder instanceof SecondViewHolder) {
+        if (holder instanceof ThirdViewHolder) {
 
             if (position == 0) {
-                ((SecondViewHolder) holder).etUpperLimbRight.requestFocus();
+                ((ThirdViewHolder) holder).etPhysicalThird1.requestFocus();
             }
 
 
-            ((SecondViewHolder) holder).tvPhysicalStatus.setOnClickListener(new View.OnClickListener() {
+            ((ThirdViewHolder) holder).tvPhysicalStatus.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
                     if (Build.VERSION.SDK_INT >= 19) {
-                        TransitionManager.beginDelayedTransition(((SecondViewHolder) holder).clOpenStatus);
+                        TransitionManager.beginDelayedTransition(((ThirdViewHolder) holder).clOpenStatus);
                     }
 
-                    boolean status = ((SecondViewHolder) holder).clSecondDetail.getVisibility() == View.VISIBLE;
+                    boolean status = ((ThirdViewHolder) holder).clThirdDetail.getVisibility() == View.VISIBLE;
 
                     if (status) {
                         LogUtil.e(TAG, "gone");
-                        constraintSet1.clone(((SecondViewHolder) holder).clOpenStatus);
-                        constraintSet1.setVisibility(R.id.cl_second_detail, ConstraintSet.GONE);
-                        constraintSet1.applyTo(((SecondViewHolder) holder).clOpenStatus);
+                        constraintSet1.clone(((ThirdViewHolder) holder).clOpenStatus);
+                        constraintSet1.setVisibility(R.id.cl_third_detail, ConstraintSet.GONE);
+                        constraintSet1.applyTo(((ThirdViewHolder) holder).clOpenStatus);
                     } else {
                         LogUtil.e(TAG, "visible");
-                        constraintSet1.clone(((SecondViewHolder) holder).clOpenStatus);
-                        constraintSet1.setVisibility(R.id.cl_second_detail, ConstraintSet.VISIBLE);
-                        constraintSet1.applyTo(((SecondViewHolder) holder).clOpenStatus);
+                        constraintSet1.clone(((ThirdViewHolder) holder).clOpenStatus);
+                        constraintSet1.setVisibility(R.id.cl_third_detail, ConstraintSet.VISIBLE);
+                        constraintSet1.applyTo(((ThirdViewHolder) holder).clOpenStatus);
                     }
                 }
             });
@@ -96,8 +98,7 @@ public class PhysicalTestSecondMessageAdapter extends RecyclerView.Adapter<Recyc
         return 2;
     }
 
-
-    class SecondViewHolder  extends RecyclerView.ViewHolder{
+    static class ThirdViewHolder  extends RecyclerView.ViewHolder{
         @BindView(R.id.iv_head)
         CircleImageView ivHead;
         @BindView(R.id.tv_account_name)
@@ -106,27 +107,26 @@ public class PhysicalTestSecondMessageAdapter extends RecyclerView.Adapter<Recyc
         TextView tvPhysicalStatus;
         @BindView(R.id.iv_gender)
         ImageView ivGender;
-        @BindView(R.id.et_lower_limb_right)
-        EditText etLowerLimbRight;
-        @BindView(R.id.et_lower_limb_left)
-        EditText etLowerLimbLeft;
-        @BindView(R.id.et_waist)
-        EditText etWaist;
-        @BindView(R.id.et_arm)
-        EditText etArm;
-        @BindView(R.id.et_abdomen)
-        EditText etAbdomen;
-        @BindView(R.id.et_upper_limb_right)
-        EditText etUpperLimbRight;
-        @BindView(R.id.et_upper_limb_left)
-        EditText etUpperLimbLeft;
+        @BindView(R.id.tv_third_first_name)
+        TextView tvThirdFirstName;
+        @BindView(R.id.et_physical_third_6)
+        EditText etPhysicalThird6;
+        @BindView(R.id.et_physical_third_5)
+        EditText etPhysicalThird5;
+        @BindView(R.id.et_physical_third_4)
+        EditText etPhysicalThird4;
+        @BindView(R.id.et_physical_third_3)
+        EditText etPhysicalThird3;
+        @BindView(R.id.et_physical_third_2)
+        EditText etPhysicalThird2;
+        @BindView(R.id.et_physical_third_1)
+        EditText etPhysicalThird1;
         @BindView(R.id.cl_open_status)
         ConstraintLayout clOpenStatus;
-        @BindView(R.id.cl_second_detail)
-        ConstraintLayout clSecondDetail;
+        @BindView(R.id.cl_third_detail)
+        ConstraintLayout clThirdDetail;
 
-
-        SecondViewHolder(View view) {
+        ThirdViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
         }
