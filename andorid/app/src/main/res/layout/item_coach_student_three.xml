@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:background="@color/bg_white"
+    android:layout_marginTop="10dp"
+    android:layout_marginBottom="10dp"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:id="@+id/rl_top"
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:gravity="center"
+            android:paddingLeft="15dp"
+            android:text="迟到"
+            android:textColor="@color/text_color"
+            android:textSize="17sp" />
+        <TextView
+            android:id="@+id/tv_coach_status"
+            android:layout_width="50dp"
+            android:layout_height="25dp"
+            android:background="@drawable/physical_test_shape"
+            android:gravity="center"
+            android:text="收起"
+            android:textSize="14sp"
+            android:textColor="@color/text_color"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+
+            />
+        <TextView
+            android:layout_toLeftOf="@id/tv_coach_status"
+            android:id="@+id/tv_choose_all"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:paddingRight="15dp"
+            android:text="全选"
+            android:textColor="@color/text_color"
+            android:textSize="16sp" />
+
+        <CheckBox
+            android:id="@+id/cb_choose_all"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_toLeftOf="@id/tv_choose_all"
+            android:gravity="center_vertical" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_coach_three_status"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
+        <View
+            android:id="@+id/v_line"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/bg_grey"
+            />
+
+        <android.support.v7.widget.RecyclerView
+            android:layout_below="@id/v_line"
+            android:id="@+id/rv_coach_status_three_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/bg_white"
+            android:fadeScrollbars="true"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:scrollbarFadeDuration="1"
+            android:scrollbars="vertical" />
+    </LinearLayout>
+
+
+
+
+</LinearLayout>

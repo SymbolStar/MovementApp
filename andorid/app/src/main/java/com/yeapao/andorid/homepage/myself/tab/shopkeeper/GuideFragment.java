@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import com.scottfu.sflibrary.recyclerview.OnRecyclerViewClickListener;
 import com.scottfu.sflibrary.util.ToastManager;
 import com.yeapao.andorid.R;
+import com.yeapao.andorid.homepage.myself.tab.coach.CoachLessonActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -80,6 +81,12 @@ public class GuideFragment extends Fragment {
                 @Override
                 public void OnItemClick(View v, int position) {
                     ToastManager.showToast(getContext(), position);
+//                    TODO 需要来的activity进行判断
+                    String activity = getActivity().getClass().getSimpleName();
+                    if (activity.equals("MyselfCoachActivity")) {
+                        CoachLessonActivity.start(getContext());
+                    }
+
                 }
             });
         } else {

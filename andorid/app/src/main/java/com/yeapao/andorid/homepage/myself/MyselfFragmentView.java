@@ -20,6 +20,7 @@ import com.yeapao.andorid.homepage.myself.tab.MyselfOrderActivity;
 import com.yeapao.andorid.homepage.myself.tab.MyselfPostActivity;
 import com.yeapao.andorid.homepage.myself.tab.MyselfReservationActivity;
 import com.yeapao.andorid.homepage.myself.tab.MyselfSettingActivity;
+import com.yeapao.andorid.homepage.myself.tab.coach.MyselfCoachActivity;
 import com.yeapao.andorid.homepage.myself.tab.shopkeeper.MyselfShopOwnerActivity;
 import com.yeapao.andorid.model.UserData;
 
@@ -132,7 +133,8 @@ public class MyselfFragmentView extends Fragment implements MyselfContract.View 
                         MyselfReservationActivity.start(getContext());
                     } else if (name.equals("我是店长")) {
                         MyselfShopOwnerActivity.start(getContext());
-
+                    } else if (name.equals("我是教练")) {
+                        MyselfCoachActivity.start(getContext());
                     }
                 }
             });
