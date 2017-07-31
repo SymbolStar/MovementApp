@@ -14,7 +14,9 @@
         android:layout_height="wrap_content"
         android:id="@+id/guideline5"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.5" />
+        app:layout_constraintGuide_percent="0.5"
+        tools:layout_editor_absoluteY="0dp"
+        tools:layout_editor_absoluteX="192dp" />
 
     <TextView
         android:id="@+id/tv_lesson_reservation_title"
@@ -26,13 +28,12 @@
         android:textSize="17sp"
         android:textColor="@color/text_color"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="16dp" />
 
     <View
         android:layout_width="0dp"
         android:layout_height="1dp"
-        android:layout_marginLeft="0dp"
-        android:layout_marginRight="0dp"
         android:layout_marginTop="10dp"
         android:background="@color/bg_grey"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -50,7 +51,8 @@
         android:textColor="@color/text_hint_title_color"
         android:textSize="16sp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view38" />
+        app:layout_constraintTop_toBottomOf="@+id/view38"
+        android:layout_marginStart="16dp" />
 
     <TextView
         android:id="@+id/textView70"
@@ -62,7 +64,8 @@
         android:textColor="@color/text_hint_title_color"
         android:textSize="16sp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView69" />
+        app:layout_constraintTop_toBottomOf="@+id/textView69"
+        android:layout_marginStart="16dp" />
 
     <TextView
         android:id="@+id/tv_lr_time"
@@ -73,7 +76,8 @@
         android:textColor="@color/text_color"
         android:textSize="16sp"
         app:layout_constraintBaseline_toBaselineOf="@+id/textView69"
-        app:layout_constraintLeft_toRightOf="@+id/textView69" />
+        app:layout_constraintLeft_toRightOf="@+id/textView69"
+        android:layout_marginStart="10dp" />
 
     <TextView
         android:id="@+id/tv_coach"
@@ -84,7 +88,8 @@
         android:textColor="@color/text_color"
         android:textSize="16sp"
         app:layout_constraintBaseline_toBaselineOf="@+id/textView70"
-        app:layout_constraintLeft_toRightOf="@+id/textView70" />
+        app:layout_constraintLeft_toRightOf="@+id/textView70"
+        android:layout_marginStart="10dp" />
 
     <TextView
         android:id="@+id/textView73"
@@ -94,7 +99,8 @@
         android:text="已预约"
         android:textSize="16sp"
         app:layout_constraintBaseline_toBaselineOf="@+id/tv_lr_time"
-        app:layout_constraintLeft_toLeftOf="@+id/guideline5" />
+        app:layout_constraintLeft_toLeftOf="@+id/guideline5"
+        android:layout_marginStart="8dp" />
 
     <TextView
         android:id="@+id/textView74"
@@ -104,7 +110,8 @@
         android:text="店   面"
         android:textSize="16sp"
         app:layout_constraintBaseline_toBaselineOf="@+id/tv_coach"
-        app:layout_constraintLeft_toLeftOf="@+id/guideline5" />
+        app:layout_constraintLeft_toLeftOf="@+id/guideline5"
+        android:layout_marginStart="8dp" />
 
     <TextView
         android:id="@+id/tv_lr_reservation"
@@ -115,16 +122,31 @@
         android:textColor="@color/text_color"
         android:textSize="16sp"
         app:layout_constraintBaseline_toBaselineOf="@+id/textView73"
-        app:layout_constraintLeft_toRightOf="@+id/textView73" />
+        app:layout_constraintLeft_toRightOf="@+id/textView73"
+        android:layout_marginStart="8dp" />
 
     <TextView
         android:id="@+id/tv_lr_location"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="0dp"
         android:text="扬云路店"
         android:textColor="@color/text_color"
         android:textSize="16sp"
         app:layout_constraintBaseline_toBaselineOf="@+id/textView74"
         app:layout_constraintLeft_toLeftOf="@+id/tv_lr_reservation" />
+
+    <TextView
+        android:id="@+id/tv_coach_status"
+        android:layout_width="65dp"
+        android:layout_height="25dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="0dp"
+        android:background="@drawable/coach_yellow_shape"
+        android:gravity="center"
+        android:text="进行中"
+        android:textColor="@color/text_color"
+        app:layout_constraintBottom_toTopOf="@+id/view38"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </android.support.constraint.ConstraintLayout>

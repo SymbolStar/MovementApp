@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/bg_white"
+    android:layout_marginBottom="10dp"
+    android:layout_marginTop="10dp"
+    android:orientation="vertical">
+    <RelativeLayout
+        android:id="@+id/rl_top"
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:gravity="center"
+            android:paddingLeft="15dp"
+            android:text="上课中"
+            android:textColor="@color/text_color"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/tv_coach_status"
+            android:layout_width="50dp"
+            android:layout_height="25dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/physical_test_shape"
+            android:gravity="center"
+            android:text="收起"
+            android:textColor="@color/text_color"
+            android:textSize="14sp"
+
+            />
+
+        <TextView
+            android:id="@+id/tv_choose_all"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_toLeftOf="@id/tv_coach_status"
+            android:gravity="center"
+            android:paddingRight="15dp"
+            android:text="全选"
+            android:textColor="@color/text_color"
+            android:textSize="16sp" />
+
+        <CheckBox
+            android:id="@+id/cb_choose_all"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_toLeftOf="@id/tv_choose_all"
+            android:gravity="center_vertical" />
+    </RelativeLayout>
+
+
+
+    <LinearLayout
+        android:id="@+id/ll_coach_one_status"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <View
+            android:id="@+id/v_line"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/bg_grey" />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_coach_status_one_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/bg_white"
+            android:fadeScrollbars="true"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:scrollbarFadeDuration="1"
+            android:scrollbars="vertical" />
+
+        <View
+            android:id="@+id/v_line_2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/bg_grey" />
+
+        <RelativeLayout
+            android:id="@+id/rl_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_alignParentBottom="true">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:paddingLeft="15dp"
+                android:text="选中2人"
+                android:textColor="@color/text_color"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_student_back"
+                android:layout_width="50dp"
+                android:layout_height="25dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="15dp"
+                android:background="@drawable/coach_button_yellow_shape"
+                android:gravity="center"
+                android:text="早退"
+                android:textColor="@color/colorPrimary" />
+
+        </RelativeLayout>
+    </LinearLayout>
+
+
+
+
+</LinearLayout>

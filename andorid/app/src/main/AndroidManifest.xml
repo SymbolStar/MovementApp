@@ -92,6 +92,15 @@
         <activity
             android:name=".homepage.myself.tab.shopkeeper.PhysicalTestForthActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".homepage.myself.tab.coach.MyselfCoachActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".homepage.myself.tab.coach.CoachLessonActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".homepage.myself.tab.coach.CoachLessonStatusActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
 
 
     </application>

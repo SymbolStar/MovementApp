@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="110dp"
+    android:layout_height="125dp"
+    android:layout_marginBottom="5dp"
+    android:layout_marginTop="5dp"
+    android:background="@drawable/call_name_item_shape_n"
+    android:orientation="vertical">
+
+    <com.scottfu.sflibrary.customview.CircleImageView
+        android:id="@+id/iv_student_head"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/y_you"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:border_color="@color/bg_white"
+        app:border_width="0dp"/>
+
+    <TextView
+        android:id="@+id/tv_student_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:text="张三"
+        android:textColor="@color/text_color"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_student_head"
+        app:layout_constraintLeft_toRightOf="@+id/iv_student_head"
+        app:layout_constraintTop_toTopOf="@+id/iv_student_head" />
+
+    <TextView
+        android:id="@+id/tv_part_one"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="右大臂"
+        android:textColor="@color/text_hint_title_color"
+        android:textSize="12sp"
+        app:layout_constraintRight_toRightOf="@+id/iv_student_head"
+        app:layout_constraintTop_toBottomOf="@+id/iv_student_head"
+        android:layout_marginRight="0dp" />
+
+    <TextView
+        android:id="@+id/tv_part_three"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="左脚"
+        android:textColor="@color/text_hint_title_color"
+        android:textSize="12sp"
+        app:layout_constraintRight_toRightOf="@+id/tv_part_two"
+        app:layout_constraintTop_toBottomOf="@+id/tv_part_two" />
+
+    <TextView
+        android:id="@+id/tv_part_two"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="腹"
+        android:textColor="@color/text_hint_title_color"
+        android:textSize="12sp"
+        app:layout_constraintRight_toRightOf="@+id/tv_part_one"
+        app:layout_constraintTop_toBottomOf="@+id/tv_part_one" />
+
+    <ImageView
+        android:id="@+id/iv_part_one"
+        android:layout_width="13dp"
+        android:layout_height="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_part_one"
+        app:layout_constraintLeft_toRightOf="@+id/tv_part_one"
+        app:layout_constraintTop_toTopOf="@+id/tv_part_one"
+        app:srcCompat="@drawable/couch_pain_one"
+        app:layout_constraintVertical_bias="0.571" />
+
+    <ImageView
+        android:id="@+id/iv_part_two"
+        android:layout_width="26dp"
+        android:layout_height="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_part_two"
+        app:layout_constraintLeft_toRightOf="@+id/tv_part_two"
+        app:layout_constraintTop_toTopOf="@+id/tv_part_two"
+        app:srcCompat="@drawable/couch_pain_two"
+        app:layout_constraintVertical_bias="0.428" />
+
+    <ImageView
+        android:id="@+id/iv_part_three"
+        android:layout_width="40dp"
+        android:layout_height="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_part_three"
+        app:layout_constraintLeft_toRightOf="@+id/tv_part_three"
+        app:layout_constraintTop_toTopOf="@+id/tv_part_three"
+        app:srcCompat="@drawable/couch_pain_three"
+        app:layout_constraintVertical_bias="0.571" />
+
+    <ImageView
+        android:id="@+id/iv_choose_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="0dp"
+        android:layout_marginTop="0dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/coach_choose_n" />
+
+</android.support.constraint.ConstraintLayout>

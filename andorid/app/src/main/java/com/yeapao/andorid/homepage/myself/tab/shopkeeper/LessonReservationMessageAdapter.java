@@ -45,6 +45,23 @@ public class LessonReservationMessageAdapter extends RecyclerView.Adapter<Recycl
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 
+//        TODO 我是教练  课程预约的状态判断 在UI上做相应的操作
+        int status = 1;//课程状态的显示标识位
+        switch (status) {
+            case 1:
+                ((ViewHolder)holder).tvCoachStatus.setText("进行中");
+                ((ViewHolder) holder).tvCoachStatus.setBackgroundDrawable(mContext.getResources().getDrawable(R.drawable.coach_yellow_shape));
+                break;
+            case 2:
+                ((ViewHolder)holder).tvCoachStatus.setText("为开始");
+                ((ViewHolder) holder).tvCoachStatus.setBackgroundDrawable(mContext.getResources().getDrawable(R.drawable.coach_yellow_shape));
+                break;
+            case 3:
+                ((ViewHolder)holder).tvCoachStatus.setText("已结束");
+                ((ViewHolder) holder).tvCoachStatus.setBackgroundDrawable(mContext.getResources().getDrawable(R.drawable.coach_grey_shape));
+                break;
+        }
+
     }
 
     @Override
@@ -66,6 +83,8 @@ public class LessonReservationMessageAdapter extends RecyclerView.Adapter<Recycl
         TextView tvLrReservation;
         @BindView(R.id.tv_lr_location)
         TextView tvLrLocation;
+        @BindView(R.id.tv_coach_status)
+        TextView tvCoachStatus;
 
         ViewHolder(View view, OnRecyclerViewClickListener listener) {
             super(view);
