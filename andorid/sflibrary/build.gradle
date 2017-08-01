@@ -68,8 +68,10 @@ dependencies {
 
 //   Tab viewpager 滑动效果
     compile 'com.github.chenupt.android:multiplemodel:1.1.0@aar'
+//  仿探探滑动
+    compile 'me.yuqirong:cardswipelayout:1.0.0'
 
-//    BGAQRCODE 二维码
+//    BGAQRCODE 二维码 在star 中
     compile 'com.google.zxing:core:3.2.1'
     compile 'cn.bingoogolapple:bga-qrcodecore:1.1.7@aar'
     compile 'cn.bingoogolapple:bga-zxing:1.1.7@aar'

@@ -101,6 +101,12 @@
         <activity
             android:name=".homepage.myself.tab.coach.CoachLessonStatusActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".homepage.myself.tab.food.MyselfFoodV2Activity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".homepage.myself.tab.food.TestActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
 
 
     </application>
