@@ -6,9 +6,13 @@ import android.content.Context;
 import android.media.Image;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -16,6 +20,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.scottfu.sflibrary.util.GlideUtil;
 import com.scottfu.sflibrary.zxing.GenerateQRCode;
@@ -25,13 +30,150 @@ import com.yeapao.andorid.model.UserData;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.ButterKnife;
+import me.yuqirong.cardswipelayout.CardConfig;
+import me.yuqirong.cardswipelayout.CardItemTouchHelperCallback;
+import me.yuqirong.cardswipelayout.CardLayoutManager;
+import me.yuqirong.cardswipelayout.OnSwipeListener;
 
 /**
  * Created by fujindong on 2017/7/20.
  */
 
 public class DialogUtils {
+
+    public static void showCardSwipe(final Context context) {
+
+         List<Integer> listV = new ArrayList<>();
+        listV.add(R.drawable.food1);
+        listV.add(R.drawable.food2);
+        listV.add(R.drawable.food3);
+        listV.add(R.drawable.food4);
+        listV.add(R.drawable.food5);
+
+        AlertDialog dialog = new AlertDialog.Builder(context).create();
+        dialog.show();
+        final RecyclerView recyclerView;
+        View view = LayoutInflater.from(context).inflate(R.layout.dialog_card_swipe, null);
+        recyclerView = (RecyclerView) view.findViewById(R.id.rv_card_list);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(new MyAdapter(context,listV));
+        CardItemTouchHelperCallback cardCallback = new CardItemTouchHelperCallback(recyclerView.getAdapter(), listV);
+        cardCallback.setOnSwipedListener(new OnSwipeListener<Integer>() {
+
+            @Override
+            public void onSwiping(RecyclerView.ViewHolder viewHolder, float ratio, int direction) {
+                MyAdapter.MyViewHolder myHolder = (MyAdapter.MyViewHolder) viewHolder;
+                viewHolder.itemView.setAlpha(1 - Math.abs(ratio) * 0.2f);
+                if (direction == CardConfig.SWIPING_LEFT) {
+                    myHolder.dislikeImageView.setAlpha(Math.abs(ratio));
+                } else if (direction == CardConfig.SWIPING_RIGHT) {
+                    myHolder.likeImageView.setAlpha(Math.abs(ratio));
+                } else {
+                    myHolder.dislikeImageView.setAlpha(0f);
+                    myHolder.likeImageView.setAlpha(0f);
+                }
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, Integer o, int direction) {
+                MyAdapter.MyViewHolder myHolder = (MyAdapter.MyViewHolder) viewHolder;
+                viewHolder.itemView.setAlpha(1f);
+                myHolder.dislikeImageView.setAlpha(0f);
+                myHolder.likeImageView.setAlpha(0f);
+                Toast.makeText(context, direction == CardConfig.SWIPED_LEFT ? "swiped left" : "swiped right", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onSwipedClear() {
+                Toast.makeText(context, "data clear", Toast.LENGTH_SHORT).show();
+                recyclerView.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+//                        initData();
+                        recyclerView.getAdapter().notifyDataSetChanged();
+                    }
+                }, 3000L);
+            }
+
+        });
+        final ItemTouchHelper touchHelper = new ItemTouchHelper(cardCallback);
+        final CardLayoutManager cardLayoutManager = new CardLayoutManager(recyclerView, touchHelper);
+        recyclerView.setLayoutManager(cardLayoutManager);
+        touchHelper.attachToRecyclerView(recyclerView);
+        Window window = dialog.getWindow();
+        window.setContentView(view);
+        WindowManager m = ((Activity) context).getWindowManager();
+        Display display = m.getDefaultDisplay();
+        WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
+        params.width = (int) (display.getWidth() * 1);
+        dialog.getWindow().setAttributes(params);
+
+
+
+    }
+
+
+//    private void initData() {
+//        list.add(R.drawable.img_avatar_01);
+//        list.add(R.drawable.img_avatar_02);
+//        list.add(R.drawable.img_avatar_03);
+//        list.add(R.drawable.img_avatar_04);
+//        list.add(R.drawable.img_avatar_05);
+//        list.add(R.drawable.img_avatar_06);
+//        list.add(R.drawable.img_avatar_07);
+//    }
+
+    private static class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
+        private List<Integer> list = new ArrayList<>();
+        private Context mContext;
+
+
+        public MyAdapter(Context context, List<Integer> list) {
+            this.list = list;
+            mContext = context;
+        }
+
+
+        @Override
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(mContext).inflate(R.layout.dialog_card_item, parent, false);
+            return new MyViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+            ImageView avatarImageView = ((MyViewHolder) holder).avatarImageView;
+            avatarImageView.setImageResource(list.get(position));
+        }
+
+        @Override
+        public int getItemCount() {
+            return list.size();
+        }
+
+        class MyViewHolder extends RecyclerView.ViewHolder {
+
+            ImageView avatarImageView;
+            ImageView likeImageView;
+            ImageView dislikeImageView;
+
+            MyViewHolder(View itemView) {
+                super(itemView);
+                avatarImageView = (ImageView) itemView.findViewById(R.id.iv_avatar);
+                likeImageView = (ImageView) itemView.findViewById(R.id.iv_like);
+                dislikeImageView = (ImageView) itemView.findViewById(R.id.iv_dislike);
+            }
+
+        }
+    }
+
+
+
 
     public static void showQRCode(final Context context, String code, UserData userData) {
         final AlertDialog dialog = new AlertDialog.Builder(context).create();

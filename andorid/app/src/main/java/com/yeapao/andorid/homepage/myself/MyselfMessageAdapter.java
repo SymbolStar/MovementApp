@@ -23,6 +23,7 @@ import com.yeapao.andorid.api.ConstantYeaPao;
 import com.yeapao.andorid.homepage.lesson.LessonMessageAdapter;
 import com.yeapao.andorid.homepage.myself.tab.MyselfClockOutActivity;
 import com.yeapao.andorid.homepage.myself.tab.MyselfFoodActivity;
+import com.yeapao.andorid.homepage.myself.tab.food.MyselfFoodV2Activity;
 import com.yeapao.andorid.model.MyselfTabModel;
 import com.yeapao.andorid.model.UserData;
 import com.yeapao.andorid.util.GlobalDataYepao;
@@ -253,7 +254,8 @@ public class MyselfMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
                     break;
                 case R.id.v_food_click:
                     LogUtil.e(TAG, "food");
-                    MyselfFoodActivity.start(mContext);
+//                    MyselfFoodActivity.start(mContext);
+                    MyselfFoodV2Activity.start(mContext);
                     break;
                 case R.id.v_data_click:
                     LogUtil.e(TAG, "data");
