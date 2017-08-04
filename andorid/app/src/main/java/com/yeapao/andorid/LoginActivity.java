@@ -5,8 +5,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.Selection;
+import android.text.Spannable;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
@@ -49,10 +54,12 @@ public class LoginActivity extends BaseActivity {
     TextView tvRegister;
     @BindView(R.id.tv_froget_password)
     TextView tvFrogetPassword;
-
+    @BindView(R.id.iv_hide_password)
+    ImageView ivHidePassword;
 
     private String phone = null;
     private String password = null;
+    private boolean hidePassword = true;
 
     public static void start(Context context) {
             Intent intent = new Intent();
@@ -60,14 +67,51 @@ public class LoginActivity extends BaseActivity {
             context.startActivity(intent);
     }
 
+    @OnClick(R.id.iv_hide_password)
+    void setIvHidePassword(View view) {
+        ToastManager.showToast(getContext(),"onclick");
+        if (hidePassword) {
+            etPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+        } else {
+            etPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+        }
+        hidePassword = !hidePassword;
+        etPassword.postInvalidate();
+        CharSequence charSequence = etPassword.getText();
+        if (charSequence instanceof Spannable) {
+            Spannable spanText = (Spannable) charSequence;
+            Selection.setSelection(spanText,charSequence.length());
+        }
+    }
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
         initTopBar();
         initView();
+        test();
+
+    }
+
+    private void test() {
+        CloudClient.doHttpRequest(getContext(), ConstantYeaPao.GET_HOME_LIST, NetImpl.getInstance().getHomeData("0"), null, new JSONResultHandler() {
+            @Override
+            public void onSuccess(String jsonString) {
+                LogUtil.e("ffff",jsonString);
+            }
+
+            @Override
+            public void onError(VolleyError errorMessage) {
+
+            }
+        });
+
+
+        CloudClient.getRequest(getContext(),ConstantYeaPao.GET_HOME_LIST);
     }
 
     private void initView() {

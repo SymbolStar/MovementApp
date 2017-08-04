@@ -42,5 +42,8 @@ public class GlobalDataYepao {
         return (UserData) getCache(context).getAsObject(GlobalDataConstant.USER_DATA);
     }
 
+    public static void clearUser(Context context) {
+        getCache(context).remove(GlobalDataConstant.USER_DATA);
+    }
 
 }

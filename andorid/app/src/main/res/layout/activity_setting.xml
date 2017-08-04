@@ -131,6 +131,7 @@
         </LinearLayout>
 
         <TextView
+            android:id="@+id/tv_outLine"
             android:textColor="@color/text_color"
             android:textSize="18sp"
             android:gravity="center"

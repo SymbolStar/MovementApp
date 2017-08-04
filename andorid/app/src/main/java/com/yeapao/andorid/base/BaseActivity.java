@@ -17,6 +17,8 @@ import com.yeapao.andorid.R;
 
 import org.w3c.dom.Text;
 
+import rx.Subscription;
+
 /**
  * Created by fujindong on 2017/7/14.
  */
@@ -32,6 +34,7 @@ public abstract class BaseActivity extends AppCompatActivity{
 
     protected abstract Context getContext();
 
+    protected Subscription subscription;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -40,7 +43,17 @@ public abstract class BaseActivity extends AppCompatActivity{
 //        initTab();
     }
 
+    protected void unsubscribe() {
+        if (subscription != null && !subscription.isUnsubscribed()) {
+            subscription.unsubscribe();
+        }
+    }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unsubscribe();
+    }
 
     private void initTab() {
         ivLeftImage = (ImageView) findViewById(R.id.iv_left);

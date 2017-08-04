@@ -6,9 +6,14 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
+import android.text.Selection;
+import android.text.Spannable;
 import android.text.TextUtils;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
@@ -50,24 +55,45 @@ public class RegisterActivity extends BaseActivity {
     TextView tvGetCode;
     @BindView(R.id.et_input_code)
     EditText etInputCode;
+    @BindView(R.id.iv_hide_password)
+    ImageView ivHidePassword;
 
 
     private Gson gson = new Gson();
     private boolean getVerificationFlag = false;
 
+    private boolean hidePassword = true;
+
+    @OnClick(R.id.iv_hide_password)
+    void setIvHidePassword(View view) {
+        ToastManager.showToast(getContext(),"onclick");
+        if (hidePassword) {
+            etPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+        } else {
+            etPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+        }
+        hidePassword = !hidePassword;
+        etPassword.postInvalidate();
+        CharSequence charSequence = etPassword.getText();
+        if (charSequence instanceof Spannable) {
+            Spannable spanText = (Spannable) charSequence;
+            Selection.setSelection(spanText,charSequence.length());
+        }
+    }
 
     @OnClick(R.id.et_register)
     void setRegister(View view) {
+
         String name = etName.getText().toString();
         String verificationStr = etInputCode.getText().toString();
         String mobile = etPhone.getText().toString();
         String password = etPassword.getText().toString();
         if (TextUtils.isEmpty(name)) {
-            ToastManager.showToast(getContext(),"请输入姓名");
+            ToastManager.showToast(getContext(), "请输入姓名");
             return;
         }
         if (TextUtils.isEmpty(mobile)) {
-            ToastManager.showToast(getContext(),"手机号不能为空");
+            ToastManager.showToast(getContext(), "手机号不能为空");
             return;
         }
         if (TextUtils.isEmpty(verificationStr)) {
@@ -75,15 +101,15 @@ public class RegisterActivity extends BaseActivity {
             return;
         }
         if (TextUtils.isEmpty(password)) {
-            ToastManager.showToast(getContext(),"密码不能为空");
+            ToastManager.showToast(getContext(), "密码不能为空");
             return;
         }
         if (!checkNum(password, "[0-9a-zA-Z]{6,20}")) {
-            ToastManager.showToast(getContext(),"密码须为6-20位字母、数字组合");
+            ToastManager.showToast(getContext(), "密码须为6-20位字母、数字组合");
             return;
         }
 
-        doRegisterRequest(mobile, password, verificationStr,name);
+        doRegisterRequest(mobile, password, verificationStr, name);
     }
 
     private void doRegisterRequest(final String mobile, String password, String verificationStr, String nick) {
@@ -93,6 +119,7 @@ public class RegisterActivity extends BaseActivity {
             @Override
             public void onSuccess(String jsonString) {
                 LogUtil.e(TAG,jsonString);
+                ToastManager.showToast(getContext(),jsonString);
             }
 
             @Override

@@ -133,15 +133,21 @@
         app:layout_constraintTop_toBottomOf="@+id/rb_admin"
         android:id="@+id/view21" />
 
-    <GridView
+    <com.scottfu.sflibrary.view.HeightGirdView
         android:id="@+id/gv_image_list"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:layout_marginTop="8dp"
+        android:horizontalSpacing="8dp"
+        android:numColumns="3"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="8dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view21" />
+
+
 
 </android.support.constraint.ConstraintLayout>

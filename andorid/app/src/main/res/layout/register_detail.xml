@@ -152,7 +152,7 @@
     </RelativeLayout>
 
     <ImageView
-        android:id="@+id/imageView28"
+        android:id="@+id/iv_hide_password"
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:layout_marginBottom="8dp"

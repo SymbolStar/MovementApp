@@ -32,4 +32,6 @@
     <color name="indicator_3">#ffe166</color>
     <color name="indicator_4">#fff1b9</color>
 
+    <color name="account_hint_text">#878372</color>
+
 </resources>

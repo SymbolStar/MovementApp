@@ -6,9 +6,12 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.yeapao.andorid.R;
+import com.yeapao.andorid.api.ConstantYeaPao;
 import com.yeapao.andorid.base.BaseActivity;
+import com.yeapao.andorid.util.GlobalDataYepao;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -25,6 +28,8 @@ public class MyselfSettingActivity extends BaseActivity {
     RelativeLayout rlChangePassword;
     @BindView(R.id.rl_feedback)
     RelativeLayout rlFeedback;
+    @BindView(R.id.tv_outLine)
+    TextView tvOutLine;
 
 
     public static void start(Context context) {
@@ -53,7 +58,7 @@ public class MyselfSettingActivity extends BaseActivity {
         return this;
     }
 
-    @OnClick({R.id.rl_change_password, R.id.rl_feedback})
+    @OnClick({R.id.rl_change_password, R.id.rl_feedback,R.id.tv_outLine})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.rl_change_password:
@@ -62,6 +67,15 @@ public class MyselfSettingActivity extends BaseActivity {
             case R.id.rl_feedback:
                 MyselfFeedBackActivity.start(getContext());
                 break;
+            case R.id.tv_outLine:
+                userOutLine();
+                break;
         }
+    }
+
+    private void userOutLine() {
+//        退出登陆
+        GlobalDataYepao.clearUser(getContext());
+        finish();
     }
 }

@@ -76,7 +76,7 @@ public class MainActivity extends PermissionActivity {
         bind = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
         initView();
-//        permissionCheck();
+        permissionCheck();
 
         fragments = new ArrayList<>(4);
         items = new SparseIntArray(4);
@@ -241,7 +241,10 @@ public class MainActivity extends PermissionActivity {
      */
     private void permissionCheck() {
         requestRuntimePermission(new String[]{Manifest.permission.CALL_PHONE,
-                Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.CAMERA}, new PermissionListener() {
+                Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.CAMERA,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+        Manifest.permission.MANAGE_DOCUMENTS}, new PermissionListener() {
             @Override
             public void onGranted() {
                 Toast.makeText(getContext(), "所有权限已同意", Toast.LENGTH_SHORT).show();

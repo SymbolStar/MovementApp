@@ -1,7 +1,6 @@
 package com.yeapao.andorid.homepage.myself.tab.food;
 
 import android.content.Context;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,7 +56,7 @@ public class ChooseFoodContainerAdapter extends BaseAdapter {
         if (convertView == null) {
             convertView = mInflater.inflate(R.layout.item_choose_food, null);
             viewHolder = new ViewHolder();
-            viewHolder.foodImage = (ImageView) convertView.findViewById(R.id.iv_food);
+            viewHolder.foodImage = (ImageView) convertView.findViewById(R.id.iv_image);
             viewHolder.foodNameTextView = (TextView) convertView.findViewById(R.id.tv_food_name);
             convertView.setTag(viewHolder);
         } else {
