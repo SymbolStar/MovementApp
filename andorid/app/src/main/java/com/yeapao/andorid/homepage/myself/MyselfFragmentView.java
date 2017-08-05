@@ -15,6 +15,7 @@ import com.scottfu.sflibrary.util.LogUtil;
 import com.scottfu.sflibrary.util.ToastManager;
 import com.yeapao.andorid.LoginActivity;
 import com.yeapao.andorid.R;
+import com.yeapao.andorid.homepage.myself.tab.MyselfHealthActivity;
 import com.yeapao.andorid.homepage.myself.tab.MyselfLessonActivity;
 import com.yeapao.andorid.homepage.myself.tab.MyselfOrderActivity;
 import com.yeapao.andorid.homepage.myself.tab.MyselfPostActivity;
@@ -135,6 +136,8 @@ public class MyselfFragmentView extends Fragment implements MyselfContract.View 
                         MyselfShopOwnerActivity.start(getContext());
                     } else if (name.equals("我是教练")) {
                         MyselfCoachActivity.start(getContext());
+                    } else if (name.equals("健康数据库")) {
+                        MyselfHealthActivity.start(getContext());
                     }
                 }
             });

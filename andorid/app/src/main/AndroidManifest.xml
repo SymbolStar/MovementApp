@@ -127,6 +127,9 @@
         <activity
             android:name=".homepage.myself.tab.food.TestActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".homepage.myself.tab.MyselfHealthActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
 
 
     </application>

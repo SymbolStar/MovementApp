@@ -24,8 +24,10 @@ import com.scottfu.sflibrary.util.LogUtil;
 import com.scottfu.sflibrary.util.ToastManager;
 import com.yeapao.andorid.api.ConstantYeaPao;
 import com.yeapao.andorid.api.NetImpl;
+import com.yeapao.andorid.api.Network;
 import com.yeapao.andorid.base.BaseActivity;
 import com.yeapao.andorid.model.RegisterBackModel;
+import com.yeapao.andorid.model.RegisterModel;
 import com.yeapao.andorid.model.ReservationLessonModel;
 import com.yeapao.andorid.util.GlobalDataYepao;
 
@@ -35,6 +37,9 @@ import java.util.regex.Pattern;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by fujindong on 2017/7/24.
@@ -109,8 +114,36 @@ public class RegisterActivity extends BaseActivity {
             return;
         }
 
-        doRegisterRequest(mobile, password, verificationStr, name);
+//        doRegisterRequest(mobile, password, verificationStr, name);
+        login(mobile,password,name,verificationStr);
     }
+
+    private void login(String phone ,String password,String name,String ver) {
+        subscription = Network.getYeapaoApi()
+                .loginAccount(phone,password,name,ver)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(registerModelObserver);
+    }
+
+    Observer<RegisterModel>  registerModelObserver = new Observer<RegisterModel>() {
+        @Override
+        public void onCompleted() {
+
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            ToastManager.showToast(getContext(),e.toString());
+
+        }
+
+        @Override
+        public void onNext(RegisterModel registerModel) {
+                ToastManager.showToast(getContext(),registerModel.getErrmsg());
+        }
+    };
+
 
     private void doRegisterRequest(final String mobile, String password, String verificationStr, String nick) {
 

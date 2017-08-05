@@ -2,6 +2,7 @@ package com.yeapao.andorid.api;
 
 import com.yeapao.andorid.model.BodySideOneModel;
 import com.yeapao.andorid.model.Myfiles;
+import com.yeapao.andorid.model.RegisterModel;
 import com.yeapao.andorid.model.TestData;
 
 import okhttp3.MultipartBody;
@@ -30,6 +31,10 @@ public interface YeapaoApi {
 //    @POST("user/register")
 //    Observable<UserData> loginAccount(@Query("phone") String phone, @Query("password") String password, @Query("name") String name,
 //                                      @Query("verificationCode") String ver);
+
+    @POST("user/register")
+    Observable<RegisterModel> loginAccount(@Query("phone") String phone, @Query("password") String password, @Query("name") String name,
+                                           @Query("verificationCode") String ver);
 
     @Multipart
     @POST("curriculum/saveBodySideOne")
