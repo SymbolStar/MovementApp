@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.scottfu.sflibrary.recyclerview.OnRecyclerViewClickListener;
 import com.yeapao.andorid.R;
+import com.yeapao.andorid.model.BodySideListModel;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -25,14 +26,18 @@ public class PhysicalReservationMessageAdapter extends RecyclerView.Adapter<Recy
 
     private Context mContext;
     private LayoutInflater inflater;
+    private BodySideListModel bodySideListModel;
+
 
     private OnRecyclerViewClickListener mListener;
 
 
-    public PhysicalReservationMessageAdapter(Context context) {
+
+
+    public PhysicalReservationMessageAdapter(Context context, BodySideListModel bodySideListModel) {
         mContext = context;
         inflater = LayoutInflater.from(context);
-
+        this.bodySideListModel = bodySideListModel;
     }
 
 
@@ -43,6 +48,29 @@ public class PhysicalReservationMessageAdapter extends RecyclerView.Adapter<Recy
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        ((ViewHolder)holder).tvPhysicalTime.setText(bodySideListModel.getData().get(position).getStartTime());
+        String name = "";
+        for (int i = 0; i < bodySideListModel.getData().get(position).getBodySideUserOut().size(); i++) {
+            name += bodySideListModel.getData().get(position).getBodySideUserOut().get(i).getUserName();
+            if (bodySideListModel.getData().get(position).getBodySideUserOut().get(i).getIsMember().equals("1")) {
+                name += " (会员)";
+            } else {
+                name += " (非会员)";
+            }
+            if (i == 0) {
+                name += " /";
+            }
+        }
+
+        ((ViewHolder) holder).tvAccountName.setText(name);
+        if (bodySideListModel.getData().get(position).isStatus()) {
+            ((ViewHolder) holder).tvPhysicalProcessing.setText("进行中");
+            ((ViewHolder) holder).tvPhysicalStatus.setText("继续体测");
+        } else {
+            ((ViewHolder) holder).tvPhysicalProcessing.setText("未开始");
+            ((ViewHolder) holder).tvPhysicalStatus.setText("开始体测");
+        }
+
 
     }
 
@@ -53,7 +81,7 @@ public class PhysicalReservationMessageAdapter extends RecyclerView.Adapter<Recy
 
     @Override
     public int getItemCount() {
-        return 10;
+        return bodySideListModel.getData().size();
     }
 
      class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
@@ -82,7 +110,10 @@ public class PhysicalReservationMessageAdapter extends RecyclerView.Adapter<Recy
         public void onClick(View v) {
             if (listener != null) {
                 listener.OnItemClick(v,getLayoutPosition());
-                PhysicalTestActivity.start(mContext);
+                bodySideListModel.getData().get(getLayoutPosition()).setStatus(true);
+                PhysicalTestActivity.start(mContext,bodySideListModel,getLayoutPosition());
+
+
             }
         }
     }

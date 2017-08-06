@@ -15,6 +15,7 @@ import com.scottfu.sflibrary.util.ToastManager;
 import com.yeapao.andorid.R;
 import com.yeapao.andorid.api.Network;
 import com.yeapao.andorid.base.BaseActivity;
+import com.yeapao.andorid.model.BodySideListModel;
 import com.yeapao.andorid.model.BodySideOneModel;
 import com.yeapao.andorid.model.Myfiles;
 import com.yeapao.andorid.model.TestData;
@@ -44,13 +45,20 @@ public class PhysicalTestActivity extends BaseActivity {
     @BindView(R.id.rv_physical_test_list)
     RecyclerView rvPhysicalTestList;
 
+    private BodySideListModel bodySideListModel;
+    private int position;
+
 
     private PhysicalTestMessageAdapter physicalTestMessageAdapter;
     private LinearLayoutManager linearLayoutManager;
 
 
-    public static void start(Context context) {
+    public static void start(Context context, BodySideListModel bodySideListModel,int position) {
         Intent intent = new Intent();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(TAG, bodySideListModel);
+        intent.putExtras(bundle);
+        intent.putExtra("position", position);
         intent.setClass(context, PhysicalTestActivity.class);
         context.startActivity(intent);
     }
@@ -62,12 +70,24 @@ public class PhysicalTestActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);//初始隐藏键盘
         setContentView(R.layout.activity_physical_test);
+        Intent intent = getIntent();
+        bodySideListModel = (BodySideListModel) intent.getSerializableExtra(TAG);
+        position = intent.getIntExtra("position", 0);
+        LogUtil.e(TAG, bodySideListModel.getData().get(0).getStartTime());
         ButterKnife.bind(this);
         initTopBar();
         initView();
 
+        File file = new File("/storage/emulated/0/Android/data/com.yeapao.andorid/files/image/120d25a5-40e1-4e6a-b647-e6efa531f7e2.jpeg");
+
+        RequestBody requesetFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+        MultipartBody.Part part = MultipartBody.Part.createFormData("myfiles", file.getName(), requesetFile);
+        upLoad(requesetFile);
+    }
 
 
+//    测试成功上传图片成功
+    private void uploadImageFile() {
         File file = new File("/storage/emulated/0/Android/data/com.yeapao.andorid/files/image/120d25a5-40e1-4e6a-b647-e6efa531f7e2.jpeg");
 
         RequestBody requesetFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
@@ -75,6 +95,7 @@ public class PhysicalTestActivity extends BaseActivity {
 //        upLoad(requesetFile);
         upLoadMyfile(part);
     }
+
 
     private void initView() {
         linearLayoutManager = new LinearLayoutManager(getContext());
@@ -89,7 +110,7 @@ public class PhysicalTestActivity extends BaseActivity {
 
     private void showResult() {
         if (physicalTestMessageAdapter == null) {
-            physicalTestMessageAdapter = new PhysicalTestMessageAdapter(getContext());
+            physicalTestMessageAdapter = new PhysicalTestMessageAdapter(getContext(),bodySideListModel.getData().get(position).getBodySideUserOut());
             rvPhysicalTestList.setAdapter(physicalTestMessageAdapter);
 
         } else {

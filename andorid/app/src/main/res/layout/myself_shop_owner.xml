@@ -32,7 +32,7 @@
         android:id="@+id/view39" />
 
     <TextView
-        android:id="@+id/textView62"
+        android:id="@+id/tv_admission_num"
         android:layout_width="60dp"
         android:layout_height="50dp"
         android:layout_marginTop="10dp"
@@ -42,11 +42,11 @@
         android:gravity="center"
         android:textSize="21sp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/textView63"
+        app:layout_constraintRight_toLeftOf="@+id/tv_bespeak_num"
         app:layout_constraintTop_toBottomOf="@+id/textView61" />
 
     <TextView
-        android:id="@+id/textView63"
+        android:id="@+id/tv_bespeak_num"
         android:layout_width="60dp"
         android:layout_height="50dp"
         android:layout_marginTop="10dp"
@@ -55,12 +55,12 @@
         android:textColor="@color/bg_white"
         android:gravity="center"
         android:textSize="21sp"
-        app:layout_constraintLeft_toRightOf="@+id/textView62"
-        app:layout_constraintRight_toLeftOf="@+id/textView64"
+        app:layout_constraintLeft_toRightOf="@+id/tv_admission_num"
+        app:layout_constraintRight_toLeftOf="@+id/tv_total_sale_num"
         app:layout_constraintTop_toBottomOf="@+id/textView61" />
 
     <TextView
-        android:id="@+id/textView64"
+        android:id="@+id/tv_total_sale_num"
         android:layout_width="60dp"
         android:layout_height="50dp"
         android:layout_marginTop="10dp"
@@ -69,7 +69,7 @@
         android:gravity="center"
         android:textColor="@color/bg_white"
         android:textSize="21sp"
-        app:layout_constraintLeft_toRightOf="@+id/textView63"
+        app:layout_constraintLeft_toRightOf="@+id/tv_bespeak_num"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView61" />
 
@@ -81,9 +81,9 @@
         android:text="今日入场"
         android:textColor="@color/text_hint_title_color"
         android:textSize="15sp"
-        app:layout_constraintLeft_toLeftOf="@+id/textView62"
-        app:layout_constraintRight_toRightOf="@+id/textView62"
-        app:layout_constraintTop_toBottomOf="@+id/textView62"
+        app:layout_constraintLeft_toLeftOf="@+id/tv_admission_num"
+        app:layout_constraintRight_toRightOf="@+id/tv_admission_num"
+        app:layout_constraintTop_toBottomOf="@+id/tv_admission_num"
         app:layout_constraintHorizontal_bias="0.0" />
 
     <TextView
@@ -94,9 +94,9 @@
         android:text="今日预约"
         android:textColor="@color/text_hint_title_color"
         android:textSize="15sp"
-        app:layout_constraintLeft_toLeftOf="@+id/textView63"
-        app:layout_constraintRight_toRightOf="@+id/textView63"
-        app:layout_constraintTop_toBottomOf="@+id/textView63" />
+        app:layout_constraintLeft_toLeftOf="@+id/tv_bespeak_num"
+        app:layout_constraintRight_toRightOf="@+id/tv_bespeak_num"
+        app:layout_constraintTop_toBottomOf="@+id/tv_bespeak_num" />
 
     <TextView
         android:id="@+id/textView67"
@@ -106,9 +106,9 @@
         android:text="今日销售"
         android:textColor="@color/text_hint_title_color"
         android:textSize="15sp"
-        app:layout_constraintLeft_toLeftOf="@+id/textView64"
-        app:layout_constraintRight_toRightOf="@+id/textView64"
-        app:layout_constraintTop_toBottomOf="@+id/textView64"
+        app:layout_constraintLeft_toLeftOf="@+id/tv_total_sale_num"
+        app:layout_constraintRight_toRightOf="@+id/tv_total_sale_num"
+        app:layout_constraintTop_toBottomOf="@+id/tv_total_sale_num"
         app:layout_constraintHorizontal_bias="0.0" />
 
     <RelativeLayout

@@ -8,9 +8,13 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.scottfu.sflibrary.util.GlideUtil;
 import com.yeapao.andorid.R;
+import com.yeapao.andorid.api.ConstantYeaPao;
+import com.yeapao.andorid.model.FoodInfoModel;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by fujindong on 2017/8/1.
@@ -25,24 +29,24 @@ public class ChooseFoodContainerAdapter extends BaseAdapter {
     private Context mContext;
     private LayoutInflater mInflater;
     private ArrayList<String> mImageArrayList = new ArrayList<>();
+    private List<FoodInfoModel.DataBean.LunchBean> foodList;
 
+    public ChooseFoodContainerAdapter(Context context, List<FoodInfoModel.DataBean.LunchBean> foodInfoModel) {
 
-    public ChooseFoodContainerAdapter(Context context ) {
         mContext = context;
         mInflater = LayoutInflater.from(context);
-        for (int i = 0; i < 4; i++) { // TODO test
-            mImageArrayList.add("food");
-        }
+        foodList = foodInfoModel;
     }
 
     @Override
     public int getCount() {
-        return mImageArrayList.size();
+
+        return foodList.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return mImageArrayList.get(position);
+        return foodList.get(position);
     }
 
     @Override
@@ -63,10 +67,12 @@ public class ChooseFoodContainerAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        viewHolder.foodImage.setImageDrawable(mContext.getResources().getDrawable(R.drawable.food1));
-        viewHolder.foodNameTextView.setText("包子");
-
-
+        GlideUtil glideUtil = new GlideUtil();
+        glideUtil.glideLoadingImage(mContext, ConstantYeaPao.HOST+foodList.get(position).getImage(),
+                R.drawable.food1,viewHolder.foodImage);
+        viewHolder.foodNameTextView.setText(foodList.get(position).getName());
+//        viewHolder.foodImage.setImageDrawable(mContext.getResources().getDrawable(R.drawable.food1));
+//        viewHolder.foodNameTextView.setText("包子");
         return convertView;
     }
 

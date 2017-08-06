@@ -9,12 +9,19 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.scottfu.sflibrary.recyclerview.OnRecyclerViewClickListener;
+import com.scottfu.sflibrary.util.LogUtil;
 import com.scottfu.sflibrary.util.ToastManager;
 import com.yeapao.andorid.R;
+import com.yeapao.andorid.api.Network;
 import com.yeapao.andorid.base.BaseActivity;
+import com.yeapao.andorid.model.BodySideListModel;
+import com.yeapao.andorid.util.GlobalDataYepao;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by fujindong on 2017/7/28.
@@ -56,16 +63,52 @@ public class PhysicalReservationActivity extends BaseActivity {
 
     private void getData() {
 
-        showResult();
+        getNetWork(GlobalDataYepao.getUser(getContext()).getId());
+
+
+
     }
 
-    private void showResult() {
+
+            private void getNetWork(String id) {
+                    LogUtil.e(TAG,id);
+                    subscription = Network.getYeapaoApi()
+                            .getBodySide(id)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe( modelObserver);
+                }
+
+                  Observer<BodySideListModel> modelObserver = new Observer<BodySideListModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        LogUtil.e(TAG,e.toString());
+
+                    }
+
+                    @Override
+                    public void onNext(BodySideListModel model) {
+                        LogUtil.e(TAG, model.getErrmsg());
+                        if (model.getErrmsg().equals("ok")) {
+                            showResult(model);
+                        }
+                    }
+                };
+
+
+    private void showResult(BodySideListModel bodySideListModel) {
         if (reservationMessageAdapter == null) {
-            reservationMessageAdapter = new PhysicalReservationMessageAdapter(getContext());
+            reservationMessageAdapter = new PhysicalReservationMessageAdapter(getContext(),bodySideListModel);
             rvPhysicalList.setAdapter(reservationMessageAdapter);
             reservationMessageAdapter.setOnItemClickListener(new OnRecyclerViewClickListener() {
                 @Override
                 public void OnItemClick(View v, int position) {
+
                     ToastManager.showToast(getContext(), position);
                 }
             });

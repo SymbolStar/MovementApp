@@ -9,18 +9,24 @@ import android.support.v4.app.DialogFragment;
 import com.google.common.collect.Lists;
 import com.scottfu.sflibrary.springindicator.ScrollerViewPager;
 import com.scottfu.sflibrary.springindicator.SpringIndicator;
+import com.scottfu.sflibrary.util.LogUtil;
 import com.scottfu.sflibrary.util.SystemDateUtil;
 import com.yeapao.andorid.R;
+import com.yeapao.andorid.api.Network;
 import com.yeapao.andorid.base.BaseActivity;
 import com.yeapao.andorid.dialog.ChooseFoodDialogFragment;
 import com.yeapao.andorid.homepage.myself.tab.shopkeeper.GuideFragment;
 import com.yeapao.andorid.homepage.myself.tab.shopkeeper.ShopKeeperLessonReservationActivity;
+import com.yeapao.andorid.model.FoodInfoModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import github.chenupt.multiplemodel.viewpager.ModelPagerAdapter;
 import github.chenupt.multiplemodel.viewpager.PagerModelManager;
+import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by fujindong on 2017/8/1.
@@ -50,7 +56,7 @@ public class MyselfFoodV2Activity extends BaseActivity {
         SpringIndicator springIndicator = (SpringIndicator) findViewById(R.id.indicator);
 
         PagerModelManager manager = new PagerModelManager();
-        manager.addCommonFragment(FoodDetailFragment.class, getBgRes(), getTitles());
+        manager.addCommonFragment(FoodDetailFragment.class, SystemDateUtil.getCurrentWeekYMD(), getTitles());
         ModelPagerAdapter adapter = new ModelPagerAdapter(getSupportFragmentManager(), manager);
         viewPager.setAdapter(adapter);
         viewPager.fixScrollSpeed();
@@ -66,10 +72,43 @@ public class MyselfFoodV2Activity extends BaseActivity {
     protected void initTopBar() {
         initTitle("一周食谱");
         initBack();
+        getdata();
+    }
+
+    private void getdata() {
+        getNetWork(SystemDateUtil.getCurrentYYYYMMDD());
     }
 
 
+    private void getNetWork(String date) {
+        LogUtil.e(TAG,date);
+        subscription = Network.getYeapaoApi()
+                .getFoodInfos(date)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe( modelObserver);
+    }
 
+    Observer<FoodInfoModel> modelObserver = new Observer<FoodInfoModel>() {
+        @Override
+        public void onCompleted() {
+
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            LogUtil.e(TAG,e.toString());
+
+        }
+
+        @Override
+        public void onNext(FoodInfoModel model) {
+            LogUtil.e(TAG, model.getErrmsg());
+            if (model.getErrmsg().equals("ok")) {
+
+            }
+        }
+    };
 
     @Override
     protected Context getContext() {

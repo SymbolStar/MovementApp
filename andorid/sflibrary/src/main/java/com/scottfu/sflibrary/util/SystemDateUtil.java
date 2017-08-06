@@ -1,7 +1,10 @@
 package com.scottfu.sflibrary.util;
 
+import android.provider.ContactsContract;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
 /**
  * Created by fujindong on 2017/7/31.
@@ -14,6 +17,20 @@ public class SystemDateUtil {
         SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
          date=sdf.format(new java.util.Date());
         return date;
+    }
+
+    public static ArrayList<String> getCurrentWeekYMD() {
+        ArrayList<String> dateList = new ArrayList<>();
+        String[] weeks = new String[7];
+        try {
+            weeks = WeekToDay.getStringDate(getCurrentYYYYMMDD());
+            for (int i = 0; i < weeks.length; i++) {
+                dateList.add(weeks[i]);
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return dateList;
     }
 
 

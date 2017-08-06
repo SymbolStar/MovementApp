@@ -239,10 +239,7 @@ public class MyselfMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
         View vCardClick;
         @BindView(R.id.v_food_click)
         View vFoodClick;
-        @BindView(R.id.v_data_click)
-        View vDataClick;
-        @BindView(R.id.v_vedio_click)
-        View vVedioClick;
+
 
         DataViewHolder(View view) {
             super(view);
@@ -250,7 +247,7 @@ public class MyselfMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
         }
 
 
-        @OnClick({R.id.v_card_click, R.id.v_food_click, R.id.v_data_click, R.id.v_vedio_click})
+        @OnClick({R.id.v_card_click, R.id.v_food_click})
         public void onViewClicked(View view) {
             switch (view.getId()) {
                 case R.id.v_card_click:
@@ -261,12 +258,6 @@ public class MyselfMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
                     LogUtil.e(TAG, "food");
 //                    MyselfFoodActivity.start(mContext);
                     MyselfFoodV2Activity.start(mContext);
-                    break;
-                case R.id.v_data_click:
-                    LogUtil.e(TAG, "data");
-                    break;
-                case R.id.v_vedio_click:
-                    LogUtil.e(TAG, "video");
                     break;
             }
         }

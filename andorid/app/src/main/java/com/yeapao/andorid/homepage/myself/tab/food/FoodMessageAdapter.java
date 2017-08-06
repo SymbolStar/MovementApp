@@ -16,6 +16,7 @@ import com.scottfu.sflibrary.view.HeightGirdView;
 import com.yeapao.andorid.R;
 import com.yeapao.andorid.dialog.ChooseFoodDialogFragment;
 import com.yeapao.andorid.dialog.DialogUtils;
+import com.yeapao.andorid.model.FoodInfoModel;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -29,14 +30,15 @@ public class FoodMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private Context mContext;
     private LayoutInflater inflater;
     private FragmentManager fragmentManager;
+    private FoodInfoModel foodInfoModel;
 
 
-    public FoodMessageAdapter(Context context, FragmentManager fragmentManager) {
+    public FoodMessageAdapter(Context context, FragmentManager fragmentManager, FoodInfoModel foodInfoModel) {
 
         mContext = context;
         inflater = LayoutInflater.from(context);
-
         this.fragmentManager = fragmentManager;
+        this.foodInfoModel = foodInfoModel;
     }
 
     private static final int MYSELF_FOOD_WEEK = 0;
@@ -58,19 +60,47 @@ public class FoodMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 
         if (holder instanceof MenuViewHolder) {
-            ChooseFoodContainerAdapter foodAdapter = new ChooseFoodContainerAdapter(mContext);
-            ((MenuViewHolder) holder).gvFoodList.setAdapter(foodAdapter);
-            ((MenuViewHolder) holder).gvFoodList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    ToastManager.showToast(mContext,"OnClick");
+            if (position == 0) {
+                ((MenuViewHolder) holder).tvFoodMenu.setText("早餐");
+                ChooseFoodContainerAdapter foodAdapter = new ChooseFoodContainerAdapter(mContext,foodInfoModel.getData().getBreakfast());
+                ((MenuViewHolder) holder).gvFoodList.setAdapter(foodAdapter);
+                ((MenuViewHolder) holder).gvFoodList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        ToastManager.showToast(mContext,"OnClick");
 //                    DialogUtils.showCardSwipe(mContext);
 //                    ChooseFoodDialogFragment dialogFragment = new ChooseFoodDialogFragment();
 //                    dialogFragment.setStyle(DialogFragment.STYLE_NO_FRAME, 0);
 //                    dialogFragment.show(fragmentManager,"dialog");
-                    TestActivity.start(mContext);
-                }
-            });
+                        TestActivity.start(mContext);
+                    }
+                });
+
+            } else if (position == 1) {
+                ((MenuViewHolder) holder).tvFoodMenu.setText("午餐");
+                ChooseFoodContainerAdapter foodAdapter = new ChooseFoodContainerAdapter(mContext,foodInfoModel.getData().getLunch());
+                ((MenuViewHolder) holder).gvFoodList.setAdapter(foodAdapter);
+                ((MenuViewHolder) holder).gvFoodList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        ToastManager.showToast(mContext,"OnClick");
+                        TestActivity.start(mContext);
+                    }
+                });
+
+            } else {
+                ((MenuViewHolder) holder).tvFoodMenu.setText("晚餐");
+                ChooseFoodContainerAdapter foodAdapter = new ChooseFoodContainerAdapter(mContext,foodInfoModel.getData().getDinner());
+                ((MenuViewHolder) holder).gvFoodList.setAdapter(foodAdapter);
+                ((MenuViewHolder) holder).gvFoodList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        ToastManager.showToast(mContext,"OnClick");
+                        TestActivity.start(mContext);
+                    }
+                });
+
+            }
         }
 
 

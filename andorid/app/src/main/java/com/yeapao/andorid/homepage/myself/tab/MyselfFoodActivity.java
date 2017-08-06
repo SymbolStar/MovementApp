@@ -7,11 +7,18 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.scottfu.sflibrary.util.LogUtil;
+import com.scottfu.sflibrary.util.SystemDateUtil;
 import com.yeapao.andorid.R;
+import com.yeapao.andorid.api.Network;
 import com.yeapao.andorid.base.BaseActivity;
+import com.yeapao.andorid.model.FoodInfoModel;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by fujindong on 2017/7/27.
@@ -50,7 +57,8 @@ public class MyselfFoodActivity extends BaseActivity {
     }
 
     private void getData() {
-        showResult();
+
+        getNetWork( SystemDateUtil.getCurrentYYYYMMDD());
     }
 
     private void showResult() {
@@ -63,6 +71,38 @@ public class MyselfFoodActivity extends BaseActivity {
             foodMessageAdapter.notifyDataSetChanged();
         }
     }
+
+
+
+            private void getNetWork(String date) {
+                    LogUtil.e(TAG,date);
+                    subscription = Network.getYeapaoApi()
+                            .getFoodInfos(date)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe( );
+                }
+
+                  Observer<FoodInfoModel> modelObserver = new Observer<FoodInfoModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        LogUtil.e(TAG,e.toString());
+
+                    }
+
+                    @Override
+                    public void onNext(FoodInfoModel model) {
+                        LogUtil.e(TAG, model.getErrmsg());
+                        if (model.getErrmsg().equals("ok")) {
+
+                        }
+                    }
+                };
 
     @Override
     protected void initTopBar() {

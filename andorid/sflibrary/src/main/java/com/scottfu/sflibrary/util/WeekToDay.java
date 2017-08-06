@@ -35,7 +35,7 @@ public class WeekToDay {
 
         if (week == 1) {//如果是周日（老外是从周日开始算一周，所以有点恶心）
             weeks[0] = date;
-            for (int i = 1; i >= 6; i--) {
+            for (int i = 1; i <= 6; i++) {
                 weeks[i] = getFormatDateAdd(getStrToDate(date, format), 1, format);
                 date = weeks[i];
             }

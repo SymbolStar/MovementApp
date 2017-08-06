@@ -14,9 +14,15 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.scottfu.sflibrary.customview.CircleImageView;
+import com.scottfu.sflibrary.util.GlideUtil;
 import com.scottfu.sflibrary.util.LogUtil;
 import com.yeapao.andorid.R;
+import com.yeapao.andorid.api.ConstantYeaPao;
+import com.yeapao.andorid.model.BodySideListModel;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,12 +42,15 @@ public class PhysicalTestMessageAdapter extends RecyclerView.Adapter<RecyclerVie
     private ConstraintSet constraintSet2 = new ConstraintSet();
 
 
+    private List<BodySideListModel.DataBean.BodySideUserOutBean> bodySideUserOutBeenList;
+
     private boolean flag = false;
 
-    public PhysicalTestMessageAdapter(Context context) {
+    public PhysicalTestMessageAdapter(Context context, List<BodySideListModel.DataBean.BodySideUserOutBean> bodySideUserOutBeen) {
+
         mContext = context;
         inflater = LayoutInflater.from(context);
-
+        this.bodySideUserOutBeenList = bodySideUserOutBeen;
 
     }
 
@@ -59,6 +68,13 @@ public class PhysicalTestMessageAdapter extends RecyclerView.Adapter<RecyclerVie
             if (position == 0) {
                 ((OpenViewHolder) holder).etHeart.requestFocus();
             }
+
+            GlideUtil glideUtil = new GlideUtil();
+            glideUtil.glideLoadingImage(mContext, ConstantYeaPao.HOST + bodySideUserOutBeenList.get(position).getHead(),
+                    R.drawable.y_you, ((OpenViewHolder) holder).ivHead);
+
+            ((OpenViewHolder) holder).tvAccountName.setText(bodySideUserOutBeenList.get(position).getUserName());
+
 
             ((OpenViewHolder) holder).tvPhysicalStatus.setOnClickListener(new View.OnClickListener() {
                 @Override

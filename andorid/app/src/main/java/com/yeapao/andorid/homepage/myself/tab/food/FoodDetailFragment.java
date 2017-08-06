@@ -9,11 +9,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.scottfu.sflibrary.util.LogUtil;
+import com.scottfu.sflibrary.util.ToastManager;
 import com.yeapao.andorid.R;
+import com.yeapao.andorid.api.Network;
+import com.yeapao.andorid.model.FoodInfoModel;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import rx.Observer;
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by fujindong on 2017/8/1.
@@ -25,17 +33,23 @@ public class FoodDetailFragment extends Fragment {
     @BindView(R.id.rv_food_detial_list)
     RecyclerView rvFoodDetialList;
     Unbinder unbinder;
-    private int bgRes;//get background res
+    private String bgRes;//get background res
 
     private FoodMessageAdapter messageAdapter;
 
+    protected Subscription subscription;
 
-
+    protected void unsubscribe() {
+        if (subscription != null && !subscription.isUnsubscribed()) {
+            subscription.unsubscribe();
+        }
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        bgRes = getArguments().getInt("data");//get background res
+        bgRes = getArguments().getString("data");//get background res
+        ToastManager.showToast(getContext(),bgRes);
     }
 
     @Nullable
@@ -59,12 +73,12 @@ public class FoodDetailFragment extends Fragment {
     }
 
     private void getData() {
-        showResult();
+        getNetWork(bgRes);
     }
 
-    private void showResult() {
+    private void showResult(FoodInfoModel model) {
         if (messageAdapter == null) {
-            messageAdapter = new FoodMessageAdapter(getContext(),getFragmentManager());
+            messageAdapter = new FoodMessageAdapter(getContext(),getFragmentManager(),model);
             rvFoodDetialList.setAdapter(messageAdapter);
 
         } else {
@@ -74,9 +88,42 @@ public class FoodDetailFragment extends Fragment {
         }
     }
 
+    private void getNetWork(String date) {
+        LogUtil.e(bgRes,date);
+        subscription = Network.getYeapaoApi()
+                .getFoodInfos(date)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe( modelObserver);
+    }
+
+    Observer<FoodInfoModel> modelObserver = new Observer<FoodInfoModel>() {
+        @Override
+        public void onCompleted() {
+
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            LogUtil.e(bgRes,e.toString());
+
+        }
+
+        @Override
+        public void onNext(FoodInfoModel model) {
+            LogUtil.e(bgRes, model.getErrmsg());
+            if (model.getErrmsg().equals("ok")) {
+                showResult(model);
+            }
+        }
+    };
+
+
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        unsubscribe();
     }
 
 
