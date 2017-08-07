@@ -245,6 +245,7 @@
             android:layout_width="75dp"
             android:layout_height="75dp"
             android:layout_marginTop="20dp"
+            android:scaleType="fitXY"
             app:layout_constraintTop_toBottomOf="@+id/et_weight"
             app:srcCompat="@drawable/first_step_img"
             android:layout_marginStart="8dp"

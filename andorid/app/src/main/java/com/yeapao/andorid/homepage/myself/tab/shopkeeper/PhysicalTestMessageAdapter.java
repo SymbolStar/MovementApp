@@ -2,11 +2,14 @@ package com.yeapao.andorid.homepage.myself.tab.shopkeeper;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
-import android.support.constraint.solver.ArrayRow;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.transition.TransitionManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,14 +18,19 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.scottfu.sflibrary.customview.CircleImageView;
+import com.scottfu.sflibrary.recyclerview.OnRecyclerViewClickListener;
 import com.scottfu.sflibrary.util.GlideUtil;
 import com.scottfu.sflibrary.util.LogUtil;
 import com.yeapao.andorid.R;
 import com.yeapao.andorid.api.ConstantYeaPao;
 import com.yeapao.andorid.model.BodySideListModel;
+import com.yeapao.andorid.model.BodySideOneData;
+import com.yeapao.andorid.model.BodySideOneGetModel;
+import com.yeapao.andorid.model.HomeList;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,12 +50,48 @@ public class PhysicalTestMessageAdapter extends RecyclerView.Adapter<RecyclerVie
 
     private ConstraintSet constraintSet1 = new ConstraintSet();
 
-    private ArrayList<BodySideListModel> listModels = new ArrayList<>();
+    private ArrayList<BodySideOneData> listModels = new ArrayList<>();
+
+    private OnRecyclerViewClickListener mListener;
+
+    private PhysicalImageListener physicalImageListener;
 
 
     private List<BodySideListModel.DataBean.BodySideUserOutBean> bodySideUserOutBeenList;
 
+    private List<BodySideOneGetModel.DataBean> bodyGetLists = new ArrayList<>();
+
     private boolean flag = false;
+
+    private boolean updateStatus = false;
+
+    private boolean haveData = false;
+
+    public PhysicalTestMessageAdapter(Context context, List<BodySideOneGetModel.DataBean> bodyGetDataLists ,List<BodySideListModel.DataBean.BodySideUserOutBean> bodySideUserOutBeen) {
+        haveData = true;
+        mContext = context;
+        inflater = LayoutInflater.from(context);
+        bodyGetLists = bodyGetDataLists;
+        this.bodySideUserOutBeenList = bodySideUserOutBeen;
+
+        for (int i = 0; i < bodyGetDataLists.size(); i++) {
+            BodySideOneData oneData = new BodySideOneData();
+            oneData.setQuietHeartRate(bodyGetDataLists.get(i).getQuietHeartRate());
+            oneData.setCustomerId(String.valueOf(bodyGetDataLists.get(i).getCustomerId()));
+            oneData.setBodySideOne(String.valueOf(bodyGetDataLists.get(i).getBodySideOneId()));
+            String[] blood = bodyGetDataLists.get(i).getBloodPressure().split("_");
+            oneData.setBlowPressure(blood[0]);
+            oneData.setHighPressure(blood[1]);
+            oneData.setHeights(bodyGetDataLists.get(i).getHeight());
+            oneData.setWeight(bodyGetDataLists.get(i).getWeight());
+            oneData.setInBody(bodyGetDataLists.get(i).getInBody());
+            listModels.add(oneData);
+
+        }
+
+
+    }
+
 
     public PhysicalTestMessageAdapter(Context context, List<BodySideListModel.DataBean.BodySideUserOutBean> bodySideUserOutBeen) {
 
@@ -55,24 +99,64 @@ public class PhysicalTestMessageAdapter extends RecyclerView.Adapter<RecyclerVie
         inflater = LayoutInflater.from(context);
         this.bodySideUserOutBeenList = bodySideUserOutBeen;
 
+        for (int i = 0; i < 2; i++) {
+            BodySideOneData oneData = new BodySideOneData();
+            oneData.setQuietHeartRate("0");
+            oneData.setBloodPressure("0");
+            oneData.setHeights("0");
+            oneData.setWeight("0");
+            oneData.setInBody("0");
+            oneData.setScheduled("0");
+            oneData.setCustomerId("0");
+            oneData.setBodySideOne("0");
+            oneData.setBlowPressure("0");
+            oneData.setHighPressure("0");
+            oneData.setImageFile(null);
+            oneData.setCustomerId(String.valueOf(bodySideUserOutBeenList.get(i).getCustomerId()));
+            listModels.add(oneData);
+        }
+
+    }
+
+    public void setPhysicalImageListener(PhysicalImageListener listener) {
+        if (listener != null) {
+            physicalImageListener = listener;
+        }
     }
 
 
+    public void refreshImage(int position,File imageFile) {
+        listModels.get(position).setImageFile(imageFile);
+        notifyDataSetChanged();
+    }
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new OpenViewHolder(inflater.inflate(R.layout.item_physical_first, parent, false));
+        return new OpenViewHolder(inflater.inflate(R.layout.item_physical_first, parent, false),physicalImageListener);
     }
 
     @TargetApi(19)
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
-
+        GlideUtil glideUtil = new GlideUtil();
         if (holder instanceof OpenViewHolder) {
+
+            if (haveData) {
+                ((OpenViewHolder) holder).etHeart.setText(bodyGetLists.get(position).getQuietHeartRate());
+                ((OpenViewHolder) holder).etHigh.setText(bodyGetLists.get(position).getHeight());
+                ((OpenViewHolder) holder).etWeight.setText(bodyGetLists.get(position).getWeight());
+                ((OpenViewHolder) holder).etInbody.setText(bodyGetLists.get(position).getInBody());
+                String[] bloods = bodyGetLists.get(position).getBloodPressure().split("_");
+                ((OpenViewHolder) holder).etBlowPressure.setText(bloods[0]);
+                ((OpenViewHolder) holder).etHighPressure.setText(bloods[1]);
+                glideUtil.glideLoadingImage(mContext,ConstantYeaPao.HOST+bodyGetLists.get(position).getPresentation(),R.drawable.first_step_img,((OpenViewHolder) holder).ivTakePhoto);
+            }
+
             if (position == 0) {
                 ((OpenViewHolder) holder).etHeart.requestFocus();
             }
 
-            GlideUtil glideUtil = new GlideUtil();
+
             glideUtil.glideLoadingImage(mContext, ConstantYeaPao.HOST + bodySideUserOutBeenList.get(position).getHead(),
                     R.drawable.y_you, ((OpenViewHolder) holder).ivHead);
 
@@ -105,7 +189,24 @@ public class PhysicalTestMessageAdapter extends RecyclerView.Adapter<RecyclerVie
                 }
             });
 
+            if (listModels.get(position).getImageFile() != null) {
+                try {
+                    FileInputStream fis = new FileInputStream(listModels.get(position).getImageFile());
+                    ((OpenViewHolder) holder).ivTakePhoto.setImageBitmap(BitmapFactory.decodeStream(fis));
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+
         }
+
+    }
+
+
+    public List<BodySideOneData> getUserData() {
+            LogUtil.e(TAG,"get");
+            return listModels;
+
     }
 
 
@@ -121,6 +222,7 @@ public class PhysicalTestMessageAdapter extends RecyclerView.Adapter<RecyclerVie
 
     class OpenViewHolder extends RecyclerView.ViewHolder {
 
+        private PhysicalImageListener listener;
 
         @BindView(R.id.cl_detail)
         ConstraintLayout clDetail;
@@ -149,12 +251,126 @@ public class PhysicalTestMessageAdapter extends RecyclerView.Adapter<RecyclerVie
         @BindView(R.id.iv_take_photo)
         ImageView ivTakePhoto;
 
-        OpenViewHolder(View view) {
+        OpenViewHolder(View view,PhysicalImageListener listener) {
+
             super(view);
             ButterKnife.bind(this, view);
+            initView();
+            this.listener = listener;
 
         }
 
+        private void initView() {
+            etHeart.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    LogUtil.e("afterTextChanged",s.toString());
+                    listModels.get(getLayoutPosition()).setQuietHeartRate(s.toString());
+                }
+            });
+            etHigh.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    listModels.get(getLayoutPosition()).setHeights(s.toString());
+                }
+            });
+            etWeight.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    listModels.get(getLayoutPosition()).setWeight(s.toString());
+
+                }
+            });
+            etBlowPressure.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    listModels.get(getLayoutPosition()).setBlowPressure(s.toString());
+
+                }
+            });
+            etHighPressure.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    listModels.get(getLayoutPosition()).setHighPressure(s.toString());
+                }
+            });
+            etInbody.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    listModels.get(getLayoutPosition()).setInBody(s.toString());
+
+                }
+            });
+            ivTakePhoto.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.takePhoto(getLayoutPosition());
+                }
+            });
+        }
+
+
     }
+
 
 }

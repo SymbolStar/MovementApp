@@ -1,6 +1,7 @@
 package com.yeapao.andorid.api;
 
 import com.yeapao.andorid.model.BodySideListModel;
+import com.yeapao.andorid.model.BodySideOneGetModel;
 import com.yeapao.andorid.model.BodySideOneModel;
 import com.yeapao.andorid.model.FoodInfoModel;
 import com.yeapao.andorid.model.IsAmShopModel;
@@ -47,6 +48,7 @@ public interface YeapaoApi {
                                             @Query("weight") String weight, @Query("inBody") String inbody, @Query("scheduleId") String sid,
                                             @Query("customerId") String cid, @Query("bodySideOne") String bid, @Part("files\";filename=\"image.jpeg") RequestBody file);
 
+
     //   上传图片单张
     @Multipart
     @POST("user/filesUpload")
@@ -67,5 +69,10 @@ public interface YeapaoApi {
     //    食谱
     @POST("cookbook/infos")
     Observable<FoodInfoModel> getFoodInfos(@Query("dateStr") String date);
+
+
+    //    体测第一节返回数据
+    @POST("curriculum/selectBodySideOne")
+    Observable<BodySideOneGetModel> getBodySideOne(@Query("scheduleId") String id);
 
 }

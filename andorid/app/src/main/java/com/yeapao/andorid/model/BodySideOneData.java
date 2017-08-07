@@ -1,8 +1,10 @@
 package com.yeapao.andorid.model;
 
+import java.io.File;
+
 /**
  * Created by fujindong on 2017/8/7.
- * 体测数据one 上传数据使用
+ * 体测数据one 上传数据
  */
 
 public class BodySideOneData {
@@ -14,6 +16,34 @@ public class BodySideOneData {
     private String scheduled;
     private String customerId;
     private String bodySideOne;
+    private String blowPressure;
+    private String highPressure;
+    private File imageFile;
+
+
+    public File getImageFile() {
+        return imageFile;
+    }
+
+    public void setImageFile(File imageFile) {
+        this.imageFile = imageFile;
+    }
+
+    public String getBlowPressure() {
+        return blowPressure;
+    }
+
+    public void setBlowPressure(String blowPressure) {
+        this.blowPressure = blowPressure;
+    }
+
+    public String getHighPressure() {
+        return highPressure;
+    }
+
+    public void setHighPressure(String highPressure) {
+        this.highPressure = highPressure;
+    }
 
     public String getQuietHeartRate() {
         return quietHeartRate;

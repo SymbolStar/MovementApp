@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.scottfu.sflibrary.recyclerview.OnRecyclerViewClickListener;
+import com.scottfu.sflibrary.util.LogUtil;
 import com.yeapao.andorid.R;
 import com.yeapao.andorid.model.BodySideListModel;
 
@@ -63,12 +64,23 @@ public class PhysicalReservationMessageAdapter extends RecyclerView.Adapter<Recy
         }
 
         ((ViewHolder) holder).tvAccountName.setText(name);
-        if (bodySideListModel.getData().get(position).isStatus()) {
-            ((ViewHolder) holder).tvPhysicalProcessing.setText("进行中");
-            ((ViewHolder) holder).tvPhysicalStatus.setText("继续体测");
-        } else {
+
+
+        LogUtil.e(TAG+"----step",bodySideListModel.getData().get(position).getStep());
+
+        if (bodySideListModel.getData().get(position).getStep().equals("0")) {
             ((ViewHolder) holder).tvPhysicalProcessing.setText("未开始");
             ((ViewHolder) holder).tvPhysicalStatus.setText("开始体测");
+            ((ViewHolder) holder).tvPhysicalStatus.setBackgroundDrawable(mContext.getResources().getDrawable(R.drawable.physical_shape));
+
+        } else if (bodySideListModel.getData().get(position).getStep().equals("4")) {
+            ((ViewHolder) holder).tvPhysicalProcessing.setText("已结束");
+            ((ViewHolder) holder).tvPhysicalStatus.setText("体测结束");
+            ((ViewHolder) holder).tvPhysicalStatus.setBackgroundDrawable(mContext.getResources().getDrawable(R.drawable.physical_shape_n));
+        } else {
+            ((ViewHolder) holder).tvPhysicalProcessing.setText("进行中");
+            ((ViewHolder) holder).tvPhysicalStatus.setText("继续体测");
+            ((ViewHolder) holder).tvPhysicalStatus.setBackgroundDrawable(mContext.getResources().getDrawable(R.drawable.physical_shape));
         }
 
 
@@ -112,7 +124,6 @@ public class PhysicalReservationMessageAdapter extends RecyclerView.Adapter<Recy
                 listener.OnItemClick(v,getLayoutPosition());
                 bodySideListModel.getData().get(getLayoutPosition()).setStatus(true);
                 PhysicalTestActivity.start(mContext,bodySideListModel,getLayoutPosition());
-
 
             }
         }
