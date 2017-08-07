@@ -43,7 +43,7 @@ public interface YeapaoApi {
     //    体测第一节
     @Multipart
     @POST("curriculum/saveBodySideOne")
-    Observable<BodySideOneModel> uploadFile(@Query("quietHeartRate") String rate, @Query("bloodPressure") String blood, @Query("height") String height,
+    Observable<BodySideOneModel> uploadFile(@Query("quietHeartRate") String rate, @Query("bloodPressure") String blood, @Query("heights") String height,
                                             @Query("weight") String weight, @Query("inBody") String inbody, @Query("scheduleId") String sid,
                                             @Query("customerId") String cid, @Query("bodySideOne") String bid, @Part("files\";filename=\"image.jpeg") RequestBody file);
 

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Build;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
+import android.support.constraint.solver.ArrayRow;
 import android.support.v7.widget.RecyclerView;
 import android.transition.TransitionManager;
 import android.view.LayoutInflater;
@@ -22,6 +23,7 @@ import com.yeapao.andorid.R;
 import com.yeapao.andorid.api.ConstantYeaPao;
 import com.yeapao.andorid.model.BodySideListModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -39,7 +41,8 @@ public class PhysicalTestMessageAdapter extends RecyclerView.Adapter<RecyclerVie
     private LayoutInflater inflater;
 
     private ConstraintSet constraintSet1 = new ConstraintSet();
-    private ConstraintSet constraintSet2 = new ConstraintSet();
+
+    private ArrayList<BodySideListModel> listModels = new ArrayList<>();
 
 
     private List<BodySideListModel.DataBean.BodySideUserOutBean> bodySideUserOutBeenList;

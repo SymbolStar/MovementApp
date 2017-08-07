@@ -53,7 +53,7 @@ public class PhysicalTestActivity extends BaseActivity {
     private LinearLayoutManager linearLayoutManager;
 
 
-    public static void start(Context context, BodySideListModel bodySideListModel,int position) {
+    public static void start(Context context, BodySideListModel bodySideListModel, int position) {
         Intent intent = new Intent();
         Bundle bundle = new Bundle();
         bundle.putSerializable(TAG, bodySideListModel);
@@ -62,7 +62,6 @@ public class PhysicalTestActivity extends BaseActivity {
         intent.setClass(context, PhysicalTestActivity.class);
         context.startActivity(intent);
     }
-
 
 
     @Override
@@ -78,15 +77,19 @@ public class PhysicalTestActivity extends BaseActivity {
         initTopBar();
         initView();
 
-        File file = new File("/storage/emulated/0/Android/data/com.yeapao.andorid/files/image/120d25a5-40e1-4e6a-b647-e6efa531f7e2.jpeg");
 
-        RequestBody requesetFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
-        MultipartBody.Part part = MultipartBody.Part.createFormData("myfiles", file.getName(), requesetFile);
-        upLoad(requesetFile);
     }
 
 
-//    测试成功上传图片成功
+//    上传多张图片测试成功
+//File file = new File("/storage/emulated/0/Android/data/com.yeapao.andorid/files/image/1a67a7c0-5f7f-40bf-9260-2f9aadf04872.jpg");
+//
+//    RequestBody requesetFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+//    MultipartBody.Part part = MultipartBody.Part.createFormData("myfiles", file.getName(), requesetFile);
+//    upLoad(requesetFile);
+
+
+    //    测试成功上传图片成功
     private void uploadImageFile() {
         File file = new File("/storage/emulated/0/Android/data/com.yeapao.andorid/files/image/120d25a5-40e1-4e6a-b647-e6efa531f7e2.jpeg");
 
@@ -110,7 +113,7 @@ public class PhysicalTestActivity extends BaseActivity {
 
     private void showResult() {
         if (physicalTestMessageAdapter == null) {
-            physicalTestMessageAdapter = new PhysicalTestMessageAdapter(getContext(),bodySideListModel.getData().get(position).getBodySideUserOut());
+            physicalTestMessageAdapter = new PhysicalTestMessageAdapter(getContext(), bodySideListModel.getData().get(position).getBodySideUserOut());
             rvPhysicalTestList.setAdapter(physicalTestMessageAdapter);
 
         } else {
@@ -122,13 +125,15 @@ public class PhysicalTestActivity extends BaseActivity {
 
 
     private void upLoad(RequestBody file) {
+        LogUtil.e(TAG, "upload");
         subscription = Network.getYeapaoApi()
-                .uploadFile("100","100-150","174","55","111","1","1","0",file)
+                .uploadFile("100", "100-150", "174", "55", "111", "1", "1", "0", file)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(testDataObserver);
 
     }
+
     private void upLoadMyfile(MultipartBody.Part file) {
         subscription = Network.getYeapaoApi()
                 .myFiles(file)
@@ -141,17 +146,17 @@ public class PhysicalTestActivity extends BaseActivity {
     Observer<Myfiles> myfilesObserver = new Observer<Myfiles>() {
         @Override
         public void onCompleted() {
-            LogUtil.e("Body","Completed");
+            LogUtil.e("Body", "Completed");
         }
 
         @Override
         public void onError(Throwable e) {
-            LogUtil.e("Body",e.toString());
+            LogUtil.e("Body", e.toString());
         }
 
         @Override
         public void onNext(Myfiles myfiles) {
-            LogUtil.e("Body",myfiles.getErrmsg());
+            LogUtil.e("Body", myfiles.getErrmsg());
         }
     };
 
@@ -159,18 +164,18 @@ public class PhysicalTestActivity extends BaseActivity {
     Observer<BodySideOneModel> testDataObserver = new Observer<BodySideOneModel>() {
         @Override
         public void onCompleted() {
-            LogUtil.e("Body","Completed");
+            LogUtil.e("Body", "Completed");
         }
 
         @Override
         public void onError(Throwable e) {
-            LogUtil.e("Body",e.toString());
+            LogUtil.e("Body", e.toString());
 
         }
 
         @Override
         public void onNext(BodySideOneModel bodySideOneModel) {
-            LogUtil.e("Body",bodySideOneModel.getErrmsg());
+            LogUtil.e("Body", bodySideOneModel.getErrmsg());
         }
     };
 
@@ -194,7 +199,7 @@ public class PhysicalTestActivity extends BaseActivity {
 
     @OnClick(R.id.tv_next_club)
     public void onViewClicked() {
-        ToastManager.showToast(getContext(),"下一节");
+        ToastManager.showToast(getContext(), "下一节");
         PhysicalTestSecondActivity.start(getContext());
     }
 
