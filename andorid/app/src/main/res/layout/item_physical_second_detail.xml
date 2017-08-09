@@ -12,12 +12,12 @@
         android:id="@+id/textView68"
         android:layout_width="56dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
         android:text="上 肢 右"
         android:textColor="@color/text_color"
-        app:layout_constraintBaseline_toBaselineOf="@+id/et_upper_limb_left"
-        app:layout_constraintLeft_toRightOf="@+id/et_upper_limb_right" />
+        app:layout_constraintLeft_toRightOf="@+id/et_upper_limb_right"
+        app:layout_constraintBaseline_toBaselineOf="@+id/et_upper_limb_right" />
 
     <TextView
         android:id="@+id/textView95"
@@ -89,7 +89,7 @@
         android:id="@+id/textView88"
         android:layout_width="56dp"
         android:layout_height="wrap_content"
-        android:text="臂       部"
+        android:text="臀       部"
         android:textColor="@color/text_color"
         app:layout_constraintBaseline_toBaselineOf="@+id/et_arm"
         app:layout_constraintLeft_toLeftOf="@+id/textView85" />

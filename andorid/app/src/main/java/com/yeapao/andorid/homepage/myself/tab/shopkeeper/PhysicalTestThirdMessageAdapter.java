@@ -5,7 +5,10 @@ import android.content.Context;
 import android.os.Build;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.transition.TransitionManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,8 +18,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.scottfu.sflibrary.customview.CircleImageView;
+import com.scottfu.sflibrary.util.GlideUtil;
 import com.scottfu.sflibrary.util.LogUtil;
 import com.yeapao.andorid.R;
+import com.yeapao.andorid.api.ConstantYeaPao;
+import com.yeapao.andorid.model.BodySideListModel;
+import com.yeapao.andorid.model.BodySideThirdSaveModel;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -35,14 +45,25 @@ public class PhysicalTestThirdMessageAdapter extends RecyclerView.Adapter<Recycl
 
     private ConstraintSet constraintSet1 = new ConstraintSet();
 
+    private List<BodySideListModel.DataBean.BodySideUserOutBean> bodySideUserOutBeenList = new ArrayList<>();
 
-    public PhysicalTestThirdMessageAdapter(Context context) {
+    private List<BodySideThirdSaveModel> bodySideThirdSaveModels = new ArrayList<>();
+
+
+
+    public PhysicalTestThirdMessageAdapter(Context context, List<BodySideListModel.DataBean.BodySideUserOutBean> bodySideUserOutBeanList,
+                                           List<BodySideThirdSaveModel> bodySideThirdSaveModels) {
+
+        this.bodySideUserOutBeenList = bodySideUserOutBeanList;
+        this.bodySideThirdSaveModels = bodySideThirdSaveModels;
         mContext = context;
         inflater = LayoutInflater.from(context);
-
-
     }
 
+
+    public List<BodySideThirdSaveModel> getThirdBodyData() {
+        return bodySideThirdSaveModels;
+    }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -52,13 +73,33 @@ public class PhysicalTestThirdMessageAdapter extends RecyclerView.Adapter<Recycl
     @TargetApi(19)
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
-
+        GlideUtil glideUtil = new GlideUtil();
         if (holder instanceof ThirdViewHolder) {
+
+            if (!bodySideThirdSaveModels.get(position).getUpperLimbStrength().equals("0")) {
+                ((ThirdViewHolder) holder).etPhysicalThird1.setText(bodySideThirdSaveModels.get(position).getUpperLimbStrength());
+                ((ThirdViewHolder) holder).etPhysicalThird2.setText(bodySideThirdSaveModels.get(position).getLowerExtremityStrength());
+                ((ThirdViewHolder) holder).etPhysicalThird3.setText(bodySideThirdSaveModels.get(position).getPrecursor());
+                ((ThirdViewHolder) holder).etPhysicalThird4.setText(bodySideThirdSaveModels.get(position).getHeartRateOne());
+                ((ThirdViewHolder) holder).etPhysicalThird5.setText(bodySideThirdSaveModels.get(position).getHeartRateTwo());
+                ((ThirdViewHolder) holder).etPhysicalThird6.setText(bodySideThirdSaveModels.get(position).getHeartRateThree());
+            }
+
+
 
             if (position == 0) {
                 ((ThirdViewHolder) holder).etPhysicalThird1.requestFocus();
             }
+            glideUtil.glideLoadingImage(mContext, ConstantYeaPao.HOST + bodySideUserOutBeenList.get(position).getHead(),
+                    R.drawable.y_you, ((ThirdViewHolder) holder).ivHead);
 
+            ((ThirdViewHolder) holder).tvAccountName.setText(bodySideUserOutBeenList.get(position).getUserName());
+
+            if (bodySideUserOutBeenList.get(position).getGender().equals("男")) {
+                ((ThirdViewHolder) holder).ivGender.setImageDrawable(mContext.getResources().getDrawable(R.drawable.boy));
+            } else {
+                ((ThirdViewHolder) holder).ivGender.setImageDrawable(mContext.getResources().getDrawable(R.drawable.girl));
+            }
 
             ((ThirdViewHolder) holder).tvPhysicalStatus.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -98,7 +139,7 @@ public class PhysicalTestThirdMessageAdapter extends RecyclerView.Adapter<Recycl
         return 2;
     }
 
-    static class ThirdViewHolder  extends RecyclerView.ViewHolder{
+     class ThirdViewHolder  extends RecyclerView.ViewHolder{
         @BindView(R.id.iv_head)
         CircleImageView ivHead;
         @BindView(R.id.tv_account_name)
@@ -129,6 +170,112 @@ public class PhysicalTestThirdMessageAdapter extends RecyclerView.Adapter<Recycl
         ThirdViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
+            initView();
+        }
+
+        private void initView() {
+            etPhysicalThird1.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    bodySideThirdSaveModels.get(getLayoutPosition()).setUpperLimbStrength(s.toString());
+
+                }
+            });
+            etPhysicalThird2.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    bodySideThirdSaveModels.get(getLayoutPosition()).setLowerExtremityStrength(s.toString());
+
+                }
+            });
+            etPhysicalThird3.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    bodySideThirdSaveModels.get(getLayoutPosition()).setPrecursor(s.toString());
+
+                }
+            });
+            etPhysicalThird4.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    bodySideThirdSaveModels.get(getLayoutPosition()).setHeartRateOne(s.toString());
+
+                }
+            });
+            etPhysicalThird5.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    bodySideThirdSaveModels.get(getLayoutPosition()).setHeartRateTwo(s.toString());
+
+                }
+            });
+            etPhysicalThird6.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    bodySideThirdSaveModels.get(getLayoutPosition()).setHeartRateThree(s.toString());
+
+                }
+            });
         }
     }
 }

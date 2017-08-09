@@ -1,7 +1,13 @@
 package com.yeapao.andorid.api;
 
+import com.yeapao.andorid.model.BodySideForthBackModel;
 import com.yeapao.andorid.model.BodySideListModel;
+import com.yeapao.andorid.model.BodySideOneGetModel;
 import com.yeapao.andorid.model.BodySideOneModel;
+import com.yeapao.andorid.model.BodySideThreeBackModel;
+import com.yeapao.andorid.model.BodySideThreeGetDataModel;
+import com.yeapao.andorid.model.BodySideTwoBackModel;
+import com.yeapao.andorid.model.BodySideTwoGetBackModel;
 import com.yeapao.andorid.model.FoodInfoModel;
 import com.yeapao.andorid.model.IsAmShopModel;
 import com.yeapao.andorid.model.Myfiles;
@@ -40,12 +46,6 @@ public interface YeapaoApi {
     Observable<RegisterModel> loginAccount(@Query("phone") String phone, @Query("password") String password, @Query("name") String name,
                                            @Query("verificationCode") String ver);
 
-    //    体测第一节
-    @Multipart
-    @POST("curriculum/saveBodySideOne")
-    Observable<BodySideOneModel> uploadFile(@Query("quietHeartRate") String rate, @Query("bloodPressure") String blood, @Query("heights") String height,
-                                            @Query("weight") String weight, @Query("inBody") String inbody, @Query("scheduleId") String sid,
-                                            @Query("customerId") String cid, @Query("bodySideOne") String bid, @Part("files\";filename=\"image.jpeg") RequestBody file);
 
     //   上传图片单张
     @Multipart
@@ -68,4 +68,53 @@ public interface YeapaoApi {
     @POST("cookbook/infos")
     Observable<FoodInfoModel> getFoodInfos(@Query("dateStr") String date);
 
+
+
+    //    体测第一节
+    @Multipart
+    @POST("curriculum/saveBodySideOne")
+    Observable<BodySideOneModel> uploadFile(@Query("quietHeartRate") String rate, @Query("bloodPressure") String blood, @Query("heights") String height,
+                                            @Query("weight") String weight, @Query("inBody") String inbody, @Query("scheduleId") String sid,
+                                            @Query("customerId") String cid, @Query("bodySideOne") String bid, @Part("files\";filename=\"image.jpeg") RequestBody file);
+
+
+
+    //    体测第一节返回数据
+    @POST("curriculum/selectBodySideOne")
+    Observable<BodySideOneGetModel> getBodySideOne(@Query("scheduleId") String id);
+
+    //    体测第二节
+    @POST("curriculum/saveBodySideTwo")
+    Observable<BodySideTwoBackModel> uploadDataSecond(@Query("upperRight") String upperRight, @Query("upperLeft") String upperLeft,
+                                                @Query("abdomen") String abdomen, @Query("waist") String waist, @Query("hips") String hips,
+                                                @Query("lowerRight") String lowerRight, @Query("lowerLeft") String lowerLeft,
+                                                @Query("bodySideId") String bodySideId, @Query("bodySideTwo") String bodySideTwo);
+
+    @POST("curriculum/selectBodySideTwo")
+    Observable<BodySideTwoGetBackModel> getBodySideTwo(@Query("scheduleId") String id);
+
+
+    //    体测第三节
+    @POST("curriculum/saveBodySideThree")
+    Observable<BodySideThreeBackModel> uploadDataThird(@Query("upperLimbStrength") String str1, @Query("lowerExtremityStrength") String str2,
+                                                        @Query("precursor") String str3, @Query("heartRateOne") String str4, @Query("heartRateTwo") String str5,
+                                                        @Query("heartRateThree") String str6,
+                                                        @Query("bodySideId") String bodySideId, @Query("bodySideThree") String bodySideThree);
+
+    @POST("curriculum/selectBodySideThree")
+    Observable<BodySideThreeGetDataModel> getBodySideThree(@Query("scheduleId") String id);
+
+//    //    第四节体测
+    @Multipart
+    @POST("curriculum/saveBodySideFour")
+    Observable<BodySideForthBackModel> uploadDataForth(@Part("positive\";filename=\"image.jpg") RequestBody file1, @Part("side\";filename=\"image.jpg") RequestBody file2,
+                                                       @Part("back\";filename=\"image.jpg") RequestBody file3, @Part("furredTongue\";filename=\"image.jpg") RequestBody file4,
+                                                       @Query("bodySideId")String bodySideId);
+
+    //    第四节体测
+//    @Multipart
+//    @POST("curriculum/saveBodySideFour")
+//    Observable<BodySideForthBackModel> uploadDataForth(@Part("files\";filename=\"positive.jpg") RequestBody file1, @Part("files\";filename=\"side.jpg") RequestBody file2,
+//                                                       @Part("files\";filename=\"back.jpg") RequestBody file3, @Part("files\";filename=\"furredTongue.jpg") RequestBody file4,
+//                                                       @Query("bodySideId")String bodySideId);
 }

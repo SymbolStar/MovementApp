@@ -54,6 +54,13 @@ public class PhysicalReservationActivity extends BaseActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        LogUtil.e(TAG,"physicalReservation----onRsume");
+        super.onResume();
+        getData();
+    }
+
     private void initView() {
         llm = new LinearLayoutManager(getContext());
         llm.setOrientation(LinearLayoutManager.VERTICAL);

@@ -62,15 +62,17 @@ public class ChooseFoodContainerAdapter extends BaseAdapter {
             viewHolder = new ViewHolder();
             viewHolder.foodImage = (ImageView) convertView.findViewById(R.id.iv_image);
             viewHolder.foodNameTextView = (TextView) convertView.findViewById(R.id.tv_food_name);
+            viewHolder.foodNum = (TextView) convertView.findViewById(R.id.tv_food_num);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
         GlideUtil glideUtil = new GlideUtil();
-        glideUtil.glideLoadingImage(mContext, ConstantYeaPao.HOST+foodList.get(position).getImage(),
+        glideUtil.glideLoadingImage(mContext, foodList.get(position).getImage(),
                 R.drawable.food1,viewHolder.foodImage);
         viewHolder.foodNameTextView.setText(foodList.get(position).getName());
+        viewHolder.foodNum.setText(foodList.get(position).getMeasure());
 //        viewHolder.foodImage.setImageDrawable(mContext.getResources().getDrawable(R.drawable.food1));
 //        viewHolder.foodNameTextView.setText("包子");
         return convertView;
@@ -79,6 +81,7 @@ public class ChooseFoodContainerAdapter extends BaseAdapter {
     class ViewHolder {
         ImageView foodImage;
         TextView foodNameTextView;
+        TextView foodNum;
 
     }
 

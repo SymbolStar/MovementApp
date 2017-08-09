@@ -189,7 +189,8 @@
             android:text="血      压"
             android:textColor="@color/text_color"
             app:layout_constraintBaseline_toBaselineOf="@+id/et_blow_pressure"
-            app:layout_constraintLeft_toLeftOf="@+id/guideline7" />
+            app:layout_constraintLeft_toLeftOf="@+id/guideline7"
+            android:layout_marginLeft="5dp" />
 
         <TextView
             android:id="@+id/textView79"
@@ -198,7 +199,8 @@
             android:text="体     重"
             android:textColor="@color/text_color"
             app:layout_constraintBaseline_toBaselineOf="@+id/et_weight"
-            app:layout_constraintLeft_toLeftOf="@+id/guideline7" />
+            app:layout_constraintLeft_toLeftOf="@+id/guideline7"
+            android:layout_marginLeft="5dp" />
 
         <TextView
             android:id="@+id/textView80"
@@ -207,7 +209,9 @@
             android:text="上传身体组成分析报告"
             android:textColor="@color/text_color"
             app:layout_constraintLeft_toLeftOf="@+id/guideline7"
-            app:layout_constraintTop_toTopOf="@+id/iv_take_photo" />
+            app:layout_constraintTop_toTopOf="@+id/iv_take_photo"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="0dp" />
 
         <android.support.constraint.Guideline
             android:id="@+id/guideline6"
@@ -223,9 +227,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.55"
-            tools:layout_editor_absoluteY="81dp"
-            tools:layout_editor_absoluteX="192dp" />
+            app:layout_constraintGuide_percent="0.5" />
 
         <EditText
             android:id="@+id/et_heart"
@@ -245,6 +247,7 @@
             android:layout_width="75dp"
             android:layout_height="75dp"
             android:layout_marginTop="20dp"
+            android:scaleType="fitXY"
             app:layout_constraintTop_toBottomOf="@+id/et_weight"
             app:srcCompat="@drawable/first_step_img"
             android:layout_marginStart="8dp"
