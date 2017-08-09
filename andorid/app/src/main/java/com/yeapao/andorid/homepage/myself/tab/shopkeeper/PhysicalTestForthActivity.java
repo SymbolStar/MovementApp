@@ -314,6 +314,7 @@ public class PhysicalTestForthActivity extends BaseActivity {
                   Observer<BodySideForthBackModel> modelObserverForth = new Observer<BodySideForthBackModel>() {
                     @Override
                     public void onCompleted() {
+                        finish();
 
                     }
 

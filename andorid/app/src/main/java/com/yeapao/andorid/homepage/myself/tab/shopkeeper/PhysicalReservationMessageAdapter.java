@@ -123,8 +123,6 @@ public class PhysicalReservationMessageAdapter extends RecyclerView.Adapter<Recy
             if (listener != null) {
                 listener.OnItemClick(v,getLayoutPosition());
                 bodySideListModel.getData().get(getLayoutPosition()).setStatus(true);
-//                PhysicalTestActivity.start(mContext,bodySideListModel,getLayoutPosition());
-                PhysicalTestForthActivity.start(mContext,bodySideListModel,getLayoutPosition());
 
                 if (bodySideListModel.getData().get(getLayoutPosition()).getStep().equals("0")) {
                     PhysicalTestActivity.start(mContext, bodySideListModel, getLayoutPosition());
