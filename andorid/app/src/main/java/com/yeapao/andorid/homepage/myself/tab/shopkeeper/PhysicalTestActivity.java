@@ -160,6 +160,9 @@ public class PhysicalTestActivity extends BaseActivity {
 
                 upLoadData(0);
                 upLoadData(1);
+
+                PhysicalTestSecondActivity.start(getContext(),bodySideListModel,position);
+
             }
         });
 
@@ -167,7 +170,7 @@ public class PhysicalTestActivity extends BaseActivity {
     }
 
     private void upLoadData(int position) {
-        File file = bodySideOneDatas.get(0).getImageFile();
+        File file = bodySideOneDatas.get(position).getImageFile();
 
             RequestBody requesetFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
             upLoad(requesetFile,position);
@@ -282,6 +285,7 @@ public class PhysicalTestActivity extends BaseActivity {
         public void handleMessage(Message msg) {
 
             if (msg.what == 0) {
+
                 physicalTestMessageAdapter.refreshImage(imagePosition,imageFile);
             }
         }
