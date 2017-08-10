@@ -70,7 +70,7 @@
 
     <ImageView
         android:id="@+id/iv_part_one"
-        android:layout_width="13dp"
+        android:layout_width="wrap_content"
         android:layout_height="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
@@ -82,7 +82,7 @@
 
     <ImageView
         android:id="@+id/iv_part_two"
-        android:layout_width="26dp"
+        android:layout_width="wrap_content"
         android:layout_height="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
@@ -94,7 +94,7 @@
 
     <ImageView
         android:id="@+id/iv_part_three"
-        android:layout_width="40dp"
+        android:layout_width="wrap_content"
         android:layout_height="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
@@ -113,5 +113,30 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/coach_choose_n" />
+
+    <TextView
+        android:id="@+id/tv_no_degree"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:text="无疼痛部位"
+        android:visibility="gone"
+        android:textColor="@color/text_hint_title_color"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <ImageView
+        android:id="@+id/iv_cancel"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginTop="0dp"
+        android:visibility="gone"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/couch_cancel" />
 
 </android.support.constraint.ConstraintLayout>

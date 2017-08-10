@@ -8,10 +8,15 @@ import com.yeapao.andorid.model.BodySideThreeBackModel;
 import com.yeapao.andorid.model.BodySideThreeGetDataModel;
 import com.yeapao.andorid.model.BodySideTwoBackModel;
 import com.yeapao.andorid.model.BodySideTwoGetBackModel;
+import com.yeapao.andorid.model.ClassBeginsModel;
 import com.yeapao.andorid.model.FoodInfoModel;
+import com.yeapao.andorid.model.HealthDataModel;
+import com.yeapao.andorid.model.IAmCoachListModel;
 import com.yeapao.andorid.model.IsAmShopModel;
 import com.yeapao.andorid.model.Myfiles;
+import com.yeapao.andorid.model.NormalDataModel;
 import com.yeapao.andorid.model.RegisterModel;
+import com.yeapao.andorid.model.RollCallListModel;
 import com.yeapao.andorid.model.TestData;
 
 import okhttp3.MultipartBody;
@@ -111,10 +116,39 @@ public interface YeapaoApi {
                                                        @Part("back\";filename=\"image.jpg") RequestBody file3, @Part("furredTongue\";filename=\"image.jpg") RequestBody file4,
                                                        @Query("bodySideId")String bodySideId);
 
-    //    第四节体测
-//    @Multipart
-//    @POST("curriculum/saveBodySideFour")
-//    Observable<BodySideForthBackModel> uploadDataForth(@Part("files\";filename=\"positive.jpg") RequestBody file1, @Part("files\";filename=\"side.jpg") RequestBody file2,
-//                                                       @Part("files\";filename=\"back.jpg") RequestBody file3, @Part("files\";filename=\"furredTongue.jpg") RequestBody file4,
-//                                                       @Query("bodySideId")String bodySideId);
+
+    //    我是教练
+    @POST("user/iAmCoach")
+    Observable<IAmCoachListModel> getCoachList(@Query("customerId") String Id, @Query("time") String time);
+
+    //    教练点名
+    @POST("user/rollCallList")
+    Observable<RollCallListModel> getRollCallList(@Query("scheduleId") String Id);
+
+    //    开始上课
+    @POST("user/rollCall")
+    Observable<NormalDataModel> requestRollCall(@Query("scheduleId") String Id, @Query("ids") String ids);
+
+
+    //    上课状态
+    @POST("user/classBegins")
+    Observable<ClassBeginsModel> getClassBegins(@Query("scheduleId") String Id);
+
+//早退
+    @POST("user/leaveEarly")
+    Observable<NormalDataModel> requestLeaveEarly(@Query("ids") String ids);
+//签到
+    @POST("user/normal")
+    Observable<NormalDataModel> requestNormal(@Query("ids") String ids);
+//下课
+    @POST("user/ClassIsOver")
+    Observable<NormalDataModel> requestClassIsOver(@Query("scheduleId") String ids);
+
+    //    我是店长课程预约 TODO 暂时没数据
+    @POST("curriculum/courseReservation")
+    Observable<IAmCoachListModel> getReservationLessonList(@Query("customerId") String Id, @Query("time") String time);
+
+    @POST("user/healthDatabase")
+    Observable<HealthDataModel> getHealthData(@Query("customerId") String id);
+
 }

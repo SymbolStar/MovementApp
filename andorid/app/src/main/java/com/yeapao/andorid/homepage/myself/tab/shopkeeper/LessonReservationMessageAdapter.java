@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.scottfu.sflibrary.recyclerview.OnRecyclerViewClickListener;
 import com.yeapao.andorid.R;
+import com.yeapao.andorid.model.IAmCoachListModel;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,8 +27,11 @@ public class LessonReservationMessageAdapter extends RecyclerView.Adapter<Recycl
 
     private OnRecyclerViewClickListener mListener;
 
+    private IAmCoachListModel iAmCoachListModel;
 
-    public LessonReservationMessageAdapter(Context context) {
+
+    public LessonReservationMessageAdapter(Context context, IAmCoachListModel model) {
+        this.iAmCoachListModel = model;
         mContext = context;
         inflater = LayoutInflater.from(context);
     }
@@ -45,18 +49,28 @@ public class LessonReservationMessageAdapter extends RecyclerView.Adapter<Recycl
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 
+        ((ViewHolder)holder).tvLessonReservationTitle.setText(iAmCoachListModel.getData().get(position).getScheduleTypeName());
+        ((ViewHolder) holder).tvLrTime.setText(iAmCoachListModel.getData().get(position).getStartDate() + "-"
+                + iAmCoachListModel.getData().get(position).getEndDate());
+        ((ViewHolder) holder).tvCoach.setText(iAmCoachListModel.getData().get(position).getCoach());
+        ((ViewHolder) holder).tvLrLocation.setText(iAmCoachListModel.getData().get(position).getShopName());
+        ((ViewHolder) holder).tvLrReservation.setText(iAmCoachListModel.getData().get(position).getBespeak()+"/"+
+        iAmCoachListModel.getData().get(position).getMoreMember());
+
+
 //        TODO 我是教练  课程预约的状态判断 在UI上做相应的操作
-        int status = 1;//课程状态的显示标识位
+        int status ;//课程状态的显示标识位
+        status = Integer.valueOf(iAmCoachListModel.getData().get(position).getIsStart());
         switch (status) {
             case 1:
                 ((ViewHolder)holder).tvCoachStatus.setText("进行中");
                 ((ViewHolder) holder).tvCoachStatus.setBackgroundDrawable(mContext.getResources().getDrawable(R.drawable.coach_yellow_shape));
                 break;
-            case 2:
-                ((ViewHolder)holder).tvCoachStatus.setText("为开始");
+            case 0:
+                ((ViewHolder)holder).tvCoachStatus.setText("未开始");
                 ((ViewHolder) holder).tvCoachStatus.setBackgroundDrawable(mContext.getResources().getDrawable(R.drawable.coach_yellow_shape));
                 break;
-            case 3:
+            case 2:
                 ((ViewHolder)holder).tvCoachStatus.setText("已结束");
                 ((ViewHolder) holder).tvCoachStatus.setBackgroundDrawable(mContext.getResources().getDrawable(R.drawable.coach_grey_shape));
                 break;
@@ -66,7 +80,7 @@ public class LessonReservationMessageAdapter extends RecyclerView.Adapter<Recycl
 
     @Override
     public int getItemCount() {
-        return 10;
+        return iAmCoachListModel.getData().size();
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder  implements View.OnClickListener{
