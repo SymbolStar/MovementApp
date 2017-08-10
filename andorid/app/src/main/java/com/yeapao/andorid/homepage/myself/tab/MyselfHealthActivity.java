@@ -25,15 +25,21 @@ import com.github.mikephil.charting.data.RadarDataSet;
 import com.github.mikephil.charting.data.RadarEntry;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IRadarDataSet;
+import com.scottfu.sflibrary.util.LogUtil;
 import com.scottfu.sflibrary.util.ScreenUtil;
 import com.yeapao.andorid.R;
+import com.yeapao.andorid.api.Network;
 import com.yeapao.andorid.base.BaseActivity;
+import com.yeapao.andorid.model.HealthDataModel;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by fujindong on 2017/8/4.
@@ -157,6 +163,7 @@ public class MyselfHealthActivity extends BaseActivity {
         yAxis1.setTextColor(getResources().getColor(R.color.text_color));
 
 
+        weightChart.setHighlightPerDragEnabled(true);
 
 
     }
@@ -318,4 +325,35 @@ public class MyselfHealthActivity extends BaseActivity {
                 break;
         }
     }
+
+//获取健康数据
+            private void getNetWork(String id) {
+                    subscription = Network.getYeapaoApi()
+                            .getHealthData(id)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(modelObserver);
+                }
+
+                  Observer<HealthDataModel> modelObserver = new Observer<HealthDataModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        LogUtil.e(TAG,e.toString());
+
+                    }
+
+                    @Override
+                    public void onNext(HealthDataModel model) {
+                        LogUtil.e(TAG, model.getErrmsg());
+                        if (model.getErrmsg().equals("ok")) {
+
+                        }
+                    }
+                };
+
 }
