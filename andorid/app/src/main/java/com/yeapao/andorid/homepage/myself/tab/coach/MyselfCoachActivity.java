@@ -52,7 +52,7 @@ public class MyselfCoachActivity extends BaseActivity {
         SpringIndicator springIndicator = (SpringIndicator) findViewById(R.id.indicator);
 
         PagerModelManager manager = new PagerModelManager();
-        manager.addCommonFragment(GuideFragment.class, getBgRes(), getTitles());
+        manager.addCommonFragment(GuideFragment.class, SystemDateUtil.getCurrentWeekYMD(), getTitles());
         ModelPagerAdapter adapter = new ModelPagerAdapter(getSupportFragmentManager(), manager);
         viewPager.setAdapter(adapter);
         viewPager.fixScrollSpeed();

@@ -18,7 +18,7 @@
             android:layout_alignParentLeft="true"
             android:gravity="center"
             android:paddingLeft="15dp"
-            android:text="迟到"
+            android:text="已签退"
             android:textColor="@color/text_color"
             android:textSize="17sp" />
         <TextView
@@ -43,10 +43,12 @@
             android:gravity="center"
             android:paddingRight="15dp"
             android:text="全选"
+            android:visibility="gone"
             android:textColor="@color/text_color"
             android:textSize="16sp" />
 
         <CheckBox
+            android:visibility="gone"
             android:id="@+id/cb_choose_all"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"

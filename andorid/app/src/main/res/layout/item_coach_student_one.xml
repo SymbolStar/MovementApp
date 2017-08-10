@@ -91,11 +91,12 @@
             android:layout_alignParentBottom="true">
 
             <TextView
+                android:id="@+id/tv_choose_num"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:paddingLeft="15dp"
-                android:text="选中2人"
+                android:text="选中0人"
                 android:textColor="@color/text_color"
                 android:textSize="14sp" />
 

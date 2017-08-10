@@ -7,15 +7,33 @@
 
     <include layout="@layout/normal_top_bar"/>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_coach_lesson_status_list"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/bg_grey"
-        android:fadeScrollbars="true"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"
-        android:scrollbarFadeDuration="1"
-        android:scrollbars="vertical" />
+        android:layout_height="match_parent">
+        <TextView
+            android:layout_alignParentBottom="true"
+            android:id="@+id/tv_class_over"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="下课"
+            android:textSize="18sp"
+            android:textColor="@color/text_color"
+            android:gravity="center"
+            android:background="@color/colorPrimary"/>
+        <android.support.v7.widget.RecyclerView
+            android:layout_above="@id/tv_class_over"
+            android:id="@+id/rv_coach_lesson_status_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/bg_grey"
+            android:fadeScrollbars="true"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:scrollbarFadeDuration="1"
+            android:scrollbars="vertical" />
+
+
+    </RelativeLayout>
+
 
 </LinearLayout>

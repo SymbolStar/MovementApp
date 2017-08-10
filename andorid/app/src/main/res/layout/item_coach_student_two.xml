@@ -88,10 +88,11 @@
             android:layout_width="match_parent"
             android:layout_height="35dp">
             <TextView
+                android:id="@+id/tv_choose_num"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:textColor="@color/text_color"
-                android:text="选中2人"
+                android:text="选中0人"
                 android:paddingLeft="15dp"
                 android:gravity="center"
                 android:textSize="14sp"/>
