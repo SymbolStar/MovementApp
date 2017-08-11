@@ -3,6 +3,7 @@ package com.yeapao.andorid.util;
 import android.content.Context;
 
 import com.scottfu.sflibrary.cache.ACache;
+import com.yeapao.andorid.model.CookListDetailModel;
 import com.yeapao.andorid.model.UserData;
 
 /**
@@ -13,6 +14,17 @@ public class GlobalDataYepao {
 
 
     private static boolean IS_LOGIN = false;
+
+    private static CookListDetailModel.DataBean foodDetail;
+    public static boolean foodFlag = false;
+
+    public static CookListDetailModel.DataBean getFoodDetail() {
+        return foodDetail;
+    }
+
+    public static void setFoodDetail(CookListDetailModel.DataBean foodDetail) {
+        GlobalDataYepao.foodDetail = foodDetail;
+    }
 
     public static boolean isLogin() {
         return IS_LOGIN;

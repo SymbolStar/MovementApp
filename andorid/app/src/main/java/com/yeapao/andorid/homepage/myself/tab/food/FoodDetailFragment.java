@@ -14,6 +14,7 @@ import com.scottfu.sflibrary.util.ToastManager;
 import com.yeapao.andorid.R;
 import com.yeapao.andorid.api.Network;
 import com.yeapao.andorid.model.FoodInfoModel;
+import com.yeapao.andorid.util.GlobalDataYepao;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -119,6 +120,17 @@ public class FoodDetailFragment extends Fragment {
     };
 
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        LogUtil.e("foodDetailFragment","onresume");
+        if (GlobalDataYepao.foodFlag) {
+            messageAdapter.refresh();
+            GlobalDataYepao.foodFlag = false;
+        }
+
+
+    }
 
     @Override
     public void onDestroyView() {

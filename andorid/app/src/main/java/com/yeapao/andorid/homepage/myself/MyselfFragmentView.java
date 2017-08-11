@@ -1,5 +1,6 @@
 package com.yeapao.andorid.homepage.myself;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -22,6 +23,8 @@ import com.yeapao.andorid.homepage.myself.tab.MyselfPostActivity;
 import com.yeapao.andorid.homepage.myself.tab.MyselfReservationActivity;
 import com.yeapao.andorid.homepage.myself.tab.MyselfSettingActivity;
 import com.yeapao.andorid.homepage.myself.tab.coach.MyselfCoachActivity;
+import com.yeapao.andorid.homepage.myself.tab.health.HealthRepositoryActivity;
+import com.yeapao.andorid.homepage.myself.tab.health.testCoordinatorLayoutActivity;
 import com.yeapao.andorid.homepage.myself.tab.shopkeeper.MyselfShopOwnerActivity;
 import com.yeapao.andorid.model.UserData;
 
@@ -138,6 +141,8 @@ public class MyselfFragmentView extends Fragment implements MyselfContract.View 
                         MyselfCoachActivity.start(getContext());
                     } else if (name.equals("健康数据库")) {
                         MyselfHealthActivity.start(getContext());
+//                        HealthRepositoryActivity.start(getContext());
+//                        getContext().startActivity(new Intent(getContext(),testCoordinatorLayoutActivity.class));
                     }
                 }
             });

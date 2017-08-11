@@ -49,6 +49,7 @@
         android:visibility="visible">
 
         <TextView
+            android:id="@+id/tv_food_detail"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="包子（3）"
