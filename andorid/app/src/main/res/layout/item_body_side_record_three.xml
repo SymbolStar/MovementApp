@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/bg_white"
+    android:layout_marginTop="10dp"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_body_side_three_6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:text="110"
+        android:textColor="@color/text_color"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textView131"
+        app:layout_constraintLeft_toRightOf="@+id/textView131" />
+
+    <TextView
+        android:id="@+id/textView123"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:drawableLeft="@drawable/my_health_record_oval_shape"
+        android:drawablePadding="10dp"
+        android:singleLine="true"
+        android:text="下肢力量（立定跳远）"
+        android:textColor="@color/text_color"
+        app:layout_constraintLeft_toLeftOf="@+id/textView63"
+        app:layout_constraintTop_toBottomOf="@+id/textView63" />
+
+    <TextView
+        android:id="@+id/textView126"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="16dp"
+        android:drawableLeft="@drawable/my_health_record_oval_shape"
+        android:drawablePadding="10dp"
+        android:singleLine="true"
+        android:text="运动后2min心率"
+        android:textColor="@color/text_color"
+        app:layout_constraintLeft_toLeftOf="@+id/textView130"
+        app:layout_constraintTop_toBottomOf="@+id/textView130" />
+
+    <TextView
+        android:id="@+id/textView131"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="15dp"
+        android:drawableLeft="@drawable/my_health_record_oval_shape"
+        android:drawablePadding="10dp"
+        android:singleLine="true"
+        android:text="运动后3min心率"
+        android:textColor="@color/text_color"
+        app:layout_constraintLeft_toLeftOf="@+id/textView126"
+        app:layout_constraintTop_toBottomOf="@+id/textView126"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="8dp" />
+
+    <TextView
+        android:id="@+id/textView130"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:drawableLeft="@drawable/my_health_record_oval_shape"
+        android:drawablePadding="10dp"
+        android:singleLine="true"
+        android:text="运动后1min心率"
+        android:textColor="@color/text_color"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView122" />
+
+    <TextView
+        android:id="@+id/textView127"
+        android:layout_width="76dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:drawableLeft="@drawable/my_health_record_oval_shape"
+        android:drawablePadding="10dp"
+        android:singleLine="true"
+        android:text="体前屈"
+        android:textColor="@color/text_color"
+        android:textSize="14sp"
+        app:layout_constraintLeft_toLeftOf="@+id/textView123"
+        app:layout_constraintTop_toBottomOf="@+id/textView123" />
+
+    <TextView
+        android:id="@+id/textView62"
+        android:layout_width="70dp"
+        android:layout_height="25dp"
+        android:background="@drawable/body_side_record_title_shap"
+        android:gravity="center"
+        android:text="第三节"
+        android:textColor="@color/text_color"
+        app:layout_constraintBottom_toTopOf="@+id/view46"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.533" />
+
+    <View
+        android:id="@+id/view46"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="40dp"
+        android:background="@color/bg_grey"
+        app:layout_constraintHorizontal_bias="0.508"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView63"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:drawableLeft="@drawable/my_health_record_oval_shape"
+        android:drawablePadding="10dp"
+        android:singleLine="true"
+        android:text="上肢力量（俯卧撑）"
+        android:textColor="@color/text_color"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view46" />
+
+
+    <View
+        android:id="@+id/view47"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/bg_grey"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView127" />
+
+    <TextView
+        android:id="@+id/textView122"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:text="心肺耐力 （5分钟台阶）"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view47" />
+
+    <TextView
+        android:id="@+id/tv_body_side_three_4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:text="110"
+        android:textColor="@color/text_color"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textView130"
+        app:layout_constraintLeft_toRightOf="@+id/textView130" />
+
+    <TextView
+        android:id="@+id/tv_body_side_three_5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:text="110"
+        android:textColor="@color/text_color"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textView126"
+        app:layout_constraintLeft_toRightOf="@+id/textView126" />
+
+    <TextView
+        android:id="@+id/tv_body_side_three_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:text="40"
+        android:textColor="@color/text_color"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textView63"
+        app:layout_constraintLeft_toRightOf="@+id/textView63" />
+
+    <TextView
+        android:id="@+id/tv_body_side_three_3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:text="10"
+        android:textColor="@color/text_color"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textView127"
+        app:layout_constraintLeft_toRightOf="@+id/textView127" />
+
+    <TextView
+        android:id="@+id/tv_body_side_three_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:text="10"
+        android:textColor="@color/text_color"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textView123"
+        app:layout_constraintLeft_toRightOf="@+id/textView123" />
+
+</android.support.constraint.ConstraintLayout>

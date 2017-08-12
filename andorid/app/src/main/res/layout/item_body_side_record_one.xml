@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/bg_white"
+    android:layout_marginTop="10dp"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/textView123"
+        android:layout_width="76dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="16dp"
+        android:drawableLeft="@drawable/my_health_record_oval_shape"
+        android:drawablePadding="10dp"
+        android:singleLine="true"
+        android:text="身     高"
+        android:textColor="@color/text_color"
+        app:layout_constraintLeft_toLeftOf="@+id/textView63"
+        app:layout_constraintTop_toBottomOf="@+id/textView63" />
+
+    <TextView
+        android:id="@+id/textView126"
+        android:layout_width="76dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:drawableLeft="@drawable/my_health_record_oval_shape"
+        android:drawablePadding="10dp"
+        android:singleLine="true"
+        android:text="血      压"
+        android:textColor="@color/text_color"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tv_body_side_one_1"
+        app:layout_constraintLeft_toLeftOf="@+id/guideline8" />
+
+    <TextView
+        android:id="@+id/textView128"
+        android:layout_width="76dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+
+        android:drawableLeft="@drawable/my_health_record_oval_shape"
+        android:drawablePadding="10dp"
+        android:singleLine="true"
+        android:text="体      重"
+        android:textColor="@color/text_color"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tv_body_side_one_2"
+        app:layout_constraintLeft_toLeftOf="@+id/guideline8" />
+
+    <TextView
+        android:id="@+id/textView129"
+        android:layout_width="76dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:drawableLeft="@drawable/my_health_record_oval_shape"
+        android:drawablePadding="10dp"
+        android:text="身体组成分析报告"
+        android:textColor="@color/text_color"
+        android:textSize="12sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tv_body_side_one_3"
+        app:layout_constraintLeft_toLeftOf="@+id/guideline8" />
+
+    <TextView
+        android:id="@+id/tv_body_side_one_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:text="70"
+        android:textColor="@color/text_color"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textView63"
+        app:layout_constraintLeft_toRightOf="@+id/textView63" />
+
+    <TextView
+        android:id="@+id/tv_body_side_one_2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:text="70"
+        android:textColor="@color/text_color"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textView123"
+        app:layout_constraintLeft_toRightOf="@+id/textView123" />
+
+    <TextView
+        android:id="@+id/tv_body_side_one_3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:text="70"
+        android:textColor="@color/text_color"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textView127"
+        app:layout_constraintLeft_toRightOf="@+id/textView127" />
+
+    <TextView
+        android:id="@+id/tv_body_side_one_4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:text="70  120"
+        android:textColor="@color/text_color"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textView126"
+        app:layout_constraintLeft_toRightOf="@+id/textView126" />
+
+    <TextView
+        android:id="@+id/tv_body_side_one_5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:text="70kg"
+        android:textColor="@color/text_color"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textView128"
+        app:layout_constraintLeft_toRightOf="@+id/textView128" />
+
+    <TextView
+        android:id="@+id/textView127"
+        android:layout_width="76dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="16dp"
+        android:drawableLeft="@drawable/my_health_record_oval_shape"
+        android:drawablePadding="10dp"
+        android:singleLine="true"
+        android:text="inbody得分"
+        android:textColor="@color/text_color"
+        android:textSize="11sp"
+        app:layout_constraintLeft_toLeftOf="@+id/textView123"
+        app:layout_constraintTop_toBottomOf="@+id/textView123" />
+
+    <TextView
+        android:id="@+id/textView62"
+        android:layout_width="70dp"
+        android:layout_height="25dp"
+        android:layout_marginLeft="0dp"
+        android:background="@drawable/body_side_record_title_shap"
+        android:gravity="center"
+        android:text="第一节"
+        android:textColor="@color/text_color"
+        app:layout_constraintBottom_toTopOf="@+id/view46"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.533" />
+
+    <View
+        android:id="@+id/view46"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="40dp"
+        android:background="@color/bg_grey"
+        app:layout_constraintHorizontal_bias="0.508"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView63"
+        android:layout_width="76dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:drawableLeft="@drawable/my_health_record_oval_shape"
+        android:drawablePadding="10dp"
+        android:singleLine="true"
+        android:text="安静心率"
+        android:textColor="@color/text_color"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view46" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.45" />
+
+    <ImageView
+        android:id="@+id/iv_body_side_one_6"
+        android:layout_width="70dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/textView129"
+        app:layout_constraintTop_toTopOf="@+id/textView129"
+        app:srcCompat="@color/bg_lesson_text" />
+
+</android.support.constraint.ConstraintLayout>

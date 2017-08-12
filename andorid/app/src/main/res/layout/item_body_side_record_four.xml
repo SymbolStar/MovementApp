@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    android:layout_marginBottom="10dp"
+    android:background="@color/bg_white"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/textView62"
+        android:layout_width="70dp"
+        android:layout_height="25dp"
+        android:background="@drawable/body_side_record_title_shap"
+        android:gravity="center"
+        android:text="第四节"
+        android:textColor="@color/text_color"
+        app:layout_constraintBottom_toTopOf="@+id/view46"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.533" />
+
+    <View
+        android:id="@+id/view46"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="40dp"
+        android:background="@color/bg_grey"
+        app:layout_constraintHorizontal_bias="0.508"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView63"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:drawableLeft="@drawable/my_health_record_oval_shape"
+        android:drawablePadding="10dp"
+        android:singleLine="true"
+        android:text="正面"
+        android:textColor="@color/text_color"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view46" />
+
+    <TextView
+        android:id="@+id/textView133"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:drawableLeft="@drawable/my_health_record_oval_shape"
+        android:drawablePadding="10dp"
+        android:singleLine="true"
+        android:text="背面"
+        android:textColor="@color/text_color"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_body_side_four_1" />
+
+    <TextView
+        android:id="@+id/textView134"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:drawableLeft="@drawable/my_health_record_oval_shape"
+        android:drawablePadding="10dp"
+        android:singleLine="true"
+        android:text="舌苔"
+        android:textColor="@color/text_color"
+        app:layout_constraintLeft_toLeftOf="@+id/guideline9"
+        app:layout_constraintTop_toBottomOf="@+id/iv_body_side_four_2" />
+
+    <ImageView
+        android:id="@+id/iv_body_side_four_4"
+        android:layout_width="110dp"
+        android:layout_height="80dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintLeft_toLeftOf="@+id/textView134"
+        app:layout_constraintTop_toBottomOf="@+id/textView134"
+        app:srcCompat="@color/bg_lesson_text" />
+
+    <ImageView
+        android:id="@+id/iv_body_side_four_2"
+        android:layout_width="110dp"
+        android:layout_height="80dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintLeft_toLeftOf="@+id/textView135"
+        app:layout_constraintTop_toBottomOf="@+id/textView135"
+        app:srcCompat="@color/bg_lesson_text" />
+
+    <TextView
+        android:id="@+id/textView135"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:drawableLeft="@drawable/my_health_record_oval_shape"
+        android:drawablePadding="10dp"
+        android:singleLine="true"
+        android:text="侧面"
+        android:textColor="@color/text_color"
+        app:layout_constraintLeft_toLeftOf="@+id/guideline9"
+        app:layout_constraintTop_toBottomOf="@+id/view46" />
+
+    <ImageView
+        android:id="@+id/iv_body_side_four_1"
+        android:layout_width="110dp"
+        android:layout_height="80dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintLeft_toLeftOf="@+id/textView63"
+        app:layout_constraintTop_toBottomOf="@+id/textView63"
+        app:srcCompat="@color/bg_lesson_text" />
+
+    <ImageView
+        android:id="@+id/iv_body_side_four_3"
+        android:layout_width="110dp"
+        android:layout_height="80dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintLeft_toLeftOf="@+id/textView133"
+        app:layout_constraintTop_toBottomOf="@+id/textView133"
+        app:srcCompat="@color/bg_lesson_text"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+
+</android.support.constraint.ConstraintLayout>

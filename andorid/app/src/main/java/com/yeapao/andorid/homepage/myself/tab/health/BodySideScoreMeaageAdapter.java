@@ -1,6 +1,7 @@
 package com.yeapao.andorid.homepage.myself.tab.health;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -19,6 +20,7 @@ import com.github.mikephil.charting.data.RadarDataSet;
 import com.github.mikephil.charting.data.RadarEntry;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IRadarDataSet;
+import com.scottfu.sflibrary.util.LogUtil;
 import com.yeapao.andorid.R;
 import com.yeapao.andorid.model.HealthDataModel;
 
@@ -57,7 +59,7 @@ public class BodySideScoreMeaageAdapter extends RecyclerView.Adapter<RecyclerVie
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-
+        ((ScoreViewHolder)holder).setData(position);
     }
 
     @Override
@@ -89,7 +91,7 @@ public class BodySideScoreMeaageAdapter extends RecyclerView.Adapter<RecyclerVie
             healthRadarChart.setWebColorInner(mContext.getResources().getColor(R.color.text_hint_color));
             healthRadarChart.setWebAlpha(100);
 
-            setData();
+//            setData();
 
             healthRadarChart.getDescription().setEnabled(false);
             Legend l = healthRadarChart.getLegend();
@@ -127,7 +129,7 @@ public class BodySideScoreMeaageAdapter extends RecyclerView.Adapter<RecyclerVie
         }
 
 
-         public void setData() {
+         public void setData(int position) {
 
              float mult = 80;
              float min = 20;
@@ -138,13 +140,24 @@ public class BodySideScoreMeaageAdapter extends RecyclerView.Adapter<RecyclerVie
 
              // NOTE: The order of the entries when being added to the entries array determines their position around the center of
              // the chart.
-             for (int i = 0; i < cnt; i++) {
-                 float val1 = (float) (Math.random() * mult) + min;
-                 entries1.add(new RadarEntry(val1));
+//             for (int i = 0; i < cnt; i++) {
+//                 float val1 = (float) (Math.random() * mult) + min;
+//                 LogUtil.e(TAG,String.valueOf(val1));
+//                 entries1.add(new RadarEntry(val1));
+//
+//                 float val2 = (float) (Math.random() * mult) + min;
+//                 entries2.add(new RadarEntry(val2));
+//             }
+             LogUtil.e(TAG,String.valueOf(position));
 
-                 float val2 = (float) (Math.random() * mult) + min;
-                 entries2.add(new RadarEntry(val2));
-             }
+
+            entries1.add(new RadarEntry(testScoresListOutsBeanList.get(position).getLowerExtremityStrength()));
+            entries1.add(new RadarEntry(testScoresListOutsBeanList.get(position).getPrecursor()));
+            entries1.add(new RadarEntry(testScoresListOutsBeanList.get(position).getUpperLimbStrength()));
+            entries1.add(new RadarEntry(testScoresListOutsBeanList.get(position).getLegEndurance()));
+            entries1.add(new RadarEntry(  Float.valueOf(testScoresListOutsBeanList.get(position).getInBody())));
+
+
 
              RadarDataSet set1 = new RadarDataSet(entries1, "Last Week");
 //        set1.setColor(Color.rgb(103, 110, 129));
@@ -157,14 +170,14 @@ public class BodySideScoreMeaageAdapter extends RecyclerView.Adapter<RecyclerVie
              set1.setDrawHighlightCircleEnabled(true);
              set1.setDrawHighlightIndicators(false);
 
-             RadarDataSet set2 = new RadarDataSet(entries2, "This Week");
-             set2.setColor(Color.rgb(121, 162, 175));
-             set2.setFillColor(Color.rgb(121, 162, 175));
-             set2.setDrawFilled(true);
-             set2.setFillAlpha(180);
-             set2.setLineWidth(2f);
-             set2.setDrawHighlightCircleEnabled(true);
-             set2.setDrawHighlightIndicators(false);
+//             RadarDataSet set2 = new RadarDataSet(entries2, "This Week");
+//             set2.setColor(Color.rgb(121, 162, 175));
+//             set2.setFillColor(Color.rgb(121, 162, 175));
+//             set2.setDrawFilled(true);
+//             set2.setFillAlpha(180);
+//             set2.setLineWidth(2f);
+//             set2.setDrawHighlightCircleEnabled(true);
+//             set2.setDrawHighlightIndicators(false);
 
              ArrayList<IRadarDataSet> sets = new ArrayList<IRadarDataSet>();
              sets.add(set1);

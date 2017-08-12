@@ -27,13 +27,18 @@ import com.github.mikephil.charting.data.RadarDataSet;
 import com.github.mikephil.charting.data.RadarEntry;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IRadarDataSet;
+import com.scottfu.sflibrary.recyclerview.OnRecyclerViewClickListener;
 import com.scottfu.sflibrary.util.LogUtil;
 import com.scottfu.sflibrary.util.ScreenUtil;
+import com.scottfu.sflibrary.util.ToastManager;
 import com.yeapao.andorid.R;
 import com.yeapao.andorid.api.Network;
 import com.yeapao.andorid.base.BaseActivity;
+import com.yeapao.andorid.homepage.myself.tab.health.BodySideDetailActivity;
+import com.yeapao.andorid.homepage.myself.tab.health.BodySideRecordMessageAdapter;
 import com.yeapao.andorid.homepage.myself.tab.health.BodySideScoreMeaageAdapter;
 import com.yeapao.andorid.model.HealthDataModel;
+import com.yeapao.andorid.util.GlobalDataYepao;
 
 import java.util.ArrayList;
 
@@ -71,6 +76,7 @@ public class MyselfHealthActivity extends BaseActivity {
     private HealthDataModel healthModel;
 
     private BodySideScoreMeaageAdapter scoreMeaageAdapter;
+    private BodySideRecordMessageAdapter recordMessageAdapter;
 
 
 
@@ -90,9 +96,9 @@ public class MyselfHealthActivity extends BaseActivity {
         initTopBar();
         weightChart = (LineChart) findViewById(R.id.lc_weight_chart);
         bmiChart = (LineChart) findViewById(R.id.lc_bmi_chart);
-        initLineChart();
+
         initScoreChart();
-        getNetWork("1");
+        getNetWork(GlobalDataYepao.getUser(getContext()).getId());
 
 
 
@@ -116,6 +122,23 @@ public class MyselfHealthActivity extends BaseActivity {
                 rvHealthList.setAdapter(scoreMeaageAdapter);
                 scoreMeaageAdapter.notifyDataSetChanged();
             }
+        } else {
+            if (recordMessageAdapter == null) {
+                recordMessageAdapter = new BodySideRecordMessageAdapter(getContext(),
+                        healthModel.getData().getTestTecordListOuts());
+                recordMessageAdapter.setOnItemClickListener(new OnRecyclerViewClickListener() {
+                    @Override
+                    public void OnItemClick(View v, int position) {
+                        ToastManager.showToast(getContext(),"onitemClick");
+                        BodySideDetailActivity.start(getContext(),
+                               String.valueOf(healthModel.getData().getTestTecordListOuts().get(position).getBodySideId()) );
+                    }
+                });
+                rvHealthList.setAdapter(recordMessageAdapter);
+            } else {
+                rvHealthList.setAdapter(recordMessageAdapter);
+                recordMessageAdapter.notifyDataSetChanged();
+            }
         }
 
     }
@@ -134,8 +157,8 @@ public class MyselfHealthActivity extends BaseActivity {
         description.setPosition(1000, 80);
 
 //        获取数据
-        LineData data = getData(30, 50);
-        LineData data1 = getData(30, 20);
+        LineData data = chooseData(true);
+        LineData data1 = chooseData(false);
         setupChart(weightChart, data, description);
         setupChart(bmiChart, data1, description);
 
@@ -224,6 +247,8 @@ public class MyselfHealthActivity extends BaseActivity {
             yVals.add(new Entry(i, val));
         }
 
+
+
         // create a dataset and give it a type
         LineDataSet set1 = new LineDataSet(yVals, "DataSet 1");
         // set1.setFillAlpha(110);
@@ -235,7 +260,7 @@ public class MyselfHealthActivity extends BaseActivity {
         set1.setColor(Color.WHITE);
         set1.setCircleColor(Color.WHITE);
         set1.setHighLightColor(Color.WHITE);
-        set1.setDrawValues(false);
+        set1.setDrawValues(true);
 
         // create a data object with the datasets
         LineData data = new LineData(set1);
@@ -244,16 +269,53 @@ public class MyselfHealthActivity extends BaseActivity {
     }
 
 
+    private LineData chooseData(boolean flag) {
+        ArrayList<Entry> yVals = new ArrayList<Entry>();
+        if (flag) {
+            for (int i = 0; i < healthModel.getData().getWeightListOuts().size(); i++) {
+                float val = Float.valueOf(healthModel.getData().getWeightListOuts().get(i).getWeight());
+                yVals.add(new Entry(i, val));
+            }
+
+        } else {
+            for (int i = 0; i < healthModel.getData().getBMIListOut().size(); i++) {
+                float val = Float.valueOf(healthModel.getData().getBMIListOut().get(i).getBmi());
+                yVals.add(new Entry(i, val));
+            }
+        }
+
+
+        // create a dataset and give it a type
+        LineDataSet set1 = new LineDataSet(yVals, "DataSet 1");
+        // set1.setFillAlpha(110);
+        // set1.setFillColor(Color.RED);
+
+        set1.setLineWidth(1.75f);
+        set1.setCircleRadius(5f);
+        set1.setCircleHoleRadius(2.5f);
+        set1.setColor(Color.WHITE);
+        set1.setCircleColor(Color.WHITE);
+        set1.setHighLightColor(Color.WHITE);
+        set1.setDrawValues(true);
+
+        // create a data object with the datasets
+        LineData data = new LineData(set1);
+        return data;
+    }
 
 
     @OnClick({R.id.tv_score, R.id.tv_record})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_score:
+                type = true;
+                showRecyclerView(true);
                 vScore.setVisibility(View.VISIBLE);
                 vRecord.setVisibility(View.GONE);
                 break;
             case R.id.tv_record:
+                type = false;
+                showRecyclerView(false);
                 vScore.setVisibility(View.GONE);
                 vRecord.setVisibility(View.VISIBLE);
                 break;
@@ -272,6 +334,7 @@ public class MyselfHealthActivity extends BaseActivity {
                   Observer<HealthDataModel> modelObserver = new Observer<HealthDataModel>() {
                     @Override
                     public void onCompleted() {
+                        initLineChart();
                         showRecyclerView(type);
                     }
 

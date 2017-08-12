@@ -1,5 +1,6 @@
 package com.yeapao.andorid.api;
 
+import com.yeapao.andorid.model.BodySideDetailModel;
 import com.yeapao.andorid.model.BodySideForthBackModel;
 import com.yeapao.andorid.model.BodySideListModel;
 import com.yeapao.andorid.model.BodySideOneGetModel;
@@ -155,5 +156,10 @@ public interface YeapaoApi {
 //食谱 食品库
     @POST("cookbook/detail")
     Observable<CookListDetailModel> getCookDetail(@Query("threeMeals") String meal, @Query("type") String type);
+
+
+    @POST("user/testDetails")
+    Observable<BodySideDetailModel> getBodySideDetail(@Query("bodySideId") String id);
+
 
 }
