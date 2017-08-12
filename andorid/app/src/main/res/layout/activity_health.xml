@@ -180,7 +180,6 @@
                 android:layout_height="1dp"
                 android:background="@color/bg_grey"/>
 
-            <include layout="@layout/item_health_score" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_health_list"

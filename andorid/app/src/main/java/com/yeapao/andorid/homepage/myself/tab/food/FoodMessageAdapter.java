@@ -16,7 +16,10 @@ import com.scottfu.sflibrary.view.HeightGirdView;
 import com.yeapao.andorid.R;
 import com.yeapao.andorid.dialog.ChooseFoodDialogFragment;
 import com.yeapao.andorid.dialog.DialogUtils;
+import com.yeapao.andorid.homepage.lesson.LessonFragmentView;
+import com.yeapao.andorid.model.CookListDetailModel;
 import com.yeapao.andorid.model.FoodInfoModel;
+import com.yeapao.andorid.util.GlobalDataYepao;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -56,6 +59,34 @@ public class FoodMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         return null;
     }
 
+
+    public void refresh() {
+        CookListDetailModel.DataBean dataBean = GlobalDataYepao.getFoodDetail();
+        if (dataBean.getMeal().equals("breakfast")) {
+            FoodInfoModel.DataBean.LunchBean breakfastBean = new FoodInfoModel.DataBean.LunchBean();
+            breakfastBean.setImage(dataBean.getImage());
+            breakfastBean.setMeasure(dataBean.getMeasure());
+            breakfastBean.setName(dataBean.getName());
+            foodInfoModel.getData().getBreakfast().set(Integer.valueOf(dataBean.getPosition())-1, breakfastBean);
+            notifyDataSetChanged();
+        } else if (dataBean.getMeal().equals("lunch")) {
+            FoodInfoModel.DataBean.LunchBean breakfastBean = new FoodInfoModel.DataBean.LunchBean();
+            breakfastBean.setImage(dataBean.getImage());
+            breakfastBean.setMeasure(dataBean.getMeasure());
+            breakfastBean.setName(dataBean.getName());
+            foodInfoModel.getData().getLunch().set(Integer.valueOf(dataBean.getPosition())-1, breakfastBean);
+            notifyDataSetChanged();
+        } else {
+            FoodInfoModel.DataBean.LunchBean breakfastBean = new FoodInfoModel.DataBean.LunchBean();
+            breakfastBean.setImage(dataBean.getImage());
+            breakfastBean.setMeasure(dataBean.getMeasure());
+            breakfastBean.setName(dataBean.getName());
+            foodInfoModel.getData().getDinner().set(Integer.valueOf(dataBean.getPosition())-1, breakfastBean);
+            notifyDataSetChanged();
+
+        }
+    }
+
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 
@@ -72,7 +103,7 @@ public class FoodMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 //                    ChooseFoodDialogFragment dialogFragment = new ChooseFoodDialogFragment();
 //                    dialogFragment.setStyle(DialogFragment.STYLE_NO_FRAME, 0);
 //                    dialogFragment.show(fragmentManager,"dialog");
-                        TestActivity.start(mContext);
+                        TestActivity.start(mContext,"breakfast",String.valueOf(position+1));
                     }
                 });
 
@@ -84,7 +115,7 @@ public class FoodMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         ToastManager.showToast(mContext,"OnClick");
-                        TestActivity.start(mContext);
+                        TestActivity.start(mContext,"lunch",String.valueOf(position+1));
                     }
                 });
 
@@ -96,7 +127,7 @@ public class FoodMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         ToastManager.showToast(mContext,"OnClick");
-                        TestActivity.start(mContext);
+                        TestActivity.start(mContext,"dinner",String.valueOf(position+1));
                     }
                 });
 
