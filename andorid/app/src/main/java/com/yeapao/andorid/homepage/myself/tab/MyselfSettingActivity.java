@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.yeapao.andorid.R;
 import com.yeapao.andorid.api.ConstantYeaPao;
 import com.yeapao.andorid.base.BaseActivity;
+import com.yeapao.andorid.dialog.DialogUtils;
 import com.yeapao.andorid.util.GlobalDataYepao;
 
 import butterknife.BindView;
@@ -44,6 +45,8 @@ public class MyselfSettingActivity extends BaseActivity {
         setContentView(R.layout.activity_setting);
         ButterKnife.bind(this);
         initTopBar();
+//        DialogUtils.showProgressDialog(getContext());
+//        DialogUtils.cancelProgressDialog();
     }
 
     @Override

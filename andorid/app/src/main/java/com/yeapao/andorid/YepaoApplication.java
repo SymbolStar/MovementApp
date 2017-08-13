@@ -1,6 +1,9 @@
 package com.yeapao.andorid;
 
 import android.app.Application;
+import android.content.Context;
+import android.support.multidex.MultiDex;
+import android.support.multidex.MultiDexApplication;
 
 import com.scottfu.sflibrary.cache.ACache;
 import com.scottfu.sflibrary.util.FileUtil;
@@ -11,7 +14,7 @@ import com.zxy.tiny.Tiny;
  * Created by fujindong on 2017/7/25.
  */
 
-public class YepaoApplication extends Application {
+public class YepaoApplication extends MultiDexApplication {
 
 
 
@@ -20,7 +23,11 @@ public class YepaoApplication extends Application {
     public static ACache ACACHE;
     public static ACache YXTCACHE;
 
-
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
+    }
 
 
     @Override

@@ -4,6 +4,7 @@
     <string name="tab_shopping">购课</string>
     <string name="tab_circle">发现</string>
     <string name="tab_myself">我的</string>
+    <string name="tab_video">视频</string>
 
     <string name="lesson_find_hint">搜索场馆名称／地址／运动项目</string>
     <string name="lesson_hint">此课程仅限本人使用\n课前1小时停止预约\n取消预约请于课前2小时提出申请</string>

@@ -2,6 +2,7 @@ package com.yeapao.andorid.dialog;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.media.Image;
 import android.os.Build;
@@ -23,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.scottfu.sflibrary.util.GlideUtil;
+import com.scottfu.sflibrary.util.ScreenUtil;
 import com.scottfu.sflibrary.zxing.GenerateQRCode;
 import com.yeapao.andorid.R;
 import com.yeapao.andorid.api.ConstantYeaPao;
@@ -45,6 +47,54 @@ import me.yuqirong.cardswipelayout.OnSwipeListener;
 
 public class DialogUtils {
 
+
+
+    public static final String DEFAULT_DIALOG_MESSAGE = "加载中...";
+    public static ProgressDialog pDialog = null;
+
+    public static void showProgressDialog(Context context){
+        showProgressDialog(context, DEFAULT_DIALOG_MESSAGE);
+    }
+
+    public static void showProgressDialog(Context context, String message){
+        showProgressDialog(context, message, false);
+    }
+
+
+    public static void showProgressDialog(Context context, String message, boolean cancelable){
+        if(pDialog != null){
+            pDialog.dismiss();
+            pDialog = null;
+        }
+        pDialog = new ProgressDialog(context);
+        pDialog.setCancelable(cancelable);
+        pDialog.show();
+
+        View v = LayoutInflater.from(context).inflate(R.layout.dialog_loading, null);
+
+
+        pDialog.setContentView(v);
+        WindowManager.LayoutParams params = pDialog.getWindow().getAttributes();
+        params.width = ScreenUtil.dpToPxInt(context, 100);
+        params.height = ScreenUtil.dpToPxInt(context, 100);
+        pDialog.getWindow().setAttributes(params);
+    }
+
+    public static ProgressDialog getProgressDialog(Context context, String message){
+        ProgressDialog dialog = new ProgressDialog(context);
+        dialog.setMessage(message);
+        return dialog;
+    }
+
+
+    public static void cancelProgressDialog(){
+        if(pDialog == null) return;
+        if(pDialog.isShowing()){
+            pDialog.dismiss();
+        }
+    }
+
+//卡片滑动效果
     public static void showCardSwipe(final Context context) {
 
          List<Integer> listV = new ArrayList<>();
@@ -115,18 +165,6 @@ public class DialogUtils {
 
 
     }
-
-
-//    private void initData() {
-//        list.add(R.drawable.img_avatar_01);
-//        list.add(R.drawable.img_avatar_02);
-//        list.add(R.drawable.img_avatar_03);
-//        list.add(R.drawable.img_avatar_04);
-//        list.add(R.drawable.img_avatar_05);
-//        list.add(R.drawable.img_avatar_06);
-//        list.add(R.drawable.img_avatar_07);
-//    }
-
     private static class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         private List<Integer> list = new ArrayList<>();
