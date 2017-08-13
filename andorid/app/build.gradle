@@ -11,6 +11,22 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
+
+
+        ndk {
+            //选择要添加的对应cpu类型的.so库。
+            abiFilters 'armeabi', 'armeabi-v7a', 'armeabi-v8a'
+            // 还可以添加 'x86', 'x86_64', 'mips', 'mips64'
+        }
+
+        manifestPlaceholders = [
+                JPUSH_PKGNAME : applicationId,
+                JPUSH_APPKEY : "b268156e710fa2cb742f8df5", //JPush上注册的包名对应的appkey.
+                JPUSH_CHANNEL : "developer-default", //暂时填写默认值即可.
+        ]
+
+
+
     }
 
     defaultConfig {
@@ -47,6 +63,10 @@ dependencies {
     //  jakewharton annotation plugin
     compile 'com.jakewharton:butterknife:8.7.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.7.0'
+
+
+    compile 'cn.jiguang.sdk:jpush:3.0.8'  // 此处以JPush 3.0.8 版本为例。
+    compile 'cn.jiguang.sdk:jcore:1.1.6'  // 此处以JCore 1.1.6 版本为例。
 
     testCompile 'junit:junit:4.12'
     compile project(':sflibrary')

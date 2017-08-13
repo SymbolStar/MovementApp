@@ -10,6 +10,10 @@ import com.scottfu.sflibrary.util.FileUtil;
 import com.scottfu.sflibrary.util.LogUtil;
 import com.zxy.tiny.Tiny;
 
+import java.util.jar.JarOutputStream;
+
+import cn.jpush.android.api.JPushInterface;
+
 /**
  * Created by fujindong on 2017/7/25.
  */
@@ -40,6 +44,9 @@ public class YepaoApplication extends MultiDexApplication {
 //        异步图片压缩
         Tiny.getInstance().init(this);
 
+//        JPush初始化
+        JPushInterface.setDebugMode(true);
+        JPushInterface.init(this);
 
         //初始化文件路径
         FileUtil.initFilePath(this);
