@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="40dp"
+    android:background="@color/colorPrimary">
+
+    <ImageView
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:layout_width="40dp"
+        android:src="@drawable/home_logo"
+        android:layout_height="wrap_content" />
+
+    <FrameLayout
+        android:id="@+id/fl_info"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginRight="10dp"
+        android:layout_alignParentRight="true">
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/home_information3x"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            />
+        <TextView
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="3dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|top"
+            android:background="@drawable/video_oval_shape"
+            android:gravity="center"
+            android:text="1"
+            android:textColor="@color/bg_white"
+            android:textSize="12sp"/>
+    </FrameLayout>
+
+
+
+</RelativeLayout>

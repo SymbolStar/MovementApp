@@ -14,6 +14,24 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+
+    <style name="splash" parent="AppTheme.NoActionBar">
+
+        <item name="android:windowBackground">@drawable/bg_splash</item>
+        <item name="android:windowFullscreen">true</item>
+        <!--<item name="android:windowNoTitle">true</item>-->
+        <!--<item name="android:windowActionBar">false</item>-->
+        <!--<item name="android:windowFullscreen">true</item>-->
+        <!--<item name="android:windowContentOverlay">@null</item>-->
+        <!--<item name="android:windowIsTranslucent">true</item>-->
+    </style>
+
+
+    <!--引导页主题-->
+    <style name="AppIntro" parent="AppTheme.NoActionBar">
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <!--appbar 滑动bar的主题定义-->

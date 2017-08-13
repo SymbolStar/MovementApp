@@ -33,7 +33,7 @@
     <com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx
         android:id="@+id/bnv_tab"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:background="@color/bottomBackgroundColor"
         android:layout_gravity="bottom"
         app:itemIconTint="@color/selector_bottom_item_yellow"

@@ -11,11 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.google.common.base.MoreObjects;
 import com.scottfu.sflibrary.recyclerview.OnRecyclerViewClickListener;
 import com.scottfu.sflibrary.util.ToastManager;
 import com.yeapao.andorid.R;
-import com.yeapao.andorid.homepage.circle.circledetail.CircleDetailActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

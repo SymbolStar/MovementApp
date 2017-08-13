@@ -1,23 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item
-        android:id="@+id/home_lesson"
-        android:icon="@drawable/home_circle_n3x"
-        android:title="@string/tab_lesson" />
+    <!--<item-->
+    <!--android:id="@+id/home_lesson"-->
+    <!--android:icon="@drawable/home_circle_n3x"-->
+    <!--android:title="@string/tab_lesson" />-->
 
     <item
-        android:id="@+id/home_shopping"
-        android:icon="@drawable/home_shopping_n3x"
-        android:title="@string/tab_shopping" />
+        android:id="@+id/home_video"
+        android:icon="@drawable/home_vedio_n"
+        android:title="@string/tab_video" />
+
 
     <item
-        android:id="@+id/home_circle"
-        android:icon="@drawable/home_circle_n3x"
-        android:title="@string/tab_circle" />
+    android:id="@+id/home_lesson"
+    android:icon="@drawable/home_lesson_n"
+    android:title="@string/tab_shopping" />
+
+
     <item
-        android:id="@+id/home_myself"
-        android:icon="@drawable/home_myself_n3x"
-        android:title="@string/tab_myself" />
+    android:id="@+id/home_myself"
+    android:icon="@drawable/home_myself_n3x"
+    android:title="@string/tab_myself"
+        />
+
+
+    <!--<item-->
+        <!--android:id="@+id/home_lesson"-->
+        <!--android:icon="@drawable/home_circle_n3x"-->
+        <!--android:title="@string/tab_lesson" />-->
+
+    <!--<item-->
+        <!--android:id="@+id/home_shopping"-->
+        <!--android:icon="@drawable/home_shopping_n3x"-->
+        <!--android:title="@string/tab_shopping" />-->
+
+    <!--<item-->
+        <!--android:id="@+id/home_circle"-->
+        <!--android:icon="@drawable/home_circle_n3x"-->
+        <!--android:title="@string/tab_circle" />-->
+    <!--<item-->
+        <!--android:id="@+id/home_myself"-->
+        <!--android:icon="@drawable/home_myself_n3x"-->
+        <!--android:title="@string/tab_myself" />-->
 
 </menu>

@@ -2,6 +2,7 @@ package com.yeapao.andorid;
 
 import android.Manifest;
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -35,12 +36,16 @@ import com.yeapao.andorid.homepage.myself.MyselfFragmentView;
 import com.yeapao.andorid.homepage.myself.MyselfPresenter;
 import com.yeapao.andorid.homepage.shopping.ShoppingFragmentView;
 import com.yeapao.andorid.homepage.shopping.ShoppingPresenter;
+import com.yeapao.andorid.homepage.video.VideoContract;
+import com.yeapao.andorid.homepage.video.VideoFragmentView;
+import com.yeapao.andorid.homepage.video.VideoPresenter;
 import com.yeapao.andorid.util.GlobalDataYepao;
 
 import java.net.FileNameMap;
 import java.util.ArrayList;
 import java.util.List;
 
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 import q.rorbin.badgeview.Badge;
 import q.rorbin.badgeview.QBadgeView;
 
@@ -56,11 +61,13 @@ public class MainActivity extends PermissionActivity {
     private ShoppingFragmentView shoppingFragmentView;
     private CircleFragmentView circleFragmentView;
     private MyselfFragmentView myselfFragmentView;
+    private VideoFragmentView videoFragmentView;
 
     private LessonPresenter lessonPresenter;
     private ShoppingPresenter shoppingPresenter;
     private CirclePresenter circlePresenter;
     private MyselfPresenter myselfPresenter;
+    private VideoPresenter videoPresenter;
 
 
     private SparseIntArray items;// used for change ViewPager selected item
@@ -70,54 +77,61 @@ public class MainActivity extends PermissionActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(R.style.AppTheme_NoActionBar);
         setContentView(R.layout.activity_main);
         ActivityCollector.addActivity(this);
+
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);//初始隐藏键盘
         bind = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
         initView();
         permissionCheck();
 
-        fragments = new ArrayList<>(4);
-        items = new SparseIntArray(4);
+        fragments = new ArrayList<>(3);
+        items = new SparseIntArray(3);
 
         if (savedInstanceState != null) {
             FragmentManager fragmentManager = getSupportFragmentManager();
             lessonFragmentView = (LessonFragmentView) fragmentManager.getFragment(savedInstanceState, "lesson");
-            shoppingFragmentView = (ShoppingFragmentView) fragmentManager.getFragment(savedInstanceState, "shopping");
-            circleFragmentView = (CircleFragmentView) fragmentManager.getFragment(savedInstanceState, "circle");
+//            shoppingFragmentView = (ShoppingFragmentView) fragmentManager.getFragment(savedInstanceState, "shopping");
+//            circleFragmentView = (CircleFragmentView) fragmentManager.getFragment(savedInstanceState, "circle");
             myselfFragmentView = (MyselfFragmentView) fragmentManager.getFragment(savedInstanceState, "myself");
+            videoFragmentView = (VideoFragmentView) fragmentManager.getFragment(savedInstanceState, "video");
 
+            fragments.add(videoFragmentView);
             fragments.add(lessonFragmentView);
-            fragments.add(shoppingFragmentView);
-            fragments.add(circleFragmentView);
+//            fragments.add(shoppingFragmentView);
+//            fragments.add(circleFragmentView);
             fragments.add(myselfFragmentView);
         } else {
             lessonFragmentView = LessonFragmentView.newInstance();
-            shoppingFragmentView = ShoppingFragmentView.newInstance();
-            circleFragmentView = CircleFragmentView.newInstance();
+//            shoppingFragmentView = ShoppingFragmentView.newInstance();
+//            circleFragmentView = CircleFragmentView.newInstance();
             myselfFragmentView = MyselfFragmentView.newInstance();
+            videoFragmentView = VideoFragmentView.newInstance();
 
+            fragments.add(videoFragmentView);
             fragments.add(lessonFragmentView);
-            fragments.add(shoppingFragmentView);
-            fragments.add(circleFragmentView);
+//            fragments.add(shoppingFragmentView);
+//            fragments.add(circleFragmentView);
             fragments.add(myselfFragmentView);
         }
 
         lessonPresenter = new LessonPresenter(getContext(), lessonFragmentView);
-        shoppingPresenter = new ShoppingPresenter(getContext(), shoppingFragmentView);
-        circlePresenter = new CirclePresenter(getContext(), circleFragmentView);
+//        shoppingPresenter = new ShoppingPresenter(getContext(), shoppingFragmentView);
+//        circlePresenter = new CirclePresenter(getContext(), circleFragmentView);
         myselfPresenter = new MyselfPresenter(getContext(), myselfFragmentView);
+        videoPresenter = new VideoPresenter(getContext(), videoFragmentView);
 
 //        fragments.add(lessonFragmentView);
 //        fragments.add(shoppingFragmentView);
 //        fragments.add(circleFragmentView);
 //        fragments.add(myselfFragmentView);
 
-        items.put(R.id.home_lesson, 0);
-        items.put(R.id.home_shopping, 1);
-        items.put(R.id.home_circle, 2);
-        items.put(R.id.home_myself, 3);
+        items.put(R.id.home_video, 0);
+        items.put(R.id.home_lesson, 1);
+//        items.put(R.id.home_circle, 2);
+        items.put(R.id.home_myself, 2);
 
 
         mainPagerAdapter = new MainPagerAdapter(getSupportFragmentManager(), fragments);
@@ -142,8 +156,9 @@ public class MainActivity extends PermissionActivity {
         bind.bnvTab.enableShiftingMode(false);
         bind.bnvTab.enableItemShiftingMode(false);
 
-        bind.bnvTab.setIconSize(24, 24);
-        bind.bnvTab.setTextSize(10);
+        bind.bnvTab.setIconSize(25, 25);
+//        bind.bnvTab.setTextSize(10);
+        bind.bnvTab.setTextVisibility(false);
 
 
         // add badge
@@ -275,6 +290,15 @@ public class MainActivity extends PermissionActivity {
         return this;
     }
 
+
+    @Override
+    public void onBackPressed() {
+        if (JCVideoPlayer.backPress()) { //先退出视频
+            return;
+        }
+        super.onBackPressed();
+    }
+
     /**
      * 主要是为了解决在首页 店铺少的时候 无法实现筛选栏的顶部悬浮。
      * @param ev
@@ -283,7 +307,7 @@ public class MainActivity extends PermissionActivity {
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
 
-        if (bind.bnvTab.getCurrentItem() == 0) {
+        if (bind.bnvTab.getCurrentItem() == 1) {
             lessonFragmentView.goneScreening();
         }
         return super.dispatchTouchEvent(ev);

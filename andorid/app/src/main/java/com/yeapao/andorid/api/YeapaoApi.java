@@ -20,6 +20,7 @@ import com.yeapao.andorid.model.NormalDataModel;
 import com.yeapao.andorid.model.RegisterModel;
 import com.yeapao.andorid.model.RollCallListModel;
 import com.yeapao.andorid.model.TestData;
+import com.yeapao.andorid.model.VideoDataModel;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -157,9 +158,12 @@ public interface YeapaoApi {
     @POST("cookbook/detail")
     Observable<CookListDetailModel> getCookDetail(@Query("threeMeals") String meal, @Query("type") String type);
 
-
+//体测记录详情
     @POST("user/testDetails")
     Observable<BodySideDetailModel> getBodySideDetail(@Query("bodySideId") String id);
 
+    //获取视频
+    @POST("video/list")
+    Observable<VideoDataModel> getVideoData(@Query("type") String type);
 
 }
