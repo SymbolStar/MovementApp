@@ -58,6 +58,44 @@ public class OrderInfoUtil2_0 {
 		return keyValues;
 	}
 
+
+	/**
+	 * 根据订单信息构建支付宝需要的信息串
+	 * @param orderInfo
+	 * @param notifyUrl 回调url
+	 * @return
+	 */
+	public static String getNewOrderInfo(OrderCommitted orderInfo , String notifyUrl) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("{");
+		sb.append("\"&out_trade_no=\"");
+		sb.append(orderInfo.getOrderID());
+		sb.append("\"&subject=\"");
+		sb.append(orderInfo.getOrderName());
+		sb.append("\"&body=\"");
+		sb.append(orderInfo.getNameList());
+		sb.append("\"&total_amount=\"");
+		sb.append(orderInfo.getFinalPrice());
+		sb.append("\"&notify_url=\"");
+
+		sb.append(notifyUrl);
+		sb.append("\"&service=\"mobile.securitypay.pay");
+		sb.append("\"&return_url=\"");
+		sb.append("http://m.alipay.com");
+		sb.append("\"&payment_type=\"1");
+		sb.append("\"&seller_id=\"");
+		sb.append("mamin@yeapao.com");
+
+		// 如果show_url值为空，可不传
+		// sb.append("\"&show_url=\"");
+		sb.append("\"&it_b_pay=\"1d");
+		sb.append("\"");
+
+		return new String(sb);
+	}
+
+
+
 	/**
 	 * 构造支付订单参数列表
 	 * @param pid
@@ -65,12 +103,12 @@ public class OrderInfoUtil2_0 {
 	 * @param target_id
 	 * @return
 	 */
-	public static Map<String, String> buildOrderParamMap(String app_id, boolean rsa2) {
+	public static Map<String, String> buildOrderParamMap(String app_id, boolean rsa2,OrderCommitted orderCommitted) {
 		Map<String, String> keyValues = new HashMap<String, String>();
 
 		keyValues.put("app_id", app_id);
 
-		keyValues.put("biz_content", "{\"timeout_express\":\"30m\",\"product_code\":\"QUICK_MSECURITY_PAY\",\"total_amount\":\"0.01\",\"subject\":\"1\",\"body\":\"我是测试数据\",\"out_trade_no\":\"" + getOutTradeNo() +  "\"}");
+		keyValues.put("biz_content", "{\"timeout_express\":\"30m\",\"seller_id\":\"mamin@yeapao.com\",\"product_code\":\"QUICK_MSECURITY_PAY\",\"total_amount\":\""+orderCommitted.getFinalPrice()+"\",\"subject\":\"yepao\",\"body\":\"yepao\",\"out_trade_no\":\"" + orderCommitted.getOrderID() +  "\"}");
 		
 		keyValues.put("charset", "utf-8");
 

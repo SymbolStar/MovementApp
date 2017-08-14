@@ -17,9 +17,12 @@ import android.widget.Toast;
 
 import com.alipay.sdk.app.PayTask;
 import com.scottfu.sflibrary.alipay.AuthResult;
+import com.scottfu.sflibrary.alipay.OrderCommitted;
+import com.scottfu.sflibrary.alipay.OrderInfoUtil2_0;
 import com.scottfu.sflibrary.alipay.PayResult;
 import com.scottfu.sflibrary.util.LogUtil;
 import com.yeapao.andorid.R;
+import com.yeapao.andorid.api.ConstantYeaPao;
 import com.yeapao.andorid.api.Network;
 import com.yeapao.andorid.base.BaseActivity;
 import com.yeapao.andorid.model.CallPaymentModel;
@@ -152,7 +155,25 @@ public class ShoppingOrderActivity extends BaseActivity {
                         LogUtil.e(TAG, model.getErrmsg());
                         if (model.getErrmsg().equals("ok")) {
 
-                            final String orderInfo = model.getData().getAliPayInfo();   // 订单信息
+//                            final String orderInfo = model.getData().getAliPayInfo();   // 订单信息
+//                            LogUtil.e("orderInfo",orderInfo);
+
+
+                            OrderCommitted result = new OrderCommitted();
+                            result.setOrderID(model.getData().getOrderCode());
+//                            result.setOrderName("课程订单");
+//                            String mmm = String.format("%.2f", content.getAmount());
+                            result.setFinalPrice(model.getData().getPrice());
+//                            result.setNameList("111");
+
+                            Map<String, String> params = OrderInfoUtil2_0.buildOrderParamMap(ConstantYeaPao.APPID, true,result);
+                            String orderParam = OrderInfoUtil2_0.buildOrderParam(params);
+                            LogUtil.e("+++++++", orderParam);
+                            String privateKey = ConstantYeaPao.RSA2_PRIVATE;
+                            String sign = OrderInfoUtil2_0.getSign(params, privateKey, true);
+                            final String orderInfo = orderParam + "&" + sign;
+
+                            LogUtil.e("+++++++", orderInfo);
 
                             Runnable payRunnable = new Runnable() {
 
