@@ -9,12 +9,14 @@ import com.yeapao.andorid.model.BodySideThreeBackModel;
 import com.yeapao.andorid.model.BodySideThreeGetDataModel;
 import com.yeapao.andorid.model.BodySideTwoBackModel;
 import com.yeapao.andorid.model.BodySideTwoGetBackModel;
+import com.yeapao.andorid.model.CallPaymentModel;
 import com.yeapao.andorid.model.ClassBeginsModel;
 import com.yeapao.andorid.model.CookListDetailModel;
 import com.yeapao.andorid.model.FoodInfoModel;
 import com.yeapao.andorid.model.HealthDataModel;
 import com.yeapao.andorid.model.IAmCoachListModel;
 import com.yeapao.andorid.model.IsAmShopModel;
+import com.yeapao.andorid.model.LessonOrderModel;
 import com.yeapao.andorid.model.Myfiles;
 import com.yeapao.andorid.model.NormalDataModel;
 import com.yeapao.andorid.model.RegisterModel;
@@ -165,5 +167,15 @@ public interface YeapaoApi {
     //获取视频
     @POST("video/list")
     Observable<VideoDataModel> getVideoData(@Query("type") String type);
+
+    //创建订单
+    @POST("order/crateOrder")
+    Observable<LessonOrderModel> requestlessonOrder(@Query("mapCurriculumTypesId") String typeId,
+                                                    @Query("price") String price, @Query("id") String id);
+
+
+    @POST("payment/callPayment")
+    Observable<CallPaymentModel> requestPayment(@Query("price") String price, @Query("orderCode") String orderCode,
+                                                @Query("paymentType") String paymentType);
 
 }

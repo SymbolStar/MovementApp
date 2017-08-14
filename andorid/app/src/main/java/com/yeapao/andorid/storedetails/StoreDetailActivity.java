@@ -20,10 +20,12 @@ import com.yeapao.andorid.R;
 import com.yeapao.andorid.api.ConstantYeaPao;
 import com.yeapao.andorid.api.NetImpl;
 import com.yeapao.andorid.base.BaseActivity;
+import com.yeapao.andorid.homepage.shopping.ShoppingListActivity;
 import com.yeapao.andorid.model.StoreDetailModel;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by fujindong on 2017/7/13.
@@ -120,6 +122,14 @@ public class StoreDetailActivity extends BaseActivity {
 
             }
         });
+    }
+
+
+    @OnClick(R.id.tv_do)
+    void setJoinYeapao(View view) {
+        ToastManager.showToast(getContext(),"onclick");
+        ShoppingListActivity.start(getContext());
+
     }
 
     private void setData() {

@@ -21,8 +21,6 @@ import cn.jpush.android.api.JPushInterface;
 public class YepaoApplication extends MultiDexApplication {
 
 
-
-
     private static YepaoApplication application;
     public static ACache ACACHE;
     public static ACache YXTCACHE;

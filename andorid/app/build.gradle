@@ -68,6 +68,9 @@ dependencies {
     compile 'cn.jiguang.sdk:jpush:3.0.8'  // 此处以JPush 3.0.8 版本为例。
     compile 'cn.jiguang.sdk:jcore:1.1.6'  // 此处以JCore 1.1.6 版本为例。
 
+//    compile files('libs/alipaySdk-20170725.jar')
+
+
     testCompile 'junit:junit:4.12'
     compile project(':sflibrary')
 }

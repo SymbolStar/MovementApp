@@ -49,7 +49,7 @@
         app:layout_constraintTop_toBottomOf="@+id/view3" />
 
     <TextView
-        android:id="@+id/textView35"
+        android:id="@+id/tv_order_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
@@ -116,7 +116,7 @@
         app:layout_constraintVertical_bias="0.515" />
 
     <TextView
-        android:id="@+id/textView37"
+        android:id="@+id/tv_order_code"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
