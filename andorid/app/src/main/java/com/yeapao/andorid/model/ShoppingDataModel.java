@@ -64,6 +64,16 @@ public class ShoppingDataModel {
         private String curriculumName;
         private int onlinePrice;
         private int linePrice;
+        private long map_curriculum_typesId;
+
+        public long getMap_curriculum_typesId() {
+            return map_curriculum_typesId;
+        }
+
+        public void setMap_curriculum_typesId(long map_curriculum_typesId) {
+            this.map_curriculum_typesId = map_curriculum_typesId;
+        }
+
         private boolean lineChecked = false;
         private boolean onlineChecked = false;
 

@@ -7,16 +7,22 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.scottfu.sflibrary.recyclerview.OnRecyclerViewClickListener;
+import com.scottfu.sflibrary.util.LogUtil;
 import com.scottfu.sflibrary.util.ToastManager;
 import com.yeapao.andorid.R;
 import com.yeapao.andorid.homepage.myself.MyselfPresenter;
 import com.yeapao.andorid.model.ShoppingDataModel;
+import com.yeapao.andorid.util.GlobalDataYepao;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -38,12 +44,19 @@ public class ShoppingFragmentView extends Fragment implements ShoppingContract.V
     Button btnOrder;
     @BindView(R.id.srl_shopping_refresh)
     SwipeRefreshLayout srlShoppingRefresh;
+    @BindView(R.id.tv_order_title)
+    TextView tvOrderTitle;
+    @BindView(R.id.rl_order)
+    RelativeLayout rlOrder;
 
 
     private ShoppingContract.Presenter mPresenter;
 
     private LinearLayoutManager linearLayoutManager;
     private ShoppingMessageAdapter shoppingMessageAdapter;
+    private int checkedPosition = 1111;
+    private ShoppingDataModel shoppingDataModels;
+
 
     public ShoppingFragmentView() {
 
@@ -83,6 +96,7 @@ public class ShoppingFragmentView extends Fragment implements ShoppingContract.V
 
     @Override
     public void initViews(View view) {
+        rlOrder.setVisibility(View.GONE);
         linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         rvShoppingList.setLayoutManager(linearLayoutManager);
@@ -96,20 +110,45 @@ public class ShoppingFragmentView extends Fragment implements ShoppingContract.V
     }
 
     @Override
-    public void showResult(ShoppingDataModel shoppingDataModel) {
+    public void showResult(final ShoppingDataModel shoppingDataModel) {
+        this.shoppingDataModels = shoppingDataModel;
         if (shoppingMessageAdapter == null) {
             shoppingMessageAdapter = new ShoppingMessageAdapter(getContext(),shoppingDataModel);
             rvShoppingList.setAdapter(shoppingMessageAdapter);
             shoppingMessageAdapter.setItemClickListener(new OnRecyclerViewClickListener() {
                 @Override
                 public void OnItemClick(View v, int position) {
-                    ToastManager.showToast(getContext(), "item Onclick");
+                    CheckBox checkBox = (CheckBox) v.findViewById(R.id.cb_down);
+                    if (checkBox.isChecked()) {
+
+                        if (checkedPosition != 1111) {
+                            shoppingDataModel.getData().get(checkedPosition).setLineChecked(false);
+                        }
+                        shoppingDataModel.getData().get(position).setLineChecked(true);
+                        checkedPosition = position;
+                        showOrderTab();
+
+                    } else {
+                        shoppingDataModel.getData().get(position).setLineChecked(false);
+                        checkedPosition = 1111;
+                        rlOrder.setVisibility(View.GONE);
+                    }
+
+                    LogUtil.e("shoppingListposition", String.valueOf(checkedPosition));
+                    shoppingMessageAdapter.notifyDataSetChanged();
                 }
             });
+
         } else {
             rvShoppingList.setAdapter(shoppingMessageAdapter);
             shoppingMessageAdapter.notifyDataSetChanged();
         }
+    }
+
+    private void showOrderTab() {
+        rlOrder.setVisibility(View.VISIBLE);
+        tvOrderTitle.setText(shoppingDataModels.getData().get(checkedPosition).getCurriculumName()+" ￥"+
+        shoppingDataModels.getData().get(checkedPosition).getLinePrice());
     }
 
     @Override
@@ -125,6 +164,8 @@ public class ShoppingFragmentView extends Fragment implements ShoppingContract.V
 
     @OnClick(R.id.btn_order)
     public void onViewClicked() {
-        startActivity(new Intent(getActivity(),ShoppingOrderActivity.class));
+        ShoppingOrderActivity.start(getContext(),String.valueOf(shoppingDataModels.getData().get(checkedPosition).getMap_curriculum_typesId()),
+               String.valueOf(shoppingDataModels.getData().get(checkedPosition).getLinePrice()) ,
+                GlobalDataYepao.getUser(getContext()).getId());
     }
 }

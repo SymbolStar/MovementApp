@@ -55,7 +55,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="开始健身"
+            android:text="加入也跑"
             android:textSize="17sp"
             android:gravity="center"/>
     </LinearLayout>
