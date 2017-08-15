@@ -51,6 +51,33 @@ public class CallPaymentModel {
         private String price;
         private String orderCode;
         private String paymentType;
+        private String prepayid;
+        private String noncestr;
+        private String timeStamp;
+
+        public String getPrepayid() {
+            return prepayid;
+        }
+
+        public void setPrepayid(String prepayid) {
+            this.prepayid = prepayid;
+        }
+
+        public String getNoncestr() {
+            return noncestr;
+        }
+
+        public void setNoncestr(String noncestr) {
+            this.noncestr = noncestr;
+        }
+
+        public String getTimeStamp() {
+            return timeStamp;
+        }
+
+        public void setTimeStamp(String timeStamp) {
+            this.timeStamp = timeStamp;
+        }
 
         public String getWxPayReq() {
             return wxPayReq;

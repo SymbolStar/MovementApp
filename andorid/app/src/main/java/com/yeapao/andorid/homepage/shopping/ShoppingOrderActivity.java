@@ -1,8 +1,11 @@
 package com.yeapao.andorid.homepage.shopping;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -21,6 +24,9 @@ import com.scottfu.sflibrary.alipay.OrderCommitted;
 import com.scottfu.sflibrary.alipay.OrderInfoUtil2_0;
 import com.scottfu.sflibrary.alipay.PayResult;
 import com.scottfu.sflibrary.util.LogUtil;
+import com.tencent.mm.opensdk.modelpay.PayReq;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.yeapao.andorid.R;
 import com.yeapao.andorid.api.ConstantYeaPao;
 import com.yeapao.andorid.api.Network;
@@ -62,6 +68,10 @@ public class ShoppingOrderActivity extends BaseActivity {
     private static final int SDK_PAY_FLAG = 1;
     private static final int SDK_AUTH_FLAG = 2;
 
+    private MessageSendReceiver numberReceiver;
+    IWXAPI api;
+
+
 
     public static void start(Context context, String typeId, String price, String id) {
         Intent intent = new Intent();
@@ -87,6 +97,16 @@ public class ShoppingOrderActivity extends BaseActivity {
 
 
         initTopBar();
+
+
+        if (numberReceiver == null) {
+            numberReceiver = new MessageSendReceiver();
+        }
+        getContext().registerReceiver(numberReceiver, new IntentFilter("wxPay.action"));
+        api = WXAPIFactory.createWXAPI(getContext(), ConstantYeaPao.APP_ID, true);
+        api.registerApp(ConstantYeaPao.APP_ID);
+
+
     }
 
 
@@ -155,53 +175,62 @@ public class ShoppingOrderActivity extends BaseActivity {
                         LogUtil.e(TAG, model.getErrmsg());
                         if (model.getErrmsg().equals("ok")) {
 
+                            if (payMentType.equals("1")) {
+
+
 //                            final String orderInfo = model.getData().getAliPayInfo();   // 订单信息
 //                            LogUtil.e("orderInfo",orderInfo);
-
-
-                            OrderCommitted result = new OrderCommitted();
-                            result.setOrderID(model.getData().getOrderCode());
-//                            result.setOrderName("课程订单");
-//                            String mmm = String.format("%.2f", content.getAmount());
-                            result.setFinalPrice(model.getData().getPrice());
-//                            result.setNameList("111");
-
-                            Map<String, String> params = OrderInfoUtil2_0.buildOrderParamMap(ConstantYeaPao.APPID, true,result);
-                            String orderParam = OrderInfoUtil2_0.buildOrderParam(params);
-                            LogUtil.e("+++++++", orderParam);
-                            String privateKey = ConstantYeaPao.RSA2_PRIVATE;
-                            String sign = OrderInfoUtil2_0.getSign(params, privateKey, true);
-                            final String orderInfo = orderParam + "&" + sign;
-
-                            LogUtil.e("+++++++", orderInfo);
-
-                            Runnable payRunnable = new Runnable() {
-
-                                @Override
-                                public void run() {
-                                    PayTask alipay = new PayTask(ShoppingOrderActivity.this);
-                                    Map<String, String> result = alipay.payV2(orderInfo,true);
-                                    Log.e("msp", result.toString());
-                                    Message msg = new Message();
-                                    msg.what = SDK_PAY_FLAG;
-                                    msg.obj = result;
-                                    mHandler.sendMessage(msg);
-                                }
-                            };
-                            // 必须异步调用
-                            Thread payThread = new Thread(payRunnable);
-                            payThread.start();
-
 
 //
 //                            OrderCommitted result = new OrderCommitted();
 //                            result.setOrderID(model.getData().getOrderCode());
-//                            result.setOrderName("yepao");
-//                            String mmm = model.getData().getPrice();
-//                            result.setFinalPrice(mmm);
-//                            result.setNameList("yepao");
-//                            AlipayManager.payOrder(result,"http://47.92.113.97:8080/yepao/order/alipay",(Activity)getContext(),handler);
-////                            AlipayManager.payOrderV2(result,model.getData().getAliPayInfo(),(Activity)getContext(),handler);
+////                            result.setOrderName("课程订单");
+////                            String mmm = String.format("%.2f", content.getAmount());
+//                            result.setFinalPrice(model.getData().getPrice());
+////                            result.setNameList("111");
+//
+//                            Map<String, String> params = OrderInfoUtil2_0.buildOrderParamMap(ConstantYeaPao.APPID, true,result);
+//                            String orderParam = OrderInfoUtil2_0.buildOrderParam(params);
+//                            LogUtil.e("+++++++", orderParam);
+//                            String privateKey = ConstantYeaPao.RSA2_PRIVATE;
+//                            String sign = OrderInfoUtil2_0.getSign(params, privateKey, true);
+//                            final String orderInfo = orderParam + "&" + sign;
+                                final String orderInfo = model.getData().getAliPayInfo();
+
+                                LogUtil.e("+++++++", orderInfo);
+
+                                Runnable payRunnable = new Runnable() {
+
+                                    @Override
+                                    public void run() {
+                                        PayTask alipay = new PayTask(ShoppingOrderActivity.this);
+                                        Map<String, String> result = alipay.payV2(orderInfo,true);
+                                        Log.e("msp", result.toString());
+                                        Message msg = new Message();
+                                        msg.what = SDK_PAY_FLAG;
+                                        msg.obj = result;
+                                        mHandler.sendMessage(msg);
+                                    }
+                                };
+                                // 必须异步调用
+                                Thread payThread = new Thread(payRunnable);
+                                payThread.start();
+                            }else{
+
+                                PayReq request = new PayReq();
+                                request.appId = ConstantYeaPao.APP_ID;
+                                request.partnerId = "1486707182";
+                                request.prepayId = model.getData().getPrepayid();
+                                request.nonceStr = model.getData().getNoncestr();
+                                request.timeStamp = model.getData().getTimeStamp();
+                                request.packageValue = "Sign=WXPay";
+                                request.sign = model.getData().getWxPayReq();
+                                api.sendReq(request);
+
+                            }
+
+
+
                         }
                     }
                 };
@@ -294,6 +323,21 @@ public class ShoppingOrderActivity extends BaseActivity {
                         }
                     }
                 };
+
+
+
+    class MessageSendReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equals("wxPay.action")) {
+                ((Activity)getContext()).finish();
+            }
+        }
+    }
+
+
+
 
 
 }

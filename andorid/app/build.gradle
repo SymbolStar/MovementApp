@@ -70,6 +70,9 @@ dependencies {
 
 //    compile files('libs/alipaySdk-20170725.jar')
 
+//微信支付集成
+    compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
+
 
     testCompile 'junit:junit:4.12'
     compile project(':sflibrary')
