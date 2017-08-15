@@ -1,8 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:textSize="18sp"
+        android:text="完成"
+        android:textColor="@color/text_color"
+        android:gravity="center"
+        android:background="@color/colorPrimary"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/tv_body_status_finish"/>
+    <LinearLayout
+        android:layout_above="@id/tv_body_status_finish"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <include layout="@layout/normal_top_bar" />
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <include layout="@layout/normal_top_bar" />
+            <include layout="@layout/account_detail_3" />
+        </ScrollView>
 
-</LinearLayout>
+    </LinearLayout>
+
+
+
+
+</RelativeLayout>

@@ -33,5 +33,6 @@
     <color name="indicator_4">#fff1b9</color>
 
     <color name="account_hint_text">#878372</color>
+    <color name="pain_green">#49c589</color>
 
 </resources>
