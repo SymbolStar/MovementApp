@@ -114,4 +114,8 @@ dependencies {
 
     compile(name:'android-gif-drawable-release', ext:'aar')
 
+// 滚轮选择
+    compile 'cn.aigestudio.wheelpicker:WheelPicker:1.1.2'
+
+
 }

@@ -27,6 +27,7 @@ import com.yeapao.andorid.api.NetImpl;
 import com.yeapao.andorid.base.BaseActivity;
 import com.yeapao.andorid.dialog.DialogCallback;
 import com.yeapao.andorid.dialog.DialogUtils;
+import com.yeapao.andorid.homepage.shopping.PainStatusActivity;
 import com.yeapao.andorid.model.LessonDetailData;
 import com.yeapao.andorid.model.ReservationLessonModel;
 import com.yeapao.andorid.storedetails.StoreDetailActivity;
@@ -109,46 +110,64 @@ public class LessonDetailActivity extends BaseActivity {
 
     @OnClick(R.id.tv_order)
     void setTvOrder(View view) {
+
+//        TODO 判断是否已经购买课程 购买了 跳转到疼痛填写
+        if (true) {
+            PainStatusActivity.start(getContext());
+
+        } else {
+            hintPayLesson();
+        }
+
+
+
+
+
+    }
+
+    private void hintPayLesson() {
+
         DialogUtils.showDialog(getContext(), "消息提示", "您还没有购买课程，请先购买",
                 "线下课程"+" ￥"+lessonDetailData.getData().getCurriculum().getLinePrice(),
                 "线上课程"+" ￥"+lessonDetailData.getData().getCurriculum().getOnLinePrice(), new DialogCallback() {
-            @Override
-            public void onItemClick(int position) {
-                LogUtil.e(TAG,"onitemclick");
+                    @Override
+                    public void onItemClick(int position) {
+                        LogUtil.e(TAG,"onitemclick");
 
-            }
+                    }
 
-            @Override
-            public void onLeftClick() {
-                LogUtil.e(TAG,"leftClick");
-            }
+                    @Override
+                    public void onLeftClick() {
+                        LogUtil.e(TAG,"leftClick");
+                    }
 
-            @Override
-            public void onRightClick() {
-                LogUtil.e(TAG,"rightClick");
-                CloudClient.doHttpRequest(getContext(), ConstantYeaPao.RESERVATION, NetImpl.getInstance().reservationLesson(scheduleId,
-                        String.valueOf(lessonDetailData.getData().getCurriculum().getCurriculumId()),
-                        String.valueOf(GlobalDataYepao.getUser(getContext()).getId())), null, new JSONResultHandler() {
-                            @Override
-                            public void onSuccess(String jsonString) {
-                                LogUtil.e(TAG, jsonString);
-                                ReservationLessonModel model = gson.fromJson(jsonString, ReservationLessonModel.class);
-                                if (model.getErrmsg().equals("ok")) {
+                    @Override
+                    public void onRightClick() {
+                        LogUtil.e(TAG,"rightClick");
+                        CloudClient.doHttpRequest(getContext(), ConstantYeaPao.RESERVATION, NetImpl.getInstance().reservationLesson(scheduleId,
+                                String.valueOf(lessonDetailData.getData().getCurriculum().getCurriculumId()),
+                                String.valueOf(GlobalDataYepao.getUser(getContext()).getId())), null, new JSONResultHandler() {
+                                    @Override
+                                    public void onSuccess(String jsonString) {
+                                        LogUtil.e(TAG, jsonString);
+                                        ReservationLessonModel model = gson.fromJson(jsonString, ReservationLessonModel.class);
+                                        if (model.getErrmsg().equals("ok")) {
 
-                                } else {
-                                    ToastManager.showToast(getContext(),model.getErrmsg());
+                                        } else {
+                                            ToastManager.showToast(getContext(),model.getErrmsg());
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onError(VolleyError errorMessage) {
+
+                                    }
                                 }
-                            }
+                        );
 
-                            @Override
-                            public void onError(VolleyError errorMessage) {
+                    }
+                });
 
-                            }
-                        }
-                );
-
-            }
-        });
     }
 
 

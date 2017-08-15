@@ -76,4 +76,12 @@
     </style>
     <!--自定义CollapsingToolbarLayout字体大小 end-->
 
+
+    <style name="CustomDatePickerDialog" parent="@style/AppTheme">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:windowIsFloating">true</item>
+    </style>
+
+
 </resources>

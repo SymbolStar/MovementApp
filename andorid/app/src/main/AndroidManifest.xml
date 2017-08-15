@@ -355,6 +355,10 @@
             android:name=".homepage.shopping.ShoppingListActivity"
             android:theme="@style/AppTheme.NoActionBar" />
 
+        <activity
+            android:name=".homepage.shopping.PainStatusActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+
 
     </application>
 
