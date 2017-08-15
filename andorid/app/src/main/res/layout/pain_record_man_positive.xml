@@ -142,12 +142,16 @@
         android:id="@+id/textView35"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="腹    0"
-        android:textColor="@color/bg_white"
-        android:gravity="center"
         android:background="@drawable/pain_frame"
-        tools:layout_editor_absoluteX="149dp"
-        tools:layout_editor_absoluteY="204dp" />
+        android:gravity="center"
+        android:text="腹  0"
+        android:textColor="@color/bg_white"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="@+id/imageView39"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="@+id/imageView39"
+        app:layout_constraintTop_toTopOf="@+id/imageView39"
+        android:layout_marginTop="190dp" />
 
     <ImageView
         android:id="@+id/imageView49"
@@ -208,5 +212,156 @@
         app:layout_constraintRight_toRightOf="@+id/imageView39"
         app:layout_constraintBottom_toBottomOf="@+id/imageView39"
         android:layout_marginBottom="16dp" />
+
+    <TextView
+        android:id="@+id/textView37"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/pain_frame"
+        android:gravity="center"
+        android:text="左大臂  0"
+        android:textColor="@color/bg_white"
+        tools:layout_editor_absoluteY="166dp"
+        app:layout_constraintRight_toLeftOf="@+id/view57"
+        android:layout_marginRight="0dp" />
+
+    <TextView
+        android:id="@+id/textView38"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/pain_frame"
+        android:gravity="center"
+        android:text="右大腿  0"
+        android:textColor="@color/bg_white"
+        tools:layout_editor_absoluteX="247dp"
+        tools:layout_editor_absoluteY="317dp" />
+
+    <TextView
+        android:id="@+id/textView121"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/pain_frame"
+        android:gravity="center"
+        android:text="右小腿  0"
+        android:textColor="@color/bg_white"
+        tools:layout_editor_absoluteX="274dp"
+        tools:layout_editor_absoluteY="385dp" />
+
+    <TextView
+        android:id="@+id/textView132"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/pain_frame"
+        android:gravity="center"
+        android:text="右小脚  0"
+        android:textColor="@color/bg_white"
+        tools:layout_editor_absoluteX="274dp"
+        tools:layout_editor_absoluteY="446dp" />
+
+    <TextView
+        android:id="@+id/textView136"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/pain_frame"
+        android:gravity="center"
+        android:text="左小脚  0"
+        android:textColor="@color/bg_white"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="434dp" />
+
+    <TextView
+        android:id="@+id/textView120"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/pain_frame"
+        android:gravity="center"
+        android:text="左小腿  0"
+        android:textColor="@color/bg_white"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="370dp" />
+
+    <TextView
+        android:id="@+id/textView118"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/pain_frame"
+        android:gravity="center"
+        android:text="左大腿  0"
+        android:textColor="@color/bg_white"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="304dp" />
+
+    <TextView
+        android:id="@+id/textView116"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/pain_frame"
+        android:gravity="center"
+        android:text="左小臂  0"
+        android:textColor="@color/bg_white"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="242dp" />
+
+    <TextView
+        android:id="@+id/textView39"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/pain_frame"
+        android:gravity="center"
+        android:text="右大臂  0"
+        android:textColor="@color/bg_white"
+        tools:layout_editor_absoluteX="267dp"
+        tools:layout_editor_absoluteY="157dp" />
+
+    <TextView
+        android:id="@+id/textView40"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/pain_frame"
+        android:gravity="center"
+        android:text="右小臂  0"
+        android:textColor="@color/bg_white"
+        tools:layout_editor_absoluteX="267dp"
+        tools:layout_editor_absoluteY="217dp" />
+
+    <View
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@color/pain_green" />
+    <View
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@color/pain_green" />
+    <View
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@color/pain_green" />
+    <View
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@color/pain_green" />
+    <View
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@color/pain_green" />
+    <View
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@color/pain_green" />
+    <View
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@color/pain_green" />
+
+    <View
+        android:layout_width="40dp"
+        android:layout_height="1dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp"
+        android:background="@color/pain_green"
+        app:layout_constraintRight_toRightOf="@+id/imageView45"
+        app:layout_constraintTop_toTopOf="@+id/imageView45"
+        android:id="@+id/view57" />
+
 
 </android.support.constraint.ConstraintLayout>
