@@ -104,6 +104,7 @@
                 android:layout_height="1dp"
                 android:background="@color/bg_grey"/>
             <RelativeLayout
+                android:id="@+id/rl_about_yeapao"
                 android:layout_width="match_parent"
                 android:layout_height="50dp">
                 <TextView

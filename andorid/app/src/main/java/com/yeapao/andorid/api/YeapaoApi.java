@@ -19,8 +19,10 @@ import com.yeapao.andorid.model.IsAmShopModel;
 import com.yeapao.andorid.model.LessonOrderModel;
 import com.yeapao.andorid.model.Myfiles;
 import com.yeapao.andorid.model.NormalDataModel;
+import com.yeapao.andorid.model.RecommendLessonModel;
 import com.yeapao.andorid.model.RegisterModel;
 import com.yeapao.andorid.model.RollCallListModel;
+import com.yeapao.andorid.model.SaveReservation;
 import com.yeapao.andorid.model.TestData;
 import com.yeapao.andorid.model.VideoDataModel;
 
@@ -173,9 +175,26 @@ public interface YeapaoApi {
     Observable<LessonOrderModel> requestlessonOrder(@Query("mapCurriculumTypesId") String typeId,
                                                     @Query("price") String price, @Query("id") String id);
 
-
+//支付
     @POST("payment/callPayment")
     Observable<CallPaymentModel> requestPayment(@Query("price") String price, @Query("orderCode") String orderCode,
                                                 @Query("paymentType") String paymentType);
+//打卡
+    @POST("community/savePunch")
+    Observable<NormalDataModel> requestClockOut(@Query("customerId") String id, @Query("weight") String weight);
+
+//提交疼痛度
+    @POST("curriculum/savePainDegree")
+    Observable<NormalDataModel> requestPainData(@Query("reservationDetailsId") String reservationId, @Query("position") String position, @Query("degree") String degree);
+
+    //   预约
+    @POST("curriculum/saveReservation")
+    Observable<SaveReservation> requestSaveReservation(@Query("scheduleId") String scheduleId, @Query("curriculumId") String curriculumId, @Query("id") String id);
+
+    //    课程预约列表
+    @POST("curriculum/findRecommendList")
+    Observable<RecommendLessonModel> requesetRecommendLesson(@Query("shopId") String shopId, @Query("id") String id,
+                                                             @Query("time") String time);
+
 
 }

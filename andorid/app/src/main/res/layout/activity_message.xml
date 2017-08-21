@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="@color/bg_grey"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/normal_top_bar" />
+
+    <RelativeLayout
+        android:id="@+id/rl_clock_out"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:paddingLeft="15dp"
+        android:background="@color/bg_white">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/bg_grey"
+            android:layout_alignParentBottom="true"/>
+
+        <ImageView
+            android:id="@+id/iv_card"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/message_card"
+            android:layout_centerVertical="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="@color/text_color"
+            android:layout_toRightOf="@id/iv_card"
+            android:text="打卡信息"
+            android:layout_centerVertical="true"
+            android:paddingLeft="10dp"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_order"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:paddingLeft="15dp"
+        android:background="@color/bg_white">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/bg_grey"
+            android:layout_alignParentBottom="true"/>
+
+        <ImageView
+            android:id="@+id/iv_order"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/message_order"
+            android:layout_centerVertical="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="@color/text_color"
+            android:layout_toRightOf="@id/iv_order"
+            android:text="预约提醒"
+            android:layout_centerVertical="true"
+            android:paddingLeft="10dp"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_video"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:paddingLeft="15dp"
+        android:background="@color/bg_white">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/bg_grey"
+            android:layout_alignParentBottom="true"/>
+
+        <ImageView
+            android:id="@+id/iv_video"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/message_vedio"
+            android:layout_centerVertical="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="@color/text_color"
+            android:layout_toRightOf="@id/iv_video"
+            android:text="视频提醒"
+            android:layout_centerVertical="true"
+            android:paddingLeft="10dp"/>
+    </RelativeLayout>
+    
+    
+</LinearLayout>

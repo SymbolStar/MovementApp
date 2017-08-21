@@ -17,7 +17,7 @@ import rx.schedulers.Schedulers;
 
 public class VideoPresenter implements VideoContract.Presenter{
 
-    private static final String TAG = "ViewPresenter";
+    private static final String TAG = "VideoViewPresenter";
 
     private Context mContext;
     private VideoContract.View mView;
@@ -39,6 +39,7 @@ public class VideoPresenter implements VideoContract.Presenter{
 
     @Override
     public void getData(Subscription subscription ,String type) {
+        LogUtil.e(TAG,type);
         subscription = Network.getYeapaoApi()
                 .getVideoData(type)
                 .subscribeOn(Schedulers.io())

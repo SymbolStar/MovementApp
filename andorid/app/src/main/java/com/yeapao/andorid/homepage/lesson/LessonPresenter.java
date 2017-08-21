@@ -17,6 +17,8 @@ import com.yeapao.andorid.model.HomeList;
 import com.yeapao.andorid.model.MessageResult;
 import com.yeapao.andorid.model.ReservationLessonModel;
 import com.yeapao.andorid.model.SelectHomeList;
+import com.yeapao.andorid.model.UserData;
+import com.yeapao.andorid.util.GlobalDataYepao;
 
 /**
  * Created by fujindong on 2017/7/11.
@@ -49,8 +51,16 @@ public class LessonPresenter implements LessonContract.Presenter {
 
     @Override
     public void getData() {
+        String id = "0";
+        UserData userData = new UserData();
+        userData = GlobalDataYepao.getUser(mContext);
+        if (userData != null) {
+            id = userData.getId();
+        }
 
-        CloudClient.doHttpRequest(mContext, ConstantYeaPao.GET_HOME_LIST, NetImpl.getInstance().getHomeData("0"), null, new JSONResultHandler() {
+
+
+        CloudClient.doHttpRequest(mContext, ConstantYeaPao.GET_HOME_LIST, NetImpl.getInstance().getHomeData(id), null, new JSONResultHandler() {
             @Override
             public void onSuccess(String jsonString) {
                 LogUtil.e(TAG, jsonString);

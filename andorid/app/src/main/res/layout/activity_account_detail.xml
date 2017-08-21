@@ -8,6 +8,8 @@
 
     <include layout="@layout/normal_top_bar" />
 
+
+
     <include layout="@layout/account_detail_1" />
 
 </LinearLayout>

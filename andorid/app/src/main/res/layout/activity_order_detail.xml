@@ -16,7 +16,7 @@
     android:layout_width="0dp" />
 
     <TextView
-        android:id="@+id/textView33"
+        android:id="@+id/tv_price"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:gravity="center"
@@ -33,7 +33,7 @@
         android:background="@color/bg_grey"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView33"
+        app:layout_constraintTop_toBottomOf="@+id/tv_price"
         android:id="@+id/view3" />
 
     <TextView

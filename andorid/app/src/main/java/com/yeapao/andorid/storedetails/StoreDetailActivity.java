@@ -20,6 +20,7 @@ import com.yeapao.andorid.R;
 import com.yeapao.andorid.api.ConstantYeaPao;
 import com.yeapao.andorid.api.NetImpl;
 import com.yeapao.andorid.base.BaseActivity;
+import com.yeapao.andorid.homepage.lesson.recommendlesson.RecommendLessonActivity;
 import com.yeapao.andorid.homepage.shopping.ShoppingListActivity;
 import com.yeapao.andorid.model.StoreDetailModel;
 
@@ -72,8 +73,12 @@ public class StoreDetailActivity extends BaseActivity {
     RatingBar rbStar;
 
 
-    public static void start(Context context) {
+    private String curriculumId;
+
+
+    public static void start(Context context,String curriculumId) {
         Intent intent = new Intent();
+        intent.putExtra("curriculumId", curriculumId);
         intent.setClass(context, StoreDetailActivity.class);
         context.startActivity(intent);
 
@@ -86,6 +91,8 @@ public class StoreDetailActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_store_detail);
         ButterKnife.bind(this);
+        Intent intent = getIntent();
+        curriculumId = intent.getStringExtra("curriculumId");
         initTopBar();
         getData();
 
@@ -107,7 +114,7 @@ public class StoreDetailActivity extends BaseActivity {
 
 
     private void getData() {
-        CloudClient.doHttpRequest(getContext(), ConstantYeaPao.GET_STORE_DETAIL, NetImpl.getInstance().getStoreDetail("1"), null, new JSONResultHandler() {
+        CloudClient.doHttpRequest(getContext(), ConstantYeaPao.GET_STORE_DETAIL, NetImpl.getInstance().getStoreDetail(curriculumId), null, new JSONResultHandler() {
             @Override
             public void onSuccess(String jsonString) {
                 LogUtil.e(TAG, jsonString);
@@ -131,6 +138,13 @@ public class StoreDetailActivity extends BaseActivity {
         ShoppingListActivity.start(getContext());
 
     }
+
+    @OnClick(R.id.rl_lesson_reservation)
+    void lessonReservation(View view) {
+        RecommendLessonActivity.start(getContext(),String.valueOf(storeDetailModel.getData().getShopId()));
+    }
+
+
 
     private void setData() {
         tvStoreName.setText("店铺名称"+storeDetailModel.getData().getShopName());

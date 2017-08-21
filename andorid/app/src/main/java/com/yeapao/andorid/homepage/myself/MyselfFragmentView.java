@@ -25,8 +25,10 @@ import com.yeapao.andorid.homepage.myself.tab.MyselfSettingActivity;
 import com.yeapao.andorid.homepage.myself.tab.coach.MyselfCoachActivity;
 import com.yeapao.andorid.homepage.myself.tab.health.HealthRepositoryActivity;
 import com.yeapao.andorid.homepage.myself.tab.health.testCoordinatorLayoutActivity;
+import com.yeapao.andorid.homepage.myself.tab.setting.ChangeDataActivity;
 import com.yeapao.andorid.homepage.myself.tab.shopkeeper.MyselfShopOwnerActivity;
 import com.yeapao.andorid.model.UserData;
+import com.yeapao.andorid.userinfo.FillUserInfoActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -109,6 +111,7 @@ public class MyselfFragmentView extends Fragment implements MyselfContract.View 
         ToastManager.showToast(getContext(),"onClick");
 //        LoginActivity.start(getContext());
         MyselfSettingActivity.start(getContext());
+//        FillUserInfoActivity.start(getContext());
     }
 
     @Override
@@ -120,6 +123,7 @@ public class MyselfFragmentView extends Fragment implements MyselfContract.View 
                 @Override
                 public void OnItemClick(View v, int position) {
                     ToastManager.showToast(getContext(), "header onclick");
+                    ChangeDataActivity.start(getContext());
                 }
             });
             myselfMessageAdapter.setMyselfTabListener(new OnMyselfTabListener() {

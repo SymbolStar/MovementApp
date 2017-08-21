@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -18,6 +19,7 @@ import com.scottfu.sflibrary.recyclerview.OnRecyclerViewClickListener;
 import com.scottfu.sflibrary.util.LogUtil;
 import com.scottfu.sflibrary.util.ToastManager;
 import com.yeapao.andorid.R;
+import com.yeapao.andorid.homepage.message.MyMessageActivity;
 import com.yeapao.andorid.lessondetails.LessonDetailActivity;
 import com.yeapao.andorid.model.HomeList;
 import com.yeapao.andorid.model.LessonScreeningData;
@@ -28,6 +30,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import q.rorbin.badgeview.Badge;
+import q.rorbin.badgeview.QBadgeView;
 
 /**
  * Created by fujindong on 2017/7/11.
@@ -56,6 +60,8 @@ public class LessonFragmentView extends Fragment implements LessonContract.View 
     TextView tvLessonStatus;
     @BindView(R.id.tv_lesson_scope)
     TextView tvLessonScope;
+    @BindView(R.id.iv_message)
+    ImageView IvMessage;
 
 
     private PopWindowCategory popWindowCategory = null;
@@ -65,6 +71,8 @@ public class LessonFragmentView extends Fragment implements LessonContract.View 
     private LessonMessageAdapter lessonMessageAdapter;
 
     private LinearLayoutManager llm;
+
+    private Badge messageBadge;
 
     private boolean isGome = true;
     private boolean mScreenIsClick = false;
@@ -117,7 +125,23 @@ public class LessonFragmentView extends Fragment implements LessonContract.View 
         });
         swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
         initViews(view);
+//        initBadge();
         return view;
+    }
+
+    private void initBadge() {
+        messageBadge = new QBadgeView(getContext())
+                .setBadgeNumber(1)
+                .setGravityOffset(0, 5, true)
+                .bindTarget(IvMessage)
+                .setOnDragStateChangedListener(new Badge.OnDragStateChangedListener() {
+                    @Override
+                    public void onDragStateChanged(int dragState, Badge badge, View targetView) {
+                        if (Badge.OnDragStateChangedListener.STATE_SUCCEED == dragState) {
+                            ToastManager.showToast(getContext(), "badge is removed");
+                        }
+                    }
+                });
     }
 
 
@@ -144,6 +168,13 @@ public class LessonFragmentView extends Fragment implements LessonContract.View 
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         rvLessonList.setLayoutManager(llm);
 
+        IvMessage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LogUtil.e(TAG,"message");
+                MyMessageActivity.start(getContext());
+            }
+        });
 
 //        TODO
         rvLessonList.addOnScrollListener(new RecyclerView.OnScrollListener() {

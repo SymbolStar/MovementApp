@@ -13,7 +13,7 @@ import com.yeapao.andorid.model.UserData;
 public class GlobalDataYepao {
 
 
-    private static boolean IS_LOGIN = false;
+    private static boolean IS_LOGIN = true;
 
     private static CookListDetailModel.DataBean foodDetail;
     public static boolean foodFlag = false;

@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/normal_top_bar" />
+    <RelativeLayout
+        android:id="@+id/rl_change_header"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="@color/text_color"
+            android:text="修改头像"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"/>
+        <ImageView
+            android:id="@+id/iv_right"
+            android:layout_width="12dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/buy_right"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"/>
+
+        <com.scottfu.sflibrary.customview.CircleImageView
+            android:id="@+id/iv_change_head"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/y_you"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/iv_right"
+            android:layout_marginRight="10dp"
+            app:border_color="#00000000"
+            app:border_width="0dp"
+            />
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/bg_grey"
+        android:paddingLeft="15dp"/>
+
+
+    <RelativeLayout
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="@color/text_color"
+            android:text="当前姓名"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"/>
+       <EditText
+           android:id="@+id/et_user_name"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="张三"
+           android:textColor="@color/text_color"
+           android:background="@color/bg_white"
+           android:layout_centerVertical="true"
+           android:layout_alignParentRight="true"/>
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/bg_grey"
+        android:paddingLeft="15dp"/>
+
+
+
+    <RelativeLayout
+        android:id="@+id/rl_change_gender"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="@color/text_color"
+            android:text="修改性别"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"/>
+        <ImageView
+            android:id="@+id/iv_right2"
+            android:layout_width="12dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/buy_right"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"/>
+            <TextView
+                android:id="@+id/tv_user_gender"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="男"
+                android:textColor="@color/text_color"
+                android:layout_toLeftOf="@id/iv_right2"
+                android:textSize="16sp"
+                android:layout_centerVertical="true"
+                android:paddingRight="10dp"/>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/bg_grey"
+        android:paddingLeft="15dp"/>
+
+
+    <RelativeLayout
+        android:id="@+id/rl_change_age"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="@color/text_color"
+            android:text="修改年龄"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"/>
+        <ImageView
+            android:id="@+id/iv_right3"
+            android:layout_width="12dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/buy_right"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"/>
+        <TextView
+            android:id="@+id/tv_age"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="24"
+            android:textColor="@color/text_color"
+            android:layout_toLeftOf="@id/iv_right3"
+            android:textSize="16sp"
+            android:layout_centerVertical="true"
+            android:paddingRight="10dp"/>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/bg_grey"
+        android:paddingLeft="15dp"/>
+
+</LinearLayout>

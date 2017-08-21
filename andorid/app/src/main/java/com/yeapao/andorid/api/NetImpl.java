@@ -67,9 +67,10 @@ public class NetImpl {
 
 
     //课程详情
-    public HashMap<String, String> getLessonDetail(String id) {
+    public HashMap<String, String> getLessonDetail(String id,String customerId) {
         HashMap<String, String> params = new HashMap<>();
         params.put("scheduleId", id);
+        params.put("customerId", customerId);
         return params;
     }
 

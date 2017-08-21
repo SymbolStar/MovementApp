@@ -11,7 +11,7 @@ public class VideoDataModel {
     /**
      * errcode : 0
      * errmsg : ok
-     * data : [{"durationTime":5000,"imageUrl":"http://47.92.113.97:8080/yepaonull","id":1,"title":"aa","url":"http://47.92.113.97:8080/yepao/image/fd/b5/1501582871039.flv","desc":"bbb"},{"durationTime":2000,"imageUrl":"http://47.92.113.97:8080/yepaonull","id":2,"title":"adfse","url":"http://47.92.113.97:8080/yepao/image/0a/fd/1501584133270.mp4","desc":"wefadssfwefasdf"},{"durationTime":5000,"imageUrl":"http://47.92.113.97:8080/yepaonull","id":3,"title":"aa","url":"http://47.92.113.97:8080/yepao/image/fd/b5/1501582871039.flv","desc":"bbb"},{"durationTime":5000,"imageUrl":"http://47.92.113.97:8080/yepaonull","id":4,"title":"aa","url":"http://47.92.113.97:8080/yepao/image/fd/b5/1501582871039.flv","desc":"bbb"},{"durationTime":5000,"imageUrl":"http://47.92.113.97:8080/yepaonull","id":5,"title":"aa","url":"http://47.92.113.97:8080/yepao/image/fd/b5/1501582871039.flv","desc":"bbb"}]
+     * data : [{"durationTime":2036854775808,"imageUrl":"http://47.92.113.97:8080/yepao/image/1a/65/1a65c9d60cd8454eb421827cdd6815eb.jpg","id":12,"title":"减脂","url":"http://47.92.113.97:8080/yepao/media/appsp/K2.mp4","desc":"减脂要坚持"},{"durationTime":2036854775808,"imageUrl":"http://47.92.113.97:8080/yepao/image/1a/65/1a65c9d60cd8454eb421827cdd6815eb.jpg","id":18,"title":"减脂","url":"http://47.92.113.97:8080/yepao/media/appsp/K2.mp4","desc":"减脂要坚持"},{"durationTime":2036854775808,"imageUrl":"http://47.92.113.97:8080/yepao/image/1a/65/1a65c9d60cd8454eb421827cdd6815eb.jpg","id":21,"title":"减脂","url":"http://47.92.113.97:8080/yepao/media/appsp/K2.mp4","desc":"减脂要坚持"},{"durationTime":2036854775808,"imageUrl":"http://47.92.113.97:8080/yepao/image/1a/65/1a65c9d60cd8454eb421827cdd6815eb.jpg","id":24,"title":"减脂","url":"http://47.92.113.97:8080/yepao/media/appsp/K2.mp4","desc":"减脂要坚持"}]
      */
 
     private int errcode;
@@ -44,26 +44,26 @@ public class VideoDataModel {
 
     public static class DataBean {
         /**
-         * durationTime : 5000
-         * imageUrl : http://47.92.113.97:8080/yepaonull
-         * id : 1
-         * title : aa
-         * url : http://47.92.113.97:8080/yepao/image/fd/b5/1501582871039.flv
-         * desc : bbb
+         * durationTime : 2036854775808
+         * imageUrl : http://47.92.113.97:8080/yepao/image/1a/65/1a65c9d60cd8454eb421827cdd6815eb.jpg
+         * id : 12
+         * title : 减脂
+         * url : http://47.92.113.97:8080/yepao/media/appsp/K2.mp4
+         * desc : 减脂要坚持
          */
 
-        private int durationTime;
+        private long durationTime;
         private String imageUrl;
         private int id;
         private String title;
         private String url;
         private String desc;
 
-        public int getDurationTime() {
+        public long getDurationTime() {
             return durationTime;
         }
 
-        public void setDurationTime(int durationTime) {
+        public void setDurationTime(long durationTime) {
             this.durationTime = durationTime;
         }
 

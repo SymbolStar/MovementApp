@@ -66,6 +66,7 @@
         app:srcCompat="@drawable/my_badge" />
 
     <ImageView
+        android:visibility="visible"
         android:id="@+id/iv_account_set_right"
         android:layout_width="12dp"
         android:layout_height="wrap_content"

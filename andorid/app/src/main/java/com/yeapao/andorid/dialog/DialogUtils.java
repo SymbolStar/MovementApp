@@ -268,6 +268,8 @@ public class DialogUtils {
 
             down = (TextView) v.findViewById(R.id.tv_item_1);
             onLine = (TextView) v.findViewById(R.id.tv_item_2);
+            onLine.setVisibility(View.GONE);
+            down.setBackground(context.getResources().getDrawable(R.drawable.dialog_shape));
 
         down.setText(item1);
         onLine.setText(item2);

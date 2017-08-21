@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:background="@color/bg_white"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:text="选择打卡类型"
+        android:textColor="@color/text_color"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="15dp" />
+
+    <TextView
+        android:id="@+id/tv_weight"
+        android:layout_width="65dp"
+        android:layout_height="30dp"
+        android:gravity="center"
+        android:background="@drawable/clock_out_tab_s_shape"
+        android:text="体重"
+        android:textSize="16sp"
+        android:textColor="@color/text_color"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="10dp"
+        android:background="@color/bg_grey"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:id="@+id/view20"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/tv_weight"
+        app:layout_constraintHorizontal_bias="0.0" />
+
+    <TextView
+        android:id="@+id/textView31"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="体重"
+        android:textColor="@color/text_color"
+        android:paddingRight="10dp"
+        android:textSize="16sp"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/et_weight"
+        app:layout_constraintBaseline_toBaselineOf="@+id/et_weight" />
+
+    <EditText
+        android:id="@+id/et_weight"
+        android:layout_width="180dp"
+        android:layout_height="43dp"
+        android:ems="10"
+        android:inputType="number"
+        android:hint="请输入当前体重"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:textColorHint="#888888"
+        android:background="@color/bg_grey"
+        app:layout_constraintRight_toLeftOf="@+id/textView33"
+        app:layout_constraintLeft_toRightOf="@+id/textView31"
+        android:layout_marginTop="32dp"
+        app:layout_constraintTop_toBottomOf="@+id/view20" />
+
+    <TextView
+        android:id="@+id/textView33"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="kg"
+        android:textColor="@color/text_color"
+        android:paddingLeft="10dp"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toRightOf="@+id/et_weight"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBaseline_toBaselineOf="@+id/et_weight" />
+
+
+</android.support.constraint.ConstraintLayout>

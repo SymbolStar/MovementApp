@@ -7,12 +7,10 @@ import java.util.List;
  */
 
 public class LessonDetailData {
-
-
     /**
      * errcode : 0
      * errmsg : ok
-     * data : {"actionEssentialsList":[{"image":["/image/12.jpg","/image/12.jpg","/image/12.jpg","/image/12.jpg"],"content":"蝶泳的泳姿动作要领包括：划水、呼吸、移臂、入水和海豚式打水。","title":"第一步"},{"image":["/image/12.jpg","/image/12.jpg","/image/12.jpg","/image/12.jpg"],"content":"可以先从最简单的移动来感觉动作要领。","title":"第二步"},{"image":["/image/12.jpg","/image/12.jpg","/image/12.jpg","/image/12.jpg"],"content":"本文以散级跳远技术过程，分为助跑与上板、第一跳、第二跳、以及第三跳等四个阶段，配合「单、双、双」摆臂方式，分别说明其动作要领。","title":"第三步"},{"image":["/image/12.jpg","/image/12.jpg","/image/12.jpg","/image/12.jpg"],"content":"文章介绍了跳水转体的动作要领及转体训练的教学方法。","title":"第四步"},{"image":["/image/12.jpg","/image/12.jpg","/image/12.jpg","/image/12.jpg"],"content":"简述了飞机斤斗飞行的基本运动关系和操纵动作要领。","title":"第五步"}],"curriculum":{"curriculumId":1,"shopName":"也跑总店","address":"高新区运河路47号","classTimeStart":"2017-07-25 17:48:55.0","classTimeEnd":"2017-07-25 17:48:55.0","coach":"张","head":"/image/12.jpg","star":"4","beGoodAt":"吹牛","bespeak":19,"totalNumber":20,"linePrice":190,"onLinePrice":90}}
+     * data : {"actionEssentialsList":[{"image":["null/image/91/34/9134bf22f55c422a9fca370d2ec79507.jpg","/image/d4/52/d452449682b44dac94c66d4f89d8425d.jpg","/image/ae/d9/aed99fd48ff1480aad2f5abe59990b4e.jpg","/image/f2/70/f27089d11fe646f0b30b3b25d6570c78.jpg","/image/60/65/6065ccd6393a4fa2a25303242bb95c32.jpg"],"content":"第一步","title":"第一步"},{"image":["null/image/c5/50/c550a311279a4868a2c43cd85802abdc.jpg","/image/3b/51/3b5149808121456783a518e2f59d36fb.jpg","/image/1a/72/1a72b1e491d54bf9a43245b039da1dad.jpg","/image/cf/8d/cf8d896a58434889bcfde3272f25dfa3.jpg","/image/70/3a/703a981333ca4223be70f0af1fa25b45.jpg"],"content":"第二部","title":"第二步"},{"image":["null/image/d0/a4/d0a44c290eb249ee83d8e5985c836247.jpg","/image/3a/3b/3a3b3f345c904f56be71e34d2bf69071.jpg","/image/5b/cf/5bcf586a74c64b7d9a8eef1ef714b713.jpg","/image/ee/51/ee51e864022d40d799bbe23a32b3c0cf.jpg"],"content":"第三部","title":"第三步"},{"image":["null/image/7d/15/7d154126b1b94f68885d3fb98ad997ef.jpg","/image/37/27/37273f4e52ca4f8b80741cf78c30a149.jpg","/image/fe/93/fe93b85992ec41d5ba15933010270035.jpg","/image/7f/66/7f66511bb22742ed825af595dec19d53.jpg"],"content":"第四部","title":"第四步"},{"image":["null/image/ab/30/ab3040fd94fb4a889f430a4802abf63c.jpg","/image/93/66/93667d4eeccf452f95bf5d6f356adc91.jpg","/image/13/1d/131df671a3414c528cd62ff267acbf3e.jpg","/image/90/e2/90e24b48417c44c4918da1a74c55d0d3.jpg"],"content":"第五部","title":"第五步"}],"curriculum":{"curriculumId":18,"scheduleId":62,"shopName":"也跑总店","address":"苏州高新区运河路47号","classTimeStart":"14:00","classTimeEnd":"16:00","coach":"25","head":null,"star":null,"beGoodAt":null,"bespeak":0,"totalNumber":20,"linePrice":20,"onLinePrice":null,"map_curriculum_typesId":17,"curriculumName":"减脂课","mySchedule":"0","isBespeak":"0"}}
      */
 
     private int errcode;
@@ -45,8 +43,8 @@ public class LessonDetailData {
 
     public static class DataBean {
         /**
-         * actionEssentialsList : [{"image":["/image/12.jpg","/image/12.jpg","/image/12.jpg","/image/12.jpg"],"content":"蝶泳的泳姿动作要领包括：划水、呼吸、移臂、入水和海豚式打水。","title":"第一步"},{"image":["/image/12.jpg","/image/12.jpg","/image/12.jpg","/image/12.jpg"],"content":"可以先从最简单的移动来感觉动作要领。","title":"第二步"},{"image":["/image/12.jpg","/image/12.jpg","/image/12.jpg","/image/12.jpg"],"content":"本文以散级跳远技术过程，分为助跑与上板、第一跳、第二跳、以及第三跳等四个阶段，配合「单、双、双」摆臂方式，分别说明其动作要领。","title":"第三步"},{"image":["/image/12.jpg","/image/12.jpg","/image/12.jpg","/image/12.jpg"],"content":"文章介绍了跳水转体的动作要领及转体训练的教学方法。","title":"第四步"},{"image":["/image/12.jpg","/image/12.jpg","/image/12.jpg","/image/12.jpg"],"content":"简述了飞机斤斗飞行的基本运动关系和操纵动作要领。","title":"第五步"}]
-         * curriculum : {"curriculumId":1,"shopName":"也跑总店","address":"高新区运河路47号","classTimeStart":"2017-07-25 17:48:55.0","classTimeEnd":"2017-07-25 17:48:55.0","coach":"张","head":"/image/12.jpg","star":"4","beGoodAt":"吹牛","bespeak":19,"totalNumber":20,"linePrice":190,"onLinePrice":90}
+         * actionEssentialsList : [{"image":["null/image/91/34/9134bf22f55c422a9fca370d2ec79507.jpg","/image/d4/52/d452449682b44dac94c66d4f89d8425d.jpg","/image/ae/d9/aed99fd48ff1480aad2f5abe59990b4e.jpg","/image/f2/70/f27089d11fe646f0b30b3b25d6570c78.jpg","/image/60/65/6065ccd6393a4fa2a25303242bb95c32.jpg"],"content":"第一步","title":"第一步"},{"image":["null/image/c5/50/c550a311279a4868a2c43cd85802abdc.jpg","/image/3b/51/3b5149808121456783a518e2f59d36fb.jpg","/image/1a/72/1a72b1e491d54bf9a43245b039da1dad.jpg","/image/cf/8d/cf8d896a58434889bcfde3272f25dfa3.jpg","/image/70/3a/703a981333ca4223be70f0af1fa25b45.jpg"],"content":"第二部","title":"第二步"},{"image":["null/image/d0/a4/d0a44c290eb249ee83d8e5985c836247.jpg","/image/3a/3b/3a3b3f345c904f56be71e34d2bf69071.jpg","/image/5b/cf/5bcf586a74c64b7d9a8eef1ef714b713.jpg","/image/ee/51/ee51e864022d40d799bbe23a32b3c0cf.jpg"],"content":"第三部","title":"第三步"},{"image":["null/image/7d/15/7d154126b1b94f68885d3fb98ad997ef.jpg","/image/37/27/37273f4e52ca4f8b80741cf78c30a149.jpg","/image/fe/93/fe93b85992ec41d5ba15933010270035.jpg","/image/7f/66/7f66511bb22742ed825af595dec19d53.jpg"],"content":"第四部","title":"第四步"},{"image":["null/image/ab/30/ab3040fd94fb4a889f430a4802abf63c.jpg","/image/93/66/93667d4eeccf452f95bf5d6f356adc91.jpg","/image/13/1d/131df671a3414c528cd62ff267acbf3e.jpg","/image/90/e2/90e24b48417c44c4918da1a74c55d0d3.jpg"],"content":"第五部","title":"第五步"}]
+         * curriculum : {"curriculumId":18,"scheduleId":62,"shopName":"也跑总店","address":"苏州高新区运河路47号","classTimeStart":"14:00","classTimeEnd":"16:00","coach":"25","head":null,"star":null,"beGoodAt":null,"bespeak":0,"totalNumber":20,"linePrice":20,"onLinePrice":null,"map_curriculum_typesId":17,"curriculumName":"减脂课","mySchedule":"0","isBespeak":"0"}
          */
 
         private CurriculumBean curriculum;
@@ -70,22 +68,28 @@ public class LessonDetailData {
 
         public static class CurriculumBean {
             /**
-             * curriculumId : 1
+             * curriculumId : 18
+             * scheduleId : 62
              * shopName : 也跑总店
-             * address : 高新区运河路47号
-             * classTimeStart : 2017-07-25 17:48:55.0
-             * classTimeEnd : 2017-07-25 17:48:55.0
-             * coach : 张
-             * head : /image/12.jpg
-             * star : 4
-             * beGoodAt : 吹牛
-             * bespeak : 19
+             * address : 苏州高新区运河路47号
+             * classTimeStart : 14:00
+             * classTimeEnd : 16:00
+             * coach : 25
+             * head : null
+             * star : null
+             * beGoodAt : null
+             * bespeak : 0
              * totalNumber : 20
-             * linePrice : 190
-             * onLinePrice : 90
+             * linePrice : 20
+             * onLinePrice : null
+             * map_curriculum_typesId : 17
+             * curriculumName : 减脂课
+             * mySchedule : 0
+             * isBespeak : 0
              */
 
             private int curriculumId;
+            private int scheduleId;
             private String shopName;
             private String address;
             private String classTimeStart;
@@ -97,7 +101,11 @@ public class LessonDetailData {
             private int bespeak;
             private int totalNumber;
             private int linePrice;
-            private int onLinePrice;
+            private String onLinePrice;
+            private int map_curriculum_typesId;
+            private String curriculumName;
+            private String mySchedule;
+            private String isBespeak;
 
             public int getCurriculumId() {
                 return curriculumId;
@@ -105,6 +113,14 @@ public class LessonDetailData {
 
             public void setCurriculumId(int curriculumId) {
                 this.curriculumId = curriculumId;
+            }
+
+            public int getScheduleId() {
+                return scheduleId;
+            }
+
+            public void setScheduleId(int scheduleId) {
+                this.scheduleId = scheduleId;
             }
 
             public String getShopName() {
@@ -195,19 +211,51 @@ public class LessonDetailData {
                 this.linePrice = linePrice;
             }
 
-            public int getOnLinePrice() {
+            public String getOnLinePrice() {
                 return onLinePrice;
             }
 
-            public void setOnLinePrice(int onLinePrice) {
+            public void setOnLinePrice(String onLinePrice) {
                 this.onLinePrice = onLinePrice;
+            }
+
+            public int getMap_curriculum_typesId() {
+                return map_curriculum_typesId;
+            }
+
+            public void setMap_curriculum_typesId(int map_curriculum_typesId) {
+                this.map_curriculum_typesId = map_curriculum_typesId;
+            }
+
+            public String getCurriculumName() {
+                return curriculumName;
+            }
+
+            public void setCurriculumName(String curriculumName) {
+                this.curriculumName = curriculumName;
+            }
+
+            public String getMySchedule() {
+                return mySchedule;
+            }
+
+            public void setMySchedule(String mySchedule) {
+                this.mySchedule = mySchedule;
+            }
+
+            public String getIsBespeak() {
+                return isBespeak;
+            }
+
+            public void setIsBespeak(String isBespeak) {
+                this.isBespeak = isBespeak;
             }
         }
 
         public static class ActionEssentialsListBean {
             /**
-             * image : ["/image/12.jpg","/image/12.jpg","/image/12.jpg","/image/12.jpg"]
-             * content : 蝶泳的泳姿动作要领包括：划水、呼吸、移臂、入水和海豚式打水。
+             * image : ["null/image/91/34/9134bf22f55c422a9fca370d2ec79507.jpg","/image/d4/52/d452449682b44dac94c66d4f89d8425d.jpg","/image/ae/d9/aed99fd48ff1480aad2f5abe59990b4e.jpg","/image/f2/70/f27089d11fe646f0b30b3b25d6570c78.jpg","/image/60/65/6065ccd6393a4fa2a25303242bb95c32.jpg"]
+             * content : 第一步
              * title : 第一步
              */
 

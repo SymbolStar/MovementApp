@@ -21,21 +21,31 @@ import com.scottfu.sflibrary.net.JSONResultHandler;
 import com.scottfu.sflibrary.util.GlideUtil;
 import com.scottfu.sflibrary.util.LogUtil;
 import com.scottfu.sflibrary.util.ToastManager;
+import com.yeapao.andorid.LoginActivity;
 import com.yeapao.andorid.R;
 import com.yeapao.andorid.api.ConstantYeaPao;
 import com.yeapao.andorid.api.NetImpl;
+import com.yeapao.andorid.api.Network;
 import com.yeapao.andorid.base.BaseActivity;
 import com.yeapao.andorid.dialog.DialogCallback;
 import com.yeapao.andorid.dialog.DialogUtils;
 import com.yeapao.andorid.homepage.shopping.PainStatusActivity;
+import com.yeapao.andorid.homepage.shopping.ShoppingOrderActivity;
 import com.yeapao.andorid.model.LessonDetailData;
 import com.yeapao.andorid.model.ReservationLessonModel;
+import com.yeapao.andorid.model.SaveReservation;
+import com.yeapao.andorid.model.UserData;
 import com.yeapao.andorid.storedetails.StoreDetailActivity;
 import com.yeapao.andorid.util.GlobalDataYepao;
+
+import org.w3c.dom.Text;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by fujindong on 2017/7/14.
@@ -70,6 +80,8 @@ public class LessonDetailActivity extends BaseActivity {
     ImageView ivHead;
     @BindView(R.id.rl_lesson_store)
     RelativeLayout rlLessonStore;
+    @BindView(R.id.tv_lesson_name)
+    TextView tvLessonName;
 
     private LessonDetailData lessonDetailData;
 
@@ -111,13 +123,25 @@ public class LessonDetailActivity extends BaseActivity {
     @OnClick(R.id.tv_order)
     void setTvOrder(View view) {
 
-//        TODO 判断是否已经购买课程 购买了 跳转到疼痛填写
-        if (true) {
-            PainStatusActivity.start(getContext());
+        if (GlobalDataYepao.isLogin()) {
+
+
+            if (lessonDetailData.getData().getCurriculum().getMySchedule().equals("1")) {
+
+                getNetWorkReservation(String.valueOf(lessonDetailData.getData().getCurriculum().getScheduleId()),
+                        String.valueOf(lessonDetailData.getData().getCurriculum().getCurriculumId()),
+                        GlobalDataYepao.getUser(getContext()).getId());
+
+            } else {
+                hintPayLesson();
+
+            }
 
         } else {
-            hintPayLesson();
+            LoginActivity.start(getContext());
         }
+
+
 
 
 
@@ -143,27 +167,9 @@ public class LessonDetailActivity extends BaseActivity {
 
                     @Override
                     public void onRightClick() {
-                        LogUtil.e(TAG,"rightClick");
-                        CloudClient.doHttpRequest(getContext(), ConstantYeaPao.RESERVATION, NetImpl.getInstance().reservationLesson(scheduleId,
-                                String.valueOf(lessonDetailData.getData().getCurriculum().getCurriculumId()),
-                                String.valueOf(GlobalDataYepao.getUser(getContext()).getId())), null, new JSONResultHandler() {
-                                    @Override
-                                    public void onSuccess(String jsonString) {
-                                        LogUtil.e(TAG, jsonString);
-                                        ReservationLessonModel model = gson.fromJson(jsonString, ReservationLessonModel.class);
-                                        if (model.getErrmsg().equals("ok")) {
 
-                                        } else {
-                                            ToastManager.showToast(getContext(),model.getErrmsg());
-                                        }
-                                    }
-
-                                    @Override
-                                    public void onError(VolleyError errorMessage) {
-
-                                    }
-                                }
-                        );
+                        ShoppingOrderActivity.start(getContext(),String.valueOf(lessonDetailData.getData().getCurriculum().getMap_curriculum_typesId()),
+                                String.valueOf(lessonDetailData.getData().getCurriculum().getLinePrice()),GlobalDataYepao.getUser(getContext()).getId());
 
                     }
                 });
@@ -173,7 +179,7 @@ public class LessonDetailActivity extends BaseActivity {
 
     @OnClick(R.id.rl_lesson_store)
     void setRlStoreClick(View view) {
-        StoreDetailActivity.start(getContext());
+        StoreDetailActivity.start(getContext(),String.valueOf(lessonDetailData.getData().getCurriculum().getCurriculumId()));
     }
 
     @Override
@@ -185,7 +191,15 @@ public class LessonDetailActivity extends BaseActivity {
 
 
     private void getData() {
-        CloudClient.doHttpRequest(getContext(), ConstantYeaPao.GET_LESSON_DETAIL, NetImpl.getInstance().getLessonDetail(scheduleId), null, new JSONResultHandler() {
+
+        String id = "0";
+        UserData userData = new UserData();
+        userData = GlobalDataYepao.getUser(getContext());
+        if (userData != null) {
+            id = userData.getId();
+        }
+        LogUtil.e(TAG,scheduleId);
+        CloudClient.doHttpRequest(getContext(), ConstantYeaPao.GET_LESSON_DETAIL, NetImpl.getInstance().getLessonDetail(scheduleId,id), null, new JSONResultHandler() {
             @Override
             public void onSuccess(String jsonString) {
                 LogUtil.e(TAG, jsonString);
@@ -205,11 +219,12 @@ public class LessonDetailActivity extends BaseActivity {
     }
 
     private void setData() {
+        tvLessonName.setText(lessonDetailData.getData().getCurriculum().getCurriculumName());
         tvShopName.setText(lessonDetailData.getData().getCurriculum().getShopName());
         tvCoachName.setText(lessonDetailData.getData().getCurriculum().getCoach());
         tvAdress.setText(lessonDetailData.getData().getCurriculum().getAddress());
-        tvLessonTime.setText(lessonDetailData.getData().getCurriculum().getClassTimeStart()+":00"+
-        "-"+lessonDetailData.getData().getCurriculum().getClassTimeEnd()+":00");
+        tvLessonTime.setText(lessonDetailData.getData().getCurriculum().getClassTimeStart()+
+        "-"+lessonDetailData.getData().getCurriculum().getClassTimeEnd());
         tvGood.setText(lessonDetailData.getData().getCurriculum().getBeGoodAt());
         tvBespeak.setText("已预约  " + lessonDetailData.getData().getCurriculum().getBespeak() + "/" +
                 lessonDetailData.getData().getCurriculum().getTotalNumber());
@@ -228,4 +243,36 @@ public class LessonDetailActivity extends BaseActivity {
     protected Context getContext() {
         return this;
     }
+
+
+            private void getNetWorkReservation(String scheduleId,String curriculumId,String id) {
+                    subscription = Network.getYeapaoApi()
+                            .requestSaveReservation(scheduleId,curriculumId,id)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe( modelObserverReservation);
+                }
+
+                  Observer<SaveReservation> modelObserverReservation = new Observer<SaveReservation>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        LogUtil.e(TAG,e.toString());
+
+                    }
+
+                    @Override
+                    public void onNext(SaveReservation model) {
+                        LogUtil.e(TAG, model.getErrmsg());
+                        if (model.getErrmsg().equals("ok")) {
+                            PainStatusActivity.start(getContext(),String.valueOf(model.getData().getReservationDetailsId()));
+                        }
+                    }
+                };
+
+
 }

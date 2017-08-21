@@ -35,6 +35,7 @@ public class PainPickerDialog extends DialogFragment {
 
     private PickerPainListener mListener;
 
+
     public void setPickerPainListener(PickerPainListener listener) {
         mListener = listener;
     }
@@ -46,7 +47,7 @@ public class PainPickerDialog extends DialogFragment {
         Dialog dialog = new Dialog(getActivity(), R.style.CustomDatePickerDialog);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // must be called before set content
         dialog.setContentView(R.layout.dialog_pain_paicker);
-        dialog.setCanceledOnTouchOutside(true);
+        dialog.setCanceledOnTouchOutside(false);
 
         // 设置宽度为屏宽、靠近屏幕底部。
         Window window = dialog.getWindow();

@@ -358,6 +358,41 @@
         <activity
             android:name=".homepage.shopping.PainStatusActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".homepage.myself.tab.shopkeeper.MyselfClockOutActivityV2"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".homepage.lesson.recommendlesson.RecommendLessonActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".homepage.message.MyMessageActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".homepage.message.ClockCardListActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".homepage.message.ReservationActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".homepage.message.VideoMessageActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".userinfo.FillUserInfoActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".userinfo.FitnessActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".userinfo.BodySituationActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".homepage.myself.tab.setting.YeaPaoInfoActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".homepage.myself.tab.setting.ChangeDataActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".homepage.shopping.PainStatusWomenActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
 
 
     </application>

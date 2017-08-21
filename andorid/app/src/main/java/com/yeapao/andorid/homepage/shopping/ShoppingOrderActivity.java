@@ -10,7 +10,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -61,6 +64,8 @@ public class ShoppingOrderActivity extends BaseActivity {
     TextView tvOrderName;
     @BindView(R.id.tv_order_code)
     TextView tvOrderCode;
+    @BindView(R.id.tv_price)
+    TextView tvPrice;
 
     private LessonOrderModel lessonOrderModel;
     private String payMentType;
@@ -321,6 +326,12 @@ public class ShoppingOrderActivity extends BaseActivity {
                             lessonOrderModel = model;
                             tvOrderCode.setText(lessonOrderModel.getData().getOrderCode());
                             tvOrderName.setText(lessonOrderModel.getData().getCurriculumName());
+                            String content = tvPrice.getText() + " ￥" + lessonOrderModel.getData().getPrice();
+                            int start = tvPrice.getText().length();
+                            int end = content.length();
+                            SpannableStringBuilder stringBuilder = new SpannableStringBuilder(content);
+                            stringBuilder.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.text_red)),start,end, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+                            tvPrice.setText(stringBuilder);
                         }
                     }
                 };
