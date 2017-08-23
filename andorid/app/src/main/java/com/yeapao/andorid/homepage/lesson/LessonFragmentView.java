@@ -25,11 +25,13 @@ import com.yeapao.andorid.model.HomeList;
 import com.yeapao.andorid.model.LessonScreeningData;
 import com.yeapao.andorid.model.SelectHomeList;
 import com.yeapao.andorid.storedetails.StoreDetailActivity;
+import com.yeapao.andorid.util.GlobalDataYepao;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 import q.rorbin.badgeview.Badge;
 import q.rorbin.badgeview.QBadgeView;
 
@@ -98,6 +100,7 @@ public class LessonFragmentView extends Fragment implements LessonContract.View 
     }
 
 
+
     public static LessonFragmentView newInstance() {
         return new LessonFragmentView();
     }
@@ -149,6 +152,8 @@ public class LessonFragmentView extends Fragment implements LessonContract.View 
     public void onResume() {
         super.onResume();
         LogUtil.e(TAG, "onResume");
+        mPresenter.getData();
+        JCVideoPlayer.releaseAllVideos();
     }
 
     @Override
@@ -172,7 +177,12 @@ public class LessonFragmentView extends Fragment implements LessonContract.View 
             @Override
             public void onClick(View v) {
                 LogUtil.e(TAG,"message");
-                MyMessageActivity.start(getContext());
+
+                if (GlobalDataYepao.isLogin()) {
+                    MyMessageActivity.start(getContext());
+                } else {
+                    ToastManager.showToast(getContext(),"请先登陆");
+                }
             }
         });
 
@@ -296,14 +306,14 @@ public class LessonFragmentView extends Fragment implements LessonContract.View 
     @Override
     public void showResult(final HomeList homeList) {
         mHomeList = homeList;
-        if (lessonMessageAdapter == null) {
+//        if (lessonMessageAdapter == null) {
             lessonMessageAdapter = new LessonMessageAdapter(getActivity(), homeList);
             rvLessonList.setAdapter(lessonMessageAdapter);
             lessonMessageAdapter.setItemClickListener(new OnRecyclerViewClickListener() {
                 @Override
                 public void OnItemClick(View v, int position) {
                     ToastManager.showToast(getActivity(), "onclick");
-                    LessonDetailActivity.start(getContext(),homeList.getShopScheduleList().get(position-1).getScheduleId());
+                    LessonDetailActivity.start(getContext(),homeList.getShopScheduleList().get(position).getScheduleId());
                 }
             });
             lessonMessageAdapter.setScreeningListener(new LessonScreeningListener() {
@@ -327,13 +337,14 @@ public class LessonFragmentView extends Fragment implements LessonContract.View 
             lessonMessageAdapter.setReservationListener(new ReservationListener() {
                 @Override
                 public void onReservationClickListener(String scheduleId, String curriculumId, String id) {
+
                     mPresenter.reservationRequest(scheduleId,curriculumId,id);
                 }
             });
-        } else {
-            rvLessonList.setAdapter(lessonMessageAdapter);
-            lessonMessageAdapter.notifyDataSetChanged();
-        }
+//        } else {
+//            rvLessonList.setAdapter(lessonMessageAdapter);
+//            lessonMessageAdapter.notifyDataSetChanged();
+//        }
     }
 
     @Override
@@ -429,5 +440,8 @@ public class LessonFragmentView extends Fragment implements LessonContract.View 
         }
 
     }
+
+
+
 
 }

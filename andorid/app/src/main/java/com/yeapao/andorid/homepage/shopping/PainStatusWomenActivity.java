@@ -293,7 +293,11 @@ public class PainStatusWomenActivity extends BaseActivity {
                     @Override
                     public void onCompleted() {
 //                        TODO 多个上传结束的处理
-
+                        count++;
+                        if (count == painModels.size()) {
+                            DialogUtils.cancelProgressDialog();
+                            finish();
+                        }
                     }
 
                     @Override

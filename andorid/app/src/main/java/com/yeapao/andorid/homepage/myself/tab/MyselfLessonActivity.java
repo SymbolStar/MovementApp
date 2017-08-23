@@ -19,6 +19,7 @@ import com.scottfu.sflibrary.util.ToastManager;
 import com.yeapao.andorid.R;
 import com.yeapao.andorid.api.ConstantYeaPao;
 import com.yeapao.andorid.api.NetImpl;
+import com.yeapao.andorid.api.Network;
 import com.yeapao.andorid.base.BaseActivity;
 import com.yeapao.andorid.model.MyselfLessonModel;
 import com.yeapao.andorid.util.GlobalDataYepao;
@@ -26,6 +27,9 @@ import com.yeapao.andorid.util.GlobalDataYepao;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by fujindong on 2017/7/23.
@@ -71,35 +75,39 @@ public class MyselfLessonActivity extends BaseActivity {
         llm = new LinearLayoutManager(getContext());
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         rvMyLessonList.setLayoutManager(llm);
-        initData();
+        initData("1");
     }
 
-    private void initData() {
+    private void initData(String flag) {
 
-        CloudClient.doHttpRequest(getContext(),
-                ConstantYeaPao.GET_LESSON_LIST,
-                NetImpl.getInstance().getLessonList(GlobalDataYepao.getUser(getContext()).getId(), status),
-                null, new JSONResultHandler() {
-                    @Override
-                    public void onSuccess(String jsonString) {
-                        LogUtil.e(TAG,jsonString);
-                        MyselfLessonModel model = gson.fromJson(jsonString, MyselfLessonModel.class);
-                        if (model.getErrmsg().equals("ok")) {
-                                showResult(model);
-                        } else {
-                            ToastManager.showToast(getContext(),model.getErrmsg());
-                        }
-                    }
-
-                    @Override
-                    public void onError(VolleyError errorMessage) {
-                        ToastManager.showToast(getContext(),errorMessage.toString());
-                    }
-                });
+        String id = GlobalDataYepao.getUser(getContext()).getId();
+        getNetWork(id, flag);
+//
+//        LogUtil.e(TAG,flag);
+//        CloudClient.doHttpRequest(getContext(),
+//                ConstantYeaPao.GET_LESSON_LIST,
+//                NetImpl.getInstance().getLessonList(GlobalDataYepao.getUser(getContext()).getId(), flag),
+//                null, new JSONResultHandler() {
+//                    @Override
+//                    public void onSuccess(String jsonString) {
+//                        LogUtil.e(TAG,jsonString);
+//                        MyselfLessonModel model = gson.fromJson(jsonString, MyselfLessonModel.class);
+//                        if (model.getErrmsg().equals("ok")) {
+//                                showResult(model);
+//                        } else {
+//                            ToastManager.showToast(getContext(),model.getErrmsg());
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onError(VolleyError errorMessage) {
+//                        ToastManager.showToast(getContext(),errorMessage.toString());
+//                    }
+//                });
     }
 
     private void showResult(MyselfLessonModel model) {
-        if (myselfLessonMessageAdapter == null) {
+//        if (myselfLessonMessageAdapter == null) {
             myselfLessonMessageAdapter = new MyselfLessonMessageAdapter(getContext(),model,status);
             rvMyLessonList.setAdapter(myselfLessonMessageAdapter);
             myselfLessonMessageAdapter.setItemOnClickListener(new OnRecyclerViewClickListener() {
@@ -110,10 +118,10 @@ public class MyselfLessonActivity extends BaseActivity {
                 }
             });
 
-        } else {
-            rvMyLessonList.setAdapter(myselfLessonMessageAdapter);
-            myselfLessonMessageAdapter.notifyDataSetChanged();
-        }
+//        } else {
+//            rvMyLessonList.setAdapter(myselfLessonMessageAdapter);
+//            myselfLessonMessageAdapter.notifyDataSetChanged();
+//        }
 
 
 
@@ -140,7 +148,7 @@ public class MyselfLessonActivity extends BaseActivity {
                 tvOverdue.setTextColor(getResources().getColor(R.color.text_color));
                 vUsingLine.setVisibility(View.VISIBLE);
                 vOverdueLine.setVisibility(View.GONE);
-                initData();
+                initData("1");
                 break;
             case R.id.tv_overdue:
                 status = "0";
@@ -148,8 +156,41 @@ public class MyselfLessonActivity extends BaseActivity {
                 tvOverdue.setTextColor(getResources().getColor(R.color.myself_lesson_status_color));
                 vUsingLine.setVisibility(View.GONE);
                 vOverdueLine.setVisibility(View.VISIBLE);
-                initData();
+                initData("0");
                 break;
         }
     }
+
+
+            private void getNetWork(String id,String status) {
+                    LogUtil.e(TAG,status);
+                    subscription = Network.getYeapaoApi()
+                            .requestMyCurriculumList(id,status)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe( modelObserver);
+                }
+
+                  Observer<MyselfLessonModel> modelObserver = new Observer<MyselfLessonModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        LogUtil.e(TAG,e.toString());
+
+                    }
+
+                    @Override
+                    public void onNext(MyselfLessonModel model) {
+                        LogUtil.e(TAG, model.getErrmsg());
+                        if (model.getErrmsg().equals("ok")) {
+                            showResult(model);
+
+                        }
+                    }
+                };
+
 }

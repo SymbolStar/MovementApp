@@ -393,7 +393,9 @@
         <activity
             android:name=".homepage.shopping.PainStatusWomenActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-
+        <activity
+            android:name=".homepage.shopping.ContinuePayOrderActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
 
     </application>
 

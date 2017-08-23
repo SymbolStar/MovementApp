@@ -83,6 +83,7 @@ public class MyselfSettingActivity extends BaseActivity {
     private void userOutLine() {
 //        退出登陆
         GlobalDataYepao.clearUser(getContext());
+        GlobalDataYepao.setIsLogin(false);
         finish();
     }
 }

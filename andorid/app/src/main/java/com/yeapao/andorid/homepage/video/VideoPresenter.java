@@ -39,6 +39,7 @@ public class VideoPresenter implements VideoContract.Presenter{
 
     @Override
     public void getData(Subscription subscription ,String type) {
+        mView.startLoading();
         LogUtil.e(TAG,type);
         subscription = Network.getYeapaoApi()
                 .getVideoData(type)

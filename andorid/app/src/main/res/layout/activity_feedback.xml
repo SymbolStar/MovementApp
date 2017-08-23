@@ -6,6 +6,7 @@
     <include layout="@layout/normal_top_bar"/>
     
     <EditText
+        android:id="@+id/et_content"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:textSize="16sp"

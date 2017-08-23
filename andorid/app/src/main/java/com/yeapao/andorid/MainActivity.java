@@ -25,11 +25,18 @@ import android.widget.Toast;
 
 import android.databinding.DataBindingUtil;
 
+import com.android.volley.VolleyError;
+import com.google.gson.Gson;
+import com.scottfu.sflibrary.net.CloudClient;
+import com.scottfu.sflibrary.net.JSONResultHandler;
 import com.scottfu.sflibrary.permission.ActivityCollector;
 import com.scottfu.sflibrary.permission.PermissionActivity;
 import com.scottfu.sflibrary.permission.PermissionListener;
 import com.scottfu.sflibrary.util.LogUtil;
 import com.scottfu.sflibrary.util.ToastManager;
+import com.yeapao.andorid.api.ConstantYeaPao;
+import com.yeapao.andorid.api.NetImpl;
+import com.yeapao.andorid.api.Network;
 import com.yeapao.andorid.databinding.ActivityMainBinding;
 import com.yeapao.andorid.homepage.circle.CircleFragmentView;
 import com.yeapao.andorid.homepage.circle.CirclePresenter;
@@ -42,6 +49,9 @@ import com.yeapao.andorid.homepage.shopping.ShoppingPresenter;
 import com.yeapao.andorid.homepage.video.VideoContract;
 import com.yeapao.andorid.homepage.video.VideoFragmentView;
 import com.yeapao.andorid.homepage.video.VideoPresenter;
+import com.yeapao.andorid.model.LoginModel;
+import com.yeapao.andorid.model.UserData;
+import com.yeapao.andorid.model.UserDetailsModel;
 import com.yeapao.andorid.util.GlobalDataYepao;
 import com.yeapao.andorid.yeapaojpush.ExampleUtil;
 import com.yeapao.andorid.yeapaojpush.LocalBroadcastManager;
@@ -50,9 +60,14 @@ import java.net.FileNameMap;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.jpush.android.api.JPushInterface;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 import q.rorbin.badgeview.Badge;
 import q.rorbin.badgeview.QBadgeView;
+import rx.Observer;
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class MainActivity extends PermissionActivity {
 
@@ -73,6 +88,13 @@ public class MainActivity extends PermissionActivity {
     private CirclePresenter circlePresenter;
     private MyselfPresenter myselfPresenter;
     private VideoPresenter videoPresenter;
+
+    protected Subscription subscription;
+    protected void unsubscribe() {
+        if (subscription != null && !subscription.isUnsubscribed()) {
+            subscription.unsubscribe();
+        }
+    }
 
 
     private SparseIntArray items;// used for change ViewPager selected item
@@ -126,7 +148,7 @@ public class MainActivity extends PermissionActivity {
         setTheme(R.style.AppTheme_NoActionBar);
         setContentView(R.layout.activity_main);
         ActivityCollector.addActivity(this);
-
+        loginAccount();
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);//初始隐藏键盘
         bind = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
@@ -191,6 +213,7 @@ public class MainActivity extends PermissionActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        unsubscribe();
         ActivityCollector.removeActivity(this);
 
     }
@@ -206,7 +229,7 @@ public class MainActivity extends PermissionActivity {
 //        bind.bnvTab.setTextSize(10);
         bind.bnvTab.setTextVisibility(false);
 
-
+//        loginAccount();
         // add badge
 //        addBadgeAt(2, 1);
     }
@@ -304,8 +327,7 @@ public class MainActivity extends PermissionActivity {
         requestRuntimePermission(new String[]{Manifest.permission.CALL_PHONE,
                 Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.CAMERA,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.READ_EXTERNAL_STORAGE,
-        Manifest.permission.MANAGE_DOCUMENTS}, new PermissionListener() {
+                Manifest.permission.READ_EXTERNAL_STORAGE}, new PermissionListener() {
             @Override
             public void onGranted() {
                 Toast.makeText(getContext(), "所有权限已同意", Toast.LENGTH_SHORT).show();
@@ -358,4 +380,74 @@ public class MainActivity extends PermissionActivity {
         }
         return super.dispatchTouchEvent(ev);
     }
+
+
+
+
+
+
+    private void loginAccount() {
+        final Gson gson = new Gson();
+        if (GlobalDataYepao.getUser(getContext()) == null) {
+
+        } else {
+            GlobalDataYepao.setIsLogin(true);
+            JPushInterface.setAlias(this,22,GlobalDataYepao.getUser(getContext()).getPhone());
+
+//            getNetWork(GlobalDataYepao.getUser(getContext()).getPhone(),GlobalDataYepao.getUser(getContext()).getPassword());
+//            CloudClient.doHttpRequest(getContext(), ConstantYeaPao.LOGIN,
+//                    NetImpl.getInstance().loginRequest(GlobalDataYepao.getUser(getContext()).getPhone(),
+//                            GlobalDataYepao.getUser(getContext()).getPassword()), null, new JSONResultHandler() {
+//                        @Override
+//                        public void onSuccess(String jsonString) {
+//                            LogUtil.e(TAG+"+++++++++++++++++++", jsonString);
+//                            LoginModel loginData = gson.fromJson(jsonString, LoginModel.class);
+//                            if (loginData.getErrmsg().equals("ok")) {
+//                                GlobalDataYepao.setIsLogin(true);
+//                            } else {
+//                                ToastManager.showToast(getContext(),loginData.getErrmsg());
+//                            }
+//                        }
+//
+//                        @Override
+//                        public void onError(VolleyError errorMessage) {
+//                            ToastManager.showToast(getContext(), errorMessage.toString());
+//                        }
+//                    });
+        }
+
+    }
+
+
+
+            private void getNetWork(String phone,String password) {
+                    LogUtil.e(TAG,phone+password);
+                    subscription = Network.getYeapaoApi()
+                            .requestLogin(phone,password)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe( modelObserver);
+                }
+
+                  Observer<UserDetailsModel> modelObserver = new Observer<UserDetailsModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        LogUtil.e(TAG,e.toString());
+
+                    }
+
+                    @Override
+                    public void onNext(UserDetailsModel model) {
+                        LogUtil.e(TAG+"login", model.getErrmsg());
+                        if (model.getErrmsg().equals("ok")) {
+                                GlobalDataYepao.setIsLogin(true);
+                        }
+                    }
+                };
+
 }

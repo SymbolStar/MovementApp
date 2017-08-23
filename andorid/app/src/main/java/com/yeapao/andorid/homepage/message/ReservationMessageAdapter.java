@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.yeapao.andorid.R;
+import com.yeapao.andorid.model.PunchTheClockModel;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -25,6 +26,9 @@ public class ReservationMessageAdapter extends RecyclerView.Adapter<RecyclerView
     private LayoutInflater mInflater;
     private gotoCardListener mListener;
 
+
+    private PunchTheClockModel punchTheClockModel;
+
     interface gotoCardListener {
         void gotoCard();
     }
@@ -35,7 +39,8 @@ public class ReservationMessageAdapter extends RecyclerView.Adapter<RecyclerView
         }
     }
 
-    public ReservationMessageAdapter(Context context) {
+    public ReservationMessageAdapter(Context context, PunchTheClockModel model) {
+        punchTheClockModel = model;
         mContext = context;
         mInflater = LayoutInflater.from(context);
     }
@@ -49,13 +54,14 @@ public class ReservationMessageAdapter extends RecyclerView.Adapter<RecyclerView
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 //        TODO tvTime
-
+        ((ViewHolder)holder).tvTime.setText(punchTheClockModel.getData().get(position).getCreateTime());
+        ((ViewHolder) holder).tvReservationContent.setText(punchTheClockModel.getData().get(position).getNotificationContent());
 
     }
 
     @Override
     public int getItemCount() {
-        return 10;
+        return punchTheClockModel.getData().size();
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
@@ -63,6 +69,8 @@ public class ReservationMessageAdapter extends RecyclerView.Adapter<RecyclerView
         TextView tvTime;
         @BindView(R.id.cv_reservation_card)
         CardView cvReservationCard;
+        @BindView(R.id.tv_reservation_content)
+        TextView tvReservationContent;
 
         private gotoCardListener listener;
 

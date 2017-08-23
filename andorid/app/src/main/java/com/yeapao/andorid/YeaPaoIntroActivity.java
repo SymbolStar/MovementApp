@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 
 import com.github.paolorotolo.appintro.AppIntro;
+import com.yeapao.andorid.util.GlobalDataYepao;
 import com.yeapao.andorid.util.SampleSlide;
 
 /**
@@ -19,11 +20,17 @@ public class YeaPaoIntroActivity extends AppIntro {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        addSlide(SampleSlide.newInstance(R.layout.intro_custom_layout1));
-        addSlide(SampleSlide.newInstance(R.layout.intro_custom_layout2));
-        addSlide(SampleSlide.newInstance(R.layout.intro_custom_layout3));
+        if (GlobalDataYepao.getUser(this) == null) {
+            addSlide(SampleSlide.newInstance(R.layout.intro_custom_layout1));
+            addSlide(SampleSlide.newInstance(R.layout.intro_custom_layout2));
+            addSlide(SampleSlide.newInstance(R.layout.intro_custom_layout3));
 //        addSlide(SampleSlide.newInstance(R.layout.intro_custom_layout4));
+        } else {
+            startActivity(new Intent(this,MainActivity.class));
+            finish();
+        }
+
+
     }
 
     @Override

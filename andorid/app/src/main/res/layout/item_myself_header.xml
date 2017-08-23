@@ -63,7 +63,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/tv_account_name"
         app:layout_constraintLeft_toRightOf="@+id/tv_account_name"
         app:layout_constraintTop_toTopOf="@+id/tv_account_name"
-        app:srcCompat="@drawable/my_badge" />
+        app:srcCompat="@drawable/my_level" />
 
     <ImageView
         android:visibility="visible"

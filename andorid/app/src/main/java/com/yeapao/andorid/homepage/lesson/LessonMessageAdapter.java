@@ -19,10 +19,14 @@ import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.scottfu.sflibrary.recyclerview.OnRecyclerViewClickListener;
+import com.scottfu.sflibrary.util.LogUtil;
 import com.scottfu.sflibrary.util.ToastManager;
 import com.yeapao.andorid.LoginActivity;
 import com.yeapao.andorid.R;
 import com.yeapao.andorid.api.ConstantYeaPao;
+import com.yeapao.andorid.dialog.DialogCallback;
+import com.yeapao.andorid.dialog.DialogUtils;
+import com.yeapao.andorid.homepage.shopping.ShoppingOrderActivity;
 import com.yeapao.andorid.lessondetails.LessonDetailActivity;
 import com.yeapao.andorid.model.HomeList;
 import com.yeapao.andorid.model.LessonScreeningData;
@@ -126,6 +130,17 @@ public class LessonMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
                 ((NormalViewHolder) holder).cvStoreCard.setLayoutParams(layoutParams);
             }
 
+            if (mHomeMessageList.getShopScheduleList().get(position-1).getIsBespeak().equals("1")) {
+                ((NormalViewHolder) holder).btnReservation.setText("已预约");
+                ((NormalViewHolder) holder).btnReservation.setBackgroundColor(mContext.getResources().getColor(R.color.bg_grey));
+            } else {
+                ((NormalViewHolder) holder).btnReservation.setText("预约");
+            }
+
+            ((NormalViewHolder) holder).tvLessonName.setText(mHomeMessageList.getShopScheduleList().get(position-1).getCurriculumName());
+            ((NormalViewHolder) holder).tvLessonAddress.setText(mHomeMessageList.getShopScheduleList().get(position-1).getDate()
+            +"  "+mHomeMessageList.getShopScheduleList().get(position-1).getStartTime()+"/"+
+            mHomeMessageList.getShopScheduleList().get(position-1).getAddress());
 
         } else {
 //           TODO set lesson header
@@ -136,9 +151,6 @@ public class LessonMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
             ((HeaderViewHolder) holder).tvLessonTime.setText(mLessonScreeningData.getScopeTimeName());
             ((HeaderViewHolder) holder).tvLessonStatus.setText(mLessonScreeningData.getStatusName());
             ((HeaderViewHolder) holder).tvLessonScope.setText(mLessonScreeningData.getRegionName());
-
-
-
 
         }
     }
@@ -227,15 +239,25 @@ public class LessonMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
             if (GlobalDataYepao.getUser(mContext) == null) {
                 LoginActivity.start(mContext);
             } else {
-                reservationListener.onReservationClickListener(mHomeMessageList.getShopScheduleList().get(position).getScheduleId(),
-                        mHomeMessageList.getShopScheduleList().get(position).getCurriculumId(), String.valueOf(GlobalDataYepao.getUser(mContext).getId()));
-            }
+                if (mHomeMessageList.getShopScheduleList().get(position).getLinePrice().equals("0")) {
+                    reservationListener.onReservationClickListener(mHomeMessageList.getShopScheduleList().get(position).getScheduleId(),
+                            mHomeMessageList.getShopScheduleList().get(position).getCurriculumId(), String.valueOf(GlobalDataYepao.getUser(mContext).getId()));
+                } else {
+                    if (mHomeMessageList.getShopScheduleList().get(position).getMySchedule().equals("1")) {
+                        reservationListener.onReservationClickListener(mHomeMessageList.getShopScheduleList().get(position).getScheduleId(),
+                                mHomeMessageList.getShopScheduleList().get(position).getCurriculumId(), String.valueOf(GlobalDataYepao.getUser(mContext).getId()));
+                    } else {
+                        String scheduleId = mHomeMessageList.getShopScheduleList().get(getLayoutPosition() - 1).getScheduleId();
+                        LessonDetailActivity.start(mContext, scheduleId);
+                    }
+                }
+              }
         }
 
         @Override
         public void onClick(View v) {
             if (listener != null) {
-                listener.OnItemClick(v, getLayoutPosition());
+                listener.OnItemClick(v, getLayoutPosition()-1);
             }
         }
     }

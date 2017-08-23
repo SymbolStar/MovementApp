@@ -10,6 +10,7 @@
 
 
     <LinearLayout
+        android:visibility="gone"
         android:layout_width="0dp"
         android:layout_height="30dp"
         android:orientation="horizontal"
@@ -33,27 +34,15 @@
             android:text="14:57:01"/>
     </LinearLayout>
 
-    <TextView
-        app:layout_goneMarginTop="0dp"
-        android:gravity="center"
-        android:id="@+id/tv_froget_password"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:text="减肥营一期（线上）"
-        android:textColor="@color/text_color"
-        android:textSize="18sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout5" />
-
     <View
         android:layout_width="0dp"
         android:layout_height="1dp"
         android:background="@color/bg_grey"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_froget_password"
-        android:id="@+id/view24" />
+        android:id="@+id/view24"
+        android:layout_marginTop="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/tv_order_title" />
 
     <TextView
         android:paddingLeft="15dp"
@@ -66,13 +55,13 @@
         android:textSize="16sp"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/textView24"
+        app:layout_constraintRight_toLeftOf="@+id/tv_order_code"
         app:layout_constraintTop_toBottomOf="@+id/view24" />
 
     <TextView
         android:paddingRight="15dp"
         android:gravity="center_vertical"
-        android:id="@+id/textView24"
+        android:id="@+id/tv_order_code"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:text="12345678900987"
@@ -80,7 +69,8 @@
         android:textSize="16sp"
         app:layout_constraintLeft_toRightOf="@+id/textView20"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textView20" />
+        app:layout_constraintTop_toTopOf="@+id/textView20"
+        android:layout_marginTop="0dp" />
 
     <View
         android:layout_width="0dp"
@@ -102,12 +92,12 @@
         android:textColor="@color/text_hint_title_color"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/textView28"
+        app:layout_constraintRight_toLeftOf="@+id/tv_order_time"
         app:layout_constraintTop_toBottomOf="@+id/view25" />
 
     <TextView
         android:paddingRight="15dp"
-        android:id="@+id/textView28"
+        android:id="@+id/tv_order_time"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:text="2016-5-30 13：30"
@@ -116,7 +106,8 @@
         android:textColor="@color/text_hint_title_color"
         app:layout_constraintLeft_toRightOf="@+id/textView27"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textView27" />
+        app:layout_constraintTop_toTopOf="@+id/textView27"
+        android:layout_marginTop="0dp" />
 
     <View
         android:layout_width="0dp"
@@ -138,12 +129,12 @@
         android:textSize="16sp"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/textView30"
+        app:layout_constraintRight_toLeftOf="@+id/tv_end_date"
         app:layout_constraintTop_toBottomOf="@+id/view26" />
 
     <TextView
         android:paddingRight="15dp"
-        android:id="@+id/textView30"
+        android:id="@+id/tv_end_date"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:text="2016-5-30"
@@ -209,12 +200,12 @@
         android:textSize="16sp"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/imageView19"
+        app:layout_constraintRight_toLeftOf="@+id/iv_pay_type"
         app:layout_constraintTop_toBottomOf="@+id/view28" />
 
     <ImageView
         android:paddingRight="15dp"
-        android:id="@+id/imageView19"
+        android:id="@+id/iv_pay_type"
         android:layout_width="40dp"
         android:layout_height="40dp"
         app:srcCompat="@drawable/buy_alipay"
@@ -242,17 +233,18 @@
         android:textSize="16sp"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/textView46"
+        app:layout_constraintRight_toLeftOf="@+id/tv_order_price"
         app:layout_constraintTop_toBottomOf="@+id/view31" />
 
     <TextView
         android:paddingRight="15dp"
         android:gravity="center_vertical"
-        android:id="@+id/textView46"
+        android:id="@+id/tv_order_price"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:text="98"
         android:textSize="16sp"
+        android:textColor="@color/text_red"
         app:layout_constraintBottom_toBottomOf="@+id/textView45"
         app:layout_constraintLeft_toRightOf="@+id/textView45"
         app:layout_constraintRight_toRightOf="parent"
@@ -287,19 +279,20 @@
         android:layout_width="65dp"
         android:layout_height="25dp"
         android:text="继续支付"
+        android:visibility="gone"
         android:gravity="center"
         android:textSize="12sp"
         android:textColor="#ffcc00"
         android:background="@drawable/my_order_button_shape"
-        app:layout_constraintBottom_toBottomOf="@+id/textView48"
-        app:layout_constraintTop_toTopOf="@+id/textView48"
-        app:layout_constraintRight_toLeftOf="@+id/textView48"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_delete_order"
+        app:layout_constraintTop_toTopOf="@+id/tv_delete_order"
+        app:layout_constraintRight_toLeftOf="@+id/tv_delete_order"
         android:layout_marginRight="16dp"
         app:layout_constraintVertical_bias="0.0"
         android:layout_marginEnd="16dp" />
 
     <TextView
-        android:id="@+id/textView48"
+        android:id="@+id/tv_delete_order"
         android:layout_width="65dp"
         android:layout_height="25dp"
         android:text="删除订单"
@@ -317,6 +310,7 @@
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:text="优惠金额"
+        android:visibility="gone"
         android:paddingLeft="15dp"
         android:gravity="center_vertical"
         android:textSize="16sp"
@@ -326,6 +320,7 @@
         app:layout_constraintTop_toBottomOf="@+id/view29" />
 
     <TextView
+        android:visibility="gone"
         android:id="@+id/textView12"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
@@ -349,6 +344,7 @@
         android:id="@+id/view33" />
 
     <TextView
+        android:visibility="gone"
         android:id="@+id/textView19"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
@@ -362,6 +358,7 @@
         app:layout_constraintTop_toBottomOf="@+id/view33" />
 
     <TextView
+        android:visibility="gone"
         android:id="@+id/textView50"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
@@ -372,6 +369,24 @@
         app:layout_constraintLeft_toRightOf="@+id/textView19"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textView19" />
+
+    <TextView
+        android:id="@+id/tv_order_title"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="0dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginTop="0dp"
+        android:gravity="center"
+        android:text="减脂"
+        android:textColor="@color/text_hint_title_color"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/view24"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </android.support.constraint.ConstraintLayout>

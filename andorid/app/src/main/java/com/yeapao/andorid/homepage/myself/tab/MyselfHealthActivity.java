@@ -8,36 +8,32 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.RadarChart;
-import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.Legend;
-import com.github.mikephil.charting.components.LimitLine;
-import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.data.RadarData;
-import com.github.mikephil.charting.data.RadarDataSet;
-import com.github.mikephil.charting.data.RadarEntry;
-import com.github.mikephil.charting.formatter.IAxisValueFormatter;
-import com.github.mikephil.charting.interfaces.datasets.IRadarDataSet;
+import com.scottfu.sflibrary.customview.CircleImageView;
 import com.scottfu.sflibrary.recyclerview.OnRecyclerViewClickListener;
+import com.scottfu.sflibrary.util.GlideUtil;
 import com.scottfu.sflibrary.util.LogUtil;
 import com.scottfu.sflibrary.util.ScreenUtil;
 import com.scottfu.sflibrary.util.ToastManager;
 import com.yeapao.andorid.R;
+import com.yeapao.andorid.api.ConstantYeaPao;
 import com.yeapao.andorid.api.Network;
 import com.yeapao.andorid.base.BaseActivity;
 import com.yeapao.andorid.homepage.myself.tab.health.BodySideDetailActivity;
 import com.yeapao.andorid.homepage.myself.tab.health.BodySideRecordMessageAdapter;
 import com.yeapao.andorid.homepage.myself.tab.health.BodySideScoreMeaageAdapter;
 import com.yeapao.andorid.model.HealthDataModel;
+import com.yeapao.andorid.util.DatePickerDialog;
 import com.yeapao.andorid.util.GlobalDataYepao;
 
 import java.util.ArrayList;
@@ -66,6 +62,21 @@ public class MyselfHealthActivity extends BaseActivity {
     View vRecord;
     @BindView(R.id.rv_health_list)
     RecyclerView rvHealthList;
+    @BindView(R.id.civ_head)
+    CircleImageView civHead;
+    @BindView(R.id.tv_user_name)
+    TextView tvUserName;
+    @BindView(R.id.iv_gender)
+    ImageView ivGender;
+    @BindView(R.id.tv_age)
+    TextView tvAge;
+    @BindView(R.id.tv_height)
+    TextView tvHeight;
+    @BindView(R.id.tv_weight)
+    TextView tvWeight;
+
+    private String currentWeight;
+    private String currentBMI;
 
     private LineChart weightChart;
     private LineChart bmiChart;
@@ -101,13 +112,11 @@ public class MyselfHealthActivity extends BaseActivity {
         getNetWork(GlobalDataYepao.getUser(getContext()).getId());
 
 
-
     }
 
     private void initScoreChart() {
 
         rvHealthList.setLayoutManager(new LinearLayoutManager(getContext()));
-
 
 
     }
@@ -129,9 +138,9 @@ public class MyselfHealthActivity extends BaseActivity {
                 recordMessageAdapter.setOnItemClickListener(new OnRecyclerViewClickListener() {
                     @Override
                     public void OnItemClick(View v, int position) {
-                        ToastManager.showToast(getContext(),"onitemClick");
+                        ToastManager.showToast(getContext(), "onitemClick");
                         BodySideDetailActivity.start(getContext(),
-                               String.valueOf(healthModel.getData().getTestTecordListOuts().get(position).getBodySideId()) );
+                                String.valueOf(healthModel.getData().getTestTecordListOuts().get(position).getBodySideId()));
                     }
                 });
                 rvHealthList.setAdapter(recordMessageAdapter);
@@ -147,20 +156,39 @@ public class MyselfHealthActivity extends BaseActivity {
         //        RabarChart 参数设置
 //        healthRadarChart.setBackgroundColor(Color.rgb(60, 65, 82));
 
-
-//   TODO 折线图
+        if (healthModel.getData().getBMIListOut().size() == 0) {
+            ToastManager.showToast(getContext(), "请参加体测");
+        } else {
+            LineData data1 = chooseData(false);
+            //   TODO 折线图
 //        折线图的title
-        Description description = new Description();
-        description.setText("最新记录50kg");
-        description.setTextColor(getResources().getColor(R.color.text_color));
-        description.setTextSize(ScreenUtil.dpToPx(getContext(), 5));
-        description.setPosition(1000, 80);
+            Description description2 = new Description();
+            description2.setText("最新记录"+currentBMI);
+            description2.setTextColor(getResources().getColor(R.color.text_color));
+            description2.setTextSize(ScreenUtil.dpToPx(getContext(), 5));
+            description2.setPosition(1000, 80);
+            setupChart(bmiChart, data1, description2);
+        }
 
-//        获取数据
-        LineData data = chooseData(true);
-        LineData data1 = chooseData(false);
-        setupChart(weightChart, data, description);
-        setupChart(bmiChart, data1, description);
+        if (healthModel.getData().getWeightListOuts().size() == 0) {
+            ToastManager.showToast(getContext(), "请打卡");
+        } else {
+            LineData data = chooseData(true);
+//
+            //   TODO 折线图
+//        折线图的title
+            Description description = new Description();
+            description.setText("最新记录"+currentWeight+"kg");
+            description.setTextColor(getResources().getColor(R.color.text_color));
+            description.setTextSize(ScreenUtil.dpToPx(getContext(), 5));
+            description.setPosition(1000, 80);
+
+
+            setupChart(weightChart, data, description);
+        }
+
+//
+//
 
 //        XAxis lineXAxis = weightChart.getXAxis(); //折线图中不需要轴的样式
 //        lineXAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
@@ -248,7 +276,6 @@ public class MyselfHealthActivity extends BaseActivity {
         }
 
 
-
         // create a dataset and give it a type
         LineDataSet set1 = new LineDataSet(yVals, "DataSet 1");
         // set1.setFillAlpha(110);
@@ -275,12 +302,18 @@ public class MyselfHealthActivity extends BaseActivity {
             for (int i = 0; i < healthModel.getData().getWeightListOuts().size(); i++) {
                 float val = Float.valueOf(healthModel.getData().getWeightListOuts().get(i).getWeight());
                 yVals.add(new Entry(i, val));
+                if (i == healthModel.getData().getWeightListOuts().size() - 1) {
+                    currentWeight = healthModel.getData().getWeightListOuts().get(i).getWeight();
+                }
             }
 
         } else {
             for (int i = 0; i < healthModel.getData().getBMIListOut().size(); i++) {
                 float val = Float.valueOf(healthModel.getData().getBMIListOut().get(i).getBmi());
                 yVals.add(new Entry(i, val));
+                if (i == healthModel.getData().getBMIListOut().size() - 1) {
+                    currentBMI = healthModel.getData().getBMIListOut().get(i).getBmi();
+                }
             }
         }
 
@@ -309,48 +342,66 @@ public class MyselfHealthActivity extends BaseActivity {
         switch (view.getId()) {
             case R.id.tv_score:
                 type = true;
-                showRecyclerView(true);
+                try {
+                    showRecyclerView(true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 vScore.setVisibility(View.VISIBLE);
                 vRecord.setVisibility(View.GONE);
                 break;
             case R.id.tv_record:
                 type = false;
-                showRecyclerView(false);
+                try {
+                    showRecyclerView(false);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 vScore.setVisibility(View.GONE);
                 vRecord.setVisibility(View.VISIBLE);
                 break;
         }
     }
 
-//获取健康数据
-            private void getNetWork(String id) {
-                    subscription = Network.getYeapaoApi()
-                            .getHealthData(id)
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(modelObserver);
-                }
+    //获取健康数据
+    private void getNetWork(String id) {
+        subscription = Network.getYeapaoApi()
+                .getHealthData(id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(modelObserver);
+    }
 
-                  Observer<HealthDataModel> modelObserver = new Observer<HealthDataModel>() {
-                    @Override
-                    public void onCompleted() {
-                        initLineChart();
-                        showRecyclerView(type);
-                    }
+    Observer<HealthDataModel> modelObserver = new Observer<HealthDataModel>() {
+        @Override
+        public void onCompleted() {
+            initLineChart();
+            showRecyclerView(type);
+            showViewCard();
+        }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        LogUtil.e(TAG,e.toString());
+        @Override
+        public void onError(Throwable e) {
+            LogUtil.e(TAG, e.toString());
+        }
 
-                    }
+        @Override
+        public void onNext(HealthDataModel model) {
+            LogUtil.e(TAG, model.getErrmsg());
+            if (model.getErrmsg().equals("ok")) {
+                healthModel = model;
+            }
+        }
+    };
 
-                    @Override
-                    public void onNext(HealthDataModel model) {
-                        LogUtil.e(TAG, model.getErrmsg());
-                        if (model.getErrmsg().equals("ok")) {
-                            healthModel = model;
-                        }
-                    }
-                };
+    private void showViewCard() {
+        GlideUtil glideUtil = new GlideUtil();
+        glideUtil.glideLoadingImage(getContext(), ConstantYeaPao.HOST + healthModel.getData().getCustomer().getHead(),
+                R.drawable.y_you, civHead);
+        tvUserName.setText(healthModel.getData().getCustomer().getName());
+        tvAge.setText("年龄 "+healthModel.getData().getCustomer().getAge()+"岁");
+        tvHeight.setText("身高 "+healthModel.getData().getCustomer().getHeight()+"cm");
+        tvWeight.setText("体重 "+healthModel.getData().getCustomer().getWeight()+"kg");
+    }
 
 }

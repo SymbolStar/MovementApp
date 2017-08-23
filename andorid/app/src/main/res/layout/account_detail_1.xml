@@ -64,7 +64,7 @@
         android:id="@+id/tv_birth_date"
         android:layout_width="120dp"
         android:layout_height="30dp"
-        android:text="1984-10-15"
+        android:text=""
         android:gravity="center"
         android:textColor="@color/yellow_text_color"
         android:background="@drawable/account_detail"

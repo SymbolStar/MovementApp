@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.scottfu.sflibrary.cache.ACache;
 import com.yeapao.andorid.model.CookListDetailModel;
+import com.yeapao.andorid.model.CustomerData;
 import com.yeapao.andorid.model.UserData;
 
 /**
@@ -13,7 +14,7 @@ import com.yeapao.andorid.model.UserData;
 public class GlobalDataYepao {
 
 
-    private static boolean IS_LOGIN = true;
+    private static boolean IS_LOGIN = false;
 
     private static CookListDetailModel.DataBean foodDetail;
     public static boolean foodFlag = false;
@@ -57,5 +58,18 @@ public class GlobalDataYepao {
     public static void clearUser(Context context) {
         getCache(context).remove(GlobalDataConstant.USER_DATA);
     }
+
+    public static void setCustomerData(Context context, CustomerData customerData) {
+        getCache(context).put(GlobalDataConstant.USER_FILL, customerData);
+    }
+
+    public static CustomerData getCustomerData(Context context) {
+        return (CustomerData) getCache(context).getAsObject(GlobalDataConstant.USER_FILL);
+    }
+
+    public static void clearCustomerData(Context context) {
+        getCache(context).remove(GlobalDataConstant.USER_FILL);
+    }
+
 
 }

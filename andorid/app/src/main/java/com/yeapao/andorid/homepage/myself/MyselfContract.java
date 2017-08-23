@@ -18,6 +18,7 @@ public interface MyselfContract {
 
         void initViewClick(boolean flag);
 
+        void refreshUserData();
     }
 
 

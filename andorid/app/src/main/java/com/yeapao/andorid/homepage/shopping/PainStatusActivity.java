@@ -169,6 +169,7 @@ public class PainStatusActivity extends BaseActivity {
                 if (painModels.size() == 0) {
                     finish();
                 } else {
+                    LogUtil.e(TAG,"lllllll");
                     DialogUtils.showProgressDialog(getContext());
                     for (int i = 0; i < painModels.size(); i++) {
                         getNetWork(reservationId,painModels.get(i).getPainPosition(),painModels.get(i).getValue());
@@ -294,7 +295,11 @@ public class PainStatusActivity extends BaseActivity {
                     @Override
                     public void onCompleted() {
 //                        TODO 多个上传结束的处理
-
+                        count++;
+                        if (count == painModels.size()) {
+                            DialogUtils.cancelProgressDialog();
+                            finish();
+                        }
                     }
 
                     @Override

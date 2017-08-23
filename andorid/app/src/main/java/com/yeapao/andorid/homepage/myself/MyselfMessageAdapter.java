@@ -3,6 +3,7 @@ package com.yeapao.andorid.homepage.myself;
 import android.content.Context;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
+import android.support.constraint.solver.widgets.ConstraintWidgetContainer;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -71,12 +72,15 @@ public class MyselfMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     private void setMyselfTabModelData() {
-        for (int i = 0; i < 7; i++) {
+
+            myselfTabModels.clear();
+
+        for (int i = 0; i < 6; i++) {
 
             MyselfTabModel myselfTabModel = new MyselfTabModel();
             switch (i) {
                 case 0:
-                    myselfTabModel.setViewId(mContext.getResources().getDrawable(R.drawable.my_phacse_order));
+                    myselfTabModel.setViewId(mContext.getResources().getDrawable(R.drawable.my_record));
                     myselfTabModel.setTabName("健康数据库");
                     myselfTabModels.add(myselfTabModel);
                     break;
@@ -91,21 +95,21 @@ public class MyselfMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
                     myselfTabModels.add(myselfTabModel);
                     break;
                 case 3:
-                    myselfTabModel.setViewId(mContext.getResources().getDrawable(R.drawable.my_order));
+                    myselfTabModel.setViewId(mContext.getResources().getDrawable(R.drawable.my_phacse_order));
                     myselfTabModel.setTabName("我的订单");
                     myselfTabModels.add(myselfTabModel);
                     break;
+//                case 4:
+//                    myselfTabModel.setViewId(mContext.getResources().getDrawable(R.drawable.my_note));
+//                    myselfTabModel.setTabName("我的帖子");
+//                    myselfTabModels.add(myselfTabModel);
+//                    break;
                 case 4:
-                    myselfTabModel.setViewId(mContext.getResources().getDrawable(R.drawable.my_note));
-                    myselfTabModel.setTabName("我的帖子");
-                    myselfTabModels.add(myselfTabModel);
-                    break;
-                case 5:
                     myselfTabModel.setViewId(mContext.getResources().getDrawable(R.drawable.my_coach));
                     myselfTabModel.setTabName("我是教练");
                     myselfTabModels.add(myselfTabModel);
                     break;
-                case 6:
+                case 5:
                     myselfTabModel.setViewId(mContext.getResources().getDrawable(R.drawable.my_shopkeeper));
                     myselfTabModel.setTabName("我是店长");
                     myselfTabModels.add(myselfTabModel);
@@ -114,7 +118,16 @@ public class MyselfMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         }
 
-
+        if (GlobalDataYepao.isLogin()) {
+            if (GlobalDataYepao.getUser(mContext).getPost().equals("1")) {
+                myselfTabModels.remove(4);
+            } else if (GlobalDataYepao.getUser(mContext).getPost().equals("2")) {
+                myselfTabModels.remove(5);
+            } else {
+                myselfTabModels.remove(4);
+                myselfTabModels.remove(4);
+            }
+        }
 
 
 
@@ -163,6 +176,55 @@ public class MyselfMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
                 applyConstraintSet.setMargin(R.id.tv_account_name,ConstraintSet.TOP, (int)ScreenUtil.dpToPx(mContext,40));
                 applyConstraintSet.applyTo(((HeaderViewHolder) holder).clHeader);
                 ((HeaderViewHolder) holder).tvAccountTell.setText(mUserData.getPhone());
+
+                int grade = Integer.valueOf(mUserData.getGrade());
+                switch (grade) {
+                    case 1:
+                        ((HeaderViewHolder) holder).ivAccountBadge.setImageDrawable(mContext.getResources().getDrawable(R.drawable.level1));
+                        break;
+                    case 2:
+                        ((HeaderViewHolder) holder).ivAccountBadge.setImageDrawable(mContext.getResources().getDrawable(R.drawable.level2));
+                        break;
+                    case 3:
+                        ((HeaderViewHolder) holder).ivAccountBadge.setImageDrawable(mContext.getResources().getDrawable(R.drawable.level3));
+                        break;
+                    case 4:
+                        ((HeaderViewHolder) holder).ivAccountBadge.setImageDrawable(mContext.getResources().getDrawable(R.drawable.level4));
+                        break;
+                    case 5:
+                        ((HeaderViewHolder) holder).ivAccountBadge.setImageDrawable(mContext.getResources().getDrawable(R.drawable.level5));
+                        break;
+                    case 6:
+                        ((HeaderViewHolder) holder).ivAccountBadge.setImageDrawable(mContext.getResources().getDrawable(R.drawable.level6));
+                        break;
+                    case 7:
+                        ((HeaderViewHolder) holder).ivAccountBadge.setImageDrawable(mContext.getResources().getDrawable(R.drawable.level7));
+                        break;
+                    case 8:
+                        ((HeaderViewHolder) holder).ivAccountBadge.setImageDrawable(mContext.getResources().getDrawable(R.drawable.level8));
+                        break;
+                    case 9:
+                        ((HeaderViewHolder) holder).ivAccountBadge.setImageDrawable(mContext.getResources().getDrawable(R.drawable.level9));
+                        break;
+                    case 10:
+                        ((HeaderViewHolder) holder).ivAccountBadge.setImageDrawable(mContext.getResources().getDrawable(R.drawable.level10));
+                        break;
+                    case 11:
+                        ((HeaderViewHolder) holder).ivAccountBadge.setImageDrawable(mContext.getResources().getDrawable(R.drawable.level11));
+                        break;
+                    case 12:
+                        ((HeaderViewHolder) holder).ivAccountBadge.setImageDrawable(mContext.getResources().getDrawable(R.drawable.level12));
+                        break;
+                    case 13:
+                        ((HeaderViewHolder) holder).ivAccountBadge.setImageDrawable(mContext.getResources().getDrawable(R.drawable.level13));
+                        break;
+                    case 14:
+                        ((HeaderViewHolder) holder).ivAccountBadge.setImageDrawable(mContext.getResources().getDrawable(R.drawable.level14));
+                        break;
+                    case 15:
+                        ((HeaderViewHolder) holder).ivAccountBadge.setImageDrawable(mContext.getResources().getDrawable(R.drawable.level15));
+                        break;
+                }
             } else {
                 ((HeaderViewHolder) holder).ivAccountHead.setImageDrawable(mContext.getResources().getDrawable(R.drawable.y_you));
                 ((HeaderViewHolder) holder).tvAccountName.setText("注册／登录");

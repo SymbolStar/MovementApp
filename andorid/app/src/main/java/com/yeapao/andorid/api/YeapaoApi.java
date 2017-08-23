@@ -17,17 +17,25 @@ import com.yeapao.andorid.model.HealthDataModel;
 import com.yeapao.andorid.model.IAmCoachListModel;
 import com.yeapao.andorid.model.IsAmShopModel;
 import com.yeapao.andorid.model.LessonOrderModel;
+import com.yeapao.andorid.model.MessageListModel;
+import com.yeapao.andorid.model.MyOrderDataModel;
 import com.yeapao.andorid.model.Myfiles;
+import com.yeapao.andorid.model.MyselfLessonModel;
 import com.yeapao.andorid.model.NormalDataModel;
+import com.yeapao.andorid.model.OrderDetailModel;
+import com.yeapao.andorid.model.PunchTheClockModel;
 import com.yeapao.andorid.model.RecommendLessonModel;
 import com.yeapao.andorid.model.RegisterModel;
 import com.yeapao.andorid.model.RollCallListModel;
 import com.yeapao.andorid.model.SaveReservation;
 import com.yeapao.andorid.model.TestData;
+import com.yeapao.andorid.model.UserDetailsModel;
 import com.yeapao.andorid.model.VideoDataModel;
+import com.yeapao.andorid.model.VideoTypeModel;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
@@ -196,5 +204,63 @@ public interface YeapaoApi {
     Observable<RecommendLessonModel> requesetRecommendLesson(@Query("shopId") String shopId, @Query("id") String id,
                                                              @Query("time") String time);
 
+//    视频类型
+    @GET("video/types")
+    Observable<VideoTypeModel> requestVideoType();
+//  消息列表
+    @POST("user/messageList")
+    Observable<MessageListModel> requestMessageList(@Query("customerId") String id);
+//消息详情列表
+    @POST("user/punchTheClocks")
+    Observable<PunchTheClockModel> requestPunchTheClock(@Query("customerId") String customerId, @Query("type") String type);
 
+
+    //   意见反馈
+    @POST("user/feedbackSave")
+    Observable<NormalDataModel> requestFeedBackSave(@Query("customerId") String customerId, @Query("content") String content);
+
+    //获取用户资料
+    @POST("user/userDetails")
+    Observable<UserDetailsModel> requesetUserDetail(@Query("id") String Id);
+
+    //    修改资料
+    @Multipart
+    @POST("user/updateCustomerById")
+    Observable<NormalDataModel> requestChangeUserData(@Query("customerId") String customerId,
+                                                       @Query("gender") String gender,
+                                                       @Query("name") String name,
+                                                        @Query("age") String age,
+                                                       @Part("files\";filename=\"image.jpeg") RequestBody file);
+    //    修改资料2
+    @POST("user/updateCustomerById")
+    Observable<NormalDataModel> requestChangeUserDataV2(@Query("customerId") String customerId,
+                                                      @Query("gender") String gender,
+                                                      @Query("name") String name,
+                                                      @Query("age") String age);
+
+    //完善资料
+    @POST("user/updateCustomer")
+    Observable<NormalDataModel> requestCostomerData(@Query("gender") String gender,
+                                                    @Query("birthDate") String birthDte,
+                                                    @Query("height") String height,
+                                                    @Query("weight") String weight,
+                                                    @Query("objective") String objective,
+                                                    @Query("physicalCondition") String physical,
+                                                    @Query("id") String id);
+//订单列表
+    @POST("order/findOrderList")
+    Observable<MyOrderDataModel> getOrderInfo(@Query("customerId") String customerId);
+
+    //   删除订单
+    @POST("order/deleteOrderById")
+    Observable<NormalDataModel> requestDeleteOrder(@Query("orderId") String orderId);
+
+    @POST("order/OrderDetails")
+    Observable<OrderDetailModel> requestOrderDetail(@Query("orderId") String orderId);
+
+    @POST("curriculum/findMyCurriculumList")
+    Observable<MyselfLessonModel> requestMyCurriculumList(@Query("id") String id, @Query("status") String status);
+
+    @POST("user/loginApp")
+    Observable<UserDetailsModel> requestLogin(@Query("phone") String phone, @Query("password") String passworid);
 }

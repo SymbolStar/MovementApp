@@ -31,6 +31,33 @@ public class ShopScheduleList {
     private String mySchedule;
     private String coach;
     private String isBespeak;
+    private String groupClass;
+    private String linePrice;
+    private String date;
+
+    public String getGroupClass() {
+        return groupClass;
+    }
+
+    public void setGroupClass(String groupClass) {
+        this.groupClass = groupClass;
+    }
+
+    public String getLinePrice() {
+        return linePrice;
+    }
+
+    public void setLinePrice(String linePrice) {
+        this.linePrice = linePrice;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
 
     public String getMySchedule() {
         return mySchedule;

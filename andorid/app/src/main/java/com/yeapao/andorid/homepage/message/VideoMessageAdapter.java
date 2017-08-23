@@ -9,6 +9,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.yeapao.andorid.R;
+import com.yeapao.andorid.model.PunchTheClockModel;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -25,6 +26,8 @@ public class VideoMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private LayoutInflater mInflater;
     private gotoCardListener mListener;
 
+    private PunchTheClockModel punchTheClockModel;
+
     interface gotoCardListener {
         void gotoCard();
     }
@@ -35,7 +38,8 @@ public class VideoMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
 
-    public VideoMessageAdapter(Context context) {
+    public VideoMessageAdapter(Context context, PunchTheClockModel model) {
+        punchTheClockModel = model;
         mContext = context;
         mInflater = LayoutInflater.from(context);
     }
@@ -49,13 +53,13 @@ public class VideoMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 //        TODO tvTime
-
-
+        ((ViewHolder)holder).tvVideoMessageTime.setText(punchTheClockModel.getData().get(position).getCreateTime());
+        ((ViewHolder)holder).tvVideoTitle.setText(punchTheClockModel.getData().get(position).getNotificationContent());
     }
 
     @Override
     public int getItemCount() {
-        return 10;
+        return punchTheClockModel.getData().size();
     }
 
      class ViewHolder  extends RecyclerView.ViewHolder{

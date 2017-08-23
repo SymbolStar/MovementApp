@@ -2,6 +2,7 @@ package com.yeapao.andorid.homepage.lesson;
 
 import android.content.Context;
 import android.support.constraint.solver.widgets.ConstraintWidgetContainer;
+import android.util.Log;
 
 import com.android.volley.VolleyError;
 import com.google.common.net.InetAddresses;
@@ -58,7 +59,7 @@ public class LessonPresenter implements LessonContract.Presenter {
             id = userData.getId();
         }
 
-
+        LogUtil.e(TAG+"----getdata---",id);
 
         CloudClient.doHttpRequest(mContext, ConstantYeaPao.GET_HOME_LIST, NetImpl.getInstance().getHomeData(id), null, new JSONResultHandler() {
             @Override

@@ -29,6 +29,8 @@ import com.yeapao.andorid.base.BaseActivity;
 import com.yeapao.andorid.model.RegisterBackModel;
 import com.yeapao.andorid.model.RegisterModel;
 import com.yeapao.andorid.model.ReservationLessonModel;
+import com.yeapao.andorid.model.UserData;
+import com.yeapao.andorid.userinfo.FillUserInfoActivity;
 import com.yeapao.andorid.util.GlobalDataYepao;
 
 import java.util.regex.Matcher;
@@ -141,6 +143,10 @@ public class RegisterActivity extends BaseActivity {
         @Override
         public void onNext(RegisterModel registerModel) {
                 ToastManager.showToast(getContext(),registerModel.getErrmsg());
+            LogUtil.e(TAG, registerModel.getErrmsg());
+            if (registerModel.getErrmsg().equals("ok")) {
+                FillUserInfoActivity.start(getContext());
+            }
         }
     };
 

@@ -6,4 +6,6 @@ package com.yeapao.andorid.util;
 
 public class GlobalDataConstant {
     public static final String USER_DATA = "user_data";
+    public static final String USER_FILL = "user_fill";
+
 }

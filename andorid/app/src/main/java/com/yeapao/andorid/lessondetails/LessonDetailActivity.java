@@ -30,6 +30,7 @@ import com.yeapao.andorid.base.BaseActivity;
 import com.yeapao.andorid.dialog.DialogCallback;
 import com.yeapao.andorid.dialog.DialogUtils;
 import com.yeapao.andorid.homepage.shopping.PainStatusActivity;
+import com.yeapao.andorid.homepage.shopping.PainStatusWomenActivity;
 import com.yeapao.andorid.homepage.shopping.ShoppingOrderActivity;
 import com.yeapao.andorid.model.LessonDetailData;
 import com.yeapao.andorid.model.ReservationLessonModel;
@@ -96,6 +97,7 @@ public class LessonDetailActivity extends BaseActivity {
 
 
     public static void start(Context context, String scheduleId) {
+        LogUtil.e(TAG+"ssss",scheduleId);
         Intent intent = new Intent();
         intent.setClass(context, LessonDetailActivity.class);
         intent.putExtra(SCHEDULEID, scheduleId);
@@ -110,6 +112,14 @@ public class LessonDetailActivity extends BaseActivity {
         scheduleId = getIntent().getStringExtra(SCHEDULEID);
         initView();
         initTopBar();
+        getData();
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initView();
         getData();
 
     }
@@ -133,7 +143,13 @@ public class LessonDetailActivity extends BaseActivity {
                         GlobalDataYepao.getUser(getContext()).getId());
 
             } else {
-                hintPayLesson();
+                if (lessonDetailData.getData().getCurriculum().getLinePrice() == 0) {
+                    getNetWorkReservation(String.valueOf(lessonDetailData.getData().getCurriculum().getScheduleId()),
+                            String.valueOf(lessonDetailData.getData().getCurriculum().getCurriculumId()),
+                            GlobalDataYepao.getUser(getContext()).getId());
+                } else {
+                    hintPayLesson();
+                }
 
             }
 
@@ -219,6 +235,7 @@ public class LessonDetailActivity extends BaseActivity {
     }
 
     private void setData() {
+        LogUtil.e(TAG+"test",String.valueOf(lessonDetailData.getData().getCurriculum().getScheduleId()));
         tvLessonName.setText(lessonDetailData.getData().getCurriculum().getCurriculumName());
         tvShopName.setText(lessonDetailData.getData().getCurriculum().getShopName());
         tvCoachName.setText(lessonDetailData.getData().getCurriculum().getCoach());
@@ -237,6 +254,15 @@ public class LessonDetailActivity extends BaseActivity {
             lessonDetailContentAdapter = new LessonDetailContentAdapter(getContext(), lessonDetailData);
             rvLessonContentList.setAdapter(lessonDetailContentAdapter);
         }
+
+        if (lessonDetailData.getData().getCurriculum().getIsBespeak().equals("1")) {
+            tvOrder.setText("已预约");
+            tvOrder.setBackgroundColor(getResources().getColor(R.color.bg_grey));
+        } else {
+            tvOrder.setText("预约");
+            tvOrder.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+        }
+
     }
 
     @Override
@@ -269,7 +295,12 @@ public class LessonDetailActivity extends BaseActivity {
                     public void onNext(SaveReservation model) {
                         LogUtil.e(TAG, model.getErrmsg());
                         if (model.getErrmsg().equals("ok")) {
-                            PainStatusActivity.start(getContext(),String.valueOf(model.getData().getReservationDetailsId()));
+                            if (GlobalDataYepao.getUser(getContext()).getGender().equals("男")) {
+                                PainStatusActivity.start(getContext(), String.valueOf(model.getData().getReservationDetailsId()));
+                            } else {
+                                PainStatusWomenActivity.start(getContext(), String.valueOf(model.getData().getReservationDetailsId()));
+                            }
+
                         }
                     }
                 };

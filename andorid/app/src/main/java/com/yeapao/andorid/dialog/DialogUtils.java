@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.media.Image;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -16,10 +15,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,12 +27,9 @@ import com.yeapao.andorid.R;
 import com.yeapao.andorid.api.ConstantYeaPao;
 import com.yeapao.andorid.model.UserData;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.ButterKnife;
 import me.yuqirong.cardswipelayout.CardConfig;
 import me.yuqirong.cardswipelayout.CardItemTouchHelperCallback;
 import me.yuqirong.cardswipelayout.CardLayoutManager;
@@ -260,7 +254,7 @@ public class DialogUtils {
 
         View v = LayoutInflater.from(context).inflate(R.layout.dialog_lesson_view, null);
         if(title != null){
-            ((TextView)v.findViewById(R.id.tv_title)).setText(title);
+            ((TextView)v.findViewById(R.id.tv_order_title)).setText(title);
         }
         if (hint != null) {
             ((TextView) v.findViewById(R.id.tv_dialog_hint)).setText(hint);

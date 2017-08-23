@@ -1,12 +1,19 @@
 package com.yeapao.andorid.homepage.myself;
 
 import android.content.Context;
+import android.support.design.widget.TabLayout;
 
 import com.google.gson.Gson;
 import com.scottfu.sflibrary.util.LogUtil;
+import com.yeapao.andorid.api.Network;
 import com.yeapao.andorid.homepage.circle.CircleContract;
 import com.yeapao.andorid.model.UserData;
+import com.yeapao.andorid.model.UserDetailsModel;
 import com.yeapao.andorid.util.GlobalDataYepao;
+
+import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by fujindong on 2017/7/11.
@@ -32,18 +39,34 @@ public class MyselfPresenter implements MyselfContract.Presenter {
     @Override
     public void start() {
         userData = GlobalDataYepao.getUser(mContext);
-        LogUtil.e("MyselfPresenter","start");
-        if (userData == null) {
-            mView.initViewClick(true);
+        if (GlobalDataYepao.isLogin()) {
+            mView.initViewClick(false);
+            mView.refreshUserData();
         } else {
-            if (userData.isLogin()) {
-                mView.initViewClick(false);
-            } else {
-                mView.initViewClick(true);
-            }
+            mView.initViewClick(true);
+            mView.showResult(userData);
         }
 
-        mView.showResult(userData);
+//        userData = GlobalDataYepao.getUser(mContext);
+//        LogUtil.e("MyselfPresenter","start");
+//        if (userData == null) {
+//            LogUtil.e("====","null");
+//            mView.initViewClick(true);
+//        } else {
+//            if (userData.isLogin()) {
+//                mView.initViewClick(false);
+//            } else {
+//                LogUtil.e("===","isloginfalse");
+//                mView.initViewClick(true);
+//            }
+//        }
+
+//        mView.showResult(userData);
 
     }
+
+
+
+
+
 }

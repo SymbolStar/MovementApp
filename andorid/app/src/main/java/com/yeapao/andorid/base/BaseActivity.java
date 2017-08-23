@@ -12,10 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.scottfu.sflibrary.util.LogUtil;
-import com.scottfu.sflibrary.util.ToastManager;
 import com.yeapao.andorid.R;
-
-import org.w3c.dom.Text;
 
 import rx.Subscription;
 
@@ -97,7 +94,7 @@ public abstract class BaseActivity extends AppCompatActivity{
 
 
     protected void initTitle(String title) {
-        tvTitleText = (TextView) findViewById(R.id.tv_title);
+        tvTitleText = (TextView) findViewById(R.id.tv_order_title);
         tvTitleText.setText(title);
     }
 

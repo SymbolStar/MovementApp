@@ -25,6 +25,42 @@ public class UserData implements Serializable{
     private String head;
     private String password;
     private boolean isLogin = false;
+    private String age;
+    private String gender;
+    private String post;
+    private int status;
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public String getAge() {
+        return age;
+    }
+
+    public void setAge(String age) {
+        this.age = age;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getPost() {
+        return post;
+    }
+
+    public void setPost(String post) {
+        this.post = post;
+    }
 
     public boolean isLogin() {
         return isLogin;

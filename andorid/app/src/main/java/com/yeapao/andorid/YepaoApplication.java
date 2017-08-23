@@ -46,6 +46,8 @@ public class YepaoApplication extends MultiDexApplication {
         JPushInterface.setDebugMode(true);
         JPushInterface.init(this);
 
+
+
         //初始化文件路径
         FileUtil.initFilePath(this);
         LogUtil.e("image",FileUtil.IMAGE_PATH);

@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.yeapao.andorid.R;
+import com.yeapao.andorid.model.PunchTheClockModel;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -25,6 +26,8 @@ public class CardMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private LayoutInflater mInflater;
     private gotoCardListener mListener;
 
+    private PunchTheClockModel punchTheClockModel;
+
     interface gotoCardListener {
         void gotoCard();
     }
@@ -35,7 +38,8 @@ public class CardMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         }
     }
 
-    public CardMessageAdapter(Context context) {
+    public CardMessageAdapter(Context context, PunchTheClockModel model) {
+        punchTheClockModel = model;
         mContext = context;
         mInflater = LayoutInflater.from(context);
     }
@@ -52,11 +56,14 @@ public class CardMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 //        TODO setting tvTime
+        ((ViewHolder)holder).tvTime.setText(punchTheClockModel.getData().get(position).getCreateTime());
+        ((ViewHolder) holder).tvClockCardContent.setText(punchTheClockModel.getData().get(position).getNotificationContent());
+
     }
 
     @Override
     public int getItemCount() {
-        return 10;
+        return punchTheClockModel.getData().size();
     }
 
      class ViewHolder extends RecyclerView.ViewHolder{
@@ -64,6 +71,8 @@ public class CardMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         CardView cvGotoCard;
          @BindView(R.id.tv_time)
          TextView tvTime;
+         @BindView(R.id.tv_clock_card_content)
+         TextView tvClockCardContent;
 
          private gotoCardListener listener;
 
