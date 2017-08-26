@@ -1,17 +1,12 @@
 package com.yeapao.brake;
 
 import android.content.Context;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
 
-import com.android.volley.VolleyError;
-import com.scottfu.sflibrary.net.CloudClient;
-import com.scottfu.sflibrary.net.JSONResultHandler;
-import com.scottfu.sflibrary.util.ToastManager;
 import com.yeapao.brake.bean.AccountMessage;
 
 public class MainActivity extends AppCompatActivity implements BrakeContract.View{
@@ -20,6 +15,7 @@ public class MainActivity extends AppCompatActivity implements BrakeContract.Vie
     private TextView textViewUserName;
     private TextView textViewEntranceNum;
 
+    private View mTest;
 
 
     private BrakeContract.Presenter mPresenter;
@@ -39,12 +35,22 @@ public class MainActivity extends AppCompatActivity implements BrakeContract.Vie
 
         initView();
 
+
+
+
     }
 
 
     private void initView() {
         textViewUserName = (TextView) findViewById(R.id.tv_user_name);
         textViewEntranceNum = (TextView) findViewById(R.id.tv_entrace_num);
+        mTest = findViewById(R.id.v_test);
+        mTest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPresenter.readCard();
+            }
+        });
 
     }
 
@@ -66,7 +72,8 @@ public class MainActivity extends AppCompatActivity implements BrakeContract.Vie
         if (presenter != null) {
             mPresenter = presenter;
         }
-        mPresenter.getData("888056");
+        mPresenter.start();
+//        mPresenter.getData("888056");
     }
 
     @Override

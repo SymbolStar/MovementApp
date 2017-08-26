@@ -21,6 +21,8 @@ public interface BrakeContract {
 
         void getData(String userId);
 
+        void readCard();
+
     }
 
 

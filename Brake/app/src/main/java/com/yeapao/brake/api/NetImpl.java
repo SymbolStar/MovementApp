@@ -31,4 +31,14 @@ public class NetImpl {
         params.put("gym", "yepao");
         return params;
     }
+
+
+    //获取用户信息
+    public  HashMap<String, String> getHomeData() {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("time", "1");
+        params.put("status", "1");
+        params.put("region", "高新区");
+        return params;
+    }
 }
