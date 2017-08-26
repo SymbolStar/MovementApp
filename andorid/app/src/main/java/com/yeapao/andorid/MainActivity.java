@@ -52,6 +52,7 @@ import com.yeapao.andorid.homepage.video.VideoPresenter;
 import com.yeapao.andorid.model.LoginModel;
 import com.yeapao.andorid.model.UserData;
 import com.yeapao.andorid.model.UserDetailsModel;
+import com.yeapao.andorid.userinfo.FillUserInfoActivity;
 import com.yeapao.andorid.util.GlobalDataYepao;
 import com.yeapao.andorid.yeapaojpush.ExampleUtil;
 import com.yeapao.andorid.yeapaojpush.LocalBroadcastManager;
@@ -387,11 +388,16 @@ public class MainActivity extends PermissionActivity {
 
 
     private void loginAccount() {
-        final Gson gson = new Gson();
         if (GlobalDataYepao.getUser(getContext()) == null) {
 
         } else {
+            UserData userData = GlobalDataYepao.getUser(getContext());
             GlobalDataYepao.setIsLogin(true);
+            if (GlobalDataYepao.getUser(getContext()).getStatus() == 0) {
+                FillUserInfoActivity.start(getContext());
+            } else {
+
+            }
             JPushInterface.setAlias(this,22,GlobalDataYepao.getUser(getContext()).getPhone());
 
 //            getNetWork(GlobalDataYepao.getUser(getContext()).getPhone(),GlobalDataYepao.getUser(getContext()).getPassword());
@@ -414,6 +420,9 @@ public class MainActivity extends PermissionActivity {
 //                            ToastManager.showToast(getContext(), errorMessage.toString());
 //                        }
 //                    });
+
+//            getNetWork(GlobalDataYepao.getUser(getContext()).getPhone(),GlobalDataYepao.getUser(getContext()).getPassword());
+
         }
 
     }

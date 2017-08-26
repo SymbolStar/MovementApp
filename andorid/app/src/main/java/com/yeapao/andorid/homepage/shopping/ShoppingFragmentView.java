@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.scottfu.sflibrary.recyclerview.OnRecyclerViewClickListener;
 import com.scottfu.sflibrary.util.LogUtil;
 import com.scottfu.sflibrary.util.ToastManager;
+import com.yeapao.andorid.LoginActivity;
 import com.yeapao.andorid.R;
 import com.yeapao.andorid.homepage.myself.MyselfPresenter;
 import com.yeapao.andorid.model.ShoppingDataModel;
@@ -113,7 +114,7 @@ public class ShoppingFragmentView extends Fragment implements ShoppingContract.V
     public void showResult(final ShoppingDataModel shoppingDataModel) {
         this.shoppingDataModels = shoppingDataModel;
         if (shoppingMessageAdapter == null) {
-            shoppingMessageAdapter = new ShoppingMessageAdapter(getContext(),shoppingDataModel);
+            shoppingMessageAdapter = new ShoppingMessageAdapter(getContext(), shoppingDataModel);
             rvShoppingList.setAdapter(shoppingMessageAdapter);
             shoppingMessageAdapter.setItemClickListener(new OnRecyclerViewClickListener() {
                 @Override
@@ -147,8 +148,8 @@ public class ShoppingFragmentView extends Fragment implements ShoppingContract.V
 
     private void showOrderTab() {
         rlOrder.setVisibility(View.VISIBLE);
-        tvOrderTitle.setText(shoppingDataModels.getData().get(checkedPosition).getCurriculumName()+" ￥"+
-        shoppingDataModels.getData().get(checkedPosition).getLinePrice());
+        tvOrderTitle.setText(shoppingDataModels.getData().get(checkedPosition).getCurriculumName() + " ￥" +
+                shoppingDataModels.getData().get(checkedPosition).getLinePrice());
     }
 
     @Override
@@ -164,8 +165,13 @@ public class ShoppingFragmentView extends Fragment implements ShoppingContract.V
 
     @OnClick(R.id.btn_order)
     public void onViewClicked() {
-        ShoppingOrderActivity.start(getContext(),String.valueOf(shoppingDataModels.getData().get(checkedPosition).getMap_curriculum_typesId()),
-               String.valueOf(shoppingDataModels.getData().get(checkedPosition).getLinePrice()) ,
-                GlobalDataYepao.getUser(getContext()).getId());
+
+        if (GlobalDataYepao.isLogin()) {
+            ShoppingOrderActivity.start(getContext(), String.valueOf(shoppingDataModels.getData().get(checkedPosition).getMap_curriculum_typesId()),
+                    String.valueOf(shoppingDataModels.getData().get(checkedPosition).getLinePrice()),
+                    GlobalDataYepao.getUser(getContext()).getId());
+        } else {
+            LoginActivity.start(getContext());
+        }
     }
 }

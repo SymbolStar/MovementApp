@@ -227,14 +227,14 @@ public class LessonMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         @OnClick(R.id.tv_look_lesson_detail)
         void setTvLookLessonDetail() {
-            ToastManager.showToast(mContext,"lessonDetail");
+//            ToastManager.showToast(mContext,"lessonDetail");
             String scheduleId = mHomeMessageList.getShopScheduleList().get(getLayoutPosition() - 1).getScheduleId();
             LessonDetailActivity.start(mContext, scheduleId);
         }
 
         @OnClick(R.id.btn_reservation)
         void setBtnReservation() {
-            ToastManager.showToast(mContext,"Reservation");
+//            ToastManager.showToast(mContext,"Reservation");
             int position = getLayoutPosition()-1;
             if (GlobalDataYepao.getUser(mContext) == null) {
                 LoginActivity.start(mContext);
@@ -307,20 +307,20 @@ public class LessonMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         @OnClick(R.id.ll_lesson_time)
         void lessonTimeOnClick() {
-            ToastManager.showToast(mContext,"time");
+//            ToastManager.showToast(mContext,"time");
 //            isHeaderGone = true;
             listener.screeningTitle("time");
 
         }
         @OnClick(R.id.ll_lesson_status)
         void lessonStatusOnClick() {
-            ToastManager.showToast(mContext,"status");
+//            ToastManager.showToast(mContext,"status");
 //            isHeaderGone = true;
             listener.screeningTitle("status");
         }
         @OnClick(R.id.ll_lesson_scope)
         void lessonScopeOnClick() {
-            ToastManager.showToast(mContext,"scope");
+//            ToastManager.showToast(mContext,"scope");
 //            isHeaderGone = true;
             listener.screeningTitle("scope");
         }

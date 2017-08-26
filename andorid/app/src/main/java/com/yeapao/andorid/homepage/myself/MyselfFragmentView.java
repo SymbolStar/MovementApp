@@ -231,8 +231,11 @@ public class MyselfFragmentView extends Fragment implements MyselfContract.View 
         public void onNext(UserDetailsModel model) {
             LogUtil.e(TAG, model.getErrmsg());
             if (model.getErrmsg().equals("ok")) {
-
+                int status = GlobalDataYepao.getUser(getContext()).getStatus();
+                String password = GlobalDataYepao.getUser(getContext()).getPassword();
                 UserData userData = model.getData();
+                userData.setStatus(status);
+                userData.setPassword(password);
                 GlobalDataYepao.setUser(getContext(),userData);
                 showResult(userData);
             }

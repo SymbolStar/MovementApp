@@ -285,7 +285,6 @@ public class LessonFragmentView extends Fragment implements LessonContract.View 
         }, new PopWindowCategory.PopItemClick() {
             @Override
             public void onItemClick(int position) {
-                ToastManager.showToast(getContext(), "2222");
             }
         });
     }
@@ -312,7 +311,6 @@ public class LessonFragmentView extends Fragment implements LessonContract.View 
             lessonMessageAdapter.setItemClickListener(new OnRecyclerViewClickListener() {
                 @Override
                 public void OnItemClick(View v, int position) {
-                    ToastManager.showToast(getActivity(), "onclick");
                     LessonDetailActivity.start(getContext(),homeList.getShopScheduleList().get(position).getScheduleId());
                 }
             });
@@ -320,7 +318,6 @@ public class LessonFragmentView extends Fragment implements LessonContract.View 
                 @Override
                 public void screeningTitle(String title) {
                     isGome = false;
-                    ToastManager.showToast(getActivity(), "screening");
 //                    lessonMessageAdapter.notifyItemRemoved(0);
                     moveToPosition(1);
                     llLessonScreening.setVisibility(View.VISIBLE);

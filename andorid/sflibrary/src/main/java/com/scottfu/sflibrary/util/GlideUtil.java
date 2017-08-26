@@ -13,14 +13,18 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 public class GlideUtil {
 
     public void glideLoadingImage(Context context, String url, int initImageId, ImageView imageView) {
-        Glide.with(context)
-                .load(url)
-                .asBitmap()
-                .placeholder(initImageId)
-                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                .error(initImageId)
-                .centerCrop()
-                .into(imageView);
+        try {
+            Glide.with(context)
+                    .load(url)
+                    .asBitmap()
+                    .placeholder(initImageId)
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .error(initImageId)
+                    .centerCrop()
+                    .into(imageView);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }
