@@ -23,6 +23,9 @@ public interface BrakeContract {
 
         void readCard();
 
+        void outPutGPIO();
+
+
     }
 
 

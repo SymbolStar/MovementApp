@@ -48,7 +48,8 @@ public class MainActivity extends AppCompatActivity implements BrakeContract.Vie
         mTest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.readCard();
+//                mPresenter.readCard();
+                mPresenter.outPutGPIO();
             }
         });
 
