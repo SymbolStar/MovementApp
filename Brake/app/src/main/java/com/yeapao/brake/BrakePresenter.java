@@ -9,6 +9,7 @@ import android.util.Log;
 import com.android.volley.VolleyError;
 import com.friendlyarm.AndroidSDK.GPIOEnum;
 import com.friendlyarm.AndroidSDK.HardwareControler;
+import com.google.common.util.concurrent.ExecutionError;
 import com.google.common.util.concurrent.FakeTimeLimiter;
 import com.google.gson.Gson;
 import com.scottfu.sflibrary.net.CloudClient;
@@ -211,6 +212,8 @@ public class BrakePresenter implements BrakeContract.Presenter {
             @Override
             public void onSuccess(String jsonString) {
                 Log.e("success", jsonString);
+//                TODO {"rs":"没有查询到会员信息"}
+                try {
                 CheckInOrOutModel accountMessage = gson.fromJson(jsonString, CheckInOrOutModel.class);
                 if (accountMessage.getFlag().equals("CHECKIN") || accountMessage.getFlag().equals("CHECKOUT")) {
 //                    HardwareControler.PWMPlay(40000);
@@ -222,6 +225,12 @@ public class BrakePresenter implements BrakeContract.Presenter {
                 } else {
                     LogUtil.e("getData","获取用户信息失败");
                     checkAccountStatus = true;
+                }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    LogUtil.e("getData","获取用户信息失败");
+                    checkAccountStatus = true;
+
                 }
             }
 
