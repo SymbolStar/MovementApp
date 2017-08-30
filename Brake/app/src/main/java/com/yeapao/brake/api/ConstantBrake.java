@@ -7,10 +7,11 @@ package com.yeapao.brake.api;
 
 public class ConstantBrake {
 
-//    public static final String HOST = "http://yeapao.com/";
-    public static final String HOST = "http://192.168.2.176:8080/46gdfl/";
+    public static final String HOST = "http://yeapao.com/";
+//    public static final String HOST = "http://192.168.2.176:8080/46gdfl/";
 
     public static final String GET_USER_MESSAGE = HOST + "yp-ws-cashier-checkinOrOut-gate";
+    public static final String GET_USER_SCREEN = HOST + "yp-ws-checkin-screen";
     public static final String CHECKINOROUT = HOST + "yp-ws-cashier-checkinOrOut";
     public static final String SCREEN_CHECKIN = HOST + "screen-checkin";
     public static final String GET_RANK = HOST + "screen-rank";

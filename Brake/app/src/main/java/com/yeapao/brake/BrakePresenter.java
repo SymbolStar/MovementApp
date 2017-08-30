@@ -18,6 +18,9 @@ import com.scottfu.sflibrary.util.ToastManager;
 import com.yeapao.brake.api.ConstantBrake;
 import com.yeapao.brake.api.NetImpl;
 import com.yeapao.brake.bean.AccountMessage;
+import com.yeapao.brake.bean.CheckInOrOutModel;
+import com.yeapao.brake.bean.ScreenModel;
+import com.yeapao.brake.serialport.OutputAccountListener;
 import com.yeapao.brake.serialport.SerialProtDataUtil;
 import com.yeapao.brake.vbar.Vbar;
 
@@ -31,6 +34,7 @@ import java.util.TimerTask;
 public class BrakePresenter implements BrakeContract.Presenter {
 
 
+    private static final String TAG = "BrakePresenter";
 
 //读卡器  读卡顺序 1438 激活卡 1439读卡
     private static final String READ_CARD_1 = "AA660002101000";
@@ -62,6 +66,9 @@ public class BrakePresenter implements BrakeContract.Presenter {
     private int step = 0;
     private int led_gpio_base = 79;
 
+
+    private boolean checkAccountStatus = true;
+
     public BrakePresenter(Context context, BrakeContract.View view) {
         mContext = context;
         mView = view;
@@ -72,6 +79,60 @@ public class BrakePresenter implements BrakeContract.Presenter {
     private void initSerialProt() {
         serialProtDataUtil = new SerialProtDataUtil(mContext);
         serialProtDataUtil.initSerialProt();
+        serialProtDataUtil.setSerialPortDataListener(new OutputAccountListener() {
+            @Override
+            public void printAccount(String Account) {
+                LogUtil.e(TAG,"Account="+Account);
+                checkAccountStatus = false;
+                getData(Account);
+
+            }
+
+            @Override
+            public void onFail() {
+                LogUtil.e("onFail","信息错误，请至前台");
+//                ToastManager.showToast(mContext,"信息错误，请至前台");
+                checkAccountStatus = true;
+            }
+        });
+
+        startReadCard();
+
+    }
+
+
+    private void startReadCard() {
+        // 读卡 间隔500ms
+        Thread t = new Thread(){
+            @Override
+            public void run() {
+                // TODO Auto-generated method stub
+                super.run();
+                while(true)
+                {
+                    ((Activity)mContext).runOnUiThread(new Runnable() {
+                        public void run() {
+
+
+                            if (checkAccountStatus) {
+                                serialProtDataUtil.readCard();
+                            } else {
+
+                            }
+
+
+                        }
+                    });
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                }
+            }
+        };
+        t.start();
     }
 
 
@@ -115,11 +176,31 @@ public class BrakePresenter implements BrakeContract.Presenter {
 
     }
 
+
+    private void openBrake() {
+        Thread t = new Thread(){
+            @Override
+            public void run() {
+                // TODO Auto-generated method stub
+                super.run();
+                HardwareControler.PWMPlay(40000);
+                    try {
+                        Thread.sleep(1000);
+                        HardwareControler.PWMStop();
+                    } catch (InterruptedException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+
+            }
+        };
+        t.start();
+    }
+
     @Override
     public void start() {
         initVbar();
         initSerialProt();
-
     }
 
 
@@ -130,29 +211,52 @@ public class BrakePresenter implements BrakeContract.Presenter {
             @Override
             public void onSuccess(String jsonString) {
                 Log.e("success", jsonString);
-                AccountMessage accountMessage = gson.fromJson(jsonString, AccountMessage.class);
-                if (accountMessage.getRs().equals("Y")) {
+                CheckInOrOutModel accountMessage = gson.fromJson(jsonString, CheckInOrOutModel.class);
+                if (accountMessage.getFlag().equals("CHECKIN") || accountMessage.getFlag().equals("CHECKOUT")) {
+//                    HardwareControler.PWMPlay(40000);
+//                    HardwareControler.PWMStop();
+                    openBrake();
                     mView.showResult(accountMessage);
+                    checkAccountStatus = true;
+                    getScreenData(accountMessage.getUser().getId());
                 } else {
-                    ToastManager.showToast(mContext,"会员信息错误");
+                    LogUtil.e("getData","获取用户信息失败");
+                    checkAccountStatus = true;
                 }
-//                ToastManager.showToast(mContext, accountMessage.getCheckinfee());
             }
 
             @Override
             public void onError(VolleyError errorMessage) {
+                checkAccountStatus = true;
                 Log.e("error", errorMessage.toString());
                 ToastManager.showToast(mContext,errorMessage.toString());
             }
         });
+    }
 
 
+    private void getScreenData(String uid) {
+        CloudClient.doHttpRequestV4(mContext, ConstantBrake.GET_USER_SCREEN, NetImpl.getInstance().getScreenData(uid), null, new JSONResultHandler() {
+            @Override
+            public void onSuccess(String jsonString) {
+                LogUtil.e("ScreenData", jsonString);
+                ScreenModel screenModel = gson.fromJson(jsonString, ScreenModel.class);
+                if (screenModel.getRs().equals("Y")) {
+                    mView.showScreenResult(screenModel);
+                }
+            }
 
+            @Override
+            public void onError(VolleyError errorMessage) {
+
+            }
+        });
     }
 
     @Override
     public void readCard() {
-        serialProtDataUtil.sendHexStr(READ_CARD_3);
+//        serialProtDataUtil.sendHexStr(READ_CARD_3);
+        serialProtDataUtil.readCard();
     }
 
 

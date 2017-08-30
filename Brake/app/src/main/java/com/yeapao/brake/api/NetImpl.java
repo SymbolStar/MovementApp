@@ -27,8 +27,16 @@ public class NetImpl {
     public  HashMap<String, String> setUserParams(String userId) {
         HashMap<String, String> params = new HashMap<>();
         params.put("phone", userId);
-        params.put("cust_name", "yepao");
-        params.put("gym", "yepao");
+        params.put("cust_name", "ypjs");
+        params.put("gym", "ypjs");
+        return params;
+    }
+    //获取用户信息
+    public  HashMap<String, String> getScreenData(String uid) {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("uid", uid);
+        params.put("cust_name", "ypjs");
+        params.put("gym", "ypjs");
         return params;
     }
 
