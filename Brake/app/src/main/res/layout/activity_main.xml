@@ -119,17 +119,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:text="尊敬的会员：李奇峰"
+        android:layout_marginStart="8dp"
+        android:text="尊敬的会员："
         android:textAlignment="center"
         android:textColor="@android:color/white"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/tv_entrace_num"
         app:layout_constraintLeft_toLeftOf="@+id/imageView2"
-        app:layout_constraintRight_toRightOf="@+id/imageView2"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp" />
+        app:layout_constraintRight_toRightOf="@+id/imageView2" />
 
     <TextView
         android:id="@+id/tv_entrace_num"

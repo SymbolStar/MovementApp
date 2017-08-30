@@ -229,6 +229,7 @@ public class BrakePresenter implements BrakeContract.Presenter {
                 } catch (Exception e) {
                     e.printStackTrace();
                     LogUtil.e("getData","获取用户信息失败");
+                    ToastManager.showToast(mContext,"用户信息错误，请至前台处理");
                     checkAccountStatus = true;
 
                 }
