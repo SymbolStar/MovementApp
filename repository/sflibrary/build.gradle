@@ -1,0 +1,121 @@
+apply plugin: 'com.android.library'
+
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        defaultConfig {
+            multiDexEnabled true
+        }
+
+        ndk {
+            abiFilters 'armeabi-v7a','x86'
+        }
+
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    repositories {
+        flatDir {
+            dirs 'libs'}
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    //appcompat 兼容包
+    compile "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
+//    compile 'com.android.support:support-vector-drawable:25.3.1'
+    //cardview 控件
+    compile "com.android.support:cardview-v7:$rootProject.supportLibraryVersion"
+    //material design 设计包
+    compile "com.android.support:design:$rootProject.supportLibraryVersion"
+    compile "com.android.support:recyclerview-v7:$rootProject.supportLibraryVersion"
+    compile "com.android.support:support-v4:$rootProject.supportLibraryVersion"
+    // google core libraries for java
+    compile "com.google.guava:guava:$rootProject.guavaVersion"
+    compile "com.android.support:preference-v14:$rootProject.supportLibraryVersion"
+    // 支持Chrome Custom Tabs
+    compile "com.android.support:customtabs:$rootProject.supportLibraryVersion"
+    // 解析JSON数据
+    compile "com.google.code.gson:gson:$rootProject.gsonVersion"
+    // 图片加载
+    compile "com.github.bumptech.glide:glide:$rootProject.glideVersion"
+    // 为了保持在低版本SDK中的UI一致性，引入material data time picker库
+    compile "com.wdullaer:materialdatetimepicker:$rootProject.materialDateTimePickerVersion"
+
+    compile 'com.android.volley:volley:1.0.0'
+//  app 导航页
+    compile 'com.github.apl-devs:appintro:v4.2.0'
+
+    compile 'me.relex:circleindicator:1.2.2@aar'
+
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+// 进度条
+    compile 'com.akexorcist:RoundCornerProgressBar:2.0.3'
+
+    //底部tab栏
+    compile 'com.github.ittianyu:BottomNavigationViewEx:1.2.1'
+    compile 'q.rorbin:badgeview:1.1.0'
+//轮播滑动多种样式
+    compile 'com.github.crosswall:Android-Coverflow:release-v1.0.4'
+
+    testCompile "junit:junit:$rootProject.junitVersion"
+
+//   Tab viewpager 滑动效果
+    compile 'com.github.chenupt.android:multiplemodel:1.1.0@aar'
+//  仿探探滑动
+    compile 'me.yuqirong:cardswipelayout:1.0.0'
+
+//    BGAQRCODE 二维码 在star 中
+    compile 'com.google.zxing:core:3.2.1'
+    compile 'cn.bingoogolapple:bga-qrcodecore:1.1.7@aar'
+    compile 'cn.bingoogolapple:bga-zxing:1.1.7@aar'
+//图片选择
+    compile 'com.zhihu.android:matisse:0.4.3'
+//图片压缩
+    compile 'com.zxy.android:tiny:0.0.7'
+//在以前项目中采用的图片压缩 可以生成 webp 压缩的图片
+    compile 'id.zelory:compressor:1.0.4'
+//Rxjava retrofit okhttp 网络访问框架
+    compile 'com.squareup.okhttp3:okhttp:3.2.0'
+    compile 'com.squareup.retrofit2:retrofit:2.0.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.0.0'
+    compile 'com.squareup.retrofit2:adapter-rxjava:2.0.0'
+    compile 'io.reactivex:rxjava:1.1.0'
+    compile 'io.reactivex:rxandroid:1.1.0'
+    compile 'com.jakewharton.rxbinding:rxbinding:0.4.0'
+    compile 'io.reactivex:rxjava:1.0.10'
+//图表
+    compile 'com.github.PhilJay:MPAndroidChart:v3.0.2'
+
+//    视频播放
+    compile 'fm.jiecao:jiecaovideoplayer:5.8.1'
+
+    compile 'com.android.support:multidex:1.0.1'
+
+    compile 'com.github.apl-devs:appintro:v4.2.2'
+
+//    compile(name:'android-gif-drawable-release', ext:'aar')
+
+// 滚轮选择
+    compile 'cn.aigestudio.wheelpicker:WheelPicker:1.1.2'
+
+
+}
