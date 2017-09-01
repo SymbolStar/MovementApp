@@ -32,11 +32,14 @@ import cn.jpush.android.api.JPushInterface;
 public class MyReceiver extends BroadcastReceiver {
     private static final String TAG = "JIGUANG-Example";
 
+    private static String customerID = "";
+
+
     @Override
     public void onReceive(Context context, Intent intent) {
         try {
             Bundle bundle = intent.getExtras();
-            Logger.d(TAG, "[MyReceiver] onReceive - " + intent.getAction() + ", extras: " + printBundle(bundle));
+            Logger.d(TAG, "[MyReceiver] onReceive - " + intent.getAction() + ", extras: " + printBundle(context,bundle));
 
             if (JPushInterface.ACTION_REGISTRATION_ID.equals(intent.getAction())) {
                 String regId = bundle.getString(JPushInterface.EXTRA_REGISTRATION_ID);
@@ -79,9 +82,14 @@ public class MyReceiver extends BroadcastReceiver {
     }
 
     // 打印所有的 intent extra 数据
-    private static String printBundle(Bundle bundle) {
+    private static String printBundle(Context context,Bundle bundle) {
         StringBuilder sb = new StringBuilder();
         for (String key : bundle.keySet()) {
+
+            if (key.equals(JPushInterface.EXTRA_MESSAGE)) {
+                customerID = bundle.getString(JPushInterface.EXTRA_MESSAGE);
+                LogUtil.e("======", customerID);
+            }
 
 
             if (key.equals(JPushInterface.EXTRA_NOTIFICATION_ID)) {
@@ -111,15 +119,46 @@ public class MyReceiver extends BroadcastReceiver {
                 sb.append("\nkey:" + key + ", value:" + bundle.getString(key));
             }
         }
-        HardwareControler.PWMPlay(2);
+
+
+
+//        HardwareControler.PWMPlay(2);
+        openDoor();
         LogUtil.e("message",sb.toString());
         return sb.toString();
     }
 
+
+
+    private static void openDoor() {
+        Thread t = new Thread(){
+            @Override
+            public void run() {
+                // TODO Auto-generated method stub
+                super.run();
+                HardwareControler.PWMPlay(2);
+//                HardwareControler.PWMPlay(40000);
+                try {
+                    Thread.sleep(3000);
+                    HardwareControler.PWMStop();
+                } catch (InterruptedException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+
+            }
+        };
+        t.start();
+    }
+
+
+
+
     //send msg to MainActivity
     private void processCustomMessage(Context context, Bundle bundle) {
-        if (MainActivity.isForeground) {
+        if (true) {
             String message = bundle.getString(JPushInterface.EXTRA_MESSAGE);
+            LogUtil.e("message",message);
             String extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
             Intent msgIntent = new Intent(MainActivity.MESSAGE_RECEIVED_ACTION);
             msgIntent.putExtra(MainActivity.KEY_MESSAGE, message);
@@ -137,4 +176,7 @@ public class MyReceiver extends BroadcastReceiver {
             LocalBroadcastManager.getInstance(context).sendBroadcast(msgIntent);
         }
     }
+
+
+
 }

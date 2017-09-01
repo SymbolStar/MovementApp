@@ -5,6 +5,7 @@ import android.app.Application;
 import com.scottfu.sflibrary.cache.ACache;
 import com.scottfu.sflibrary.util.FileUtil;
 import com.scottfu.sflibrary.util.LogUtil;
+import com.scottfu.sflibrary.util.ToastManager;
 import com.zxy.tiny.Tiny;
 
 import cn.jpush.android.api.JPushInterface;
@@ -28,6 +29,7 @@ public class RepositoryApplication extends Application {
 //        JPush初始化
         JPushInterface.setDebugMode(true);
         JPushInterface.init(this);
+//        ToastManager.showToast(this,getAndroidId(getContent())+"------AndroidId");
 
     }
 }

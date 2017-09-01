@@ -13,18 +13,30 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.friendlyarm.AndroidSDK.HardwareControler;
+import com.scottfu.sflibrary.util.LogUtil;
 import com.scottfu.sflibrary.util.ToastManager;
+import com.yeapao.repository.api.Network;
+import com.yeapao.repository.api.NormalDataModel;
 import com.yeapao.repository.jpush.ExampleUtil;
 import com.yeapao.repository.jpush.LocalBroadcastManager;
 
 import cn.jpush.android.api.JPushInterface;
+import rx.Observer;
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity {
+
+    private static final String TAG = "MainActivity";
+
 
     private TextView title;
 
 
     private boolean status = false;
+
+    protected Subscription subscription;
 
     //    jpush
     public static boolean isForeground = false;
@@ -52,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
                 if (MESSAGE_RECEIVED_ACTION.equals(intent.getAction())) {
                     String messge = intent.getStringExtra(KEY_MESSAGE);
                     String extras = intent.getStringExtra(KEY_EXTRAS);
+                    getNetWork(messge);
                     StringBuilder showMsg = new StringBuilder();
                     showMsg.append(KEY_MESSAGE + " : " + messge + "\n");
                     if (!ExampleUtil.isEmpty(extras)) {
@@ -66,6 +79,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    protected void unsubscribe() {
+        if (subscription != null && !subscription.isUnsubscribed()) {
+            subscription.unsubscribe();
+        }
+    }
+
 
 
     @Override
@@ -78,7 +97,6 @@ public class MainActivity extends AppCompatActivity {
         title.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 ToastManager.showToast(getContent(),getLocalMac(getContent())+"-------MAC");
                 ToastManager.showToast(getContent(),getAndroidId(getContent())+"------AndroidId");
                 if (status) {
@@ -88,11 +106,11 @@ public class MainActivity extends AppCompatActivity {
                     HardwareControler.PWMStop();
                     status = true;
                 }
-
-
-
             }
         });
+
+        LogUtil.e("AndroidId", getAndroidId(getContent()));
+        JPushInterface.setAlias(getContent(),22,getAndroidId(getContent()));
     }
 
     private Context getContent() {
@@ -118,6 +136,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
 //        LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiver);
         super.onDestroy();
+        unsubscribe();
     }
 
 
@@ -139,5 +158,36 @@ public class MainActivity extends AppCompatActivity {
         return androidId;
     }
 
+
+
+            private void getNetWork(String id) {
+                    LogUtil.e(TAG,id);
+                    subscription = Network.getYeapaoApi()
+                            .requestDoorStatus(id)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe( modelObserver);
+                }
+
+                  Observer<NormalDataModel> modelObserver = new Observer<NormalDataModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        LogUtil.e(TAG,e.toString());
+
+                    }
+
+                    @Override
+                    public void onNext(NormalDataModel model) {
+                        LogUtil.e(TAG, model.getErrmsg());
+                        if (model.getErrmsg().equals("ok")) {
+
+                        }
+                    }
+                };
 
 }
