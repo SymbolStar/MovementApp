@@ -89,6 +89,7 @@ public class MyReceiver extends BroadcastReceiver {
             if (key.equals(JPushInterface.EXTRA_MESSAGE)) {
                 customerID = bundle.getString(JPushInterface.EXTRA_MESSAGE);
                 LogUtil.e("======", customerID);
+                openDoor();
             }
 
 
@@ -123,7 +124,7 @@ public class MyReceiver extends BroadcastReceiver {
 
 
 //        HardwareControler.PWMPlay(2);
-        openDoor();
+
         LogUtil.e("message",sb.toString());
         return sb.toString();
     }

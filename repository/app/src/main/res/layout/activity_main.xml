@@ -11,9 +11,174 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="健身舱"
+        app:layout_constraintLeft_toLeftOf="@+id/tv_first"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHorizontal_bias="0.076"
+        app:layout_constraintBottom_toTopOf="@+id/tv_first" />
+
+    <TextView
+        android:id="@+id/tv_forth"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="电视"
+        app:layout_constraintBottom_toTopOf="@+id/tv_fifth"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_third"
+        android:layout_marginLeft="12dp"
+        app:layout_constraintRight_toLeftOf="@+id/btn_forth"
+        android:layout_marginRight="12dp"
+        tools:layout_constraintRight_creator="1"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        tools:layout_constraintLeft_creator="1" />
+
+    <TextView
+        android:id="@+id/tv_third"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="灯"
+        app:layout_constraintBottom_toTopOf="@+id/tv_forth"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_second"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintRight_toLeftOf="@+id/btn_third"
+        android:layout_marginRight="16dp"
+        app:layout_constraintHorizontal_bias="0.0"
+        tools:layout_constraintRight_creator="1"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="16dp"
+        tools:layout_constraintLeft_creator="1" />
+
+    <TextView
+        android:id="@+id/tv_six"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="新风系统"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_fifth"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/btn_six"
+        android:layout_marginRight="16dp"
+        app:layout_constraintHorizontal_bias="0.0"
+        tools:layout_constraintRight_creator="1"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="16dp"
+        tools:layout_constraintLeft_creator="1" />
+
+    <TextView
+        android:id="@+id/tv_second"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="空调"
+        app:layout_constraintBottom_toTopOf="@+id/tv_third"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_first"
+        android:layout_marginLeft="12dp"
+        app:layout_constraintRight_toLeftOf="@+id/btn_second"
+        android:layout_marginRight="12dp"
+        tools:layout_constraintRight_creator="1"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        tools:layout_constraintLeft_creator="1" />
+
+    <TextView
+        android:id="@+id/tv_fifth"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="跑步机"
+        app:layout_constraintBottom_toTopOf="@+id/tv_six"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_forth"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintRight_toLeftOf="@+id/btn_fifith"
+        android:layout_marginRight="16dp"
+        app:layout_constraintHorizontal_bias="0.0"
+        tools:layout_constraintRight_creator="1"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="16dp"
+        tools:layout_constraintLeft_creator="1" />
+
+    <TextView
+        android:id="@+id/tv_first"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="锁"
+        app:layout_constraintBottom_toTopOf="@+id/tv_second"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_title"
+        android:layout_marginLeft="12dp"
+        app:layout_constraintRight_toLeftOf="@+id/btn_first"
+        android:layout_marginRight="12dp"
+        tools:layout_constraintRight_creator="1"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        tools:layout_constraintLeft_creator="1" />
+
+    <Button
+        android:id="@+id/btn_third"
+        android:layout_width="88dp"
+        android:layout_height="48dp"
+        android:text="关"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tv_third"
+        app:layout_constraintLeft_toLeftOf="@+id/btn_second"
+        app:layout_constraintRight_toRightOf="@+id/btn_second"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintRight_creator="1" />
+
+    <Button
+        android:id="@+id/btn_second"
+        android:layout_width="88dp"
+        android:layout_height="48dp"
+        android:text="关"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tv_second"
+        app:layout_constraintLeft_toLeftOf="@+id/btn_first"
+        app:layout_constraintRight_toRightOf="@+id/btn_first"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintRight_creator="1" />
+
+    <Button
+        android:id="@+id/btn_forth"
+        android:layout_width="88dp"
+        android:layout_height="48dp"
+        android:text="关"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tv_forth"
+        app:layout_constraintLeft_toLeftOf="@+id/btn_third"
+        app:layout_constraintRight_toRightOf="@+id/btn_third"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintRight_creator="1" />
+
+    <Button
+        android:id="@+id/btn_fifith"
+        android:layout_width="88dp"
+        android:layout_height="48dp"
+        android:text="关"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tv_fifth"
+        app:layout_constraintLeft_toLeftOf="@+id/btn_forth"
+        app:layout_constraintRight_toRightOf="@+id/btn_forth"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintRight_creator="1" />
+
+    <Button
+        android:id="@+id/btn_six"
+        android:layout_width="88dp"
+        android:layout_height="48dp"
+        android:text="关"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tv_six"
+        app:layout_constraintLeft_toLeftOf="@+id/btn_fifith"
+        app:layout_constraintRight_toRightOf="@+id/btn_fifith"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintRight_creator="1" />
+
+    <Button
+        android:id="@+id/btn_first"
+        android:layout_width="88dp"
+        android:layout_height="48dp"
+        android:text="关"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tv_first"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintRight_creator="1" />
 
 </android.support.constraint.ConstraintLayout>
