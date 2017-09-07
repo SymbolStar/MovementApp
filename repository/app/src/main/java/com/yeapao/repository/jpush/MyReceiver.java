@@ -92,6 +92,10 @@ public class MyReceiver extends BroadcastReceiver {
                 openDoor();
             }
 
+//            if (key.equals(JPushInterface.EXTRA_ALERT)) {
+//                if (bundle.getString(JPushInterface.EXTRA_MESSAGE).equals(""))
+//            }
+
 
             if (key.equals(JPushInterface.EXTRA_NOTIFICATION_ID)) {
                 sb.append("\nkey:" + key + ", value:" + bundle.getInt(key));
