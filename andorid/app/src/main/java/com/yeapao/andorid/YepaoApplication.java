@@ -5,6 +5,8 @@ import android.content.Context;
 import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 
+import com.baidu.mapapi.CoordType;
+import com.baidu.mapapi.SDKInitializer;
 import com.scottfu.sflibrary.cache.ACache;
 import com.scottfu.sflibrary.util.FileUtil;
 import com.scottfu.sflibrary.util.LogUtil;
@@ -52,5 +54,8 @@ public class YepaoApplication extends MultiDexApplication {
         FileUtil.initFilePath(this);
         LogUtil.e("image",FileUtil.IMAGE_PATH);
 
+
+        SDKInitializer.initialize(this);
+        SDKInitializer.setCoordType(CoordType.BD09LL);
     }
 }

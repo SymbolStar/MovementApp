@@ -4,7 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include layout="@layout/video_top_bar" />
+    <include
+
+        layout="@layout/video_top_bar" />
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/srl_video"
         android:layout_width="match_parent"

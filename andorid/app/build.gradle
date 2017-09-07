@@ -12,7 +12,7 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
 
-
+//极光
         ndk {
             //选择要添加的对应cpu类型的.so库。
             abiFilters 'armeabi', 'armeabi-v7a', 'armeabi-v8a'
@@ -30,6 +30,22 @@ android {
     defaultConfig {
         multiDexEnabled true
     }
+
+    signingConfigs {
+        release {
+            storeFile file("/Users/fujindong/AndroidWorkProject/key/yeapao.jks")//keystore的路径
+            storePassword "jinfeike001"
+            keyAlias "yepao"
+            keyPassword "jinfeike001"
+        }
+        debug {
+            storeFile file("/Users/fujindong/AndroidWorkProject/key/yeapao.jks")//keystore的路径
+            storePassword "jinfeike001"
+            keyAlias "yepao"
+            keyPassword "jinfeike001"
+        }
+    }
+
 
 
     sourceSets {
@@ -71,6 +87,8 @@ dependencies {
 
     compile 'cn.jiguang.sdk:jpush:3.0.8'  // 此处以JPush 3.0.8 版本为例。
     compile 'cn.jiguang.sdk:jcore:1.1.6'  // 此处以JCore 1.1.6 版本为例。
+
+    compile 'com.jaeger.statusbarutil:library:1.4.0'//状态栏
 
 //    compile files('libs/alipaySdk-20170725.jar')
 
