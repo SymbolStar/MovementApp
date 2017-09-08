@@ -427,6 +427,10 @@
             android:name=".homepage.shopping.ContinuePayOrderActivity"
             android:theme="@style/AppTheme.NoActionBar" />
 
+        <activity
+            android:name=".homepage.map.TestScanActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+
     </application>
 
 </manifest>

@@ -2,6 +2,7 @@ package com.yeapao.andorid.homepage.map;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.hardware.Camera;
 import android.hardware.Sensor;
@@ -26,6 +27,7 @@ import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BaiduMapOptions;
 import com.baidu.mapapi.map.BitmapDescriptor;
+import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
@@ -36,12 +38,27 @@ import com.baidu.mapapi.map.SupportMapFragment;
 import com.baidu.mapapi.map.UiSettings;
 import com.baidu.mapapi.model.LatLng;
 import com.scottfu.sflibrary.util.LogUtil;
+import com.scottfu.sflibrary.util.ToastManager;
 import com.yeapao.andorid.R;
+import com.yeapao.andorid.api.ConstantYeaPao;
+import com.yeapao.andorid.api.Network;
+import com.yeapao.andorid.base.BaseFragment;
+import com.yeapao.andorid.homepage.map.clusterutil.Cluster;
+import com.yeapao.andorid.homepage.map.clusterutil.ClusterItem;
+import com.yeapao.andorid.homepage.map.clusterutil.ClusterManager;
+import com.yeapao.andorid.model.WareHouseListModel;
+import com.yeapao.andorid.util.GlobalDataYepao;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 import static android.content.Context.SENSOR_SERVICE;
 
@@ -49,9 +66,9 @@ import static android.content.Context.SENSOR_SERVICE;
  * Created by fujindong on 2017/9/7.
  */
 
-public class MapFragmentView extends Fragment implements SensorEventListener {
+public class MapFragmentView extends BaseFragment implements SensorEventListener ,BaiduMap.OnMapLoadedCallback{
 
-    private static final String a = SupportMapFragment.class.getSimpleName();
+    private static final String TAG = "MapFragmentView";
     @BindView(R.id.iv_message)
     ImageView ivMessage;
     @BindView(R.id.iv_location)
@@ -92,6 +109,54 @@ public class MapFragmentView extends Fragment implements SensorEventListener {
     private UiSettings mUiSettings;
 
 
+    private WareHouseListModel mWareHouseList = new WareHouseListModel();
+
+
+//    地图标记
+    private ClusterManager<MyItem> mClusterManager;
+
+    @Override
+    public void onMapLoaded() {
+         mBaiduMap.animateMapStatus(MapStatusUpdateFactory.newMapStatus(new MapStatus.Builder().zoom(9).build()));
+    }
+
+
+    /**
+     * 每个Marker点，包含Marker点坐标以及图标
+     */
+    public class MyItem implements ClusterItem {
+        private final LatLng mPosition;
+        private int index;
+
+        public MyItem(LatLng latLng) {
+            mPosition = latLng;
+        }
+
+        public MyItem(LatLng latLng, int index) {
+            mPosition = latLng;
+            this.index = index;
+        }
+
+        @Override
+        public LatLng getPosition() {
+            return mPosition;
+        }
+
+        @Override
+        public BitmapDescriptor getBitmapDescriptor() {
+
+        if (mWareHouseList.getData().getWarehouseListOut().get(index).getActualStatus().equals("1")){
+            return BitmapDescriptorFactory.fromResource(R.drawable.cang_run_s);
+        } else if (mWareHouseList.getData().getWarehouseListOut().get(index).getReservaStatus().equals("1")) {
+            return BitmapDescriptorFactory.fromResource(R.drawable.cang_run_my);
+        } else {
+            return BitmapDescriptorFactory.fromResource(R.drawable.cang_run_n);
+        }
+
+
+
+        }
+    }
 
 
     public MapFragmentView() {
@@ -159,6 +224,7 @@ public class MapFragmentView extends Fragment implements SensorEventListener {
 
         mUiSettings = mBaiduMap.getUiSettings();
         mUiSettings.setOverlookingGesturesEnabled(false);   //设置地图手势
+        mUiSettings.setCompassEnabled(false);
 
         mSensorManager = (SensorManager) getActivity().getSystemService(SENSOR_SERVICE);//获取传感器管理服务
         mCurrentMode = LocationMode.FOLLOWING;
@@ -206,6 +272,17 @@ public class MapFragmentView extends Fragment implements SensorEventListener {
         //为系统的方向传感器注册监听器
         mSensorManager.registerListener(this, mSensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION),
                 SensorManager.SENSOR_DELAY_UI);
+
+
+//        获取舱的位置数据
+        if (GlobalDataYepao.isLogin()) {
+            getNetWork("0");
+        } else {
+            getNetWork("0");
+//            getNetWork(GlobalDataYepao.getUser(getContext()).getId());
+        }
+//        定义点聚合管理类
+        mClusterManager = new ClusterManager<MyItem>(getContext(), mBaiduMap);
 
     }
 
@@ -278,6 +355,7 @@ public class MapFragmentView extends Fragment implements SensorEventListener {
                 mLocClient.requestLocation();
                 break;
             case R.id.iv_find_qr:
+                startActivity(new Intent(getContext(),TestScanActivity.class));
                 break;
             case R.id.iv_open_light:
 //                if (lightUtils.isFlashlightOn()) {
@@ -334,6 +412,74 @@ public class MapFragmentView extends Fragment implements SensorEventListener {
 
         }
     }
+
+
+            private void getNetWork(String id) {
+                    LogUtil.e(TAG,id);
+                    subscription = Network.getYeapaoApi()
+                            .requestWareHouseList(id)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(modelObserver );
+                }
+
+                  Observer<WareHouseListModel> modelObserver = new Observer<WareHouseListModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        LogUtil.e(TAG,e.toString());
+
+                    }
+
+                    @Override
+                    public void onNext(WareHouseListModel model) {
+                        LogUtil.e(TAG, model.getErrmsg());
+                        if (model.getErrmsg().equals("ok")) {
+                            mWareHouseList = model;
+                            addMarkers();
+                        }
+                    }
+                };
+
+
+    public void addMarkers() {
+
+        List<MyItem> items = new ArrayList<MyItem>();
+        for (int i = 0; i < mWareHouseList.getData().getWarehouseListOut().size(); i++) {
+            items.add(new MyItem(new LatLng(mWareHouseList.getData().getWarehouseListOut().get(i).getLatitude(),
+                    mWareHouseList.getData().getWarehouseListOut().get(i).getLongitude())));
+        }
+        mClusterManager.addItems(items);
+
+        mBaiduMap.setOnMapStatusChangeListener(mClusterManager);
+        mBaiduMap.setOnMarkerClickListener(mClusterManager);
+        mClusterManager.setOnClusterClickListener(new ClusterManager.OnClusterClickListener<MyItem>() {
+            @Override
+            public boolean onClusterClick(Cluster<MyItem> cluster) {
+                LogUtil.e("ClusterClickListener",String.valueOf(cluster.getSize()));
+                return false;
+            }
+        });
+
+
+        mClusterManager.setOnClusterItemClickListener(new ClusterManager.OnClusterItemClickListener<MyItem>() {
+            @Override
+            public boolean onClusterItemClick(MyItem item) {
+
+                ToastManager.showToast(getContext(),"item");
+
+                return false;
+            }
+        });
+
+
+    }
+
+
 
 
 }
