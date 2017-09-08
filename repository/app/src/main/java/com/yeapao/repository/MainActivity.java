@@ -68,6 +68,8 @@ public class MainActivity extends AppCompatActivity {
 
     private SerialProtDataUtil serialProtDataUtil;
 
+    private static String mMessage="";
+
 
     private boolean status = false;
 
@@ -123,7 +125,9 @@ public class MainActivity extends AppCompatActivity {
                 if (MESSAGE_RECEIVED_ACTION.equals(intent.getAction())) {
                     String messge = intent.getStringExtra(KEY_MESSAGE);
                     String extras = intent.getStringExtra(KEY_EXTRAS);
-                    getNetWork(messge);
+                    LogUtil.e("--------message-----",messge);
+                    mMessage = messge;
+//                    getNetWork(messge);
                     StringBuilder showMsg = new StringBuilder();
                     showMsg.append(KEY_MESSAGE + " : " + messge + "\n");
                     if (!ExampleUtil.isEmpty(extras)) {
@@ -132,8 +136,12 @@ public class MainActivity extends AppCompatActivity {
 //                    toast key
 
 //                  TODO 判断message内容 控制设备的开关
-                    openDoor();
-                    ToastManager.showToast(MainActivity.this, showMsg.toString());
+                    if (messge.equals("0")) {
+                        openAllStatus(false);
+                    } else {
+                        openDoor();
+                        ToastManager.showToast(MainActivity.this, showMsg.toString());
+                    }
                 }
             } catch (Exception e) {
             }
@@ -143,11 +151,13 @@ public class MainActivity extends AppCompatActivity {
 
 
     private  void openDoor() {
-
+        LogUtil.e("+++++++++",mMessage);
+        getNetWork(mMessage);
         if (SerialProtDataUtil.switchStatus.isOne()) {
             return;
         } else {
             serialProtDataUtil.openSwitch(1);
+
         }
 
         Thread t = new Thread(){
@@ -167,6 +177,7 @@ public class MainActivity extends AppCompatActivity {
                     public void run() {
                         if (SerialProtDataUtil.switchStatus.isOne()) {
                             serialProtDataUtil.openSwitch(1);
+                            openAllStatus(true);
                         } else {
                             LogUtil.e("openDoor","门已关");
                         }
@@ -178,14 +189,106 @@ public class MainActivity extends AppCompatActivity {
         t.start();
     }
 
+    private void openNum() {
+
+        Thread t = new Thread(){
+            @Override
+            public void run() {
+                // TODO Auto-generated method stub
+                super.run();
+                try {
+
+                    Thread.sleep(1000);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            serialProtDataUtil.openSwitch(2);
+                        }
+                    });
+                    Thread.sleep(1000);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            serialProtDataUtil.openSwitch(3);
+                        }
+                    });
+                    Thread.sleep(1000);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            serialProtDataUtil.openSwitch(4);
+                        }
+                    });
+
+                    Thread.sleep(1000);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            serialProtDataUtil.openSwitch(5);
+                        }
+                    });
+
+                    Thread.sleep(1000);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            serialProtDataUtil.openSwitch(6);
+                        }
+                    });
+
+                    Thread.sleep(1000);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            serialProtDataUtil.openSwitch(7);
+                        }
+                    });
+
+                    Thread.sleep(1000);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            serialProtDataUtil.openSwitch(8);
+                        }
+                    });
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+        };
+        t.start();
+    }
+
+
+
     private void openAllStatus(boolean flag) {
         if (flag) {
-            serialProtDataUtil.openSwitch(2);
-            serialProtDataUtil.openSwitch(3);
-            serialProtDataUtil.openSwitch(4);
-            serialProtDataUtil.openSwitch(5);
-            serialProtDataUtil.openSwitch(6);
+            SerialProtDataUtil.switchStatus.setTwo(false);
+            SerialProtDataUtil.switchStatus.setThree(false);
+            SerialProtDataUtil.switchStatus.setFour(false);
+            SerialProtDataUtil.switchStatus.setFive(false);
+            SerialProtDataUtil.switchStatus.setSix(false);
+            SerialProtDataUtil.switchStatus.setSeven(false);
+            SerialProtDataUtil.switchStatus.setEight(false);
+        } else {
+            SerialProtDataUtil.switchStatus.setTwo(true);
+            SerialProtDataUtil.switchStatus.setThree(true);
+            SerialProtDataUtil.switchStatus.setFour(true);
+            SerialProtDataUtil.switchStatus.setFive(true);
+            SerialProtDataUtil.switchStatus.setSix(true);
+            SerialProtDataUtil.switchStatus.setSeven(true);
+            SerialProtDataUtil.switchStatus.setEight(true);
+
         }
+
+        openNum();
+//        serialProtDataUtil.openSwitch(2);
+//        serialProtDataUtil.openSwitch(3);
+//        serialProtDataUtil.openSwitch(4);
+//        serialProtDataUtil.openSwitch(5);
+//        serialProtDataUtil.openSwitch(6);
     }
 
 

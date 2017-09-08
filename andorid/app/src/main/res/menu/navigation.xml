@@ -7,22 +7,24 @@
     <!--android:title="@string/tab_lesson" />-->
 
     <item
+        android:id="@+id/home_cang"
+        android:icon="@drawable/cang_n"
+        android:title="舱"/>
+
+    <item
         android:id="@+id/home_video"
         android:icon="@drawable/home_vedio_n"
         android:title="@string/tab_video" />
-
 
     <item
     android:id="@+id/home_lesson"
     android:icon="@drawable/home_lesson_n"
     android:title="@string/tab_shopping" />
 
-
     <item
     android:id="@+id/home_myself"
     android:icon="@drawable/home_myself_n3x"
-    android:title="@string/tab_myself"
-        />
+    android:title="@string/tab_myself" />
 
 
     <!--<item-->

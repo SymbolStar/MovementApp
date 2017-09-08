@@ -32,6 +32,7 @@ import com.yeapao.andorid.model.TestData;
 import com.yeapao.andorid.model.UserDetailsModel;
 import com.yeapao.andorid.model.VideoDataModel;
 import com.yeapao.andorid.model.VideoTypeModel;
+import com.yeapao.andorid.model.WareHouseListModel;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -263,4 +264,8 @@ public interface YeapaoApi {
 
     @POST("user/loginApp")
     Observable<UserDetailsModel> requestLogin(@Query("phone") String phone, @Query("password") String passworid);
+
+    //   地图首页
+    @POST("home/selectWareHouseList")
+    Observable<WareHouseListModel> requestWareHouseList(@Query("customerId") String customerId);
 }

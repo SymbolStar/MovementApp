@@ -18,6 +18,7 @@ import android.util.SparseIntArray;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,6 +28,7 @@ import android.databinding.DataBindingUtil;
 
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
+import com.jaeger.library.StatusBarUtil;
 import com.scottfu.sflibrary.net.CloudClient;
 import com.scottfu.sflibrary.net.JSONResultHandler;
 import com.scottfu.sflibrary.permission.ActivityCollector;
@@ -42,6 +44,7 @@ import com.yeapao.andorid.homepage.circle.CircleFragmentView;
 import com.yeapao.andorid.homepage.circle.CirclePresenter;
 import com.yeapao.andorid.homepage.lesson.LessonFragmentView;
 import com.yeapao.andorid.homepage.lesson.LessonPresenter;
+import com.yeapao.andorid.homepage.map.MapFragmentView;
 import com.yeapao.andorid.homepage.myself.MyselfFragmentView;
 import com.yeapao.andorid.homepage.myself.MyselfPresenter;
 import com.yeapao.andorid.homepage.shopping.ShoppingFragmentView;
@@ -83,6 +86,7 @@ public class MainActivity extends PermissionActivity {
     private CircleFragmentView circleFragmentView;
     private MyselfFragmentView myselfFragmentView;
     private VideoFragmentView videoFragmentView;
+    private MapFragmentView mapFragmentView;
 
     private LessonPresenter lessonPresenter;
     private ShoppingPresenter shoppingPresenter;
@@ -111,6 +115,8 @@ public class MainActivity extends PermissionActivity {
     public static final String KEY_MESSAGE = "message";
     public static final String KEY_EXTRAS = "extras";
 
+
+//   推送过来接收的广播
     public void registerMessageReceiver() {
         mMessageReceiver = new MessageReceiver();
         IntentFilter filter = new IntentFilter();
@@ -148,6 +154,10 @@ public class MainActivity extends PermissionActivity {
         super.onCreate(savedInstanceState);
         setTheme(R.style.AppTheme_NoActionBar);
         setContentView(R.layout.activity_main);
+
+
+
+
         ActivityCollector.addActivity(this);
         loginAccount();
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);//初始隐藏键盘
@@ -155,6 +165,9 @@ public class MainActivity extends PermissionActivity {
 
         initView();
         permissionCheck();
+        registerMessageReceiver();//极光
+
+
 
         fragments = new ArrayList<>(3);
         items = new SparseIntArray(3);
@@ -166,19 +179,24 @@ public class MainActivity extends PermissionActivity {
 //            circleFragmentView = (CircleFragmentView) fragmentManager.getFragment(savedInstanceState, "circle");
             myselfFragmentView = (MyselfFragmentView) fragmentManager.getFragment(savedInstanceState, "myself");
             videoFragmentView = (VideoFragmentView) fragmentManager.getFragment(savedInstanceState, "video");
+            mapFragmentView = (MapFragmentView) fragmentManager.getFragment(savedInstanceState, "map");
 
+            fragments.add(mapFragmentView);
             fragments.add(videoFragmentView);
             fragments.add(lessonFragmentView);
 //            fragments.add(shoppingFragmentView);
 //            fragments.add(circleFragmentView);
             fragments.add(myselfFragmentView);
+
         } else {
             lessonFragmentView = LessonFragmentView.newInstance();
 //            shoppingFragmentView = ShoppingFragmentView.newInstance();
 //            circleFragmentView = CircleFragmentView.newInstance();
             myselfFragmentView = MyselfFragmentView.newInstance();
             videoFragmentView = VideoFragmentView.newInstance();
+            mapFragmentView = MapFragmentView.newInstance();
 
+            fragments.add(mapFragmentView);
             fragments.add(videoFragmentView);
             fragments.add(lessonFragmentView);
 //            fragments.add(shoppingFragmentView);
@@ -197,10 +215,12 @@ public class MainActivity extends PermissionActivity {
 //        fragments.add(circleFragmentView);
 //        fragments.add(myselfFragmentView);
 
-        items.put(R.id.home_video, 0);
-        items.put(R.id.home_lesson, 1);
+
+        items.put(R.id.home_cang,0);
+        items.put(R.id.home_video, 1);
+        items.put(R.id.home_lesson, 2);
 //        items.put(R.id.home_circle, 2);
-        items.put(R.id.home_myself, 2);
+        items.put(R.id.home_myself, 3);
 
 
         mainPagerAdapter = new MainPagerAdapter(getSupportFragmentManager(), fragments);
@@ -272,6 +292,7 @@ public class MainActivity extends PermissionActivity {
                     Log.i(TAG, "-----bnve-------- previous item:" + bind.bnvTab.getCurrentItem() + " current item:" + position + " ------------------");
                     bind.vp.setCurrentItem(position);
                 }
+
                 return true;
             }
         });
@@ -328,7 +349,11 @@ public class MainActivity extends PermissionActivity {
         requestRuntimePermission(new String[]{Manifest.permission.CALL_PHONE,
                 Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.CAMERA,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.READ_EXTERNAL_STORAGE}, new PermissionListener() {
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+        Manifest.permission.ACCESS_COARSE_LOCATION,
+        Manifest.permission.ACCESS_WIFI_STATE,
+        Manifest.permission.ACCESS_NETWORK_STATE,
+        Manifest.permission.READ_PHONE_STATE}, new PermissionListener() {
             @Override
             public void onGranted() {
                 Toast.makeText(getContext(), "所有权限已同意", Toast.LENGTH_SHORT).show();
