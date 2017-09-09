@@ -2,8 +2,10 @@ package com.yeapao.andorid.homepage.map;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.hardware.Camera;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -12,12 +14,16 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.transition.TransitionManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 import android.widget.ZoomControls;
 
 import com.baidu.location.BDLocation;
@@ -28,15 +34,33 @@ import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BaiduMapOptions;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
+import com.baidu.mapapi.map.MapPoi;
 import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
+import com.baidu.mapapi.map.Marker;
 import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.map.MyLocationConfiguration.LocationMode;
 import com.baidu.mapapi.map.MyLocationData;
+import com.baidu.mapapi.map.OverlayOptions;
+import com.baidu.mapapi.map.Polyline;
+import com.baidu.mapapi.map.PolylineOptions;
 import com.baidu.mapapi.map.SupportMapFragment;
 import com.baidu.mapapi.map.UiSettings;
 import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.search.core.RouteLine;
+import com.baidu.mapapi.search.core.SearchResult;
+import com.baidu.mapapi.search.route.BikingRouteResult;
+import com.baidu.mapapi.search.route.DrivingRouteLine;
+import com.baidu.mapapi.search.route.DrivingRoutePlanOption;
+import com.baidu.mapapi.search.route.DrivingRouteResult;
+import com.baidu.mapapi.search.route.IndoorRouteResult;
+import com.baidu.mapapi.search.route.MassTransitRouteResult;
+import com.baidu.mapapi.search.route.OnGetRoutePlanResultListener;
+import com.baidu.mapapi.search.route.PlanNode;
+import com.baidu.mapapi.search.route.RoutePlanSearch;
+import com.baidu.mapapi.search.route.TransitRouteResult;
+import com.baidu.mapapi.search.route.WalkingRouteResult;
 import com.scottfu.sflibrary.util.LogUtil;
 import com.scottfu.sflibrary.util.ToastManager;
 import com.yeapao.andorid.R;
@@ -46,6 +70,8 @@ import com.yeapao.andorid.base.BaseFragment;
 import com.yeapao.andorid.homepage.map.clusterutil.Cluster;
 import com.yeapao.andorid.homepage.map.clusterutil.ClusterItem;
 import com.yeapao.andorid.homepage.map.clusterutil.ClusterManager;
+import com.yeapao.andorid.homepage.map.overlayutil.DrivingRouteOverlay;
+import com.yeapao.andorid.homepage.map.overlayutil.OverlayManager;
 import com.yeapao.andorid.model.WareHouseListModel;
 import com.yeapao.andorid.util.GlobalDataYepao;
 
@@ -66,7 +92,7 @@ import static android.content.Context.SENSOR_SERVICE;
  * Created by fujindong on 2017/9/7.
  */
 
-public class MapFragmentView extends BaseFragment implements SensorEventListener ,BaiduMap.OnMapLoadedCallback{
+public class MapFragmentView extends BaseFragment implements SensorEventListener ,BaiduMap.OnMapClickListener,BaiduMap.OnMapLoadedCallback,OnGetRoutePlanResultListener{
 
     private static final String TAG = "MapFragmentView";
     @BindView(R.id.iv_message)
@@ -82,6 +108,8 @@ public class MapFragmentView extends BaseFragment implements SensorEventListener
     private BaiduMapOptions mapOptions;
     private BaiduMap mBaiduMap;
 
+    private FrameLayout mFrameLayout;
+    private FrameLayout reservationFrameLayout;
 
     private Camera m_Camera;
 
@@ -115,9 +143,88 @@ public class MapFragmentView extends BaseFragment implements SensorEventListener
 //    地图标记
     private ClusterManager<MyItem> mClusterManager;
 
+    //    线路轨迹
+    RoutePlanSearch mSearch = null;
+    int nodeIndex = -1; // 节点索引,供浏览节点时使用
+    DrivingRouteResult nowResultdrive = null;
+    RouteLine route = null;
+    OverlayManager routeOverlay = null;
+
+
     @Override
     public void onMapLoaded() {
          mBaiduMap.animateMapStatus(MapStatusUpdateFactory.newMapStatus(new MapStatus.Builder().zoom(9).build()));
+    }
+
+
+
+    @Override
+    public void onGetWalkingRouteResult(WalkingRouteResult walkingRouteResult) {
+
+    }
+
+    @Override
+    public void onGetTransitRouteResult(TransitRouteResult transitRouteResult) {
+
+    }
+
+    @Override
+    public void onGetMassTransitRouteResult(MassTransitRouteResult massTransitRouteResult) {
+
+    }
+
+    @Override
+    public void onGetDrivingRouteResult(DrivingRouteResult result) {
+        LogUtil.e(TAG,"ongetDrivingRouteResult");
+        if (result == null || result.error != SearchResult.ERRORNO.NO_ERROR) {
+            Toast.makeText(getContext(), "抱歉，未找到结果", Toast.LENGTH_SHORT).show();
+        }
+        if (result.error == SearchResult.ERRORNO.AMBIGUOUS_ROURE_ADDR) {
+            // 起终点或途经点地址有岐义，通过以下接口获取建议查询信息
+            // result.getSuggestAddrInfo()
+            return;
+        }
+        if (result.error == SearchResult.ERRORNO.NO_ERROR) {
+            nodeIndex = -1;
+
+            if (result.getRouteLines().size() >= 1) {
+                route = result.getRouteLines().get(0);
+                DrivingRouteOverlay overlay = new MyDrivingRouteOverLay(mBaiduMap);
+//                routeOverlay = overlay;
+//                mBaidumap.setOnMarkerClickListener(overlay);／/不需要监听
+//                overlay.setData(result.getRouteLines().get(0));
+//                overlay.addToMap();
+//                overlay.zoomToSpan();
+                test(result.getRouteLines().get(0));
+            } else {
+                Log.d("route result", "结果数<0");
+                return;
+            }
+
+        }
+    }
+
+    @Override
+    public void onGetIndoorRouteResult(IndoorRouteResult indoorRouteResult) {
+
+    }
+
+    @Override
+    public void onGetBikingRouteResult(BikingRouteResult bikingRouteResult) {
+
+    }
+
+    @Override
+    public void onMapClick(LatLng latLng) {
+        reservationFrameLayout.setVisibility(View.GONE);
+        LogUtil.e(TAG,latLng.toString());
+        ToastManager.showToast(getContext(),latLng.toString());
+    }
+
+    @Override
+    public boolean onMapPoiClick(MapPoi mapPoi) {
+        LogUtil.e(TAG,"onMapPoiClick");
+        return false;
     }
 
 
@@ -204,6 +311,8 @@ public class MapFragmentView extends BaseFragment implements SensorEventListener
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
+        LogUtil.e(TAG,"onCreateView");
+
         View view = inflater.inflate(R.layout.fragment_map, container, false);
         initView(view);
 
@@ -212,8 +321,14 @@ public class MapFragmentView extends BaseFragment implements SensorEventListener
     }
 
     private void initView(View view) {
+
+        mFrameLayout = (FrameLayout) view.findViewById(R.id.fl_map);
+        reservationFrameLayout = (FrameLayout) view.findViewById(R.id.fl_reservation);
+        TransitionManager.beginDelayedTransition(mFrameLayout);
+
         mMapView = (MapView) view.findViewById(R.id.mv_repository);
         mBaiduMap = getBaiduMap();
+        mBaiduMap.setOnMapClickListener(this);
 //        隐藏必要的属性
         mMapView.showScaleControl(false);//地图上比例尺
         mMapView.showZoomControls(false);// 隐藏缩放控件
@@ -230,7 +345,7 @@ public class MapFragmentView extends BaseFragment implements SensorEventListener
         mCurrentMode = LocationMode.FOLLOWING;
         mBaiduMap.setMyLocationConfiguration(new MyLocationConfiguration(mCurrentMode, true, mCurrentMarker));
         MapStatus.Builder builder = new MapStatus.Builder();
-        builder.overlook(0);
+        builder.overlook(0).zoom(18.0f);//设置地图俯视角，
         mBaiduMap.animateMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));
         // 开启定位图层
         mBaiduMap.setMyLocationEnabled(true);
@@ -243,6 +358,14 @@ public class MapFragmentView extends BaseFragment implements SensorEventListener
 //        option.setScanSpan(1000);
         mLocClient.setLocOption(option);
         mLocClient.start();
+
+//        线路轨迹
+        mSearch = RoutePlanSearch.newInstance();
+        mSearch.setOnGetRoutePlanResultListener(this);
+
+
+
+
 
     }
 
@@ -268,6 +391,7 @@ public class MapFragmentView extends BaseFragment implements SensorEventListener
 
     public void onResume() {
         super.onResume();
+        LogUtil.e(TAG,"onResume");
         this.mMapView.onResume();
         //为系统的方向传感器注册监听器
         mSensorManager.registerListener(this, mSensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION),
@@ -377,6 +501,7 @@ public class MapFragmentView extends BaseFragment implements SensorEventListener
 
     /**
      * 定位SDK监听函数
+     * 点击定位的时候会走这边
      */
     public class MyLocationListenner implements BDLocationListener {
 
@@ -446,8 +571,11 @@ public class MapFragmentView extends BaseFragment implements SensorEventListener
                 };
 
 
-    public void addMarkers() {
 
+    /**
+     * 在地图上添加标记
+     */
+    public void addMarkers() {
         List<MyItem> items = new ArrayList<MyItem>();
         for (int i = 0; i < mWareHouseList.getData().getWarehouseListOut().size(); i++) {
             items.add(new MyItem(new LatLng(mWareHouseList.getData().getWarehouseListOut().get(i).getLatitude(),
@@ -465,21 +593,82 @@ public class MapFragmentView extends BaseFragment implements SensorEventListener
             }
         });
 
-
         mClusterManager.setOnClusterItemClickListener(new ClusterManager.OnClusterItemClickListener<MyItem>() {
             @Override
             public boolean onClusterItemClick(MyItem item) {
-
                 ToastManager.showToast(getContext(),"item");
+                if (routeOverlay != null) {
+                    routeOverlay.removeFromMap();
+                }
+                reservationFrameLayout.setVisibility(View.VISIBLE);
+                PlanNode stNode = PlanNode.withLocation(new LatLng(mCurrentLat, mCurrentLon));
+                PlanNode enNode = PlanNode.withLocation(item.getPosition());
+                mSearch.drivingSearch((new DrivingRoutePlanOption()).from(stNode).to(enNode));
 
                 return false;
             }
         });
 
+    }
+
+
+    private class MyDrivingRouteOverLay extends DrivingRouteOverlay {
+        /**
+         * 构造函数
+         *
+         * @param baiduMap 该DrivingRouteOvelray引用的 BaiduMap
+         */
+        public MyDrivingRouteOverLay(BaiduMap baiduMap) {
+            super(baiduMap);
+        }
+
+        @Override
+        public BitmapDescriptor getStartMarker() {
+            return null;
+        }
+
+        @Override
+        public BitmapDescriptor getTerminalMarker() {
+            return null;
+        }
+
 
     }
 
 
+    private void test(DrivingRouteLine drivingRouteLine) {
+        final ArrayList<OverlayOptions> list = new ArrayList<OverlayOptions>();
+        PolylineOptions object = new PolylineOptions();
+        List<LatLng> arg0=new ArrayList<LatLng>();
+        List<DrivingRouteLine.DrivingStep> allStep = drivingRouteLine.getAllStep();
+        for (int i = 0; i < allStep.size(); i++) {
+            DrivingRouteLine.DrivingStep drivingStep = allStep.get(i);
+            List<LatLng> wayPoints = drivingStep.getWayPoints();
+            arg0.addAll(wayPoints);
+        }
+        object.color(getContext().getResources().getColor(R.color.route_color)).width(5).points(arg0);
+
+        list.add(object);
+       routeOverlay= new OverlayManager(mBaiduMap) {
+
+            @Override
+            public boolean onPolylineClick(Polyline arg0) {
+                return false;
+            }
+
+            @Override
+            public boolean onMarkerClick(Marker arg0) {
+                return false;
+            }
+
+            @Override
+            public List<OverlayOptions> getOverlayOptions() {
+                return list;
+            }
+        };
+        routeOverlay.addToMap();
+
+    }
 
 
 }
