@@ -11,8 +11,11 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.icu.math.MathContext;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
+import android.support.constraint.ConstraintSet;
 import android.support.v4.app.Fragment;
 import android.transition.TransitionManager;
 import android.util.Log;
@@ -108,8 +111,10 @@ public class MapFragmentView extends BaseFragment implements SensorEventListener
     private BaiduMapOptions mapOptions;
     private BaiduMap mBaiduMap;
 
-    private FrameLayout mFrameLayout;
+
+    private ConstraintLayout mConstraintLayout;
     private FrameLayout reservationFrameLayout;
+    private ConstraintSet applyConstraintSet = new ConstraintSet();
 
     private Camera m_Camera;
 
@@ -216,7 +221,10 @@ public class MapFragmentView extends BaseFragment implements SensorEventListener
 
     @Override
     public void onMapClick(LatLng latLng) {
-        reservationFrameLayout.setVisibility(View.GONE);
+        applyConstraintSet.clone(mConstraintLayout);
+        applyConstraintSet.setVisibility(R.id.fl_reservation, ConstraintSet.GONE);
+        applyConstraintSet.applyTo(mConstraintLayout);
+//        reservationFrameLayout.setVisibility(View.GONE);
         LogUtil.e(TAG,latLng.toString());
         ToastManager.showToast(getContext(),latLng.toString());
     }
@@ -322,9 +330,10 @@ public class MapFragmentView extends BaseFragment implements SensorEventListener
 
     private void initView(View view) {
 
-        mFrameLayout = (FrameLayout) view.findViewById(R.id.fl_map);
+        mConstraintLayout = (ConstraintLayout) view.findViewById(R.id.cl_map);
         reservationFrameLayout = (FrameLayout) view.findViewById(R.id.fl_reservation);
-        TransitionManager.beginDelayedTransition(mFrameLayout);
+        applyConstraintSet.clone(mConstraintLayout);
+        TransitionManager.beginDelayedTransition(mConstraintLayout);
 
         mMapView = (MapView) view.findViewById(R.id.mv_repository);
         mBaiduMap = getBaiduMap();
@@ -600,7 +609,10 @@ public class MapFragmentView extends BaseFragment implements SensorEventListener
                 if (routeOverlay != null) {
                     routeOverlay.removeFromMap();
                 }
-                reservationFrameLayout.setVisibility(View.VISIBLE);
+                applyConstraintSet.clone(mConstraintLayout);
+                applyConstraintSet.setVisibility(R.id.fl_reservation, ConstraintSet.VISIBLE);
+                applyConstraintSet.applyTo(mConstraintLayout);
+//                reservationFrameLayout.setVisibility(View.VISIBLE);
                 PlanNode stNode = PlanNode.withLocation(new LatLng(mCurrentLat, mCurrentLon));
                 PlanNode enNode = PlanNode.withLocation(item.getPosition());
                 mSearch.drivingSearch((new DrivingRoutePlanOption()).from(stNode).to(enNode));
