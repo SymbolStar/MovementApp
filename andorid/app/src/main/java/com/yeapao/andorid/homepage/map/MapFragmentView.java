@@ -522,12 +522,7 @@ public class MapFragmentView extends BaseFragment implements SensorEventListener
                 break;
             case R.id.iv_open_light:
                 if (GlobalDataYepao.isLogin()) {
-                    if (mWareHouseList.getData().getIsQualified().equals("1")) {
                         RepairActivity.start(getContext(), GlobalDataYepao.getUser(getContext()).getId());
-                    } else {
-                        DepositActivity.start(getContext());
-                    }
-
                 } else {
                     ToastManager.showToast(getContext(),"请先登录");
                     LoginActivity.start(getContext());
