@@ -26,6 +26,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ZoomControls;
 
@@ -49,6 +50,7 @@ import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.map.Polyline;
 import com.baidu.mapapi.map.PolylineOptions;
 import com.baidu.mapapi.map.SupportMapFragment;
+import com.baidu.mapapi.map.Text;
 import com.baidu.mapapi.map.UiSettings;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.search.core.RouteLine;
@@ -75,6 +77,7 @@ import com.yeapao.andorid.homepage.map.clusterutil.ClusterItem;
 import com.yeapao.andorid.homepage.map.clusterutil.ClusterManager;
 import com.yeapao.andorid.homepage.map.overlayutil.DrivingRouteOverlay;
 import com.yeapao.andorid.homepage.map.overlayutil.OverlayManager;
+import com.yeapao.andorid.homepage.map.repository.RepairActivity;
 import com.yeapao.andorid.model.WareHouseListModel;
 import com.yeapao.andorid.util.GlobalDataYepao;
 
@@ -106,6 +109,11 @@ public class MapFragmentView extends BaseFragment implements SensorEventListener
     ImageView ivFindQr;
     @BindView(R.id.iv_open_light)
     ImageView ivOpenLight;
+    @BindView(R.id.tv_distance)
+    TextView tvDistance;
+    @BindView(R.id.tv_reservation_warehouse)
+    TextView tvWareHouse;
+
     Unbinder unbinder;
     private MapView mMapView;
     private BaiduMapOptions mapOptions;
@@ -116,7 +124,6 @@ public class MapFragmentView extends BaseFragment implements SensorEventListener
     private FrameLayout reservationFrameLayout;
     private ConstraintSet applyConstraintSet = new ConstraintSet();
 
-    private Camera m_Camera;
 
     //    定位相关
     LocationClient mLocClient;
@@ -201,6 +208,19 @@ public class MapFragmentView extends BaseFragment implements SensorEventListener
 //                overlay.addToMap();
 //                overlay.zoomToSpan();
                 test(result.getRouteLines().get(0));
+
+                String ddd = "";
+                double distance = (double) result.getRouteLines().get(0).getDistance();
+                if (distance > 1000) {
+                    ddd = String.valueOf(distance / 1000);
+                    tvDistance.setText(ddd+"km");
+                } else {
+                    ddd = String.valueOf(result.getRouteLines().get(0).getDistance());
+                    tvDistance.setText(ddd+"m");
+                }
+                LogUtil.e(TAG,"_____"+ddd+"+++++");
+
+
             } else {
                 Log.d("route result", "结果数<0");
                 return;
@@ -408,11 +428,10 @@ public class MapFragmentView extends BaseFragment implements SensorEventListener
 
 
 //        获取舱的位置数据
-        if (GlobalDataYepao.isLogin()) {
+        if (!GlobalDataYepao.isLogin()) {
             getNetWork("0");
         } else {
-            getNetWork("0");
-//            getNetWork(GlobalDataYepao.getUser(getContext()).getId());
+            getNetWork(GlobalDataYepao.getUser(getContext()).getId());
         }
 //        定义点聚合管理类
         mClusterManager = new ClusterManager<MyItem>(getContext(), mBaiduMap);
@@ -491,18 +510,12 @@ public class MapFragmentView extends BaseFragment implements SensorEventListener
                 startActivity(new Intent(getContext(),TestScanActivity.class));
                 break;
             case R.id.iv_open_light:
-//                if (lightUtils.isFlashlightOn()) {
-//                    lightUtils.Closeshoudian();
-//                } else {
-//                    lightUtils.Openshoudian();
-//                }
-                try{
-                    m_Camera = Camera.open();
-                    Camera.Parameters mParameters;
-                    mParameters = m_Camera.getParameters();
-                    mParameters.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
-                    m_Camera.setParameters(mParameters);
-                } catch(Exception ex){}
+                if (GlobalDataYepao.isLogin()) {
+                    RepairActivity.start(getContext(),GlobalDataYepao.getUser(getContext()).getId());
+                } else {
+                    ToastManager.showToast(getContext(),"请先登录");
+                }
+
                 break;
         }
     }
