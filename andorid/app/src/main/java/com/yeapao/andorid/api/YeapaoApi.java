@@ -268,4 +268,8 @@ public interface YeapaoApi {
     //   地图首页
     @POST("home/selectWareHouseList")
     Observable<WareHouseListModel> requestWareHouseList(@Query("customerId") String customerId);
+
+    @POST("home/saveGuarantee")
+    Observable<NormalDataModel> requestSaveGuarantee(@Query("customerId") String id, @Query("warehouseName") String warehouseId,
+                                                     @Query("content") String content);
 }

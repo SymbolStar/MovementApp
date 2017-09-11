@@ -34,5 +34,6 @@
 
     <color name="account_hint_text">#878372</color>
     <color name="pain_green">#49c589</color>
+    <color name="route_color">#36cc8f</color>
 
 </resources>

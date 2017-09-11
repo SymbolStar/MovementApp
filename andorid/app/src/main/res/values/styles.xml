@@ -85,6 +85,13 @@
 
 
 
+    <!--checkbox style-->
+    <style name="RepairCheckBox" parent="Widget.AppCompat.CompoundButton.CheckBox">
+        <item name="android:button">@drawable/checkbox_repair_style</item>
+        </style>
+    <style name="DepositCheckBox" parent="Widget.AppCompat.CompoundButton.CheckBox">
+        <item name="android:button">@drawable/checkbox_deposit_style</item>
+    </style>
 
 
     <!--扫码自定义的一些-->
@@ -164,5 +171,7 @@
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">bold</item>
     </style>
+
+    <!--扫码自定义的样式的结束位置-->
 
 </resources>

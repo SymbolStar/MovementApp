@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:background="@color/bg_grey"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/bg_grey"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:id="@+id/view59" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="75dp"
+        android:background="@color/bg_white"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view59"
+        android:id="@+id/view62" />
+
+    <EditText
+        android:id="@+id/et_repository_null"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="16dp"
+        android:background="#f9f9f9"
+        android:ems="10"
+        android:hint="请输入健身舱编号"
+        android:inputType="number"
+        android:paddingLeft="15dp"
+        android:textColor="@color/text_color"
+        android:textColorHint="#888888"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toLeftOf="@+id/view62"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view59" />
+
+    <View
+        android:id="@+id/view64"
+        android:layout_width="0dp"
+        android:layout_height="310dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/bg_white"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view62" />
+
+    <ImageView
+        android:id="@+id/imageView18"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/repair_type"
+        android:layout_marginLeft="16dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/view64"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="16dp" />
+
+    <TextView
+        android:id="@+id/textView28"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:text="故障类型(可多选)"
+        android:textColor="@color/text_color"
+        android:textSize="17sp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView18"
+        app:layout_constraintLeft_toRightOf="@+id/imageView18"
+        app:layout_constraintTop_toTopOf="@+id/imageView18"
+        app:layout_constraintVertical_bias="0.4"
+        android:layout_marginStart="8dp" />
+
+    <TextView
+        android:id="@+id/textView37"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="无法开门"
+        android:textColor="@color/text_color"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toLeftOf="@+id/imageView18"
+        app:layout_constraintTop_toBottomOf="@+id/imageView18" />
+
+    <CheckBox
+        android:id="@+id/iv_error_1"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView37"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView37"
+        style="@style/RepairCheckBox"/>
+
+    <TextView
+        android:id="@+id/textView46"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="跑步机故障"
+        android:textColor="@color/text_color"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toLeftOf="@+id/textView37"
+        app:layout_constraintTop_toBottomOf="@+id/textView37" />
+
+    <TextView
+        android:id="@+id/textView118"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="房间内没电"
+        android:textColor="@color/text_color"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toLeftOf="@+id/textView46"
+        app:layout_constraintTop_toBottomOf="@+id/textView46" />
+
+    <TextView
+        android:id="@+id/textView120"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="卫生状况差"
+        android:textColor="@color/text_color"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toLeftOf="@+id/textView118"
+        app:layout_constraintTop_toBottomOf="@+id/textView118" />
+
+    <TextView
+        android:id="@+id/textView121"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="空调坏了"
+        android:textColor="@color/text_color"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toLeftOf="@+id/textView120"
+        app:layout_constraintTop_toBottomOf="@+id/textView120" />
+
+    <TextView
+        android:id="@+id/textView124"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="其他"
+        android:textColor="@color/text_color"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toLeftOf="@+id/textView121"
+        app:layout_constraintTop_toBottomOf="@+id/textView121" />
+
+    <CheckBox
+        android:id="@+id/iv_error_2"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView46"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView46"
+        app:layout_constraintVertical_bias="0.555"
+        style="@style/RepairCheckBox"/>
+
+    <CheckBox
+        android:id="@+id/iv_error_3"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView118"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView118"
+        style="@style/RepairCheckBox"/>
+
+    <CheckBox
+        android:id="@+id/iv_error_4"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView120"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView120"
+        style="@style/RepairCheckBox"/>
+
+    <CheckBox
+        android:id="@+id/iv_error_5"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView121"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView121"
+        style="@style/RepairCheckBox"/>
+
+    <CheckBox
+        android:id="@+id/iv_error_6"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView124"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView124"
+        style="@style/RepairCheckBox"/>
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="130dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/bg_white"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view64"
+        android:id="@+id/view65" />
+
+    <EditText
+        android:id="@+id/et_error_content"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/bg_grey"
+        android:ems="10"
+        android:gravity="top|left"
+        android:hint="情况补充说明"
+        android:inputType="none|textPersonName"
+        android:paddingLeft="10dp"
+        android:paddingTop="15dp"
+        android:textColorHint="#888888"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/view65"
+        app:layout_constraintLeft_toLeftOf="@+id/view65"
+        app:layout_constraintRight_toRightOf="@+id/view65"
+        app:layout_constraintTop_toTopOf="@+id/view65" />
+
+
+
+
+</android.support.constraint.ConstraintLayout>
