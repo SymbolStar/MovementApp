@@ -46,6 +46,7 @@ public class DepositActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_deposit);
         ButterKnife.bind(this);
+        initTopBar();
     }
 
     @Override
