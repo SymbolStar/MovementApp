@@ -435,6 +435,10 @@
             android:name=".homepage.map.repository.RepairActivity"
             android:theme="@style/AppTheme.NoActionBar" />
 
+        <activity
+            android:name=".homepage.map.repository.DepositActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+
     </application>
 
 </manifest>

@@ -68,6 +68,7 @@ import com.baidu.mapapi.search.route.TransitRouteResult;
 import com.baidu.mapapi.search.route.WalkingRouteResult;
 import com.scottfu.sflibrary.util.LogUtil;
 import com.scottfu.sflibrary.util.ToastManager;
+import com.yeapao.andorid.LoginActivity;
 import com.yeapao.andorid.R;
 import com.yeapao.andorid.api.ConstantYeaPao;
 import com.yeapao.andorid.api.Network;
@@ -77,6 +78,7 @@ import com.yeapao.andorid.homepage.map.clusterutil.ClusterItem;
 import com.yeapao.andorid.homepage.map.clusterutil.ClusterManager;
 import com.yeapao.andorid.homepage.map.overlayutil.DrivingRouteOverlay;
 import com.yeapao.andorid.homepage.map.overlayutil.OverlayManager;
+import com.yeapao.andorid.homepage.map.repository.DepositActivity;
 import com.yeapao.andorid.homepage.map.repository.RepairActivity;
 import com.yeapao.andorid.model.WareHouseListModel;
 import com.yeapao.andorid.util.GlobalDataYepao;
@@ -507,13 +509,28 @@ public class MapFragmentView extends BaseFragment implements SensorEventListener
                 mLocClient.requestLocation();
                 break;
             case R.id.iv_find_qr:
-                startActivity(new Intent(getContext(),TestScanActivity.class));
+                if (GlobalDataYepao.isLogin()) {
+                    if (mWareHouseList.getData().getIsQualified().equals("1")) {
+                        startActivity(new Intent(getContext(), TestScanActivity.class));
+                    } else {
+                        DepositActivity.start(getContext());
+                    }
+                } else {
+                    LoginActivity.start(getContext());
+                }
+
                 break;
             case R.id.iv_open_light:
                 if (GlobalDataYepao.isLogin()) {
-                    RepairActivity.start(getContext(),GlobalDataYepao.getUser(getContext()).getId());
+                    if (mWareHouseList.getData().getIsQualified().equals("1")) {
+                        RepairActivity.start(getContext(), GlobalDataYepao.getUser(getContext()).getId());
+                    } else {
+                        DepositActivity.start(getContext());
+                    }
+
                 } else {
                     ToastManager.showToast(getContext(),"请先登录");
+                    LoginActivity.start(getContext());
                 }
 
                 break;

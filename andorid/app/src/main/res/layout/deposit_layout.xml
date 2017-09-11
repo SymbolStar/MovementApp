@@ -58,7 +58,7 @@
         android:layout_height="wrap_content"
         android:text="押金可随时退款到支付账号"
         app:layout_constraintBottom_toBottomOf="@+id/imageView19"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="12dp"
         android:layout_marginLeft="16dp"
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginStart="16dp" />
@@ -158,17 +158,17 @@
         app:layout_constraintTop_toBottomOf="@+id/imageView43" />
 
     <TextView
-        android:id="@+id/textView140"
+        android:id="@+id/tv_pay"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginBottom="0dp"
         android:layout_marginLeft="0dp"
         android:layout_marginRight="0dp"
-        android:text="立即支付"
-        android:textSize="18sp"
         android:background="@color/colorPrimary"
-        android:textColor="@color/text_color"
         android:gravity="center"
+        android:text="立即支付"
+        android:textColor="@color/text_color"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
