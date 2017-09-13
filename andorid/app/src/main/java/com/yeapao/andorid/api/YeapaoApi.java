@@ -1,5 +1,6 @@
 package com.yeapao.andorid.api;
 
+import com.yeapao.andorid.model.AliRefundModel;
 import com.yeapao.andorid.model.BodySideDetailModel;
 import com.yeapao.andorid.model.BodySideForthBackModel;
 import com.yeapao.andorid.model.BodySideListModel;
@@ -12,12 +13,15 @@ import com.yeapao.andorid.model.BodySideTwoGetBackModel;
 import com.yeapao.andorid.model.CallPaymentModel;
 import com.yeapao.andorid.model.ClassBeginsModel;
 import com.yeapao.andorid.model.CookListDetailModel;
+import com.yeapao.andorid.model.CreateReservationTimeModel;
+import com.yeapao.andorid.model.DepositOrdersModel;
 import com.yeapao.andorid.model.FoodInfoModel;
 import com.yeapao.andorid.model.HealthDataModel;
 import com.yeapao.andorid.model.IAmCoachListModel;
 import com.yeapao.andorid.model.IsAmShopModel;
 import com.yeapao.andorid.model.LessonOrderModel;
 import com.yeapao.andorid.model.MessageListModel;
+import com.yeapao.andorid.model.MyAuthenticationModel;
 import com.yeapao.andorid.model.MyOrderDataModel;
 import com.yeapao.andorid.model.Myfiles;
 import com.yeapao.andorid.model.MyselfLessonModel;
@@ -28,11 +32,13 @@ import com.yeapao.andorid.model.RecommendLessonModel;
 import com.yeapao.andorid.model.RegisterModel;
 import com.yeapao.andorid.model.RollCallListModel;
 import com.yeapao.andorid.model.SaveReservation;
+import com.yeapao.andorid.model.SelectReservationTimeModel;
 import com.yeapao.andorid.model.TestData;
 import com.yeapao.andorid.model.UserDetailsModel;
 import com.yeapao.andorid.model.VideoDataModel;
 import com.yeapao.andorid.model.VideoTypeModel;
 import com.yeapao.andorid.model.WareHouseListModel;
+import com.yeapao.andorid.model.WeXinRefundModel;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -268,8 +274,32 @@ public interface YeapaoApi {
     //   地图首页
     @POST("home/selectWareHouseList")
     Observable<WareHouseListModel> requestWareHouseList(@Query("customerId") String customerId);
-
+//报修
     @POST("home/saveGuarantee")
     Observable<NormalDataModel> requestSaveGuarantee(@Query("customerId") String id, @Query("warehouseName") String warehouseId,
                                                      @Query("content") String content);
+
+    //   押金订单
+    @POST("order/crateDepositOrders")
+    Observable<DepositOrdersModel> requestDeposit(@Query("customerId") String customerId);
+
+    //    我的认证
+    @POST("user/myAuthentication")
+    Observable<MyAuthenticationModel> requestCertification(@Query("customerId") String id);
+
+    //    微信退款
+    @POST("refund/weXinRefund")
+    Observable<WeXinRefundModel> requestWeXinRefund(@Query("code") String code, @Query("price") String price);
+//支付宝退款
+    @POST("refund/aliRefund")
+    Observable<AliRefundModel> requestAliRefund(@Query("code") String code, @Query("price") String price);
+
+    //    预约舱详情
+    @POST("order/selectReservaTime")
+    Observable<SelectReservationTimeModel> requestReservationTime(@Query("wareHouseId") String id);
+
+    //    预约订单
+    @POST("order/createReservaTimeOrder")
+    Observable<CreateReservationTimeModel> requestCreateReservationTime(@Query("warehouseId") String id, @Query("customerId") String customerId,
+                                                                        @Query("time") String time, @Query("warehouseName") String warehoustName);
 }

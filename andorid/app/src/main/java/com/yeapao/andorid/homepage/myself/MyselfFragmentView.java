@@ -173,6 +173,8 @@ public class MyselfFragmentView extends Fragment implements MyselfContract.View 
                         MyselfHealthActivity.start(getContext());
 //                        HealthRepositoryActivity.start(getContext());
 //                        getContext().startActivity(new Intent(getContext(),testCoordinatorLayoutActivity.class));
+                    } else if (name.equals("认证")) {
+                        MyselfCertificationActivity.start(getContext());
                     }
                 }
             });

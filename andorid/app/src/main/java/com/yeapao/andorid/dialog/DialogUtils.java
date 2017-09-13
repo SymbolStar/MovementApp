@@ -313,4 +313,44 @@ public class DialogUtils {
         params.width = (int) (display.getWidth() * 0.9);
         dialog.getWindow().setAttributes(params);
     }
+
+
+    public static void showRefundDialog(Context context, final DialogCallback listener) {
+        final AlertDialog dialog = new AlertDialog.Builder(context).create();
+        dialog.show();
+        Button cancel;
+        Button sure;
+
+        View v = LayoutInflater.from(context).inflate(R.layout.dialog_refund, null);
+
+        cancel = (Button) v.findViewById(R.id.btn_cancel);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onLeftClick();
+                dialog.dismiss();
+            }
+        });
+        sure = (Button) v.findViewById(R.id.btn_sure);
+        sure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onRightClick();
+                dialog.dismiss();
+            }
+        });
+
+        Window window = dialog.getWindow();
+        window.setContentView(v);
+        WindowManager m = ((Activity) context).getWindowManager();
+        Display display = m.getDefaultDisplay();
+        WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
+        params.width = (int) (display.getWidth() * 0.9);
+        dialog.getWindow().setAttributes(params);
+    }
+
+
+
+
+
 }

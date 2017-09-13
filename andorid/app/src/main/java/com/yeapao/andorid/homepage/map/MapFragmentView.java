@@ -80,6 +80,7 @@ import com.yeapao.andorid.homepage.map.overlayutil.DrivingRouteOverlay;
 import com.yeapao.andorid.homepage.map.overlayutil.OverlayManager;
 import com.yeapao.andorid.homepage.map.repository.DepositActivity;
 import com.yeapao.andorid.homepage.map.repository.RepairActivity;
+import com.yeapao.andorid.homepage.map.repository.ReservationCangActivity;
 import com.yeapao.andorid.model.WareHouseListModel;
 import com.yeapao.andorid.util.GlobalDataYepao;
 
@@ -120,6 +121,7 @@ public class MapFragmentView extends BaseFragment implements SensorEventListener
     private MapView mMapView;
     private BaiduMapOptions mapOptions;
     private BaiduMap mBaiduMap;
+    private int currentMyItemIndex = 0;
 
 
     private ConstraintLayout mConstraintLayout;
@@ -274,6 +276,10 @@ public class MapFragmentView extends BaseFragment implements SensorEventListener
             this.index = index;
         }
 
+        public int getIndex() {
+            return index;
+        }
+
         @Override
         public LatLng getPosition() {
             return mPosition;
@@ -348,6 +354,11 @@ public class MapFragmentView extends BaseFragment implements SensorEventListener
 
         unbinder = ButterKnife.bind(this, view);
         return view;
+    }
+
+    @OnClick(R.id.tv_reservation_warehouse)
+    void setReservationWarehouse(View view) {
+        ReservationCangActivity.start(getContext(),String.valueOf(mWareHouseList.getData().getWarehouseListOut().get(currentMyItemIndex).getWarehouseId()));
     }
 
     private void initView(View view) {
@@ -630,10 +641,10 @@ public class MapFragmentView extends BaseFragment implements SensorEventListener
         mClusterManager.setOnClusterItemClickListener(new ClusterManager.OnClusterItemClickListener<MyItem>() {
             @Override
             public boolean onClusterItemClick(MyItem item) {
-                ToastManager.showToast(getContext(),"item");
                 if (routeOverlay != null) {
                     routeOverlay.removeFromMap();
                 }
+                currentMyItemIndex = item.getIndex();
                 applyConstraintSet.clone(mConstraintLayout);
                 applyConstraintSet.setVisibility(R.id.fl_reservation, ConstraintSet.VISIBLE);
                 applyConstraintSet.applyTo(mConstraintLayout);
