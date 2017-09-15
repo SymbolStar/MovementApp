@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 
+import com.scottfu.sflibrary.util.LogUtil;
 import com.yeapao.andorid.MainActivity;
 import com.yeapao.andorid.yeapaojpush.Logger;
 
@@ -108,6 +109,8 @@ public class MyReceiver extends BroadcastReceiver {
                 sb.append("\nkey:" + key + ", value:" + bundle.getString(key));
             }
         }
+
+        LogUtil.e("JPush_Mreceiver",sb.toString());
         return sb.toString();
     }
 

@@ -10,7 +10,7 @@
     <string name="lesson_hint">此课程仅限本人使用\n课前1小时停止预约\n取消预约请于课前2小时提出申请</string>
     <string name="pain_hint">填写疼痛感受时，1为不疼，10为重度疼痛，填写时只需要填写3个疼痛最为明显的部位，以便教练帮您进行拉伸处理</string>
     
-    
+    <string name="RMB">￥</string>
     
     <string name="certification">认证</string>
     <string name="refunds_doc">退款说明</string>
@@ -37,4 +37,18 @@
     <string name="reservation_cang_sure">确认预约</string>
     <string name="reservation_cang_time">请选择预约时间</string>
 
+    <!--预约支付-->
+    <string name="cang_reservation_pay">预约费用:</string>
+    <string name="cang_reservation_pay1">预约时长</string>
+    <string name="cang_reservation_pay2">订单编号</string>
+    <string name="cang_reservation_pay3">健身舱编号</string>
+
+    <string name="cang_message_hint_1">消息提示</string>
+    <string name="cang_message_hint_2">您已经有预约的健身舱了，不要重复预约哦～</string>
+    <string name="cang_message_hint_3">我知道了</string>
+
+    <string name="cang_message_down_1">您关注的健身舱现在已经可预约啦，不要错过哦～</string>
+    <string name="cang_input_code">输入建生舱ID，也可以运动哦～</string>
+    <string name="cang_input_id">请输入ID</string>
+    <string name="cang_input_button">立即运动</string>
 </resources>

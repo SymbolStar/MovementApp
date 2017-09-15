@@ -450,6 +450,14 @@
         <activity
             android:name=".homepage.map.repository.ReservationCangActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".homepage.map.repository.ReservationCangPayActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name=".homepage.map.repository.CangDetailActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+
     </application>
 
 </manifest>

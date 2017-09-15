@@ -11,4 +11,5 @@ public interface DialogCallback {
     void onLeftClick();
 
     void onRightClick();
+
 }

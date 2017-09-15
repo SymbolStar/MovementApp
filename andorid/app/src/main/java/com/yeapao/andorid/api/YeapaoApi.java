@@ -32,6 +32,7 @@ import com.yeapao.andorid.model.RecommendLessonModel;
 import com.yeapao.andorid.model.RegisterModel;
 import com.yeapao.andorid.model.RollCallListModel;
 import com.yeapao.andorid.model.SaveReservation;
+import com.yeapao.andorid.model.SelectActualTimeModel;
 import com.yeapao.andorid.model.SelectReservationTimeModel;
 import com.yeapao.andorid.model.TestData;
 import com.yeapao.andorid.model.UserDetailsModel;
@@ -302,4 +303,15 @@ public interface YeapaoApi {
     @POST("order/createReservaTimeOrder")
     Observable<CreateReservationTimeModel> requestCreateReservationTime(@Query("warehouseId") String id, @Query("customerId") String customerId,
                                                                         @Query("time") String time, @Query("warehouseName") String warehoustName);
+
+    //    舱详情
+    @POST("order/selectActualTime")
+    Observable<SelectActualTimeModel> requestSelectActualTime(@Query("deviceNo") String deviceNo, @Query("customerId") String customerId,
+                                                              @Query("type") String type);
+
+    //    请求开门
+    @POST("order/requestDoor")
+    Observable<NormalDataModel> requestOpenDoor(@Query("deviceNo") String deviceNo, @Query("customerId") String customerId,
+                                                @Query("type") String type);
+
 }

@@ -8,7 +8,13 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.scottfu.sflibrary.util.ToastManager;
 import com.yeapao.andorid.R;
+import com.yeapao.andorid.dialog.CangInputCallback;
+import com.yeapao.andorid.dialog.DialogCallback;
+import com.yeapao.andorid.dialog.DialogUtils;
+import com.yeapao.andorid.homepage.map.repository.CangDetailActivity;
+import com.yeapao.andorid.homepage.myself.tab.food.TestActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -74,6 +80,10 @@ public class TestScanActivity extends AppCompatActivity implements QRCodeView.De
         Toast.makeText(this, result, Toast.LENGTH_SHORT).show();
         vibrate();
         mQRCodeView.stopSpot();
+
+        CangDetailActivity.start(TestScanActivity.this,result,"1");
+
+
     }
 
     @Override
@@ -132,6 +142,17 @@ public class TestScanActivity extends AppCompatActivity implements QRCodeView.De
                 finish();
                 break;
             case R.id.iv_input_code:
+                DialogUtils.showCangInputDialog(TestScanActivity.this, new CangInputCallback() {
+                    @Override
+                    public void getContent(String content) {
+                        if (content == null || content.equals("")) {
+                            ToastManager.showToast(TestScanActivity.this, "请重新输入健身舱ID");
+                        } else {
+                            ToastManager.showToast(TestScanActivity.this, content);
+                            CangDetailActivity.start(TestScanActivity.this,content,"2");
+                        }
+                    }
+                });
                 break;
             case R.id.iv_open_light:
                 if (!lightFlag) {

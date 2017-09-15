@@ -133,8 +133,8 @@ public class WareHouseListModel {
             private double longitude;
             private double latitude;
             private String isMyReserva;
-            private Object reservaStartTime;
-            private Object duration;
+            private String reservaStartTime;
+            private String duration;
             private String isOfflineReminder;
             private String isMyUserWarehouse;
 
@@ -210,19 +210,19 @@ public class WareHouseListModel {
                 this.isMyReserva = isMyReserva;
             }
 
-            public Object getReservaStartTime() {
+            public String getReservaStartTime() {
                 return reservaStartTime;
             }
 
-            public void setReservaStartTime(Object reservaStartTime) {
+            public void setReservaStartTime(String reservaStartTime) {
                 this.reservaStartTime = reservaStartTime;
             }
 
-            public Object getDuration() {
+            public String getDuration() {
                 return duration;
             }
 
-            public void setDuration(Object duration) {
+            public void setDuration(String duration) {
                 this.duration = duration;
             }
 
