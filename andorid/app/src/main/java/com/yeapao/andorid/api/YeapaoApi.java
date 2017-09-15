@@ -1,5 +1,6 @@
 package com.yeapao.andorid.api;
 
+import com.yeapao.andorid.model.ActialOrderDetailModel;
 import com.yeapao.andorid.model.AliRefundModel;
 import com.yeapao.andorid.model.BodySideDetailModel;
 import com.yeapao.andorid.model.BodySideForthBackModel;
@@ -13,6 +14,7 @@ import com.yeapao.andorid.model.BodySideTwoGetBackModel;
 import com.yeapao.andorid.model.CallPaymentModel;
 import com.yeapao.andorid.model.ClassBeginsModel;
 import com.yeapao.andorid.model.CookListDetailModel;
+import com.yeapao.andorid.model.CreateActualOrdersModel;
 import com.yeapao.andorid.model.CreateReservationTimeModel;
 import com.yeapao.andorid.model.DepositOrdersModel;
 import com.yeapao.andorid.model.FoodInfoModel;
@@ -313,5 +315,14 @@ public interface YeapaoApi {
     @POST("order/requestDoor")
     Observable<NormalDataModel> requestOpenDoor(@Query("deviceNo") String deviceNo, @Query("customerId") String customerId,
                                                 @Query("type") String type);
+
+    //    创建舱订单
+    @POST("order/createActualOrders")
+    Observable<CreateActualOrdersModel> requestCreateActualOrders(@Query("customerId") String customerId, @Query("wareHouseId") String wareHouseId,
+                                                                  @Query("type") String type);
+
+    //    运动支付
+    @POST("order/actualOrdersDetail")
+    Observable<ActialOrderDetailModel> requestActualOrderDetail(@Query("actualOrdersId") String actualOrderId, @Query("totalTime") String totalTime);
 
 }

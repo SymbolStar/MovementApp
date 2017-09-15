@@ -458,6 +458,10 @@
             android:name=".homepage.map.repository.CangDetailActivity"
             android:theme="@style/AppTheme.NoActionBar" />
 
+        <activity
+            android:name=".homepage.map.repository.StartSportActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+
     </application>
 
 </manifest>

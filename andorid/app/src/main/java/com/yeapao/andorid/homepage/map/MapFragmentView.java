@@ -585,7 +585,8 @@ public class MapFragmentView extends BaseFragment implements SensorEventListener
             case R.id.iv_find_qr:
                 if (GlobalDataYepao.isLogin()) {
                     if (mWareHouseList.getData().getIsQualified().equals("1")) {
-                        startActivity(new Intent(getContext(), TestScanActivity.class));
+                        TestScanActivity.start(getContext(), "0");
+//                        startActivity(new Intent(getContext(), TestScanActivity.class));
                     } else {
                         DepositActivity.start(getContext());
                     }

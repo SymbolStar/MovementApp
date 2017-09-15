@@ -139,9 +139,10 @@ public class MainActivity extends PermissionActivity {
                         showMsg.append(KEY_EXTRAS + " : " + extras + "\n");
                     }
 //                    toast key
-                    ToastManager.showToast(getContext(),showMsg.toString());
+                    LogUtil.e("Jpush_MessageReceiver","-------"+messge);
                 }
             } catch (Exception e){
+
             }
         }
     }
@@ -155,6 +156,7 @@ public class MainActivity extends PermissionActivity {
         setTheme(R.style.AppTheme_NoActionBar);
         setContentView(R.layout.activity_main);
 
+        isForeground = true;
 
 
 
@@ -236,6 +238,7 @@ public class MainActivity extends PermissionActivity {
         super.onDestroy();
         unsubscribe();
         ActivityCollector.removeActivity(this);
+        isForeground = false;
 
     }
 
@@ -423,7 +426,7 @@ public class MainActivity extends PermissionActivity {
             } else {
 
             }
-            JPushInterface.setAlias(this,22,GlobalDataYepao.getUser(getContext()).getPhone());
+            JPushInterface.setAlias(this,22,GlobalDataYepao.getUser(getContext()).getId());
 
 //            getNetWork(GlobalDataYepao.getUser(getContext()).getPhone(),GlobalDataYepao.getUser(getContext()).getPassword());
 //            CloudClient.doHttpRequest(getContext(), ConstantYeaPao.LOGIN,

@@ -51,4 +51,6 @@
     <string name="cang_input_code">输入建生舱ID，也可以运动哦～</string>
     <string name="cang_input_id">请输入ID</string>
     <string name="cang_input_button">立即运动</string>
+    <string name="cang_run_people">加油哦，很快就能瘦如闪电啦～</string>
+
 </resources>

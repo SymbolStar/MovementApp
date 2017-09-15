@@ -1,5 +1,7 @@
 package com.yeapao.andorid.homepage.map;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +10,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.scottfu.sflibrary.util.LogUtil;
 import com.scottfu.sflibrary.util.ToastManager;
 import com.yeapao.andorid.R;
 import com.yeapao.andorid.dialog.CangInputCallback;
@@ -36,10 +39,28 @@ public class TestScanActivity extends AppCompatActivity implements QRCodeView.De
 
     private boolean lightFlag = false;
 
+    private String type = "";
+
+
+    public static void start(Context context, String type) {
+        Intent intent = new Intent();
+        intent.putExtra("type", type);
+        intent.setClass(context, TestScanActivity.class);
+        context.startActivity(intent);
+
+    }
+
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scan_qrcode);
         ButterKnife.bind(this);
+
+        Intent intent = getIntent();
+        type = intent.getStringExtra("type");
+
+        LogUtil.e(TAG,type);
+
 //        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
 
         mQRCodeView = (ZXingView) findViewById(R.id.zxingview);
@@ -81,7 +102,12 @@ public class TestScanActivity extends AppCompatActivity implements QRCodeView.De
         vibrate();
         mQRCodeView.stopSpot();
 
-        CangDetailActivity.start(TestScanActivity.this,result,"1");
+        if (type.equals("1")) {
+                //TODO 开门操作
+        } else {
+            CangDetailActivity.start(TestScanActivity.this,result,"1");
+        }
+
 
 
     }
