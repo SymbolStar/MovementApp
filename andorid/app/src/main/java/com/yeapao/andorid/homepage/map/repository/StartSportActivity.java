@@ -4,10 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.scottfu.sflibrary.util.LogUtil;
 import com.yeapao.andorid.R;
 import com.yeapao.andorid.base.BaseActivity;
 import com.yeapao.andorid.dialog.DialogCallback;
@@ -39,7 +41,11 @@ public class StartSportActivity extends BaseActivity {
     ImageView ivCangFinish;
 
     //   test time
-    private String startTime_n = "2017-09-15 16:20:00";
+    private String startTime_n = "2017-09-16 15:20:00";
+
+    private String currentSS;
+    private String currentMM;
+
 
     private Date currentDate;
 
@@ -52,6 +58,7 @@ public class StartSportActivity extends BaseActivity {
 
 
     public static void start(Context context, String actualOrdersId, String startDate) {
+        LogUtil.e("startSportActivity",actualOrdersId+"   "+startDate);
         Intent intent = new Intent();
         intent.putExtra("actualOrdersId", actualOrdersId);
         intent.putExtra("startDate", startDate);
@@ -75,7 +82,7 @@ public class StartSportActivity extends BaseActivity {
     private void initView() {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         ParsePosition pos = new ParsePosition(0);
-        long startTime = formatter.parse(startTime_n, pos).getTime();
+        long startTime = formatter.parse(startDate, pos).getTime();
         currentDate = new Date();
         long currentTime = currentDate.getTime();
         countTime = currentTime - startTime;
@@ -91,6 +98,21 @@ public class StartSportActivity extends BaseActivity {
         date = sdf.format(time);
 
 //        TODO  换算成分钟
+        long ss = time / 1000;
+        long ss1 = ss % 60;
+        long mm = ss / 60;
+
+        currentSS = String.valueOf(ss1);
+        if (currentSS.length() == 1) {
+            currentSS = "0" + currentSS;
+        }
+        currentMM = String.valueOf(mm);
+        if (currentMM.length() == 1) {
+            currentMM = "0" + currentMM;
+        }
+
+
+        LogUtil.e(TAG,String.valueOf(ss)+"   "+currentSS+"  "+currentMM);
 
         return date;
 
@@ -154,6 +176,7 @@ public class StartSportActivity extends BaseActivity {
                     @Override
                     public void onRightClick() {
                         timer.cancel();
+                        SportFinishActivity.start(getContext(),actualId,currentMM);
                     }
                 });
                 break;

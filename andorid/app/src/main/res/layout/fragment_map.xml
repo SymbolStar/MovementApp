@@ -172,6 +172,21 @@
 
     </FrameLayout>
 
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/tv_account_cang_status"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginTop="44dp"
+        android:background="#ff9330"
+        android:gravity="center"
+        android:text="TextView"
+        android:textColor="@color/bg_white"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/mv_repository" />
 
 
 </android.support.constraint.ConstraintLayout>

@@ -320,9 +320,13 @@ public interface YeapaoApi {
     @POST("order/createActualOrders")
     Observable<CreateActualOrdersModel> requestCreateActualOrders(@Query("customerId") String customerId, @Query("wareHouseId") String wareHouseId,
                                                                   @Query("type") String type);
-
+    //    创建舱订单2
+    @POST("order/createActualOrders")
+    Observable<CreateActualOrdersModel> requestCreateActualOrdersV2(@Query("customerId") String customerId, @Query("wareHouseId") String wareHouseId);
     //    运动支付
     @POST("order/actualOrdersDetail")
     Observable<ActialOrderDetailModel> requestActualOrderDetail(@Query("actualOrdersId") String actualOrderId, @Query("totalTime") String totalTime);
+
+
 
 }

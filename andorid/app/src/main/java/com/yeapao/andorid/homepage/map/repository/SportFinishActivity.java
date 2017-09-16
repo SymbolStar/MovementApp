@@ -29,7 +29,7 @@ import com.yeapao.andorid.R;
 import com.yeapao.andorid.api.ConstantYeaPao;
 import com.yeapao.andorid.api.Network;
 import com.yeapao.andorid.base.BaseActivity;
-import com.yeapao.andorid.dialog.DialogUtils;
+import com.yeapao.andorid.model.ActialOrderDetailModel;
 import com.yeapao.andorid.model.CallPaymentModel;
 
 import java.util.Map;
@@ -42,36 +42,35 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 /**
- * Created by fujindong on 2017/9/13.
+ * Created by fujindong on 2017/9/16.
  */
 
-public class ReservationCangPayActivity extends BaseActivity {
+public class SportFinishActivity extends BaseActivity {
 
-    private static final String TAG = "ReservationCangPayActivity";
-    @BindView(R.id.tv_reservation_price)
-    TextView tvReservationPrice;
-    @BindView(R.id.tv_reservation_time)
-    TextView tvReservationTime;
-    @BindView(R.id.tv_order_code)
-    TextView tvOrderCode;
-    @BindView(R.id.tv_cang_code)
-    TextView tvCangCode;
+    private static final String TAG = "SportFinishActivity";
+    @BindView(R.id.tv_pay)
+    TextView tvPay;
+    @BindView(R.id.tv_fit_pay_price)
+    TextView tvFitPayPrice;
+    @BindView(R.id.tv_fit_time)
+    TextView tvFitTime;
+    @BindView(R.id.tv_fit_order_code)
+    TextView tvFitOrderCode;
+    @BindView(R.id.tv_fit_cang_id)
+    TextView tvFitCangId;
     @BindView(R.id.cb_wechat_pay)
     CheckBox cbWechatPay;
     @BindView(R.id.cb_alipay)
     CheckBox cbAlipay;
-    @BindView(R.id.tv_pay)
-    TextView tvPay;
 
 
-    private String price;
-    private String time;
-    private String orderCode;
-    private String warehouseName;
+    private ActialOrderDetailModel actialOrderDetailModel = new ActialOrderDetailModel();
     private String payMentType;
+    private String actualOrderId;
+    private String totalTime;
 
 
-//    支付
+    //    支付
     private static final int SDK_PAY_FLAG = 1;
     private static final int SDK_AUTH_FLAG = 2;
 
@@ -79,31 +78,28 @@ public class ReservationCangPayActivity extends BaseActivity {
     IWXAPI api;
 
 
-    public static void start(Context context, String price, String time, String reservationTimeOrderCode,
-                             String warehouseName) {
+    public static void start(Context context, String actualOrdersId, String totalTime) {
         Intent intent = new Intent();
-        intent.putExtra("price", price);
-        intent.putExtra("time", time);
-        intent.putExtra("order_code", reservationTimeOrderCode);
-        intent.putExtra("warehouseName", warehouseName);
-        intent.setClass(context, ReservationCangPayActivity.class);
-        ((Activity)context).startActivityForResult(intent,11);
+        intent.putExtra("actualOrderId", actualOrdersId);
+        intent.putExtra("totalTime", totalTime);
+        intent.setClass(context, SportFinishActivity.class);
+        context.startActivity(intent);
     }
+
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_reservation_pay);
+        setContentView(R.layout.activity_fit_pay);
         ButterKnife.bind(this);
         initTopBar();
-        Intent intent = getIntent();
-        price = intent.getStringExtra("price");
-        time = intent.getStringExtra("time");
-        orderCode = intent.getStringExtra("order_code");
-        warehouseName = intent.getStringExtra("warehouseName");
-        initView();
 
+        Intent intent = getIntent();
+        actualOrderId = intent.getStringExtra("actualOrderId");
+        totalTime = intent.getStringExtra("totalTime");
+
+        getNetWork(actualOrderId,totalTime);
 
         if (numberReceiver == null) {
             numberReceiver = new MessageSendReceiver();
@@ -111,20 +107,13 @@ public class ReservationCangPayActivity extends BaseActivity {
         getContext().registerReceiver(numberReceiver, new IntentFilter("wxPay.action"));
         api = WXAPIFactory.createWXAPI(getContext(), ConstantYeaPao.APP_ID, true);
         api.registerApp(ConstantYeaPao.APP_ID);
-    }
 
-    private void initView() {
-        tvReservationTime.setText(time+"分钟");
-        tvReservationPrice.setText(getContext().getResources().getString(R.string.RMB) + price);
-        tvOrderCode.setText(orderCode);
-        tvCangCode.setText(warehouseName);
     }
 
     @Override
     protected void initTopBar() {
-        initTitle("预约支付");
+        initTitle("支付");
         initBack();
-
     }
 
     @Override
@@ -132,9 +121,55 @@ public class ReservationCangPayActivity extends BaseActivity {
         return this;
     }
 
-    @OnClick({R.id.cb_wechat_pay, R.id.cb_alipay,R.id.tv_pay})
+    private void getNetWork(String actualOrdersId, String totalTime) {
+        LogUtil.e(TAG, actualOrdersId + "___" + totalTime);
+        subscription = Network.getYeapaoApi()
+                .requestActualOrderDetail(actualOrdersId, totalTime)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(modelObserver);
+    }
+
+    Observer<ActialOrderDetailModel> modelObserver = new Observer<ActialOrderDetailModel>() {
+        @Override
+        public void onCompleted() {
+
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            LogUtil.e(TAG, e.toString());
+
+        }
+
+        @Override
+        public void onNext(ActialOrderDetailModel model) {
+            LogUtil.e(TAG, model.getErrmsg());
+            if (model.getErrmsg().equals("ok")) {
+                actialOrderDetailModel = model;
+                initView();
+            }
+        }
+    };
+
+    private void initView() {
+        tvFitPayPrice.setText(getContext().getResources().getString(R.string.RMB)+actialOrderDetailModel.getData().getPrice());
+        tvFitTime.setText(actialOrderDetailModel.getData().getTime());
+        tvFitOrderCode.setText(actialOrderDetailModel.getData().getActualOrdersCode());
+        tvFitCangId.setText(actialOrderDetailModel.getData().getWarehouseName());
+    }
+
+    @OnClick({R.id.tv_pay, R.id.cb_wechat_pay, R.id.cb_alipay})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            case R.id.tv_pay:
+                if (cbWechatPay.isChecked() || cbAlipay.isChecked()) {
+                    getPayment(actialOrderDetailModel.getData().getPrice(), actialOrderDetailModel.getData().getActualOrdersCode(), payMentType);
+                } else {
+                    ToastManager.showToast(getContext(),"请选择支付方式");
+                }
+
+                break;
             case R.id.cb_wechat_pay:
                 if (cbWechatPay.isChecked()) {
                     cbAlipay.setChecked(false);
@@ -147,15 +182,14 @@ public class ReservationCangPayActivity extends BaseActivity {
                     payMentType = "1";
                 }
                 break;
-            case R.id.tv_pay:
-                if (cbWechatPay.isChecked() || cbAlipay.isChecked()) {
-                    getPayment(price, orderCode, payMentType);
-                } else {
-                    ToastManager.showToast(getContext(),"请选择支付方式");
-                }
-                break;
         }
     }
+
+
+
+
+
+
 
 
 
@@ -214,7 +248,7 @@ public class ReservationCangPayActivity extends BaseActivity {
 
                         @Override
                         public void run() {
-                            PayTask alipay = new PayTask(ReservationCangPayActivity.this);
+                            PayTask alipay = new PayTask(SportFinishActivity.this);
                             Map<String, String> result = alipay.payV2(orderInfo,true);
                             Log.e("msp", result.toString());
                             Message msg = new Message();
@@ -265,7 +299,6 @@ public class ReservationCangPayActivity extends BaseActivity {
                     if (TextUtils.equals(resultStatus, "9000")) {
                         // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
                         Toast.makeText(getContext(), "支付成功", Toast.LENGTH_SHORT).show();
-                        ReservationCangPayActivity.this.setResult(1);
                         ((Activity)getContext()).finish();
                     } else {
                         // 该笔订单真实的支付结果，需要依赖服务端的异步通知。
@@ -302,18 +335,19 @@ public class ReservationCangPayActivity extends BaseActivity {
 
 
 
+
+
+
+
+
     class MessageSendReceiver extends BroadcastReceiver {
 
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equals("wxPay.action")) {
-                ReservationCangPayActivity.this.setResult(1);
                 ((Activity)getContext()).finish();
             }
         }
     }
-
-
-
 
 }

@@ -87,7 +87,10 @@ public class CangDetailActivity extends BaseActivity {
                     JpushMessageFlag = true;
                     startFitFlag++;
                     if (startFitFlag == 1) {
-                        StartSportActivity.start(getContext(),"","");
+                        LogUtil.e(TAG, deviceNo + "   " + type);
+                        requestCreateCangOrders(GlobalDataYepao.getUser(getContext()).getId(),mCangDetail.getData().getWarehouseId(),
+                                "1");
+
                     }
 
 
@@ -271,6 +274,14 @@ public class CangDetailActivity extends BaseActivity {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(createActualOrdersModelObserver);
     }
+    private void requestCreateCangOrdersV2(String customerId, String wareHouseId) {
+        LogUtil.e(TAG, customerId + wareHouseId );
+        subscription = Network.getYeapaoApi()
+                .requestCreateActualOrdersV2(customerId,wareHouseId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(createActualOrdersModelObserver);
+    }
 
                   Observer<CreateActualOrdersModel> createActualOrdersModelObserver = new Observer<CreateActualOrdersModel>() {
                     @Override
@@ -288,7 +299,8 @@ public class CangDetailActivity extends BaseActivity {
                     public void onNext(CreateActualOrdersModel model) {
                         LogUtil.e(TAG, model.getErrmsg());
                         if (model.getErrmsg().equals("ok")) {
-
+                            StartSportActivity.start(getContext(),model.getData().getActualOrdersId(),model.getData().getStartDate());
+                            finish();
                         }
                     }
                 };

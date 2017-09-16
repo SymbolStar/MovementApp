@@ -129,6 +129,8 @@ public class MapFragmentView extends BaseFragment implements SensorEventListener
     TextView tvReservationTime;
     @BindView(R.id.tv_cang_hint)
     TextView tvCangHint;
+    @BindView(R.id.tv_account_cang_status)
+    TextView tvAccountCangStatus;
 
     Unbinder unbinder;
     private MapView mMapView;
@@ -409,7 +411,6 @@ public class MapFragmentView extends BaseFragment implements SensorEventListener
     }
 
     private void initView(View view) {
-
         mConstraintLayout = (ConstraintLayout) view.findViewById(R.id.cl_map);
         reservationFrameLayout = (FrameLayout) view.findViewById(R.id.fl_reservation);
         applyConstraintSet.clone(mConstraintLayout);
@@ -675,6 +676,19 @@ public class MapFragmentView extends BaseFragment implements SensorEventListener
             LogUtil.e(TAG+"WareHouseListModel", model.getErrmsg());
             if (model.getErrmsg().equals("ok")) {
                 mWareHouseList = model;
+                if (mWareHouseList.getData().getWarehouseId() != 0) {
+                    tvAccountCangStatus.setVisibility(View.VISIBLE);
+                    tvAccountCangStatus.setText(getContext().getResources().getString(R.string.account_cang_status));
+                } else {
+                    tvAccountCangStatus.setVisibility(View.GONE);
+                }
+                if (mWareHouseList.getData().getIsUnpaid() == 1) {
+                    tvAccountCangStatus.setVisibility(View.VISIBLE);
+                    tvAccountCangStatus.setText(getContext().getResources().getString(R.string.account_cang_status2));
+                } else {
+                    tvAccountCangStatus.setVisibility(View.GONE);
+                }
+
                 addMarkers();
             }
         }

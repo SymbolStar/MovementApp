@@ -53,4 +53,11 @@
     <string name="cang_input_button">立即运动</string>
     <string name="cang_run_people">加油哦，很快就能瘦如闪电啦～</string>
 
+    <string name="cang_pay1">使用时长</string>
+    <string name="cang_pay2">订单编号</string>
+    <string name="cang_pay3">健身舱编号</string>
+
+    <string name="account_cang_status">您有正在进行的运动，点击查看</string>
+    <string name="account_cang_status2">您有未支付的运动订单，点击支付</string>
+
 </resources>
