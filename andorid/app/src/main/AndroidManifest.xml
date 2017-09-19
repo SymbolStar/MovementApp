@@ -465,6 +465,8 @@
         <activity
             android:name=".homepage.map.repository.SportFinishActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".homepage.myself.orders.MyselfOrdersActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
 
     </application>
 
