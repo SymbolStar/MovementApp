@@ -24,7 +24,6 @@ public class MyselfOrdersActivity extends BaseActivity {
     private CangReservationFragment cangReservationFragment;
     private OrderPagerAdapter orderPagerAdapter;
 
-    public static void
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
