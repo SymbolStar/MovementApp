@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.scottfu.sflibrary.recyclerview.OnRecyclerViewClickListener;
 import com.yeapao.andorid.R;
 import com.yeapao.andorid.model.ActualOrderListModel;
+import com.yeapao.andorid.model.CangReservationOrderListModel;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -19,7 +20,7 @@ import butterknife.ButterKnife;
  * Created by fujindong on 2017/9/18.
  */
 
-public class MyselfCangOrderMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class MyselfCangReservationMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final String TAG = "MyselfCangOrderMessageAdapter";
 
@@ -30,8 +31,8 @@ public class MyselfCangOrderMessageAdapter extends RecyclerView.Adapter<Recycler
 
     private CangOrderStatusListener cangOrderStatusListener;
 
-    private   ActualOrderListModel actualOrderListModel = new ActualOrderListModel();
 
+    private CangReservationOrderListModel cangReservationOrderListModel = new CangReservationOrderListModel();
 
     public void setCangOrderStatusListener(CangOrderStatusListener listener) {
         cangOrderStatusListener = listener;
@@ -42,10 +43,10 @@ public class MyselfCangOrderMessageAdapter extends RecyclerView.Adapter<Recycler
     }
 
 
-    public MyselfCangOrderMessageAdapter(Context context, ActualOrderListModel model) {
+    public MyselfCangReservationMessageAdapter(Context context, CangReservationOrderListModel model) {
         mContext = context;
         mInflater = LayoutInflater.from(context);
-        actualOrderListModel = model;
+        cangReservationOrderListModel = model;
     }
 
 
@@ -58,8 +59,8 @@ public class MyselfCangOrderMessageAdapter extends RecyclerView.Adapter<Recycler
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 
-        ((ViewHolder)holder).tvMyOrderTitle.setText("健身舱使用");
-        if (actualOrderListModel.getData().get(position).getStatus().equals("1")) {
+        ((ViewHolder)holder).tvMyOrderTitle.setText("健身舱预约");
+        if (cangReservationOrderListModel.getData().get(position).getStatus().equals("1")) {
             ((ViewHolder) holder).tvNPay.setText("未付款");
             ((ViewHolder) holder).tvNPay.setTextColor(mContext.getResources().getColor(R.color.yellow_text_color));
             ((ViewHolder) holder).tvDeleteOrder.setText("继续支付");
@@ -72,16 +73,16 @@ public class MyselfCangOrderMessageAdapter extends RecyclerView.Adapter<Recycler
             ((ViewHolder) holder).tvDeleteOrder.setTextColor(mContext.getResources().getColor(R.color.text_hint_color));
             ((ViewHolder) holder).tvDeleteOrder.setBackground(mContext.getResources().getDrawable(R.drawable.my_order_button_n_shape));
         }
-        ((ViewHolder) holder).tvTime.setText("使用时长  "+String.valueOf(actualOrderListModel.getData().get(position).getDuration())+"分钟");
+        ((ViewHolder) holder).tvTime.setText("预约时长  "+String.valueOf(cangReservationOrderListModel.getData().get(position).getDuration())+"分钟");
 
-        ((ViewHolder) holder).tvSum.setText(mContext.getResources().getString(R.string.RMB)+actualOrderListModel.getData()
+        ((ViewHolder) holder).tvSum.setText(mContext.getResources().getString(R.string.RMB)+cangReservationOrderListModel.getData()
         .get(position).getPrice());
 
     }
 
     @Override
     public int getItemCount() {
-        return actualOrderListModel.getData().size();
+        return cangReservationOrderListModel.getData().size();
     }
 
     static class ViewHolder extends  RecyclerView.ViewHolder implements View.OnClickListener{

@@ -1,6 +1,7 @@
 package com.yeapao.andorid.homepage.myself.orders;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -23,6 +24,13 @@ public class MyselfOrdersActivity extends BaseActivity {
     private CangOrderFragment cangOrderFragment;
     private CangReservationFragment cangReservationFragment;
     private OrderPagerAdapter orderPagerAdapter;
+
+
+    public static void start(Context context) {
+        Intent intent = new Intent();
+        intent.setClass(context, MyselfOrdersActivity.class);
+        context.startActivity(intent);
+    }
 
 
     @Override

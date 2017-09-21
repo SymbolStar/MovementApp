@@ -1,6 +1,8 @@
 package com.yeapao.andorid.api;
 
 import com.yeapao.andorid.model.ActialOrderDetailModel;
+import com.yeapao.andorid.model.ActualOrderDetailModel;
+import com.yeapao.andorid.model.ActualOrderListModel;
 import com.yeapao.andorid.model.AliRefundModel;
 import com.yeapao.andorid.model.BodySideDetailModel;
 import com.yeapao.andorid.model.BodySideForthBackModel;
@@ -12,6 +14,8 @@ import com.yeapao.andorid.model.BodySideThreeGetDataModel;
 import com.yeapao.andorid.model.BodySideTwoBackModel;
 import com.yeapao.andorid.model.BodySideTwoGetBackModel;
 import com.yeapao.andorid.model.CallPaymentModel;
+import com.yeapao.andorid.model.CangDeleteActualOrdersModel;
+import com.yeapao.andorid.model.CangReservationOrderListModel;
 import com.yeapao.andorid.model.ClassBeginsModel;
 import com.yeapao.andorid.model.CookListDetailModel;
 import com.yeapao.andorid.model.CreateActualOrdersModel;
@@ -322,11 +326,34 @@ public interface YeapaoApi {
                                                                   @Query("type") String type);
     //    创建舱订单2
     @POST("order/createActualOrders")
-    Observable<CreateActualOrdersModel> requestCreateActualOrdersV2(@Query("customerId") String customerId, @Query("wareHouseId") String wareHouseId);
+    Observable<CreateActualOrdersModel> requestCreateActualOrdersV2(@Query("customerId") String customerId, @Query("wareHouseId") String wareHouseIdActual);
     //    运动支付
     @POST("order/actualOrdersDetail")
     Observable<ActialOrderDetailModel> requestActualOrderDetail(@Query("actualOrdersId") String actualOrderId, @Query("totalTime") String totalTime);
 
+    //舱运动订单列表
+    @POST("order/actualOrderList")
+    Observable<ActualOrderListModel> requestActualOrderList(@Query("customerId") String customerId);
 
+    //    运动舱订单详情
+    @POST("order/actualOrderDetail")
+    Observable<ActualOrderDetailModel> requestActualOrderDetail(@Query("actualOrderId") String id);
+
+
+    //    预约舱订单
+    @POST("order/reservationOrderList")
+    Observable<CangReservationOrderListModel> requestCangReservationOrderList(@Query("customerId") String id);
+
+    //    预约舱详情
+    @POST("order/reservationOrderDetail")
+    Observable<ActualOrderDetailModel> requestCangReservationDetail(@Query("reservaOrdersId") String id);
+
+    //    舱预约订单删除
+    @POST("order/delReserOrders")
+    Observable<NormalDataModel> requestDeleteCangReservationOrders(@Query("reservaOrdersId") String id);
+
+    //    舱运动订单删除
+    @POST("order/delActualOrders")
+    Observable<NormalDataModel> requestDeleteActualOrders(@Query("actualOrderId") String id);
 
 }

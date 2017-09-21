@@ -468,6 +468,13 @@
         <activity android:name=".homepage.myself.orders.MyselfOrdersActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
 
+        <activity
+            android:name=".homepage.myself.orders.CangOrderPayActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".homepage.myself.orders.CangOrderDetailActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+
     </application>
 
 </manifest>

@@ -33,9 +33,9 @@ public class OrderPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
 
         if (position == 1) {
-            return orderFragment;
-        } else {
             return cangReservationFragment;
+        } else {
+            return orderFragment;
         }
 
     }
