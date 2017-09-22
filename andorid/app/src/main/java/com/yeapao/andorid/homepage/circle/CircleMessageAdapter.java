@@ -1,7 +1,9 @@
 package com.yeapao.andorid.homepage.circle;
 
 import android.content.Context;
+import android.support.v4.os.TraceCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,8 +13,14 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.scottfu.sflibrary.recyclerview.GridSpacingItemDecoration;
 import com.scottfu.sflibrary.recyclerview.OnRecyclerViewClickListener;
+import com.scottfu.sflibrary.util.GlideUtil;
+import com.scottfu.sflibrary.util.ScreenUtil;
 import com.yeapao.andorid.R;
+import com.yeapao.andorid.homepage.circle.circledetail.CircleViewPager;
+import com.yeapao.andorid.homepage.myself.MyselfMessageAdapter;
+import com.yeapao.andorid.model.CircleListModel;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -24,20 +32,34 @@ import me.relex.circleindicator.CircleIndicator;
 
 public class CircleMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private Context mContext;
+    private static Context mContext;
     private LayoutInflater inflater;
     private OnRecyclerViewClickListener mListener;
 
     private static final int HEADER_TYPE = 0;
     private static final int GROUP_TYPE = 1;
     private static final int CIRCLE_TYPE = 2;
+    private static final int FOOTER_TYPE = 3;
+
+    private CircleListModel mCircleListModel = new CircleListModel();
+
+    private GlideUtil glideUtil = new GlideUtil();
 
 
-    public CircleMessageAdapter(Context context) {
+    public CircleMessageAdapter(Context context,CircleListModel circleListModel) {
         mContext = context;
         inflater = LayoutInflater.from(context);
+        mCircleListModel = circleListModel;
     }
 
+    public void loadMore(CircleListModel model) {
+        mCircleListModel.getData().getCommunityList().addAll(model.getData().getCommunityList());
+        notifyDataSetChanged();
+    }
+
+    public void loadNothing() {
+//        TODO 取消尾部加载tab
+    }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -48,12 +70,97 @@ public class CircleMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
                 return new GroupChatListViewHolder(inflater.inflate(R.layout.item_circle_group_chat, parent, false));
             case CIRCLE_TYPE:
                 return new CircleItemViewHolder(inflater.inflate(R.layout.item_circle_card, parent, false),mListener);
+            case FOOTER_TYPE:
+                return new FooterViewHolder(inflater.inflate(R.layout.list_footer, parent, false));
+
         }
         return null;
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+
+        if (holder instanceof HeaderViewHolder) {
+            ((HeaderViewHolder) holder).vpCircleImage.setAdapter(new CircleViewPager(mContext, mCircleListModel.getData().getBannerList()));
+            ((HeaderViewHolder) holder).ciCircleIndicator.setViewPager(((HeaderViewHolder) holder).vpCircleImage);
+            ((HeaderViewHolder) holder).vpCircleImage.setCurrentItem(0);
+        } else if (holder instanceof CircleItemViewHolder) {
+
+            switch (mCircleListModel.getData().getCommunityList().get(position - 1).getGrade()) {
+                case 1:
+                    ((CircleItemViewHolder) holder).ivCircleBadge.setImageDrawable(mContext.getResources().getDrawable(R.drawable.level1));
+                    break;
+                case 2:
+                    ((CircleItemViewHolder) holder).ivCircleBadge.setImageDrawable(mContext.getResources().getDrawable(R.drawable.level2));
+                    break;
+                case 3:
+                    ((CircleItemViewHolder) holder).ivCircleBadge.setImageDrawable(mContext.getResources().getDrawable(R.drawable.level3));
+                    break;
+                case 4:
+                    ((CircleItemViewHolder) holder).ivCircleBadge.setImageDrawable(mContext.getResources().getDrawable(R.drawable.level4));
+                    break;
+                case 5:
+                    ((CircleItemViewHolder) holder).ivCircleBadge.setImageDrawable(mContext.getResources().getDrawable(R.drawable.level5));
+                    break;
+                case 6:
+                    ((CircleItemViewHolder) holder).ivCircleBadge.setImageDrawable(mContext.getResources().getDrawable(R.drawable.level6));
+                    break;
+                case 7:
+                    ((CircleItemViewHolder) holder).ivCircleBadge.setImageDrawable(mContext.getResources().getDrawable(R.drawable.level7));
+                    break;
+                case 8:
+                    ((CircleItemViewHolder) holder).ivCircleBadge.setImageDrawable(mContext.getResources().getDrawable(R.drawable.level8));
+                    break;
+                case 9:
+                    ((CircleItemViewHolder) holder).ivCircleBadge.setImageDrawable(mContext.getResources().getDrawable(R.drawable.level9));
+                    break;
+                case 10:
+                    ((CircleItemViewHolder) holder).ivCircleBadge.setImageDrawable(mContext.getResources().getDrawable(R.drawable.level10));
+                    break;
+                case 11:
+                    ((CircleItemViewHolder) holder).ivCircleBadge.setImageDrawable(mContext.getResources().getDrawable(R.drawable.level11));
+                    break;
+                case 12:
+                    ((CircleItemViewHolder) holder).ivCircleBadge.setImageDrawable(mContext.getResources().getDrawable(R.drawable.level12));
+                    break;
+                case 13:
+                    ((CircleItemViewHolder) holder).ivCircleBadge.setImageDrawable(mContext.getResources().getDrawable(R.drawable.level13));
+                    break;
+                case 14:
+                    ((CircleItemViewHolder) holder).ivCircleBadge.setImageDrawable(mContext.getResources().getDrawable(R.drawable.level14));
+                    break;
+                case 15:
+                    ((CircleItemViewHolder) holder).ivCircleBadge.setImageDrawable(mContext.getResources().getDrawable(R.drawable.level15));
+                    break;
+            }
+            ((CircleItemViewHolder) holder).tvNickName.setText(mCircleListModel.getData().getCommunityList().get(position - 1).getUserName());
+            ((CircleItemViewHolder) holder).tvContent.setText(mCircleListModel.getData().getCommunityList().get(position - 1).getContent());
+            ((CircleItemViewHolder) holder).tvComment.setText(String.valueOf(mCircleListModel.getData().getCommunityList().get(position - 1).getCommentNumber()));
+            ((CircleItemViewHolder) holder).tvFinger.setText(String.valueOf(mCircleListModel.getData().getCommunityList().get(position - 1).getThumbsUp()));
+            glideUtil.glideLoadingImage(mContext, mCircleListModel.getData().getCommunityList().get(position - 1).getHeadUrl(), R.drawable.y_you, ((CircleItemViewHolder) holder).ivHeader);
+            if (mCircleListModel.getData().getCommunityList().get(position - 1).getMaster().equals("1")) {
+                ((CircleItemViewHolder) holder).ivMaster.setVisibility(View.VISIBLE);
+            } else {
+                ((CircleItemViewHolder) holder).ivMaster.setVisibility(View.GONE);
+            }
+
+//            if (mCircleListModel.getData().getCommunityList().get(position).getImages().size() == 1) {
+//                ((CircleItemViewHolder) holder).rvImages.setLayoutManager(new GridLayoutManager(mContext,3));
+//            } else {
+//
+//            }
+            if (mCircleListModel.getData().getCommunityList().get(position-1).getImages().size() == 0) {
+                ((CircleItemViewHolder) holder).rvImages.setVisibility(View.GONE);
+            } else {
+                ((CircleItemViewHolder) holder).rvImages.setVisibility(View.VISIBLE);
+                ((CircleItemViewHolder) holder).rvImages.setAdapter(new ImageRecyclerAdapter(mContext,mCircleListModel.getData().getCommunityList().get(position-1).getImages()));
+            }
+
+
+
+        } else {
+
+        }
 
     }
 
@@ -65,17 +172,15 @@ public class CircleMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     @Override
     public int getItemCount() {
-        return 10;
+        return mCircleListModel.getData().getCommunityList().size()+2;
     }
 
     @Override
     public int getItemViewType(int position) {
         if (position == 0) {
             return HEADER_TYPE;
-        } else if (position == 1) {
-            return GROUP_TYPE;
-        } else if (position == 2) {
-            return CIRCLE_TYPE;
+        } else if (position == mCircleListModel.getData().getCommunityList().size()+1) {
+            return FOOTER_TYPE;
         } else {
             return CIRCLE_TYPE;
         }
@@ -111,6 +216,8 @@ public class CircleMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
     static class CircleItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         private OnRecyclerViewClickListener OnRecyclerListener;
+        private ImageRecyclerAdapter imageAdapter;
+
 
         @BindView(R.id.tv_nick_name)
         TextView tvNickName;
@@ -120,23 +227,47 @@ public class CircleMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
         ImageView ivCircleBadge;
         @BindView(R.id.tv_content)
         TextView tvContent;
-        @BindView(R.id.gv_images)
-        GridView gvImages;
+        @BindView(R.id.rv_images)
+        RecyclerView rvImages;
         @BindView(R.id.tv_comment)
         TextView tvComment;
         @BindView(R.id.tv_finger)
         TextView tvFinger;
+        @BindView(R.id.iv_header)
+        ImageView ivHeader;
+        @BindView(R.id.iv_master)
+        ImageView ivMaster;
+
 
         CircleItemViewHolder(View view,OnRecyclerViewClickListener listener) {
             super(view);
             ButterKnife.bind(this, view);
             this.OnRecyclerListener = listener;
             view.setOnClickListener(this);
+            initView();
+        }
+
+        private void initView() {
+            rvImages.setLayoutManager(new GridLayoutManager(mContext,3));
+            rvImages.addItemDecoration(new GridSpacingItemDecoration(3, ScreenUtil.dpToPxInt(mContext, 8), true));
         }
 
         @Override
         public void onClick(View v) {
             OnRecyclerListener.OnItemClick(v,getLayoutPosition());
+
         }
     }
+
+
+
+    public class FooterViewHolder extends RecyclerView.ViewHolder{
+
+        public FooterViewHolder(View itemView) {
+            super(itemView);
+        }
+
+    }
+
+
 }

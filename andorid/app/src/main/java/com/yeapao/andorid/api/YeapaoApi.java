@@ -16,6 +16,7 @@ import com.yeapao.andorid.model.BodySideTwoGetBackModel;
 import com.yeapao.andorid.model.CallPaymentModel;
 import com.yeapao.andorid.model.CangDeleteActualOrdersModel;
 import com.yeapao.andorid.model.CangReservationOrderListModel;
+import com.yeapao.andorid.model.CircleListModel;
 import com.yeapao.andorid.model.ClassBeginsModel;
 import com.yeapao.andorid.model.CookListDetailModel;
 import com.yeapao.andorid.model.CreateActualOrdersModel;
@@ -355,5 +356,30 @@ public interface YeapaoApi {
     //    舱运动订单删除
     @POST("order/delActualOrders")
     Observable<NormalDataModel> requestDeleteActualOrders(@Query("actualOrderId") String id);
+
+    //    圈子首页
+    @GET("community/list")
+    Observable<CircleListModel> requestCircleListModel();
+
+    //    圈子首页分页
+    @POST("community/list")
+    Observable<CircleListModel> requestCircleListPage(@Query("page") String page);
+
+
+//    发帖
+    @Multipart
+    @POST("community/add")
+    Observable<NormalDataModel> uploadCommunity(@Query("customerId")String customerId,@Query("content")String content,
+            @Part("imageUrls\";filename=\"image.jpg") RequestBody file1);
+
+    @POST("community/add")
+    Observable<NormalDataModel> uploadCommunityNoImage(@Query("customerId")String customerId,@Query("content")String content);
+
+    //    发帖
+    @Multipart
+    @POST("community/add")
+    Observable<NormalDataModel> uploadCommunityImages(@Query("customerId")String customerId,@Query("content")String content,
+                                                @Part("imageUrls\";filename=\"image.jpg") RequestBody file1,@Part("imageUrls\";filename=\"image.jpg") RequestBody file2);
+
 
 }
