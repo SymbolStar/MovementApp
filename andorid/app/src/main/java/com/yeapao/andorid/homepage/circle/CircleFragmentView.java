@@ -147,6 +147,7 @@ public class CircleFragmentView extends BaseFragment implements CircleContract.V
                         if (currentPage < totalPage-1) {
                             getNetWork(String.valueOf(++currentPage));
                         } else {
+                            circleMessageAdapter.loadNothing();
                             ToastManager.showToast(getContext(),"没有更多");
                         }
 

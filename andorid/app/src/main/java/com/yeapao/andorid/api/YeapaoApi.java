@@ -48,12 +48,15 @@ import com.yeapao.andorid.model.VideoTypeModel;
 import com.yeapao.andorid.model.WareHouseListModel;
 import com.yeapao.andorid.model.WeXinRefundModel;
 
+import java.util.Map;
+
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
+import retrofit2.http.PartMap;
 import retrofit2.http.Query;
 import rx.Observable;
 
@@ -381,5 +384,9 @@ public interface YeapaoApi {
     Observable<NormalDataModel> uploadCommunityImages(@Query("customerId")String customerId,@Query("content")String content,
                                                 @Part("imageUrls\";filename=\"image.jpg") RequestBody file1,@Part("imageUrls\";filename=\"image.jpg") RequestBody file2);
 
+    @Multipart
+    @POST("community/add")
+    Observable<NormalDataModel> uploadCommunityImageMap(@Query("customerId") String customerId, @Query("content") String content,
+                                                        @PartMap() Map<String, RequestBody> maps);
 
 }

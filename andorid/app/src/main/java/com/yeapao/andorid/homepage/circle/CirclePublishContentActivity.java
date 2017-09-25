@@ -12,6 +12,7 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.ArrayMap;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -25,6 +26,7 @@ import com.scottfu.sflibrary.image.ImageFileUtils;
 import com.scottfu.sflibrary.util.BitmapCompressV2;
 import com.scottfu.sflibrary.util.FileUtil;
 import com.scottfu.sflibrary.util.LogUtil;
+import com.scottfu.sflibrary.util.SoftInputUtils;
 import com.scottfu.sflibrary.util.ToastManager;
 import com.scottfu.sflibrary.view.HeightGirdView;
 import com.yeapao.andorid.R;
@@ -44,12 +46,15 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import it.sephiroth.android.library.easing.Circ;
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
@@ -75,6 +80,8 @@ public class CirclePublishContentActivity extends BaseActivity {
     private Bitmap.Config mConfig = Bitmap.Config.ARGB_8888;
 
     private ImageContainerAdapter containerAdapter;
+
+    private Map<String, RequestBody> imageMap = new ArrayMap<>();
 
     List<Uri> mSelected;
     private ArrayList<File> mImageArrayList = new ArrayList<>();
@@ -137,9 +144,16 @@ public class CirclePublishContentActivity extends BaseActivity {
             }
 
         } else {
-            RequestBody file1 = RequestBody.create(MediaType.parse("multipart/form-data"), mImageArrayList.get(0));
-            RequestBody file2 = RequestBody.create(MediaType.parse("multipart/form-data"), mImageArrayList.get(1));
-            getNetWork(GlobalDataYepao.getUser(getContext()).getId(), content, file1, file2);
+
+            for (int i = 0; i < mImageArrayList.size(); i++) {
+                RequestBody file = RequestBody.create(MediaType.parse("multipart/form-data"), mImageArrayList.get(i));
+                String key = "imageUrls\";filename=\"" + mImageArrayList.get(i).getName().toString();
+                LogUtil.e(TAG,key);
+                imageMap.put(key, file);
+
+            }
+            getNetWorkImageMap(GlobalDataYepao.getUser(getContext()).getId(),content,imageMap);
+
         }
 
     }
@@ -253,6 +267,7 @@ public class CirclePublishContentActivity extends BaseActivity {
     Observer<NormalDataModel> modelObserver = new Observer<NormalDataModel>() {
         @Override
         public void onCompleted() {
+            SoftInputUtils.hideSoftinput(CirclePublishContentActivity.this);
             finish();
         }
 
@@ -266,16 +281,19 @@ public class CirclePublishContentActivity extends BaseActivity {
         public void onNext(NormalDataModel model) {
             LogUtil.e(TAG, model.getErrmsg());
             if (model.getErrmsg().equals("ok")) {
-//隐藏软键盘
-                View view = getWindow().peekDecorView();
-                if (view != null) {
-                    InputMethodManager inputmanger = (InputMethodManager) getSystemService(
-                            Context.INPUT_METHOD_SERVICE);
-                    inputmanger.hideSoftInputFromWindow(view.getWindowToken(), 0);
-                }
+////隐藏软键盘
+//                View view = getWindow().peekDecorView();
+//                if (view != null) {
+//                    InputMethodManager inputmanger = (InputMethodManager) getSystemService(
+//                            Context.INPUT_METHOD_SERVICE);
+//                    inputmanger.hideSoftInputFromWindow(view.getWindowToken(), 0);
+//                }
             }
         }
     };
+
+
+
 
 
     private void getNetWorkNoImage(String customerId, String content) {
@@ -295,6 +313,17 @@ public class CirclePublishContentActivity extends BaseActivity {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(modelObserver);
     }
+
+
+            private void getNetWorkImageMap(String customerId,String content,Map<String,RequestBody> imageMap) {
+                    LogUtil.e(TAG,customerId+"   +++   "+content);
+                    subscription = Network.getYeapaoApi()
+                            .uploadCommunityImageMap(customerId,content,imageMap)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe( modelObserver);
+                }
+
 
 
 

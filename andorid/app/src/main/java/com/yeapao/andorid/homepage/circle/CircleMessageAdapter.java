@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -45,6 +46,8 @@ public class CircleMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     private GlideUtil glideUtil = new GlideUtil();
 
+    private boolean footerFlag = false;
+
 
     public CircleMessageAdapter(Context context,CircleListModel circleListModel) {
         mContext = context;
@@ -59,6 +62,8 @@ public class CircleMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     public void loadNothing() {
 //        TODO 取消尾部加载tab
+        footerFlag = true;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -159,6 +164,12 @@ public class CircleMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
 
 
         } else {
+
+            if (footerFlag) {
+                ((FooterViewHolder) holder).llFooter.setVisibility(View.GONE);
+            } else {
+                ((FooterViewHolder) holder).llFooter.setVisibility(View.VISIBLE);
+            }
 
         }
 
@@ -263,8 +274,13 @@ public class CircleMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     public class FooterViewHolder extends RecyclerView.ViewHolder{
 
+        private LinearLayout llFooter;
+
+
+
         public FooterViewHolder(View itemView) {
             super(itemView);
+            llFooter = (LinearLayout) itemView.findViewById(R.id.ll_circle_footer);
         }
 
     }
