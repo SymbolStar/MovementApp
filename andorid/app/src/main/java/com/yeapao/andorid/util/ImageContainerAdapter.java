@@ -39,11 +39,17 @@ public class ImageContainerAdapter extends BaseAdapter {
     private LayoutInflater mInflater;
     private ArrayList<String> mImageArrayList = new ArrayList<>();
     private List<Uri> uris;
+    private ImageDeleteListener mListener;
 
     private List<File> imageFiles;
 
+    public interface ImageDeleteListener {
+        void deleteListener(int position);
+    }
 
-
+    public void setImageDeleteListener(ImageDeleteListener listener) {
+        mListener = listener;
+    }
 //
 //    public ImageContainerAdapter(Context context ,List<Uri> urlLists) {
 //        flag = true;
@@ -75,7 +81,7 @@ public class ImageContainerAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder;
         if (convertView == null) {
             convertView = mInflater.inflate(R.layout.item_choose_image, null);
@@ -94,6 +100,13 @@ public class ImageContainerAdapter extends BaseAdapter {
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
+
+            viewHolder.deleteImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mListener.deleteListener(position);
+                }
+            });
 //            viewHolder.contentImage.setImageBitmap(ImageFileUtils.getBitmapFromUri(mContext, uris.get(position)));
 
         return convertView;

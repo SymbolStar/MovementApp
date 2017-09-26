@@ -272,6 +272,8 @@ public class MapFragmentView extends BaseFragment implements SensorEventListener
     public void onMapClick(LatLng latLng) {
         applyConstraintSet.clone(mConstraintLayout);
         applyConstraintSet.setVisibility(R.id.fl_reservation, ConstraintSet.GONE);
+        applyConstraintSet.setVisibility(R.id.iv_find_qr, ConstraintSet.VISIBLE);
+
         applyConstraintSet.applyTo(mConstraintLayout);
 //        reservationFrameLayout.setVisibility(View.GONE);
         LogUtil.e(TAG, latLng.toString());
@@ -498,6 +500,7 @@ public class MapFragmentView extends BaseFragment implements SensorEventListener
 
         applyConstraintSet.clone(mConstraintLayout);
         applyConstraintSet.setVisibility(R.id.fl_reservation, ConstraintSet.GONE);
+        applyConstraintSet.setVisibility(R.id.iv_find_qr, ConstraintSet.VISIBLE);
         applyConstraintSet.applyTo(mConstraintLayout);
         //为系统的方向传感器注册监听器
 //        mSensorManager.registerListener(this, mSensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION),
@@ -724,6 +727,7 @@ public class MapFragmentView extends BaseFragment implements SensorEventListener
         mClusterManager.setOnClusterItemClickListener(new ClusterManager.OnClusterItemClickListener<MyItem>() {
             @Override
             public boolean onClusterItemClick(MyItem item) {
+                ivFindQr.setVisibility(View.GONE);
                 if (routeOverlay != null) {
                     routeOverlay.removeFromMap();
                 }
@@ -762,6 +766,7 @@ public class MapFragmentView extends BaseFragment implements SensorEventListener
 
                 applyConstraintSet.clone(mConstraintLayout);
                 applyConstraintSet.setVisibility(R.id.fl_reservation, ConstraintSet.VISIBLE);
+                applyConstraintSet.setVisibility(R.id.iv_find_qr, ConstraintSet.GONE);
                 applyConstraintSet.applyTo(mConstraintLayout);
 //                reservationFrameLayout.setVisibility(View.VISIBLE);
                 PlanNode stNode = PlanNode.withLocation(new LatLng(mCurrentLat, mCurrentLon));

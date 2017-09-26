@@ -2,6 +2,7 @@ package com.yeapao.andorid.homepage.circle;
 
 import com.scottfu.sflibrary.mvp.BasePresenter;
 import com.scottfu.sflibrary.mvp.BaseView;
+import com.yeapao.andorid.model.CircleListModel;
 
 /**
  * Created by fujindong on 2017/7/11.
@@ -10,7 +11,7 @@ import com.scottfu.sflibrary.mvp.BaseView;
 public interface CircleContract {
 
     interface View extends BaseView<Presenter> {
-       void showResult();
+       void showResult(CircleListModel circleListModel);
     }
 
 

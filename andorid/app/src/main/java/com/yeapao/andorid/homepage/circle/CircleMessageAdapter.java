@@ -1,18 +1,29 @@
 package com.yeapao.andorid.homepage.circle;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.support.v4.os.TraceCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.scottfu.sflibrary.recyclerview.GridSpacingItemDecoration;
 import com.scottfu.sflibrary.recyclerview.OnRecyclerViewClickListener;
+import com.scottfu.sflibrary.util.GlideUtil;
+import com.scottfu.sflibrary.util.ScreenUtil;
 import com.yeapao.andorid.R;
+import com.yeapao.andorid.homepage.circle.circledetail.CircleViewPager;
+import com.yeapao.andorid.homepage.myself.MyselfMessageAdapter;
+import com.yeapao.andorid.model.CircleListModel;
+import com.yeapao.andorid.util.AccountGradeUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -24,20 +35,38 @@ import me.relex.circleindicator.CircleIndicator;
 
 public class CircleMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private Context mContext;
+    private static Context mContext;
     private LayoutInflater inflater;
     private OnRecyclerViewClickListener mListener;
 
     private static final int HEADER_TYPE = 0;
     private static final int GROUP_TYPE = 1;
     private static final int CIRCLE_TYPE = 2;
+    private static final int FOOTER_TYPE = 3;
+
+    private CircleListModel mCircleListModel = new CircleListModel();
+
+    private GlideUtil glideUtil = new GlideUtil();
+
+    private boolean footerFlag = false;
 
 
-    public CircleMessageAdapter(Context context) {
+    public CircleMessageAdapter(Context context,CircleListModel circleListModel) {
         mContext = context;
         inflater = LayoutInflater.from(context);
+        mCircleListModel = circleListModel;
     }
 
+    public void loadMore(CircleListModel model) {
+        mCircleListModel.getData().getCommunityList().addAll(model.getData().getCommunityList());
+        notifyDataSetChanged();
+    }
+
+    public void loadNothing() {
+//        TODO 取消尾部加载tab
+        footerFlag = true;
+        notifyDataSetChanged();
+    }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -48,12 +77,70 @@ public class CircleMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
                 return new GroupChatListViewHolder(inflater.inflate(R.layout.item_circle_group_chat, parent, false));
             case CIRCLE_TYPE:
                 return new CircleItemViewHolder(inflater.inflate(R.layout.item_circle_card, parent, false),mListener);
+            case FOOTER_TYPE:
+                return new FooterViewHolder(inflater.inflate(R.layout.list_footer, parent, false));
+
         }
         return null;
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+
+        if (holder instanceof HeaderViewHolder) {
+            ((HeaderViewHolder) holder).vpCircleImage.setAdapter(new CircleViewPager(mContext, mCircleListModel.getData().getBannerList()));
+            ((HeaderViewHolder) holder).ciCircleIndicator.setViewPager(((HeaderViewHolder) holder).vpCircleImage);
+            ((HeaderViewHolder) holder).vpCircleImage.setCurrentItem(0);
+        } else if (holder instanceof CircleItemViewHolder) {
+            ((CircleItemViewHolder) holder).ivCircleBadge.setImageDrawable(AccountGradeUtils.getGradeDrawable(mContext,
+                    mCircleListModel.getData().getCommunityList().get(position - 1).getGrade()));
+
+            if (mCircleListModel.getData().getCommunityList().get(position - 1).getFabulous().equals("1")) {
+                Drawable img = mContext.getResources().getDrawable(R.drawable.circle_finger_s);
+                // 调用setCompoundDrawables时，必须调用Drawable.setBounds()方法,否则图片不显示
+                img.setBounds(0, 0, img.getMinimumWidth(), img.getMinimumHeight());
+                ((CircleItemViewHolder) holder).tvFinger.setCompoundDrawables(img, null, null, null);
+            } else {
+                Drawable img = mContext.getResources().getDrawable(R.drawable.circle_finger_n);
+                // 调用setCompoundDrawables时，必须调用Drawable.setBounds()方法,否则图片不显示
+                img.setBounds(0, 0, img.getMinimumWidth(), img.getMinimumHeight());
+                ((CircleItemViewHolder) holder).tvFinger.setCompoundDrawables(img, null, null, null);
+            }
+
+            ((CircleItemViewHolder) holder).tvNickName.setText(mCircleListModel.getData().getCommunityList().get(position - 1).getUserName());
+            ((CircleItemViewHolder) holder).tvContent.setText(mCircleListModel.getData().getCommunityList().get(position - 1).getContent());
+            ((CircleItemViewHolder) holder).tvComment.setText(String.valueOf(mCircleListModel.getData().getCommunityList().get(position - 1).getCommentNumber()));
+            ((CircleItemViewHolder) holder).tvFinger.setText(String.valueOf(mCircleListModel.getData().getCommunityList().get(position - 1).getThumbsUp()));
+            glideUtil.glideLoadingImage(mContext, mCircleListModel.getData().getCommunityList().get(position - 1).getHeadUrl(), R.drawable.y_you, ((CircleItemViewHolder) holder).ivHeader);
+            if (mCircleListModel.getData().getCommunityList().get(position - 1).getMaster().equals("1")) {
+                ((CircleItemViewHolder) holder).ivMaster.setVisibility(View.VISIBLE);
+            } else {
+                ((CircleItemViewHolder) holder).ivMaster.setVisibility(View.GONE);
+            }
+
+//            if (mCircleListModel.getData().getCommunityList().get(position).getImages().size() == 1) {
+//                ((CircleItemViewHolder) holder).rvImages.setLayoutManager(new GridLayoutManager(mContext,3));
+//            } else {
+//
+//            }
+            if (mCircleListModel.getData().getCommunityList().get(position-1).getImages().size() == 0) {
+                ((CircleItemViewHolder) holder).rvImages.setVisibility(View.GONE);
+            } else {
+                ((CircleItemViewHolder) holder).rvImages.setVisibility(View.VISIBLE);
+                ((CircleItemViewHolder) holder).rvImages.setAdapter(new ImageRecyclerAdapter(mContext,mCircleListModel.getData().getCommunityList().get(position-1).getImages()));
+            }
+
+
+
+        } else {
+
+            if (footerFlag) {
+                ((FooterViewHolder) holder).llFooter.setVisibility(View.GONE);
+            } else {
+                ((FooterViewHolder) holder).llFooter.setVisibility(View.VISIBLE);
+            }
+
+        }
 
     }
 
@@ -65,17 +152,15 @@ public class CircleMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     @Override
     public int getItemCount() {
-        return 10;
+        return mCircleListModel.getData().getCommunityList().size()+2;
     }
 
     @Override
     public int getItemViewType(int position) {
         if (position == 0) {
             return HEADER_TYPE;
-        } else if (position == 1) {
-            return GROUP_TYPE;
-        } else if (position == 2) {
-            return CIRCLE_TYPE;
+        } else if (position == mCircleListModel.getData().getCommunityList().size()+1) {
+            return FOOTER_TYPE;
         } else {
             return CIRCLE_TYPE;
         }
@@ -111,6 +196,8 @@ public class CircleMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
     static class CircleItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         private OnRecyclerViewClickListener OnRecyclerListener;
+        private ImageRecyclerAdapter imageAdapter;
+
 
         @BindView(R.id.tv_nick_name)
         TextView tvNickName;
@@ -120,23 +207,52 @@ public class CircleMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
         ImageView ivCircleBadge;
         @BindView(R.id.tv_content)
         TextView tvContent;
-        @BindView(R.id.gv_images)
-        GridView gvImages;
+        @BindView(R.id.rv_images)
+        RecyclerView rvImages;
         @BindView(R.id.tv_comment)
         TextView tvComment;
         @BindView(R.id.tv_finger)
         TextView tvFinger;
+        @BindView(R.id.iv_header)
+        ImageView ivHeader;
+        @BindView(R.id.iv_master)
+        ImageView ivMaster;
+
 
         CircleItemViewHolder(View view,OnRecyclerViewClickListener listener) {
             super(view);
             ButterKnife.bind(this, view);
             this.OnRecyclerListener = listener;
             view.setOnClickListener(this);
+            initView();
+        }
+
+        private void initView() {
+            rvImages.setLayoutManager(new GridLayoutManager(mContext,3));
+            rvImages.addItemDecoration(new GridSpacingItemDecoration(3, ScreenUtil.dpToPxInt(mContext, 8), true));
         }
 
         @Override
         public void onClick(View v) {
-            OnRecyclerListener.OnItemClick(v,getLayoutPosition());
+            OnRecyclerListener.OnItemClick(v,getLayoutPosition()-1);
+
         }
     }
+
+
+
+    public class FooterViewHolder extends RecyclerView.ViewHolder{
+
+        private LinearLayout llFooter;
+
+
+
+        public FooterViewHolder(View itemView) {
+            super(itemView);
+            llFooter = (LinearLayout) itemView.findViewById(R.id.ll_circle_footer);
+        }
+
+    }
+
+
 }
