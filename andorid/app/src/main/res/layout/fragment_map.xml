@@ -61,7 +61,7 @@
       android:layout_height="65dp"
       android:src="@drawable/cang_scan"
       android:elevation="4dp"
-      app:layout_constraintBottom_toBottomOf="@+id/fl_reservation"
+      app:layout_constraintBottom_toBottomOf="parent"
       android:layout_marginBottom="16dp"
       android:layout_marginLeft="8dp"
       app:layout_constraintLeft_toLeftOf="parent"
@@ -102,11 +102,11 @@
             android:src="@drawable/order_radian"/>
 
         <!--<ImageView-->
-            <!--android:layout_width="100dp"-->
-            <!--android:layout_height="100dp" -->
-            <!--android:src="@drawable/order_circle"-->
-            <!--android:layout_gravity="center_horizontal|bottom"-->
-            <!--android:layout_marginBottom="60dp"/>-->
+        <!--android:layout_width="100dp"-->
+        <!--android:layout_height="100dp" -->
+        <!--android:src="@drawable/order_circle"-->
+        <!--android:layout_gravity="center_horizontal|bottom"-->
+        <!--android:layout_marginBottom="60dp"/>-->
         <LinearLayout
             android:layout_marginBottom="68dp"
             android:layout_gravity="center_horizontal|bottom"
@@ -144,7 +144,7 @@
                 android:text="00:00" />
 
         </LinearLayout>
-        
+
         <LinearLayout
             android:layout_marginBottom="10dp"
             android:layout_gravity="center_horizontal|bottom"

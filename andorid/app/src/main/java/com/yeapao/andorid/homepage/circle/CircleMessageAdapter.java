@@ -1,6 +1,7 @@
 package com.yeapao.andorid.homepage.circle;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.support.v4.os.TraceCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
@@ -22,6 +23,7 @@ import com.yeapao.andorid.R;
 import com.yeapao.andorid.homepage.circle.circledetail.CircleViewPager;
 import com.yeapao.andorid.homepage.myself.MyselfMessageAdapter;
 import com.yeapao.andorid.model.CircleListModel;
+import com.yeapao.andorid.util.AccountGradeUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -90,54 +92,21 @@ public class CircleMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
             ((HeaderViewHolder) holder).ciCircleIndicator.setViewPager(((HeaderViewHolder) holder).vpCircleImage);
             ((HeaderViewHolder) holder).vpCircleImage.setCurrentItem(0);
         } else if (holder instanceof CircleItemViewHolder) {
+            ((CircleItemViewHolder) holder).ivCircleBadge.setImageDrawable(AccountGradeUtils.getGradeDrawable(mContext,
+                    mCircleListModel.getData().getCommunityList().get(position - 1).getGrade()));
 
-            switch (mCircleListModel.getData().getCommunityList().get(position - 1).getGrade()) {
-                case 1:
-                    ((CircleItemViewHolder) holder).ivCircleBadge.setImageDrawable(mContext.getResources().getDrawable(R.drawable.level1));
-                    break;
-                case 2:
-                    ((CircleItemViewHolder) holder).ivCircleBadge.setImageDrawable(mContext.getResources().getDrawable(R.drawable.level2));
-                    break;
-                case 3:
-                    ((CircleItemViewHolder) holder).ivCircleBadge.setImageDrawable(mContext.getResources().getDrawable(R.drawable.level3));
-                    break;
-                case 4:
-                    ((CircleItemViewHolder) holder).ivCircleBadge.setImageDrawable(mContext.getResources().getDrawable(R.drawable.level4));
-                    break;
-                case 5:
-                    ((CircleItemViewHolder) holder).ivCircleBadge.setImageDrawable(mContext.getResources().getDrawable(R.drawable.level5));
-                    break;
-                case 6:
-                    ((CircleItemViewHolder) holder).ivCircleBadge.setImageDrawable(mContext.getResources().getDrawable(R.drawable.level6));
-                    break;
-                case 7:
-                    ((CircleItemViewHolder) holder).ivCircleBadge.setImageDrawable(mContext.getResources().getDrawable(R.drawable.level7));
-                    break;
-                case 8:
-                    ((CircleItemViewHolder) holder).ivCircleBadge.setImageDrawable(mContext.getResources().getDrawable(R.drawable.level8));
-                    break;
-                case 9:
-                    ((CircleItemViewHolder) holder).ivCircleBadge.setImageDrawable(mContext.getResources().getDrawable(R.drawable.level9));
-                    break;
-                case 10:
-                    ((CircleItemViewHolder) holder).ivCircleBadge.setImageDrawable(mContext.getResources().getDrawable(R.drawable.level10));
-                    break;
-                case 11:
-                    ((CircleItemViewHolder) holder).ivCircleBadge.setImageDrawable(mContext.getResources().getDrawable(R.drawable.level11));
-                    break;
-                case 12:
-                    ((CircleItemViewHolder) holder).ivCircleBadge.setImageDrawable(mContext.getResources().getDrawable(R.drawable.level12));
-                    break;
-                case 13:
-                    ((CircleItemViewHolder) holder).ivCircleBadge.setImageDrawable(mContext.getResources().getDrawable(R.drawable.level13));
-                    break;
-                case 14:
-                    ((CircleItemViewHolder) holder).ivCircleBadge.setImageDrawable(mContext.getResources().getDrawable(R.drawable.level14));
-                    break;
-                case 15:
-                    ((CircleItemViewHolder) holder).ivCircleBadge.setImageDrawable(mContext.getResources().getDrawable(R.drawable.level15));
-                    break;
+            if (mCircleListModel.getData().getCommunityList().get(position - 1).getFabulous().equals("1")) {
+                Drawable img = mContext.getResources().getDrawable(R.drawable.circle_finger_s);
+                // 调用setCompoundDrawables时，必须调用Drawable.setBounds()方法,否则图片不显示
+                img.setBounds(0, 0, img.getMinimumWidth(), img.getMinimumHeight());
+                ((CircleItemViewHolder) holder).tvFinger.setCompoundDrawables(img, null, null, null);
+            } else {
+                Drawable img = mContext.getResources().getDrawable(R.drawable.circle_finger_n);
+                // 调用setCompoundDrawables时，必须调用Drawable.setBounds()方法,否则图片不显示
+                img.setBounds(0, 0, img.getMinimumWidth(), img.getMinimumHeight());
+                ((CircleItemViewHolder) holder).tvFinger.setCompoundDrawables(img, null, null, null);
             }
+
             ((CircleItemViewHolder) holder).tvNickName.setText(mCircleListModel.getData().getCommunityList().get(position - 1).getUserName());
             ((CircleItemViewHolder) holder).tvContent.setText(mCircleListModel.getData().getCommunityList().get(position - 1).getContent());
             ((CircleItemViewHolder) holder).tvComment.setText(String.valueOf(mCircleListModel.getData().getCommunityList().get(position - 1).getCommentNumber()));
@@ -265,7 +234,7 @@ public class CircleMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         @Override
         public void onClick(View v) {
-            OnRecyclerListener.OnItemClick(v,getLayoutPosition());
+            OnRecyclerListener.OnItemClick(v,getLayoutPosition()-1);
 
         }
     }

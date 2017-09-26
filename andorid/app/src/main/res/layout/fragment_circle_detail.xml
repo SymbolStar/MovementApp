@@ -1,12 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
+
+    <RelativeLayout
+        android:id="@+id/rl_write_comment"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_gravity="bottom"
+        android:background="@color/bg_white">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#cdcdcd"
+            android:layout_alignParentTop="true"/>
+
+        <RelativeLayout
+            android:id="@+id/rv_comment"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_width="70dp"
+            android:layout_height="match_parent">
+            <ImageView
+                android:visibility="gone"
+                android:id="@+id/iv_circle_finger"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:src="@drawable/circle_finger_s"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                />
+
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/tv_circle_publish"
+                android:layout_width="40dp"
+                android:layout_height="25dp"
+                android:text="发表"
+                android:gravity="center"
+                android:layout_marginRight="5dp"
+                android:textColor="@color/text_color"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/login_shape"/>
+        </RelativeLayout>
+
+
+
+
+        <EditText
+            android:id="@+id/et_comment"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:layout_toLeftOf="@id/rv_comment"
+            android:background="@drawable/circle_comment_shape"
+            android:hint="写评论"
+            android:paddingLeft="10dp"
+            android:textSize="15sp" />
+
+    </RelativeLayout>
     <android.support.v4.widget.SwipeRefreshLayout
+        android:layout_above="@id/rl_write_comment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/srl_circle_detail">
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_circle_detail_list"
             android:layout_width="match_parent"
@@ -18,37 +84,5 @@
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:layout_gravity="bottom"
-        android:background="@color/bg_white">
 
-        <ImageView
-            android:id="@+id/iv_circle_finger"
-            android:layout_alignParentRight="true"
-            android:layout_width="22dp"
-            android:layout_height="22dp"
-            android:src="@drawable/circle_finger_s"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="15dp"/>
-
-        <EditText
-            android:id="@+id/et_comment"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="10dp"
-            android:layout_toLeftOf="@id/iv_circle_finger"
-            android:background="@drawable/circle_comment_shape"
-            android:hint="写评论"
-            android:paddingLeft="10dp"
-            android:textSize="15sp" />
-
-    </RelativeLayout>
-
-
-
-</FrameLayout>
+</RelativeLayout>

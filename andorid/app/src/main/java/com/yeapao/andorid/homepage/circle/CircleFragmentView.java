@@ -21,6 +21,7 @@ import com.scottfu.sflibrary.util.ToastManager;
 import com.yeapao.andorid.R;
 import com.yeapao.andorid.api.Network;
 import com.yeapao.andorid.base.BaseFragment;
+import com.yeapao.andorid.homepage.circle.circledetail.CircleDetailActivity;
 import com.yeapao.andorid.homepage.message.MyMessageActivity;
 import com.yeapao.andorid.model.CircleListModel;
 import com.yeapao.andorid.util.GlobalDataYepao;
@@ -89,11 +90,20 @@ public class CircleFragmentView extends BaseFragment implements CircleContract.V
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                getNetWork(String.valueOf(currentPage) );
+                currentPage = 0;
+                if (GlobalDataYepao.isLogin()) {
+                    getNetWorkWithAccount(GlobalDataYepao.getUser(getContext()).getId(), String.valueOf(currentPage));
+                } else {
+                    getNetWork(String.valueOf(currentPage));
+                }
             }
         });
         refreshLayout.setColorSchemeResources(R.color.colorPrimary);
-        getNetWork(String.valueOf(currentPage));
+        if (GlobalDataYepao.isLogin()) {
+            getNetWorkWithAccount(GlobalDataYepao.getUser(getContext()).getId(), String.valueOf(currentPage));
+        } else {
+            getNetWork(String.valueOf(currentPage) );
+        }
         initViews(view);
         return view;
     }
@@ -103,7 +113,11 @@ public class CircleFragmentView extends BaseFragment implements CircleContract.V
     public void onResume() {
         super.onResume();
         LogUtil.e(TAG,"onResume");
-        getNetWork(String.valueOf(currentPage));
+        if (GlobalDataYepao.isLogin()) {
+            getNetWorkWithAccount(GlobalDataYepao.getUser(getContext()).getId(), String.valueOf(currentPage));
+        } else {
+            getNetWork(String.valueOf(currentPage) );
+        }
     }
 
     @OnClick(R.id.iv_circle_write)
@@ -199,11 +213,21 @@ public class CircleFragmentView extends BaseFragment implements CircleContract.V
                 @Override
                 public void OnItemClick(View v, int position) {
                     ToastManager.showToast(getActivity(), "onClick");
+                    CircleDetailActivity.start(getContext(),String.valueOf(mCircleListModel.getData().getCommunityList().get(position).getCommunityId()),
+                            mCircleListModel.getData().getCommunityList().get(position).getFabulous());
 //                    startActivity(new Intent(getActivity(), CircleDetailActivity.class));
                 }
             });
     }
 
+    private void getNetWorkWithAccount(String customerId,String page) {
+        LogUtil.e(TAG,"onRefresh Circle--------"+customerId+"  "+page);
+        subscription = Network.getYeapaoApi()
+                .requestCircleListPageWithAccount(customerId,page)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe( modelObserver);
+    }
 
             private void getNetWork(String page) {
                 LogUtil.e(TAG,"onRefresh Circle--------"+String.valueOf(page));
@@ -232,10 +256,12 @@ public class CircleFragmentView extends BaseFragment implements CircleContract.V
                         LogUtil.e(TAG, model.getErrmsg());
                         if (model.getErrmsg().equals("ok")) {
                             if (currentPage == 0) {
+                                LogUtil.e("---====--===",model.getData().getCommunityList().get(0).getFabulous());
                                 mCircleListModel = model;
                                 showResult(mCircleListModel);
                             } else {
                                 showResultAdd(model);
+                                LogUtil.e(TAG+"  add model sum",String.valueOf(model.getData().getCommunityList().size()));
                                 mCircleListModel.getData().getCommunityList().addAll(model.getData().getCommunityList());
                             }
                             totalPage = model.getData().getTotalPage();

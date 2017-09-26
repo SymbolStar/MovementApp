@@ -140,11 +140,12 @@ public class CirclePublishContentActivity extends BaseActivity {
                 ToastManager.showToast(getContext(), "发帖内容不能为空");
                 return;
             } else {
+                DialogUtils.showProgressDialog(getContext());
                 getNetWorkNoImage(GlobalDataYepao.getUser(getContext()).getId(), content);
             }
 
         } else {
-
+            DialogUtils.showProgressDialog(getContext());
             for (int i = 0; i < mImageArrayList.size(); i++) {
                 RequestBody file = RequestBody.create(MediaType.parse("multipart/form-data"), mImageArrayList.get(i));
                 String key = "imageUrls\";filename=\"" + mImageArrayList.get(i).getName().toString();
@@ -267,12 +268,14 @@ public class CirclePublishContentActivity extends BaseActivity {
     Observer<NormalDataModel> modelObserver = new Observer<NormalDataModel>() {
         @Override
         public void onCompleted() {
+            DialogUtils.cancelProgressDialog();
             SoftInputUtils.hideSoftinput(CirclePublishContentActivity.this);
             finish();
         }
 
         @Override
         public void onError(Throwable e) {
+            DialogUtils.cancelProgressDialog();
             LogUtil.e(TAG, e.toString());
 
         }
