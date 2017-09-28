@@ -76,7 +76,7 @@ public class MyselfMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
 
             myselfTabModels.clear();
 
-        for (int i = 0; i < 7; i++) {
+        for (int i = 0; i < 3; i++) {
 
             MyselfTabModel myselfTabModel = new MyselfTabModel();
             switch (i) {
@@ -91,10 +91,14 @@ public class MyselfMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
                     myselfTabModels.add(myselfTabModel);
                     break;
                 case 2:
-                    myselfTabModel.setViewId(mContext.getResources().getDrawable(R.drawable.my_order));
-                    myselfTabModel.setTabName("我的预约");
+                    myselfTabModel.setViewId(mContext.getResources().getDrawable(R.drawable.my_phacse_order));
+                    myselfTabModel.setTabName("我的订单");
                     myselfTabModels.add(myselfTabModel);
                     break;
+//                    myselfTabModel.setViewId(mContext.getResources().getDrawable(R.drawable.my_order));
+//                    myselfTabModel.setTabName("我的预约");
+//                    myselfTabModels.add(myselfTabModel);
+//                    break;
                 case 3:
                     myselfTabModel.setViewId(mContext.getResources().getDrawable(R.drawable.my_lesson));
                     myselfTabModel.setTabName("我的课程");
@@ -124,16 +128,16 @@ public class MyselfMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         }
 
-        if (GlobalDataYepao.isLogin()) {
-            if (GlobalDataYepao.getUser(mContext).getPost().equals("1")) {
-                myselfTabModels.remove(5);
-            } else if (GlobalDataYepao.getUser(mContext).getPost().equals("2")) {
-                myselfTabModels.remove(6);
-            } else {
-                myselfTabModels.remove(5);
-                myselfTabModels.remove(5);
-            }
-        }
+//        if (GlobalDataYepao.isLogin()) {
+//            if (GlobalDataYepao.getUser(mContext).getPost().equals("1")) {
+//                myselfTabModels.remove(5);
+//            } else if (GlobalDataYepao.getUser(mContext).getPost().equals("2")) {
+//                myselfTabModels.remove(6);
+//            } else {
+//                myselfTabModels.remove(5);
+//                myselfTabModels.remove(5);
+//            }
+//        }
 
 
 

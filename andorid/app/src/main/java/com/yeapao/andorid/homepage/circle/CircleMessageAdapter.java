@@ -2,6 +2,7 @@ package com.yeapao.andorid.homepage.circle;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.os.TraceCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
@@ -51,7 +52,7 @@ public class CircleMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
     private static final int CIRCLE_TYPE = 2;
     private static final int FOOTER_TYPE = 3;
 
-    private CircleListModel mCircleListModel = new CircleListModel();
+    private static CircleListModel mCircleListModel = new CircleListModel();
 
     private GlideUtil glideUtil = new GlideUtil();
 
@@ -114,8 +115,8 @@ public class CircleMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
             ((HeaderViewHolder) holder).ciCircleIndicator.setViewPager(((HeaderViewHolder) holder).vpCircleImage);
             ((HeaderViewHolder) holder).vpCircleImage.setCurrentItem(0);
         } else if (holder instanceof CircleItemViewHolder) {
-            ((CircleItemViewHolder) holder).ivCircleBadge.setImageDrawable(AccountGradeUtils.getGradeDrawable(mContext,
-                    mCircleListModel.getData().getCommunityList().get(position - 1).getGrade()));
+//            ((CircleItemViewHolder) holder).ivCircleBadge.setImageDrawable(AccountGradeUtils.getGradeDrawable(mContext,
+//                    mCircleListModel.getData().getCommunityList().get(position - 1).getGrade()));
 
             if (mCircleListModel.getData().getCommunityList().get(position - 1).getFabulous().equals("1")) {
                 Drawable img = mContext.getResources().getDrawable(R.drawable.circle_finger_s);
@@ -153,11 +154,11 @@ public class CircleMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
             ((CircleItemViewHolder) holder).tvComment.setText(String.valueOf(mCircleListModel.getData().getCommunityList().get(position - 1).getCommentNumber()));
             ((CircleItemViewHolder) holder).tvFinger.setText(String.valueOf(mCircleListModel.getData().getCommunityList().get(position - 1).getThumbsUp()));
             glideUtil.glideLoadingImage(mContext, mCircleListModel.getData().getCommunityList().get(position - 1).getHeadUrl(), R.drawable.y_you, ((CircleItemViewHolder) holder).ivHeader);
-            if (mCircleListModel.getData().getCommunityList().get(position - 1).getMaster().equals("1")) {
-                ((CircleItemViewHolder) holder).ivMaster.setVisibility(View.VISIBLE);
-            } else {
-                ((CircleItemViewHolder) holder).ivMaster.setVisibility(View.GONE);
-            }
+//            if (mCircleListModel.getData().getCommunityList().get(position - 1).getMaster().equals("1")) {
+//                ((CircleItemViewHolder) holder).ivMaster.setVisibility(View.VISIBLE);
+//            } else {
+//                ((CircleItemViewHolder) holder).ivMaster.setVisibility(View.GONE);
+//            }
 
 //            if (mCircleListModel.getData().getCommunityList().get(position).getImages().size() == 1) {
 //                ((CircleItemViewHolder) holder).rvImages.setLayoutManager(new GridLayoutManager(mContext,3));
@@ -167,6 +168,17 @@ public class CircleMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
             if (mCircleListModel.getData().getCommunityList().get(position-1).getImages().size() == 0) {
                 ((CircleItemViewHolder) holder).rvImages.setVisibility(View.GONE);
             } else {
+
+//                if (mCircleListModel.getData().getCommunityList().get(position - 1).getImages().size() == 4) {
+//                    ((CircleItemViewHolder) holder).rvImages.setLayoutManager(new GridLayoutManager(mContext,2));
+//                    ((CircleItemViewHolder) holder).rvImages.addItemDecoration(new GridSpacingItemDecoration(2, ScreenUtil.dpToPxInt(mContext, 8), false));
+////                    ((CircleItemViewHolder) holder).rvImages.setLayoutParams(new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT));
+//                } else {
+//                    ((CircleItemViewHolder) holder).rvImages.setLayoutManager(new GridLayoutManager(mContext,3));
+//                    ((CircleItemViewHolder) holder).rvImages.addItemDecoration(new GridSpacingItemDecoration(3, ScreenUtil.dpToPxInt(mContext, 8), false));
+////                    ((CircleItemViewHolder) holder).rvImages.setLayoutParams(new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT));
+//                }
+
                 ((CircleItemViewHolder) holder).rvImages.setVisibility(View.VISIBLE);
                 ((CircleItemViewHolder) holder).rvImages.setAdapter(new ImageRecyclerAdapter(mContext,mCircleListModel.getData().getCommunityList().get(position-1).getImages()));
             }
@@ -277,7 +289,7 @@ public class CircleMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         private void initView() {
             rvImages.setLayoutManager(new GridLayoutManager(mContext,3));
-            rvImages.addItemDecoration(new GridSpacingItemDecoration(3, ScreenUtil.dpToPxInt(mContext, 8), true));
+            rvImages.addItemDecoration(new GridSpacingItemDecoration(3, ScreenUtil.dpToPxInt(mContext, 8), false));
             tvFinger.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

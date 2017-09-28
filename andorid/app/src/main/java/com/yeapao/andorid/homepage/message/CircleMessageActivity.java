@@ -15,6 +15,7 @@ import com.yeapao.andorid.R;
 import com.yeapao.andorid.api.Network;
 import com.yeapao.andorid.base.BaseActivity;
 import com.yeapao.andorid.homepage.circle.*;
+import com.yeapao.andorid.homepage.circle.circledetail.CircleDetailActivity;
 import com.yeapao.andorid.model.CircleMessageModel;
 import com.yeapao.andorid.model.PunchTheClockModel;
 import com.yeapao.andorid.util.GlobalDataYepao;
@@ -65,7 +66,7 @@ public class CircleMessageActivity extends BaseActivity {
 
     private void getData() {
 //        getNetWork(GlobalDataYepao.getUser(getContext()).getId(),"4");
-        getNetWork("7","4");
+        getNetWork(GlobalDataYepao.getUser(getContext()).getId(),"4");
 
     }
 
@@ -75,10 +76,11 @@ public class CircleMessageActivity extends BaseActivity {
             rvVideoMessageList.setAdapter(messageAdapter);
             messageAdapter.setCardClickListener(new CircleMessageAdapter.gotoCardListener() {
                 @Override
-                public void gotoCard() {
-                    ToastManager.showToast(getContext(),"onclick");
+                public void gotoCard(int position) {
+                    CircleDetailActivity.start(getContext(),mMessageModel.getData().get(position).getCommunityCommentId(),"1");
                 }
             });
+
         } else {
             rvVideoMessageList.setAdapter(messageAdapter);
             messageAdapter.notifyDataSetChanged();

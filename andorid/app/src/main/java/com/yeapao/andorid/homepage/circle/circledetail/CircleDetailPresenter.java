@@ -52,21 +52,33 @@ public class CircleDetailPresenter implements CircleDetailContract.Presenter {
     public void start() {
         mView.startLoading();
         getData();
-        if (fabulous.equals("0")) {
-            mView.refreshPraise(false);
-        } else {
-            mView.refreshPraise(true);
-        }
+//        if (fabulous.equals("0")) {
+//            mView.refreshPraise(false);
+//        } else {
+//            mView.refreshPraise(true);
+//        }
 
     }
 
     @Override
     public void getData() {
-        subscription = Network.getYeapaoApi()
-                .requestCommunityDetail(communityId, GlobalDataYepao.getUser(mContext).getId())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(modelObserver);
+
+        if (GlobalDataYepao.isLogin()) {
+            subscription = Network.getYeapaoApi()
+                    .requestCommunityDetail(communityId, GlobalDataYepao.getUser(mContext).getId())
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(modelObserver);
+        } else {
+            subscription = Network.getYeapaoApi()
+                    .requestCommunityDetail(communityId,"0")
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(modelObserver);
+        }
+
+
+
     }
 
     Observer<CommunityDetailModel> modelObserver = new Observer<CommunityDetailModel>() {

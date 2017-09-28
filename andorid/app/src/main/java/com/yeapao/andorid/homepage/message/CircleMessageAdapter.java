@@ -31,7 +31,7 @@ public class CircleMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
     private CircleMessageModel punchTheClockModel;
 
     interface gotoCardListener {
-        void gotoCard();
+        void gotoCard(int position);
     }
 
     public void setCardClickListener(gotoCardListener listener) {
@@ -88,7 +88,7 @@ public class CircleMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
             rlCircleTab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    listener.gotoCard();
+                    listener.gotoCard(getLayoutPosition());
                 }
             });
         }

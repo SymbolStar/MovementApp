@@ -2,11 +2,13 @@ package com.yeapao.andorid.homepage.circle;
 
 import android.content.Context;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.scottfu.sflibrary.util.GlideUtil;
 import com.scottfu.sflibrary.util.ScreenUtil;
@@ -55,6 +57,8 @@ public class ImageRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
         } else if (imagesUrlList.size() >= 2) {
             ((ViewHolder) holder).cvImageCard.setLayoutParams(new ViewGroup.LayoutParams(ScreenUtil.dpToPxInt(mContext, 100), ScreenUtil.dpToPxInt(mContext, 85)));
         }
+
+
 
         glideUtil.glideLoadingImage(mContext,imagesUrlList.get(position).getImageUrl(),R.drawable.home_banner_take_place,((ViewHolder) holder).ivCircleImage);
     }

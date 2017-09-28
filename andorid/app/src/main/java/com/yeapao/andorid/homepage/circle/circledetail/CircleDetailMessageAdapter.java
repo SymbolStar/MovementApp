@@ -19,6 +19,7 @@ import com.yeapao.andorid.R;
 import com.yeapao.andorid.homepage.circle.ImageRecyclerAdapter;
 import com.yeapao.andorid.model.CommunityDetailModel;
 import com.yeapao.andorid.util.AccountGradeUtils;
+import com.yeapao.andorid.util.CircleDateUtils;
 import com.yeapao.andorid.util.GlobalDataYepao;
 
 import java.net.InterfaceAddress;
@@ -100,26 +101,33 @@ public class CircleDetailMessageAdapter extends RecyclerView.Adapter<RecyclerVie
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         if (holder instanceof CircleDetailTopViewHolder) {
-            if (mCommunityDetailList.getData().getUserName().equals(GlobalDataYepao.getUser(mContext).getName())) {
-                ((CircleDetailTopViewHolder) holder).ivCommunityDelete.setVisibility(View.VISIBLE);
-                ((CircleDetailTopViewHolder) holder).ivCommunityDelete.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        deleteCommunityClickListener.deleteCommunity();
-                    }
-                });
+            ((CircleDetailTopViewHolder) holder).tvPublishTime.setText(CircleDateUtils.getCircleDate(mCommunityDetailList.getData().getCreateTime()));
+
+            if (GlobalDataYepao.isLogin()) {
+                if (mCommunityDetailList.getData().getUserName().equals(GlobalDataYepao.getUser(mContext).getName())) {
+                    ((CircleDetailTopViewHolder) holder).ivCommunityDelete.setVisibility(View.VISIBLE);
+                    ((CircleDetailTopViewHolder) holder).ivCommunityDelete.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            deleteCommunityClickListener.deleteCommunity();
+                        }
+                    });
+                } else {
+                    ((CircleDetailTopViewHolder) holder).ivCommunityDelete.setVisibility(View.GONE);
+                }
             } else {
                 ((CircleDetailTopViewHolder) holder).ivCommunityDelete.setVisibility(View.GONE);
             }
-            ((CircleDetailTopViewHolder) holder).ivCircleBadge.setImageDrawable(AccountGradeUtils.getGradeDrawable(mContext,mCommunityDetailList.getData().getGrade()));
+
+//            ((CircleDetailTopViewHolder) holder).ivCircleBadge.setImageDrawable(AccountGradeUtils.getGradeDrawable(mContext,mCommunityDetailList.getData().getGrade()));
             ((CircleDetailTopViewHolder) holder).tvNickName.setText(mCommunityDetailList.getData().getUserName());
             ((CircleDetailTopViewHolder) holder).tvContent.setText(mCommunityDetailList.getData().getContent());
             glideUtil.glideLoadingImage(mContext, mCommunityDetailList.getData().getHeadUrl(), R.drawable.y_you, ((CircleDetailTopViewHolder) holder).ivHeader);
-            if (mCommunityDetailList.getData().getMaster().equals("1")) {
-                ((CircleDetailTopViewHolder) holder).ivMaster.setVisibility(View.VISIBLE);
-            } else {
-                ((CircleDetailTopViewHolder) holder).ivMaster.setVisibility(View.GONE);
-            }
+//            if (mCommunityDetailList.getData().getMaster().equals("1")) {
+//                ((CircleDetailTopViewHolder) holder).ivMaster.setVisibility(View.VISIBLE);
+//            } else {
+//                ((CircleDetailTopViewHolder) holder).ivMaster.setVisibility(View.GONE);
+//            }
 
             ((CircleDetailTopViewHolder) holder).tvCommentSum.setText(String.valueOf("评论" + String.valueOf(mCommunityDetailList.getData().getCommentNumber())));
             ((CircleDetailTopViewHolder) holder).tvFingerSum.setText(String.valueOf(String.valueOf(mCommunityDetailList.getData().getThumbsUp())) + "赞");
@@ -133,24 +141,31 @@ public class CircleDetailMessageAdapter extends RecyclerView.Adapter<RecyclerVie
 
 
         } else {
+            ((CircleDetailCommentViewHolder) holder).tvPublishTime.setText(CircleDateUtils.getCircleDate(mCommunityDetailList.getData().getComments().get(position-1).getCreateTime()));
 
-            if (String.valueOf(mCommunityDetailList.getData().getComments().get(position - 1).getCustomerId()).equals(GlobalDataYepao.getUser(mContext).getId())) {
-                ((CircleDetailCommentViewHolder) holder).ivCommentDelete.setVisibility(View.VISIBLE);
+            if (GlobalDataYepao.isLogin()) {
+                if (String.valueOf(mCommunityDetailList.getData().getComments().get(position - 1).getCustomerId()).equals(GlobalDataYepao.getUser(mContext).getId())) {
+                    ((CircleDetailCommentViewHolder) holder).ivCommentDelete.setVisibility(View.VISIBLE);
+                } else {
+                    ((CircleDetailCommentViewHolder) holder).ivCommentDelete.setVisibility(View.GONE);
+                }
             } else {
                 ((CircleDetailCommentViewHolder) holder).ivCommentDelete.setVisibility(View.GONE);
             }
+
+
 
             ((CircleDetailCommentViewHolder) holder).tvNickName.setText(mCommunityDetailList.getData().getComments().get(position - 1).getName());
             ((CircleDetailCommentViewHolder) holder).tvContent.setText(mCommunityDetailList.getData().getComments().get(position - 1).getComment());
             glideUtil.glideLoadingImage(mContext, mCommunityDetailList.getData().getComments().get(position-1).getHead(),
                     R.drawable.y_you, ((CircleDetailCommentViewHolder) holder).ivHeader);
-            if (mCommunityDetailList.getData().getComments().get(position-1).getMaster().equals("1")) {
-                ((CircleDetailCommentViewHolder) holder).ivMaster.setVisibility(View.VISIBLE);
-            } else {
-                ((CircleDetailCommentViewHolder) holder).ivMaster.setVisibility(View.GONE);
-            }
-            ((CircleDetailCommentViewHolder) holder).ivCircleBadge.setImageDrawable(AccountGradeUtils.getGradeDrawable(mContext,
-                    Integer.valueOf(mCommunityDetailList.getData().getComments().get(position-1).getGrade())));
+//            if (mCommunityDetailList.getData().getComments().get(position-1).getMaster().equals("1")) {
+//                ((CircleDetailCommentViewHolder) holder).ivMaster.setVisibility(View.VISIBLE);
+//            } else {
+//                ((CircleDetailCommentViewHolder) holder).ivMaster.setVisibility(View.GONE);
+//            }
+//            ((CircleDetailCommentViewHolder) holder).ivCircleBadge.setImageDrawable(AccountGradeUtils.getGradeDrawable(mContext,
+//                    Integer.valueOf(mCommunityDetailList.getData().getComments().get(position-1).getGrade())));
 
             if (mCommunityDetailList.getData().getComments().get(position - 1).getCommunityCommentsOuts().size() == 0) {
                 ((CircleDetailCommentViewHolder) holder).rvImages.setVisibility(View.GONE);
@@ -162,7 +177,6 @@ public class CircleDetailMessageAdapter extends RecyclerView.Adapter<RecyclerVie
                 circleCommentMessageAdapter.setCommentOnClickListener(new CommentOnClickListener() {
                     @Override
                     public void itemOnClickListener(int pos) {
-                        ToastManager.showToast(mContext,String.valueOf(pos));
                         childCommentClickListener.onChildCommentListener(position-1,pos);
                     }
 

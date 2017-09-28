@@ -60,4 +60,36 @@
     <string name="account_cang_status">您有正在进行的运动，点击查看</string>
     <string name="account_cang_status2">您有未支付的运动订单，点击支付</string>
 
+    <!--舱支付成功  运动时间小于25为较短
+大于等于25小于等于35为合适
+大于35为较长-->
+    <string name="pay_success_1">支付成功</string>
+    <string name="pay_success_2">本次运动分析和建议</string>
+    <string name="pay_success_3">热量消耗</string>
+    <string name="pay_success_4">运动时长</string>
+    <string name="pay_success_5">运动目的</string>
+    <string name="pay_success_6">时间评估</string>
+    <string name="pay_success_7">Tips:如果你想要吃饭或者洗澡的话请在运动结束半小时以后再进行哦，对了，洗澡一定要温水温水温水，重要的提醒说三遍。</string>
+
+    <string name="food_man_1">可乐</string>
+    <string name="food_man_2">汉堡包</string>
+    <string name="food_man_3">炸猪排</string>
+    <string name="food_man_4">炸春卷</string>
+    <string name="food_man_5">大薯条</string>
+
+    <string name="food_women_1">雪碧</string>
+    <string name="food_women_2">奶油泡芙</string>
+    <string name="food_women_3">蛋挞</string>
+    <string name="food_women_4">朱古力蛋糕</string>
+    <string name="food_women_5">美式热狗</string>
+
+    <string name="sport_tips_1">今天的运动时间和运动量还需要跟上APP补练"享瘦"才能达标哦。运动完记得打开“肌肉RELAX”，做几组动作缓解肌肉压力。</string>
+    <string name="sport_tips_1_1">恭喜主人今天的运动时长和运动效果双双达标！回家后打开APP，跟着“肌肉RELAX”做放松，缓解肌肉压力身体会更舒服哦。</string>
+    <string name="sport_tips_2">今天的运动时间和运动量还需要跟上APP补练“力量PLUS”才能达标哦。运动完记得打开“肌肉RELAX”，做几组动作缓解肌肉压力。</string>
+    <string name="sport_tips_3">今天的运动时间和运动量还要跟上APP补练“轻装上阵”才能达标。坚持10-15分钟，身体症状能缓解不少。相信自己你可以的！</string>
+    <string name="sport_tips_3_1">回家别忘了打开APP，跟着“轻装上阵”再坚持10-15分钟的推荐动作，这样缓解身体不适症状的效果才是最好，继续加油！</string>
+    <string name="sport_tips_4">今天的运动时间和运动量还需要跟上APP补练“肌肉RELAX”才能达标哦，快来做几组动作缓解肌肉压力。</string>
+    <string name="sport_tips_4_1">本次运动时长完美达标，下次请继续再接再厉！运动结束，别忘了跟着APP里“肌肉RELAX”做放松，赶走运动的酸痛感。</string>
+
+
 </resources>

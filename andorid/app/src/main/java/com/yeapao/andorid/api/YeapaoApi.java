@@ -14,6 +14,7 @@ import com.yeapao.andorid.model.BodySideThreeGetDataModel;
 import com.yeapao.andorid.model.BodySideTwoBackModel;
 import com.yeapao.andorid.model.BodySideTwoGetBackModel;
 import com.yeapao.andorid.model.CallPaymentModel;
+import com.yeapao.andorid.model.CalorieMessageModel;
 import com.yeapao.andorid.model.CangDeleteActualOrdersModel;
 import com.yeapao.andorid.model.CangReservationOrderListModel;
 import com.yeapao.andorid.model.CircleListModel;
@@ -43,6 +44,7 @@ import com.yeapao.andorid.model.RollCallListModel;
 import com.yeapao.andorid.model.SaveReservation;
 import com.yeapao.andorid.model.SelectActualTimeModel;
 import com.yeapao.andorid.model.SelectReservationTimeModel;
+import com.yeapao.andorid.model.SingleCommunityModel;
 import com.yeapao.andorid.model.TestData;
 import com.yeapao.andorid.model.UserDetailsModel;
 import com.yeapao.andorid.model.VideoDataModel;
@@ -438,10 +440,18 @@ public interface YeapaoApi {
     Observable<NormalDataModel> requestFromToComment(@Query("comment") String comment, @Query("communityId") String communityId,
                                                      @Query("communityCommentId") String communityCommentId, @Query("customerId") String customerId,
                                                      @Query("passiveCustomerId") String passiveCustomerId);
-
+//打卡
     @Multipart
     @POST("community/savePunch")
     Observable<NormalDataModel> requestPushClock(@Query("customerId") String customerId, @Query("content") String content,
                                                  @Query("type") String type, @Query("status") String status,
                                                  @PartMap() Map<String, RequestBody> maps);
+
+    //   消耗卡路里
+    @POST("order/calorie")
+    Observable<CalorieMessageModel> requestCalorie(@Query("customerId") String customerId, @Query("time") String time);
+
+    //    单个帖子
+    @POST("community/community")
+    Observable<SingleCommunityModel> requestSingleCommunity(@Query("communityId") String community, @Query("customerId") String customerId);
 }

@@ -13,6 +13,7 @@ import android.text.TextUtils;
 
 import com.scottfu.sflibrary.util.LogUtil;
 import com.yeapao.andorid.MainActivity;
+import com.yeapao.andorid.homepage.message.MyMessageActivity;
 import com.yeapao.andorid.yeapaojpush.Logger;
 
 import org.json.JSONException;
@@ -65,7 +66,7 @@ public class MyReceiver extends BroadcastReceiver {
                 Logger.d(TAG, "[MyReceiver] 用户点击打开了通知");
 
                 //打开自定义的Activity
-                Intent i = new Intent(context, TestJpushActivity.class);
+                Intent i = new Intent(context, MyMessageActivity.class);
                 i.putExtras(bundle);
                 //i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP );

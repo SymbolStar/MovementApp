@@ -13,7 +13,9 @@ import com.scottfu.sflibrary.util.GlideUtil;
 import com.yeapao.andorid.R;
 import com.yeapao.andorid.model.CommunityDetailModel;
 import com.yeapao.andorid.util.AccountGradeUtils;
+import com.yeapao.andorid.util.CircleDateUtils;
 import com.yeapao.andorid.util.GlobalDataYepao;
+import com.yeapao.andorid.util.SpannableTextUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,9 +79,9 @@ public class CircleCommentMessageAdapter extends RecyclerView.Adapter<RecyclerVi
             case BOTTOM_TYPE:
                 return new BottomTabViewHolder(inflater.inflate(R.layout.item_comment_list_status, parent, false));
             case GROUP_TYPE:
-                return new CircleChildCommentViewHolder(inflater.inflate(R.layout.item_circle_detail_child_comment, parent, false),mCommentListener);
+                return new CircleChildCommentViewHolder(inflater.inflate(R.layout.item_circle_detail_child_comment, parent, false), mCommentListener);
             default:
-                return new CircleChildCommentViewHolder(inflater.inflate(R.layout.item_circle_detail_child_comment, parent, false),mCommentListener);
+                return new CircleChildCommentViewHolder(inflater.inflate(R.layout.item_circle_detail_child_comment, parent, false), mCommentListener);
         }
     }
 
@@ -110,25 +112,34 @@ public class CircleCommentMessageAdapter extends RecyclerView.Adapter<RecyclerVi
 
 
         } else {
+            ((CircleChildCommentViewHolder) holder).tvPublishTime.setText(CircleDateUtils.getCircleDate(communityCommentsOutsBeanList.get(position).getCreateTime()));
             ((CircleChildCommentViewHolder) holder).tvNickName.setText(communityCommentsOutsBeanList.get(position).getName());
 //TODO 优化回复字段的字体颜色
-            ((CircleChildCommentViewHolder) holder).tvContent.setText(
-                    "回复"+communityCommentsOutsBeanList.get(position).getPassiveCustomerName()+
-                            "："+communityCommentsOutsBeanList.get(position).getComment());
-            if (communityCommentsOutsBeanList.get(position).getMaster().equals("1")) {
-                ((CircleChildCommentViewHolder) holder).ivMaster.setVisibility(View.VISIBLE);
-            } else {
-                ((CircleChildCommentViewHolder) holder).ivMaster.setVisibility(View.GONE);
-            }
-            ((CircleChildCommentViewHolder) holder).ivCircleBadge.setImageDrawable(AccountGradeUtils.getGradeDrawable(mContext,
-                    Integer.valueOf(communityCommentsOutsBeanList.get(position).getGrade())));
+            String start = "回复" + communityCommentsOutsBeanList.get(position).getPassiveCustomerName() +
+                    "：";
+            String end = communityCommentsOutsBeanList.get(position).getComment();
+            ((CircleChildCommentViewHolder) holder).tvContent.setText(SpannableTextUtils.setTextTwoColor(start, end));
+//            ((CircleChildCommentViewHolder) holder).tvContent.setText(
+//                    "回复"+communityCommentsOutsBeanList.get(position).getPassiveCustomerName()+
+//                            "："+communityCommentsOutsBeanList.get(position).getComment());
+//            if (communityCommentsOutsBeanList.get(position).getMaster().equals("1")) {
+//                ((CircleChildCommentViewHolder) holder).ivMaster.setVisibility(View.VISIBLE);
+//            } else {
+//                ((CircleChildCommentViewHolder) holder).ivMaster.setVisibility(View.GONE);
+//            }
+//            ((CircleChildCommentViewHolder) holder).ivCircleBadge.setImageDrawable(AccountGradeUtils.getGradeDrawable(mContext,
+//                    Integer.valueOf(communityCommentsOutsBeanList.get(position).getGrade())));
             glideUtil.glideLoadingImage(mContext, communityCommentsOutsBeanList.get(position).getHead(), R.drawable.y_you, ((CircleChildCommentViewHolder) holder).ivHeader);
-            if (String.valueOf(communityCommentsOutsBeanList.get(position).getCustomerId()).equals(GlobalDataYepao.getUser(mContext).getId())) {
-                ((CircleChildCommentViewHolder) holder).ivDelete.setVisibility(View.VISIBLE);
+
+            if (GlobalDataYepao.isLogin()) {
+                if (String.valueOf(communityCommentsOutsBeanList.get(position).getCustomerId()).equals(GlobalDataYepao.getUser(mContext).getId())) {
+                    ((CircleChildCommentViewHolder) holder).ivDelete.setVisibility(View.VISIBLE);
+                } else {
+                    ((CircleChildCommentViewHolder) holder).ivDelete.setVisibility(View.GONE);
+                }
             } else {
                 ((CircleChildCommentViewHolder) holder).ivDelete.setVisibility(View.GONE);
             }
-
             ((CircleChildCommentViewHolder) holder).ivDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -158,7 +169,7 @@ public class CircleCommentMessageAdapter extends RecyclerView.Adapter<RecyclerVi
         }
     }
 
-    static class CircleChildCommentViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    static class CircleChildCommentViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private CommentOnClickListener mListener;
         @BindView(R.id.iv_header)
         CircleImageView ivHeader;
@@ -175,7 +186,7 @@ public class CircleCommentMessageAdapter extends RecyclerView.Adapter<RecyclerVi
         @BindView(R.id.iv_delete)
         ImageView ivDelete;
 
-        CircleChildCommentViewHolder(View view,CommentOnClickListener listener) {
+        CircleChildCommentViewHolder(View view, CommentOnClickListener listener) {
             super(view);
             ButterKnife.bind(this, view);
             mListener = listener;
@@ -188,7 +199,7 @@ public class CircleCommentMessageAdapter extends RecyclerView.Adapter<RecyclerVi
         }
     }
 
-    static class BottomTabViewHolder extends RecyclerView.ViewHolder  {
+    static class BottomTabViewHolder extends RecyclerView.ViewHolder {
 
 
         @BindView(R.id.tv_comment_list_status)

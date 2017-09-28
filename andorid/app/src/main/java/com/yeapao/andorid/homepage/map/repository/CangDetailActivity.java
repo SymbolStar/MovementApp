@@ -87,9 +87,9 @@ public class CangDetailActivity extends BaseActivity {
                     JpushMessageFlag = true;
                     startFitFlag++;
                     if (startFitFlag == 1) {
-//                        LogUtil.e(TAG, deviceNo + "   " + type);
-//                        requestCreateCangOrders(GlobalDataYepao.getUser(getContext()).getId(),mCangDetail.getData().getWarehouseId(),
-//                                "1");
+                        LogUtil.e(TAG, deviceNo + "   " + type);
+                        requestCreateCangOrders(GlobalDataYepao.getUser(getContext()).getId(),mCangDetail.getData().getWarehouseId(),
+                                "1");
 
                     }
 

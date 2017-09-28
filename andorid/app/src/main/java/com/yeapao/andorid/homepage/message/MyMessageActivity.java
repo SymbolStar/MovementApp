@@ -151,6 +151,7 @@ public class MyMessageActivity extends BaseActivity {
                 break;
             case R.id.rl_circle:
                 CircleMessageActivity.start(getContext());
+                circleBadge.setBadgeNumber(0);
                 break;
         }
     }

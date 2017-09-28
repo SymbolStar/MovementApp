@@ -55,6 +55,7 @@ public class CommunityDetailModel {
          * content : 哈哈好傻好傻啊啊啊啊哈
          * master : 0
          * shareNumber : null
+         * isFabulous
          * createTime : 1505807981531
          * grade : 1
          * communityId : 6
@@ -69,13 +70,20 @@ public class CommunityDetailModel {
         private String content;
         private String master;
         private Object shareNumber;
+        private String isFabulous;
         private long createTime;
         private int grade;
         private int communityId;
         private int thumbsUp;
         private List<CircleListModel.DataBean.CommunityListBean.imagesUrl> images;
         private List<CommentsBean> comments;
+        public String getIsFabulous() {
+            return isFabulous;
+        }
 
+        public void setIsFabulous(String isFabulous) {
+            this.isFabulous = isFabulous;
+        }
         public int getCommentNumber() {
             return commentNumber;
         }

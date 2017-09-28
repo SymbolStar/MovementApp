@@ -23,9 +23,11 @@ import com.yeapao.andorid.R;
 import com.yeapao.andorid.api.Network;
 import com.yeapao.andorid.base.BaseFragment;
 import com.yeapao.andorid.homepage.circle.circledetail.CircleDetailActivity;
+import com.yeapao.andorid.homepage.map.repository.PaySuccessActivity;
 import com.yeapao.andorid.homepage.message.MyMessageActivity;
 import com.yeapao.andorid.model.CircleListModel;
 import com.yeapao.andorid.model.NormalDataModel;
+import com.yeapao.andorid.model.SingleCommunityModel;
 import com.yeapao.andorid.util.GlobalDataYepao;
 
 import java.util.Calendar;
@@ -56,6 +58,7 @@ public class CircleFragmentView extends BaseFragment implements CircleContract.V
     SwipeRefreshLayout refreshLayout;
     Unbinder unbinder;
 
+    private boolean singleCommunityFlag = false;
 
     private CircleContract.Presenter mPresenter;
     private LinearLayoutManager llm;
@@ -67,6 +70,10 @@ public class CircleFragmentView extends BaseFragment implements CircleContract.V
     private int totalPage;
 
     private int praisePosition = 0;
+
+    private int singleCommunotyPosition = 0;
+
+    private SingleCommunityModel mSingleCommunityModel = new SingleCommunityModel();
 
 
     public CircleFragmentView() {
@@ -117,12 +124,24 @@ public class CircleFragmentView extends BaseFragment implements CircleContract.V
     public void onResume() {
         super.onResume();
         LogUtil.e(TAG, "onResume");
-        currentPage = 0;
+
         if (GlobalDataYepao.isLogin()) {
-            getNetWorkWithAccount(GlobalDataYepao.getUser(getContext()).getId(), String.valueOf(currentPage));
+            if (singleCommunityFlag) {
+                getNetWorkSingleCommunity(String.valueOf(mCircleListModel.getData().getCommunityList().get(singleCommunotyPosition).getCommunityId()),
+                        GlobalDataYepao.getUser(getContext()).getId());
+                singleCommunityFlag = false;
+            }
+
         } else {
-            getNetWork(String.valueOf(currentPage));
+
         }
+
+//        currentPage = 0;
+//        if (GlobalDataYepao.isLogin()) {
+//            getNetWorkWithAccount(GlobalDataYepao.getUser(getContext()).getId(), String.valueOf(currentPage));
+//        } else {
+//            getNetWork(String.valueOf(currentPage));
+//        }
     }
 
     @OnClick(R.id.iv_circle_write)
@@ -217,13 +236,10 @@ public class CircleFragmentView extends BaseFragment implements CircleContract.V
         circleMessageAdapter.setItemClickListener(new OnRecyclerViewClickListener() {
             @Override
             public void OnItemClick(View v, int position) {
-                if (GlobalDataYepao.isLogin()) {
+                singleCommunityFlag = true;
+                singleCommunotyPosition = position;
                     CircleDetailActivity.start(getContext(), String.valueOf(mCircleListModel.getData().getCommunityList().get(position).getCommunityId()),
                             mCircleListModel.getData().getCommunityList().get(position).getFabulous());
-                } else {
-                    ToastManager.showToast(getContext(), "请先登陆");
-                }
-
 
 //                CircleDetailActivity.start(getContext(), String.valueOf(mCircleListModel.getData().getCommunityList().get(position).getCommunityId()),
 //                        mCircleListModel.getData().getCommunityList().get(position).getFabulous());
@@ -385,5 +401,57 @@ public class CircleFragmentView extends BaseFragment implements CircleContract.V
         }
     };
 
+
+            private void getNetWorkSingleCommunity(String community,String customerId) {
+                    LogUtil.e(TAG,community+customerId);
+                    subscription = Network.getYeapaoApi()
+                            .requestSingleCommunity(community,customerId)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(modelObserverSingleCommunity );
+                }
+
+                  Observer<SingleCommunityModel> modelObserverSingleCommunity = new Observer<SingleCommunityModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        LogUtil.e(TAG,e.toString());
+
+                    }
+
+                    @Override
+                    public void onNext(SingleCommunityModel model) {
+                        LogUtil.e(TAG, model.getErrmsg());
+                        if (model.getErrmsg().equals("ok")) {
+                            mSingleCommunityModel = model;
+                            RecyclerView.ViewHolder viewHolder = rvCircleList.findViewHolderForAdapterPosition(singleCommunotyPosition+1);//这边的praisePosition+1 为布局的位置
+                            if (viewHolder != null && viewHolder instanceof CircleMessageAdapter.CircleItemViewHolder) {
+                                CircleMessageAdapter.CircleItemViewHolder itemHolder = (CircleMessageAdapter.CircleItemViewHolder) viewHolder;
+                                if (model.getData().getFabulous().equals("1")) {
+                                    Drawable img = getContext().getResources().getDrawable(R.drawable.circle_finger_s);
+                                    // 调用setCompoundDrawables时，必须调用Drawable.setBounds()方法,否则图片不显示
+                                    img.setBounds(0, 0, img.getMinimumWidth(), img.getMinimumHeight());
+                                    itemHolder.tvFinger.setCompoundDrawables(img, null, null, null);
+                                    int sum = Integer.valueOf(itemHolder.tvFinger.getText().toString()) - 1;
+                                    itemHolder.tvFinger.setText(String.valueOf(sum));
+                                } else {
+                                    Drawable img = getContext().getResources().getDrawable(R.drawable.circle_finger_n);
+                                    // 调用setCompoundDrawables时，必须调用Drawable.setBounds()方法,否则图片不显示
+                                    img.setBounds(0, 0, img.getMinimumWidth(), img.getMinimumHeight());
+                                    itemHolder.tvFinger.setCompoundDrawables(img, null, null, null);
+                                    int sum = Integer.valueOf(itemHolder.tvFinger.getText().toString()) - 1;
+                                    itemHolder.tvFinger.setText(String.valueOf(sum));
+                                }
+                                itemHolder.tvFinger.setText(String.valueOf(model.getData().getThumbsUp()));
+                                itemHolder.tvComment.setText(String.valueOf(model.getData().getCommentNumber()));
+
+                            }
+                        }
+                    }
+                };
 
 }
