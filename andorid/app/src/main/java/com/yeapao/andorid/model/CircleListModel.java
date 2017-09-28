@@ -92,6 +92,7 @@ public class CircleListModel {
             private String gender;
             private String headUrl;
             private String userName;
+            private String type;
             private String content;
             private String master;
             private int shareNumber;
@@ -101,6 +102,14 @@ public class CircleListModel {
             private String fabulous;
             private int thumbsUp;
             private List<imagesUrl> images;
+
+            public String getType() {
+                return type;
+            }
+
+            public void setType(String type) {
+                this.type = type;
+            }
 
             public int getCommentNumber() {
                 return commentNumber;

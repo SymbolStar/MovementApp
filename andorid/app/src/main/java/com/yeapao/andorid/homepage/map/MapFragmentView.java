@@ -363,7 +363,21 @@ public class MapFragmentView extends BaseFragment implements SensorEventListener
     public void onCreate(Bundle var1) {
         super.onCreate(var1);
         LogUtil.e(TAG,"----onCreate----");
+
+        // 定位初始化##在此处设置定位的监听 避免重复定位
+        mLocClient = new LocationClient(getContext());
+        mLocClient.registerLocationListener(myListener);
+        LocationClientOption option = new LocationClientOption();
+        option.setOpenGps(true); // 打开gps
+        option.setCoorType("bd09ll"); // 设置坐标类型
+//        option.setScanSpan(1000);
+        mLocClient.setLocOption(option);
+        mLocClient.start();
     }
+
+
+
+
 
 //    public View onCreateView(LayoutInflater var1, ViewGroup var2, Bundle var3) {
 ////        this.mMapView = new MapView(this.getActivity(), this.mapOptions);
@@ -377,7 +391,7 @@ public class MapFragmentView extends BaseFragment implements SensorEventListener
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         LogUtil.e(TAG, "----onCreateView----");
-
+        isFirstLoc = true;
         View view = inflater.inflate(R.layout.fragment_map, container, false);
 
         initView(view);
@@ -449,15 +463,15 @@ public class MapFragmentView extends BaseFragment implements SensorEventListener
         // 开启定位图层
         mBaiduMap.setMyLocationEnabled(true);
 
-        // 定位初始化
-        mLocClient = new LocationClient(getContext());
-        mLocClient.registerLocationListener(myListener);
-        LocationClientOption option = new LocationClientOption();
-        option.setOpenGps(true); // 打开gps
-        option.setCoorType("bd09ll"); // 设置坐标类型
-//        option.setScanSpan(1000);
-        mLocClient.setLocOption(option);
-        mLocClient.start();
+//        // 定位初始化
+//        mLocClient = new LocationClient(getContext());
+//        mLocClient.registerLocationListener(myListener);
+//        LocationClientOption option = new LocationClientOption();
+//        option.setOpenGps(true); // 打开gps
+//        option.setCoorType("bd09ll"); // 设置坐标类型
+////        option.setScanSpan(1000);
+//        mLocClient.setLocOption(option);
+//        mLocClient.start();
 
 //        线路轨迹
         mSearch = RoutePlanSearch.newInstance();
@@ -497,6 +511,7 @@ public class MapFragmentView extends BaseFragment implements SensorEventListener
         } else {
             getNetWork(GlobalDataYepao.getUser(getContext()).getId());
         }
+        mLocClient.requestLocation();
 
         applyConstraintSet.clone(mConstraintLayout);
         applyConstraintSet.setVisibility(R.id.fl_reservation, ConstraintSet.GONE);
@@ -624,8 +639,9 @@ public class MapFragmentView extends BaseFragment implements SensorEventListener
             if (location == null || mMapView == null) {
                 return;
             }
-
-            LogUtil.e("MyLocationListener", "receiveLocation");
+            LogUtil.e("MyLocationListener", "xxxxXXXXXX");
+            if (isFirstLoc) {
+            LogUtil.e("MyLocationListener", "receiveLocationlllllll");
 
             mCurrentLat = location.getLatitude();
             mCurrentLon = location.getLongitude();
@@ -636,13 +652,14 @@ public class MapFragmentView extends BaseFragment implements SensorEventListener
                     .direction(mCurrentDirection).latitude(location.getLatitude())
                     .longitude(location.getLongitude()).build();
             mBaiduMap.setMyLocationData(locData);
-            if (isFirstLoc) {
+//            if (isFirstLoc) {
+
                 isFirstLoc = false;
-                LatLng ll = new LatLng(location.getLatitude(),
-                        location.getLongitude());
-                MapStatus.Builder builder = new MapStatus.Builder();
-                builder.target(ll).zoom(17.0f);
-                mBaiduMap.animateMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));
+//                LatLng ll = new LatLng(location.getLatitude(),
+//                        location.getLongitude());
+//                MapStatus.Builder builder = new MapStatus.Builder();
+//                builder.target(ll).zoom(17.0f);
+//                mBaiduMap.animateMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));
             }
         }
 
@@ -683,13 +700,13 @@ public class MapFragmentView extends BaseFragment implements SensorEventListener
                     tvAccountCangStatus.setVisibility(View.VISIBLE);
                     tvAccountCangStatus.setText(getContext().getResources().getString(R.string.account_cang_status));
                 } else {
-                    tvAccountCangStatus.setVisibility(View.GONE);
+//                    tvAccountCangStatus.setVisibility(View.GONE);
                 }
                 if (mWareHouseList.getData().getIsUnpaid() == 1) {
                     tvAccountCangStatus.setVisibility(View.VISIBLE);
                     tvAccountCangStatus.setText(getContext().getResources().getString(R.string.account_cang_status2));
                 } else {
-                    tvAccountCangStatus.setVisibility(View.GONE);
+//                    tvAccountCangStatus.setVisibility(View.GONE);
                 }
 
                 addMarkers();

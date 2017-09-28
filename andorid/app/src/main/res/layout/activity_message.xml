@@ -38,6 +38,7 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:visibility="gone"
         android:id="@+id/rl_order"
         android:layout_width="match_parent"
         android:layout_height="55dp"
@@ -93,6 +94,36 @@
             android:textColor="@color/text_color"
             android:layout_toRightOf="@id/iv_video"
             android:text="视频提醒"
+            android:layout_centerVertical="true"
+            android:paddingLeft="10dp"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_circle"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:paddingLeft="15dp"
+        android:background="@color/bg_white">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/bg_grey"
+            android:layout_alignParentBottom="true"/>
+
+        <ImageView
+            android:id="@+id/iv_circle"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/message_circle"
+            android:layout_centerVertical="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="@color/text_color"
+            android:layout_toRightOf="@id/iv_circle"
+            android:text="圈子提醒"
             android:layout_centerVertical="true"
             android:paddingLeft="10dp"/>
     </RelativeLayout>

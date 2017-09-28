@@ -38,11 +38,12 @@ public class CircleDetailPresenter implements CircleDetailContract.Presenter {
     }
 
     public void setCommunityId(String id) {
-        LogUtil.e(TAG+"++++++ id",id);
+        LogUtil.e(TAG + "++++++ id", id);
         communityId = id;
     }
+
     public void setFabulous(String fabulous) {
-        LogUtil.e(TAG+"++++++ fabulous",fabulous);
+        LogUtil.e(TAG + "++++++ fabulous", fabulous);
         this.fabulous = fabulous;
     }
 
@@ -202,7 +203,6 @@ public class CircleDetailPresenter implements CircleDetailContract.Presenter {
     }
 
 
-
     Observer<NormalDataModel> DeleteCommentModelObserver = new Observer<NormalDataModel>() {
         @Override
         public void onCompleted() {
@@ -225,56 +225,86 @@ public class CircleDetailPresenter implements CircleDetailContract.Presenter {
     };
 
 
-
-
     @Override
     public void getFromToComment(int position, String content) {
 
-        LogUtil.e(TAG,"getFormToComment 回复评论"+position+"  "+content);
+        LogUtil.e(TAG, "getFormToComment 回复评论" + position + "  " + content);
         subscription = Network.getYeapaoApi()
-                .requestFromToComment(content,String.valueOf(mCommunityDetailModel.getData().getCommunityId()),
+                .requestFromToComment(content, String.valueOf(mCommunityDetailModel.getData().getCommunityId()),
                         String.valueOf(mCommunityDetailModel.getData().getComments().get(position).getId()),
                         GlobalDataYepao.getUser(mContext).getId(),
                         String.valueOf(mCommunityDetailModel.getData().getComments().get(position).getCustomerId()))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe( FromToModelObserver);
+                .subscribe(FromToModelObserver);
     }
 
     @Override
     public void getFromToChildComment(int pos, int childPos, String content) {
-        LogUtil.e(TAG,"getFormToComment 回复评论里的评论"+pos+"  "+childPos+"  "+content);
+        LogUtil.e(TAG, "getFormToComment 回复评论里的评论" + pos + "  " + childPos + "  " + content);
         subscription = Network.getYeapaoApi()
-                .requestFromToComment(content,String.valueOf(mCommunityDetailModel.getData().getCommunityId()),
+                .requestFromToComment(content, String.valueOf(mCommunityDetailModel.getData().getCommunityId()),
                         String.valueOf(mCommunityDetailModel.getData().getComments().get(pos).getCommunityCommentsOuts().get(childPos).getId()),
                         GlobalDataYepao.getUser(mContext).getId(),
                         String.valueOf(mCommunityDetailModel.getData().getComments().get(pos).getCommunityCommentsOuts().get(childPos).getCustomerId()))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe( FromToModelObserver);
+                .subscribe(FromToModelObserver);
     }
 
 
     Observer<NormalDataModel> FromToModelObserver = new Observer<NormalDataModel>() {
-                    @Override
-                    public void onCompleted() {
+        @Override
+        public void onCompleted() {
 
-                    }
+        }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        LogUtil.e(TAG,e.toString());
+        @Override
+        public void onError(Throwable e) {
+            LogUtil.e(TAG, e.toString());
 
-                    }
+        }
 
-                    @Override
-                    public void onNext(NormalDataModel model) {
-                        LogUtil.e(TAG, model.getErrmsg());
-                        if (model.getErrmsg().equals("ok")) {
-                            getData();
-                        }
-                    }
-                };
+        @Override
+        public void onNext(NormalDataModel model) {
+            LogUtil.e(TAG, model.getErrmsg());
+            if (model.getErrmsg().equals("ok")) {
+                getData();
+            }
+        }
+    };
 
+
+    @Override
+    public void deleteCommunity() {
+        LogUtil.e(TAG, String.valueOf(mCommunityDetailModel.getData().getCommunityId()));
+        subscription = Network.getYeapaoApi()
+                .requestDeleteCommunity(String.valueOf(mCommunityDetailModel.getData().getCommunityId()))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(deleteCommunityModelObserver);
+    }
+
+
+    Observer<NormalDataModel> deleteCommunityModelObserver = new Observer<NormalDataModel>() {
+        @Override
+        public void onCompleted() {
+
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            LogUtil.e(TAG, e.toString());
+
+        }
+
+        @Override
+        public void onNext(NormalDataModel model) {
+            LogUtil.e(TAG, model.getErrmsg());
+            if (model.getErrmsg().equals("ok")) {
+                    mView.CircleDetailFinish();
+            }
+        }
+    };
 
 }

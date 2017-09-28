@@ -5,27 +5,40 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.Keep;
 import android.support.annotation.Nullable;
+import android.util.ArrayMap;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.zxing.ChecksumException;
 import com.scottfu.sflibrary.image.GifSizeFilter;
 import com.scottfu.sflibrary.image.ImageFileUtils;
 import com.scottfu.sflibrary.util.BitmapCompressV2;
 import com.scottfu.sflibrary.util.FileUtil;
+import com.scottfu.sflibrary.util.LogUtil;
+import com.scottfu.sflibrary.util.SoftInputUtils;
+import com.scottfu.sflibrary.util.ToastManager;
 import com.scottfu.sflibrary.view.HeightGirdView;
 import com.yeapao.andorid.R;
+import com.yeapao.andorid.api.Network;
 import com.yeapao.andorid.base.BaseActivity;
+import com.yeapao.andorid.dialog.DialogUtils;
+import com.yeapao.andorid.model.NormalDataModel;
+import com.yeapao.andorid.util.GlobalDataYepao;
 import com.yeapao.andorid.util.ImageContainerAdapter;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
@@ -39,11 +52,17 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
+import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by fujindong on 2017/7/23.
@@ -57,6 +76,16 @@ public class MyselfClockOutActivity extends BaseActivity {
     private Bitmap.Config mConfig = Bitmap.Config.ARGB_8888;
 
     private ImageContainerAdapter containerAdapter;
+
+    private static final String BREAKFAST = "breakfast";
+    private static final String LUNCH = "lunch";
+    private static final String DINNER = "dinner";
+    private static final String WEIGHT = "weight";
+
+    private String clockStatus;
+    private String circleStatus = "0";
+
+    private Map<String, RequestBody> imageMap = new ArrayMap<>();
 
     List<Uri> mSelected;
     private ArrayList<File> mImageArrayList = new ArrayList<>();
@@ -72,12 +101,19 @@ public class MyselfClockOutActivity extends BaseActivity {
     @BindView(R.id.tv_clock_out_content)
     EditText tvClockOutContent;
     @BindView(R.id.rb_admin)
-    RadioButton rbAdmin;
+    CheckBox rbAdmin;
     @BindView(R.id.iv_choose_image)
     ImageView ivChooseImage;
     @BindView(R.id.gv_image_list)
     HeightGirdView gvImageList;
-
+    @BindView(R.id.iv_weight_background)
+    ImageView ivWeightBackground;
+    @BindView(R.id.rl_weight)
+    RelativeLayout rlWeight;
+    @BindView(R.id.et_weight)
+    EditText etWeight;
+    @BindView(R.id.tv_right)
+    TextView tvRight;
 
 
     public static void start(Context context) {
@@ -95,6 +131,64 @@ public class MyselfClockOutActivity extends BaseActivity {
         initTopBar();
 //        containerAdapter = new ImageContainerAdapter(getContext());
 //        gvImageList.setAdapter(containerAdapter);
+
+
+    }
+
+
+    @OnClick(R.id.tv_right)
+    void setTvRight(View view) {
+        String weight = etWeight.getText().toString();
+        String content = tvClockOutContent.getText().toString();
+
+        if (mImageArrayList.size() == 0) {
+            if (clockStatus.equals(WEIGHT)) {
+                if (weight == null || weight.equals("")) {
+                    ToastManager.showToast(getContext(), "打卡内容不能为空");
+                    return;
+                } else {
+                    RequestBody file = RequestBody.create(MediaType.parse("multipart/form-data"),"");
+                    String key = "imageUrls\";filename=\"" + "imageUrlsNull";
+                    imageMap.put(key, file);
+                    DialogUtils.showProgressDialog(getContext());
+                    getNetWorkImages(weight,WEIGHT,"1",imageMap);
+
+                }
+            } else {
+
+                if (content == null || content.equals("")) {
+                    ToastManager.showToast(getContext(), "打卡内容不能为空");
+                    return;
+                } else {
+                    if (rbAdmin.isChecked()) {
+                        circleStatus = "1";
+                    } else {
+                        circleStatus = "0";
+                    }
+                    RequestBody file = RequestBody.create(MediaType.parse("multipart/form-data"),"");
+                    String key = "imageUrls\";filename=\"" + "imageUrlsNull";
+                    imageMap.put(key, file);
+                    DialogUtils.showProgressDialog(getContext());
+                    getNetWorkImages(content, clockStatus, circleStatus,imageMap);
+                }
+            }
+        } else {
+            if (rbAdmin.isChecked()) {
+                circleStatus = "1";
+            } else {
+                circleStatus = "0";
+            }
+
+            for (int i = 0; i < mImageArrayList.size(); i++) {
+                RequestBody file = RequestBody.create(MediaType.parse("multipart/form-data"), mImageArrayList.get(i));
+                String key = "imageUrls\";filename=\"" + mImageArrayList.get(i).getName().toString();
+                LogUtil.e(TAG,key);
+                imageMap.put(key, file);
+            }
+            DialogUtils.showProgressDialog(getContext());
+            getNetWorkImages(content,clockStatus,circleStatus,imageMap);
+
+        }
     }
 
     @Override
@@ -105,87 +199,21 @@ public class MyselfClockOutActivity extends BaseActivity {
     }
 
 
-
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-//
-//        Uri uri = data.getData();
-//        ContentResolver contentResolver = this.getContentResolver();
-//        Cursor cursor = contentResolver.query(uri, null, null, null, null);
-//        cursor.moveToFirst();
-//        String localPicPath = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
-//        LogUtil.e("qqqq",localPicPath);
-//        cursor.close();
-//
-//            try {
-//                FileInputStream fis = new FileInputStream(new File(localPicPath));
-//                ivChooseImage.setImageBitmap(BitmapFactory.decodeStream(fis));
-//
-//            } catch (FileNotFoundException e) {
-//                e.printStackTrace();
-//            }
-
-
-
 
         if (requestCode == REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
             mSelected = Matisse.obtainResult(data);
 
-//            File file = new File(ImageFileUtils.getRealFilePath(getContext(), mSelected.get(0))) ;
-//            try {
-//                FileInputStream fileInputStream = new FileInputStream(file);
-//                ivChooseImage.setImageBitmap(BitmapFactory.decodeStream(fileInputStream));
-//            } catch (FileNotFoundException e) {
-//                e.printStackTrace();
-//            }
             compressImage();
-
-//            ivChooseImage.setImageBitmap(ImageFileUtils.getBitmapFromUri(getContext(),mSelected.get(0)));
-
-
-
-
-
-
-
-
-//            String path = ImageFileUtils.getPhotoPathFromContentUri(getContext(), mSelected.get(0));
-
-//            String path = ImageFileUtils.getRealFilePath(getContext(), mSelected.get(0));
-
-//            imagePathList = data.getStringArrayListExtra("extra_result_selection_path");
-//            LogUtil.e("1111",path);
-    /*
-            Log.e("Matisse", "mSelected: " + mSelected);
-            Bitmap bb = ImageFileUtils.getBitmapFromUri(getContext(), mSelected.get(0));
-
-
-
-            Tiny.FileCompressOptions compressOptions = new Tiny.FileCompressOptions();
-            compressOptions.config = mConfig;
-
-            Tiny.getInstance().source(bb).batchAsFile().withOptions(compressOptions).batchCompress(new FileBatchCallback() {
-                @Override
-                public void callback(boolean isSuccess, String[] outfile) {
-                    if (!isSuccess) {
-                        ToastManager.showToast(getContext(),"error");
-                        return;
-                    }
-                    LogUtil.e("ddd",outfile[0]);
-                }
-            });*/
 
 
         }
     }
 
 
-
-
-    final Handler handler = new Handler()
-    {
+    final Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
 
@@ -193,11 +221,18 @@ public class MyselfClockOutActivity extends BaseActivity {
 
                 containerAdapter = new ImageContainerAdapter(getContext(), mImageArrayList);
                 gvImageList.setAdapter(containerAdapter);
+                containerAdapter.setImageDeleteListener(new ImageContainerAdapter.ImageDeleteListener() {
+                    @Override
+                    public void deleteListener(int position) {
+                        mImageArrayList.remove(position);
+                        containerAdapter.notifyDataSetChanged();
+                    }
+                });
+
 
             }
         }
     };
-
 
 
     private void compressImage() {
@@ -240,9 +275,6 @@ public class MyselfClockOutActivity extends BaseActivity {
     }
 
 
-
-
-
     @Override
     protected Context getContext() {
         return this;
@@ -252,6 +284,9 @@ public class MyselfClockOutActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_breakfest:
+                clockStatus = BREAKFAST;
+                ivWeightBackground.setVisibility(View.GONE);
+                rlWeight.setVisibility(View.GONE);
                 tvBreakfest.setBackgroundDrawable(getResources().getDrawable(R.drawable.clock_out_tab_s_shape));
                 tvLunch.setBackgroundDrawable(getResources().getDrawable(R.drawable.clock_out_tab_shape));
                 tvDinner.setBackgroundDrawable(getResources().getDrawable(R.drawable.clock_out_tab_shape));
@@ -259,26 +294,36 @@ public class MyselfClockOutActivity extends BaseActivity {
 
                 break;
             case R.id.tv_lunch:
+                clockStatus = LUNCH;
+                ivWeightBackground.setVisibility(View.GONE);
+                rlWeight.setVisibility(View.GONE);
                 tvBreakfest.setBackgroundDrawable(getResources().getDrawable(R.drawable.clock_out_tab_shape));
                 tvLunch.setBackgroundDrawable(getResources().getDrawable(R.drawable.clock_out_tab_s_shape));
                 tvDinner.setBackgroundDrawable(getResources().getDrawable(R.drawable.clock_out_tab_shape));
                 tvWeight.setBackgroundDrawable(getResources().getDrawable(R.drawable.clock_out_tab_shape));
                 break;
             case R.id.tv_dinner:
+                clockStatus = DINNER;
+                ivWeightBackground.setVisibility(View.GONE);
+                rlWeight.setVisibility(View.GONE);
                 tvBreakfest.setBackgroundDrawable(getResources().getDrawable(R.drawable.clock_out_tab_shape));
                 tvLunch.setBackgroundDrawable(getResources().getDrawable(R.drawable.clock_out_tab_shape));
                 tvDinner.setBackgroundDrawable(getResources().getDrawable(R.drawable.clock_out_tab_s_shape));
                 tvWeight.setBackgroundDrawable(getResources().getDrawable(R.drawable.clock_out_tab_shape));
                 break;
             case R.id.tv_weight:
+                clockStatus = WEIGHT;
                 tvBreakfest.setBackgroundDrawable(getResources().getDrawable(R.drawable.clock_out_tab_shape));
                 tvLunch.setBackgroundDrawable(getResources().getDrawable(R.drawable.clock_out_tab_shape));
                 tvDinner.setBackgroundDrawable(getResources().getDrawable(R.drawable.clock_out_tab_shape));
                 tvWeight.setBackgroundDrawable(getResources().getDrawable(R.drawable.clock_out_tab_s_shape));
+                ivWeightBackground.setVisibility(View.VISIBLE);
+                rlWeight.setVisibility(View.VISIBLE);
                 break;
             case R.id.tv_clock_out_content:
                 break;
             case R.id.rb_admin:
+
                 break;
             case R.id.iv_choose_image:
 //                Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -302,4 +347,39 @@ public class MyselfClockOutActivity extends BaseActivity {
                 break;
         }
     }
+
+
+            private void getNetWorkImages(String content, String type, String status, Map<String, RequestBody> images) {
+                    LogUtil.e(TAG+" images ",content+type+status);
+                    subscription = Network.getYeapaoApi()
+                            .requestPushClock(GlobalDataYepao.getUser(getContext()).getId(),content,type,status,images)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(ImagesModelObserver);
+                }
+
+                  Observer<NormalDataModel> ImagesModelObserver = new Observer<NormalDataModel>() {
+                    @Override
+                    public void onCompleted() {
+                        DialogUtils.cancelProgressDialog();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        LogUtil.e(TAG,e.toString());
+                        DialogUtils.cancelProgressDialog();
+                    }
+
+                    @Override
+                    public void onNext(NormalDataModel model) {
+                        LogUtil.e(TAG, model.getErrmsg());
+                        if (model.getErrmsg().equals("ok")) {
+                            DialogUtils.cancelProgressDialog();
+                            SoftInputUtils.hideSoftinput(MyselfClockOutActivity.this);
+                                finish();
+                        }
+                    }
+                };
+
+
 }

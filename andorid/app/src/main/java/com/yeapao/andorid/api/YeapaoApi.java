@@ -17,6 +17,7 @@ import com.yeapao.andorid.model.CallPaymentModel;
 import com.yeapao.andorid.model.CangDeleteActualOrdersModel;
 import com.yeapao.andorid.model.CangReservationOrderListModel;
 import com.yeapao.andorid.model.CircleListModel;
+import com.yeapao.andorid.model.CircleMessageModel;
 import com.yeapao.andorid.model.ClassBeginsModel;
 import com.yeapao.andorid.model.CommunityDetailModel;
 import com.yeapao.andorid.model.CookListDetailModel;
@@ -236,6 +237,11 @@ public interface YeapaoApi {
     @POST("user/punchTheClocks")
     Observable<PunchTheClockModel> requestPunchTheClock(@Query("customerId") String customerId, @Query("type") String type);
 
+    //消息详情列表(circle)
+    @POST("user/punchTheClocks")
+    Observable<CircleMessageModel> requestCircleMessage(@Query("customerId") String customerId, @Query("type") String type);
+
+
 
     //   意见反馈
     @POST("user/feedbackSave")
@@ -424,9 +430,18 @@ public interface YeapaoApi {
     @POST("community/deleteCommunityComment")
     Observable<NormalDataModel> requestDeleteComment(@Query("communityCommentId") String communityCommentId);
 
+    @POST("community/deleteCommunity")
+    Observable<NormalDataModel> requestDeleteCommunity(@Query("communityId") String communityId);
+
     //    回复评论
     @POST("community/comment/addComment")
     Observable<NormalDataModel> requestFromToComment(@Query("comment") String comment, @Query("communityId") String communityId,
                                                      @Query("communityCommentId") String communityCommentId, @Query("customerId") String customerId,
                                                      @Query("passiveCustomerId") String passiveCustomerId);
+
+    @Multipart
+    @POST("community/savePunch")
+    Observable<NormalDataModel> requestPushClock(@Query("customerId") String customerId, @Query("content") String content,
+                                                 @Query("type") String type, @Query("status") String status,
+                                                 @PartMap() Map<String, RequestBody> maps);
 }

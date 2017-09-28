@@ -24,6 +24,8 @@ import com.yeapao.andorid.homepage.circle.circledetail.CircleViewPager;
 import com.yeapao.andorid.homepage.myself.MyselfMessageAdapter;
 import com.yeapao.andorid.model.CircleListModel;
 import com.yeapao.andorid.util.AccountGradeUtils;
+import com.yeapao.andorid.util.CircleDateUtils;
+import com.yeapao.andorid.util.SpannableTextUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -35,9 +37,14 @@ import me.relex.circleindicator.CircleIndicator;
 
 public class CircleMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+    private static final String TAG = "CircleMessageAdapter";
+
+    private CircleMessageAdapter circleMessageAdapter = this;
+
     private static Context mContext;
     private LayoutInflater inflater;
     private OnRecyclerViewClickListener mListener;
+    private PraiseClickListener mPraiseListener;
 
     private static final int HEADER_TYPE = 0;
     private static final int GROUP_TYPE = 1;
@@ -51,10 +58,25 @@ public class CircleMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
     private boolean footerFlag = false;
 
 
+    public void setmPraiseListener(PraiseClickListener listener) {
+        mPraiseListener = listener;
+    }
+
     public CircleMessageAdapter(Context context,CircleListModel circleListModel) {
         mContext = context;
         inflater = LayoutInflater.from(context);
         mCircleListModel = circleListModel;
+    }
+
+    /**
+     * 刷新单条item
+     * @param position
+     * @param status 0／1
+     */
+    public void refreshItemPraise(int position, String status) {
+//        mCircleListModel.getData().getCommunityList().get(position).setFabulous(status);
+//        notifyItemChanged(position);
+
     }
 
     public void loadMore(CircleListModel model) {
@@ -76,7 +98,7 @@ public class CircleMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
             case GROUP_TYPE:
                 return new GroupChatListViewHolder(inflater.inflate(R.layout.item_circle_group_chat, parent, false));
             case CIRCLE_TYPE:
-                return new CircleItemViewHolder(inflater.inflate(R.layout.item_circle_card, parent, false),mListener);
+                return new CircleItemViewHolder(inflater.inflate(R.layout.item_circle_card, parent, false),mListener,mPraiseListener);
             case FOOTER_TYPE:
                 return new FooterViewHolder(inflater.inflate(R.layout.list_footer, parent, false));
 
@@ -108,7 +130,26 @@ public class CircleMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
             }
 
             ((CircleItemViewHolder) holder).tvNickName.setText(mCircleListModel.getData().getCommunityList().get(position - 1).getUserName());
-            ((CircleItemViewHolder) holder).tvContent.setText(mCircleListModel.getData().getCommunityList().get(position - 1).getContent());
+
+            if (mCircleListModel.getData().getCommunityList().get(position - 1).getType().equals("community")) {
+                ((CircleItemViewHolder) holder).tvContent.setText(mCircleListModel.getData().getCommunityList().get(position - 1).getContent());
+            } else if (mCircleListModel.getData().getCommunityList().get(position - 1).getType().equals("breakfast")) {
+                String breakfast = "#早餐打卡#";
+                ((CircleItemViewHolder) holder).tvContent.setText(SpannableTextUtils.setTextTwoColor(breakfast,
+                        mCircleListModel.getData().getCommunityList().get(position - 1).getContent()));
+            } else if (mCircleListModel.getData().getCommunityList().get(position - 1).getType().equals("lunch")) {
+                String lunch = "#午餐打卡#";
+                ((CircleItemViewHolder) holder).tvContent.setText(SpannableTextUtils.setTextTwoColor(lunch,
+                        mCircleListModel.getData().getCommunityList().get(position - 1).getContent()));
+            } else {
+                String dinner = "#晚餐打卡#";
+                ((CircleItemViewHolder) holder).tvContent.setText(SpannableTextUtils.setTextTwoColor(dinner,
+                        mCircleListModel.getData().getCommunityList().get(position - 1).getContent()));
+
+            }
+
+            ((CircleItemViewHolder) holder).tvPublishTime.setText(CircleDateUtils.getCircleDate(mCircleListModel.getData().getCommunityList().get(position-1).getCreateTime()));
+
             ((CircleItemViewHolder) holder).tvComment.setText(String.valueOf(mCircleListModel.getData().getCommunityList().get(position - 1).getCommentNumber()));
             ((CircleItemViewHolder) holder).tvFinger.setText(String.valueOf(mCircleListModel.getData().getCommunityList().get(position - 1).getThumbsUp()));
             glideUtil.glideLoadingImage(mContext, mCircleListModel.getData().getCommunityList().get(position - 1).getHeadUrl(), R.drawable.y_you, ((CircleItemViewHolder) holder).ivHeader);
@@ -193,10 +234,16 @@ public class CircleMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
         }
     }
 
+    public interface PraiseClickListener {
+        void onPraiseClicklistener(int position);
+    }
+
+
     static class CircleItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         private OnRecyclerViewClickListener OnRecyclerListener;
         private ImageRecyclerAdapter imageAdapter;
+        private PraiseClickListener mPraiseListener;
 
 
         @BindView(R.id.tv_nick_name)
@@ -219,10 +266,11 @@ public class CircleMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
         ImageView ivMaster;
 
 
-        CircleItemViewHolder(View view,OnRecyclerViewClickListener listener) {
+        CircleItemViewHolder(View view,OnRecyclerViewClickListener listener,PraiseClickListener praiseListener) {
             super(view);
             ButterKnife.bind(this, view);
             this.OnRecyclerListener = listener;
+            mPraiseListener = praiseListener;
             view.setOnClickListener(this);
             initView();
         }
@@ -230,6 +278,12 @@ public class CircleMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
         private void initView() {
             rvImages.setLayoutManager(new GridLayoutManager(mContext,3));
             rvImages.addItemDecoration(new GridSpacingItemDecoration(3, ScreenUtil.dpToPxInt(mContext, 8), true));
+            tvFinger.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mPraiseListener.onPraiseClicklistener(getLayoutPosition()-1);
+                }
+            });
         }
 
         @Override

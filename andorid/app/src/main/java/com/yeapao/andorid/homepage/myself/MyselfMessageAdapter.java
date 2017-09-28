@@ -28,6 +28,7 @@ import com.yeapao.andorid.homepage.myself.tab.food.MyselfFoodV2Activity;
 import com.yeapao.andorid.homepage.myself.tab.shopkeeper.MyselfClockOutActivityV2;
 import com.yeapao.andorid.model.MyselfTabModel;
 import com.yeapao.andorid.model.UserData;
+import com.yeapao.andorid.util.AccountGradeUtils;
 import com.yeapao.andorid.util.GlobalDataYepao;
 
 import java.math.MathContext;
@@ -183,53 +184,7 @@ public class MyselfMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
                 ((HeaderViewHolder) holder).tvAccountTell.setText(mUserData.getPhone());
 
                 int grade = Integer.valueOf(mUserData.getGrade());
-                switch (grade) {
-                    case 1:
-                        ((HeaderViewHolder) holder).ivAccountBadge.setImageDrawable(mContext.getResources().getDrawable(R.drawable.level1));
-                        break;
-                    case 2:
-                        ((HeaderViewHolder) holder).ivAccountBadge.setImageDrawable(mContext.getResources().getDrawable(R.drawable.level2));
-                        break;
-                    case 3:
-                        ((HeaderViewHolder) holder).ivAccountBadge.setImageDrawable(mContext.getResources().getDrawable(R.drawable.level3));
-                        break;
-                    case 4:
-                        ((HeaderViewHolder) holder).ivAccountBadge.setImageDrawable(mContext.getResources().getDrawable(R.drawable.level4));
-                        break;
-                    case 5:
-                        ((HeaderViewHolder) holder).ivAccountBadge.setImageDrawable(mContext.getResources().getDrawable(R.drawable.level5));
-                        break;
-                    case 6:
-                        ((HeaderViewHolder) holder).ivAccountBadge.setImageDrawable(mContext.getResources().getDrawable(R.drawable.level6));
-                        break;
-                    case 7:
-                        ((HeaderViewHolder) holder).ivAccountBadge.setImageDrawable(mContext.getResources().getDrawable(R.drawable.level7));
-                        break;
-                    case 8:
-                        ((HeaderViewHolder) holder).ivAccountBadge.setImageDrawable(mContext.getResources().getDrawable(R.drawable.level8));
-                        break;
-                    case 9:
-                        ((HeaderViewHolder) holder).ivAccountBadge.setImageDrawable(mContext.getResources().getDrawable(R.drawable.level9));
-                        break;
-                    case 10:
-                        ((HeaderViewHolder) holder).ivAccountBadge.setImageDrawable(mContext.getResources().getDrawable(R.drawable.level10));
-                        break;
-                    case 11:
-                        ((HeaderViewHolder) holder).ivAccountBadge.setImageDrawable(mContext.getResources().getDrawable(R.drawable.level11));
-                        break;
-                    case 12:
-                        ((HeaderViewHolder) holder).ivAccountBadge.setImageDrawable(mContext.getResources().getDrawable(R.drawable.level12));
-                        break;
-                    case 13:
-                        ((HeaderViewHolder) holder).ivAccountBadge.setImageDrawable(mContext.getResources().getDrawable(R.drawable.level13));
-                        break;
-                    case 14:
-                        ((HeaderViewHolder) holder).ivAccountBadge.setImageDrawable(mContext.getResources().getDrawable(R.drawable.level14));
-                        break;
-                    case 15:
-                        ((HeaderViewHolder) holder).ivAccountBadge.setImageDrawable(mContext.getResources().getDrawable(R.drawable.level15));
-                        break;
-                }
+                ((HeaderViewHolder) holder).ivAccountBadge.setImageDrawable(AccountGradeUtils.getGradeDrawable(mContext,grade));
             } else {
                 ((HeaderViewHolder) holder).ivAccountHead.setImageDrawable(mContext.getResources().getDrawable(R.drawable.y_you));
                 ((HeaderViewHolder) holder).tvAccountName.setText("注册／登录");
@@ -320,8 +275,8 @@ public class MyselfMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
             switch (view.getId()) {
                 case R.id.v_card_click:
                     LogUtil.e(TAG, "card");
-//                    MyselfClockOutActivity.start(mContext);
-                    MyselfClockOutActivityV2.start(mContext);
+                    MyselfClockOutActivity.start(mContext);
+//                    MyselfClockOutActivityV2.start(mContext);
                     break;
                 case R.id.v_food_click:
                     LogUtil.e(TAG, "food");

@@ -19,6 +19,7 @@ import com.yeapao.andorid.R;
 import com.yeapao.andorid.homepage.circle.ImageRecyclerAdapter;
 import com.yeapao.andorid.model.CommunityDetailModel;
 import com.yeapao.andorid.util.AccountGradeUtils;
+import com.yeapao.andorid.util.GlobalDataYepao;
 
 import java.net.InterfaceAddress;
 
@@ -42,11 +43,21 @@ public class CircleDetailMessageAdapter extends RecyclerView.Adapter<RecyclerVie
 
     private setCircleCommentClickListener commentClickListener;
     private ChildCommentClickListener childCommentClickListener;
+    private DeleteCommunityClickListener deleteCommunityClickListener;
+
 
 
     private static final int HEADER_TYPE = 0;
     private static final int GROUP_TYPE = 1;
 
+
+    public interface DeleteCommunityClickListener {
+        void deleteCommunity();
+    }
+
+    public void setDeleteCommunityClickListener(DeleteCommunityClickListener listener) {
+        deleteCommunityClickListener = listener;
+    }
 
     public void setCommentClickListener(setCircleCommentClickListener commentClickListener) {
         this.commentClickListener = commentClickListener;
@@ -89,6 +100,17 @@ public class CircleDetailMessageAdapter extends RecyclerView.Adapter<RecyclerVie
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         if (holder instanceof CircleDetailTopViewHolder) {
+            if (mCommunityDetailList.getData().getUserName().equals(GlobalDataYepao.getUser(mContext).getName())) {
+                ((CircleDetailTopViewHolder) holder).ivCommunityDelete.setVisibility(View.VISIBLE);
+                ((CircleDetailTopViewHolder) holder).ivCommunityDelete.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        deleteCommunityClickListener.deleteCommunity();
+                    }
+                });
+            } else {
+                ((CircleDetailTopViewHolder) holder).ivCommunityDelete.setVisibility(View.GONE);
+            }
             ((CircleDetailTopViewHolder) holder).ivCircleBadge.setImageDrawable(AccountGradeUtils.getGradeDrawable(mContext,mCommunityDetailList.getData().getGrade()));
             ((CircleDetailTopViewHolder) holder).tvNickName.setText(mCommunityDetailList.getData().getUserName());
             ((CircleDetailTopViewHolder) holder).tvContent.setText(mCommunityDetailList.getData().getContent());
@@ -111,6 +133,13 @@ public class CircleDetailMessageAdapter extends RecyclerView.Adapter<RecyclerVie
 
 
         } else {
+
+            if (String.valueOf(mCommunityDetailList.getData().getComments().get(position - 1).getCustomerId()).equals(GlobalDataYepao.getUser(mContext).getId())) {
+                ((CircleDetailCommentViewHolder) holder).ivCommentDelete.setVisibility(View.VISIBLE);
+            } else {
+                ((CircleDetailCommentViewHolder) holder).ivCommentDelete.setVisibility(View.GONE);
+            }
+
             ((CircleDetailCommentViewHolder) holder).tvNickName.setText(mCommunityDetailList.getData().getComments().get(position - 1).getName());
             ((CircleDetailCommentViewHolder) holder).tvContent.setText(mCommunityDetailList.getData().getComments().get(position - 1).getComment());
             glideUtil.glideLoadingImage(mContext, mCommunityDetailList.getData().getComments().get(position-1).getHead(),
@@ -135,6 +164,11 @@ public class CircleDetailMessageAdapter extends RecyclerView.Adapter<RecyclerVie
                     public void itemOnClickListener(int pos) {
                         ToastManager.showToast(mContext,String.valueOf(pos));
                         childCommentClickListener.onChildCommentListener(position-1,pos);
+                    }
+
+                    @Override
+                    public void itemDeleteIconClickListener(int pos) {
+                        childCommentClickListener.onChildDeleteIconListener(position-1,pos);
                     }
                 });
 
@@ -170,6 +204,8 @@ public class CircleDetailMessageAdapter extends RecyclerView.Adapter<RecyclerVie
         TextView tvCommentSum;
         @BindView(R.id.tv_finger_sum)
         TextView tvFingerSum;
+        @BindView(R.id.iv_community_delete)
+        ImageView ivCommunityDelete;
 
         CircleDetailTopViewHolder(View view) {
             super(view);
@@ -185,10 +221,14 @@ public class CircleDetailMessageAdapter extends RecyclerView.Adapter<RecyclerVie
 
     public interface setCircleCommentClickListener {
         void onCommentClickListener(int position);
+
+        void onCommentDeleteIconClickListener(int position);
     }
 
     public interface ChildCommentClickListener {
         void onChildCommentListener(int pos, int childPos);
+
+        void onChildDeleteIconListener(int pos, int childPos);
     }
 
 
@@ -210,6 +250,8 @@ public class CircleDetailMessageAdapter extends RecyclerView.Adapter<RecyclerVie
         RecyclerView rvImages;
         @BindView(R.id.iv_master)
         ImageView ivMaster;
+        @BindView(R.id.iv_comment_delete)
+        ImageView ivCommentDelete;
 
         CircleDetailCommentViewHolder(View view, setCircleCommentClickListener listener) {
             super(view);
@@ -221,6 +263,12 @@ public class CircleDetailMessageAdapter extends RecyclerView.Adapter<RecyclerVie
 
         private void initViews() {
             rvImages.setLayoutManager(new LinearLayoutManager(mContext));
+            ivCommentDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mlistener.onCommentDeleteIconClickListener(getLayoutPosition() - 1);
+                }
+            });
         }
 
         @Override

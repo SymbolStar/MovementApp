@@ -13,6 +13,7 @@ import com.scottfu.sflibrary.util.GlideUtil;
 import com.yeapao.andorid.R;
 import com.yeapao.andorid.model.CommunityDetailModel;
 import com.yeapao.andorid.util.AccountGradeUtils;
+import com.yeapao.andorid.util.GlobalDataYepao;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +33,7 @@ public class CircleCommentMessageAdapter extends RecyclerView.Adapter<RecyclerVi
     private LayoutInflater inflater;
     private GlideUtil glideUtil = new GlideUtil();
 
-    private static boolean commentListStatus = false;
+    private static boolean commentListStatus = false;  //注意static 要做好创建时的初始化
 
     private List<CommunityDetailModel.DataBean.CommentsBean.CommunityCommentsOutsBean> communityCommentsOutsBeanList = new ArrayList<>();
 
@@ -46,6 +47,7 @@ public class CircleCommentMessageAdapter extends RecyclerView.Adapter<RecyclerVi
 
     public CircleCommentMessageAdapter(Context context,
                                        List<CommunityDetailModel.DataBean.CommentsBean.CommunityCommentsOutsBean> communityCommentsOutsBeen) {
+        commentListStatus = false;
         mContext = context;
         inflater = LayoutInflater.from(context);
         communityCommentsOutsBeanList = communityCommentsOutsBeen;
@@ -82,7 +84,7 @@ public class CircleCommentMessageAdapter extends RecyclerView.Adapter<RecyclerVi
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
 
         if (holder instanceof BottomTabViewHolder) {
 
@@ -121,7 +123,18 @@ public class CircleCommentMessageAdapter extends RecyclerView.Adapter<RecyclerVi
             ((CircleChildCommentViewHolder) holder).ivCircleBadge.setImageDrawable(AccountGradeUtils.getGradeDrawable(mContext,
                     Integer.valueOf(communityCommentsOutsBeanList.get(position).getGrade())));
             glideUtil.glideLoadingImage(mContext, communityCommentsOutsBeanList.get(position).getHead(), R.drawable.y_you, ((CircleChildCommentViewHolder) holder).ivHeader);
+            if (String.valueOf(communityCommentsOutsBeanList.get(position).getCustomerId()).equals(GlobalDataYepao.getUser(mContext).getId())) {
+                ((CircleChildCommentViewHolder) holder).ivDelete.setVisibility(View.VISIBLE);
+            } else {
+                ((CircleChildCommentViewHolder) holder).ivDelete.setVisibility(View.GONE);
+            }
 
+            ((CircleChildCommentViewHolder) holder).ivDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mCommentListener.itemDeleteIconClickListener(position);
+                }
+            });
         }
 
 
@@ -159,6 +172,8 @@ public class CircleCommentMessageAdapter extends RecyclerView.Adapter<RecyclerVi
         TextView tvContent;
         @BindView(R.id.iv_master)
         ImageView ivMaster;
+        @BindView(R.id.iv_delete)
+        ImageView ivDelete;
 
         CircleChildCommentViewHolder(View view,CommentOnClickListener listener) {
             super(view);

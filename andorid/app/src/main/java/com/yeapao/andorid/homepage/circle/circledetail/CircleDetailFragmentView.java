@@ -173,6 +173,12 @@ public class CircleDetailFragmentView extends BaseFragment implements CircleDeta
         LogUtil.e(TAG+"---thumbsUp",String.valueOf(communityDetailModel.getData().getThumbsUp()));
             mMessageAdapter = new CircleDetailMessageAdapter(getContext(), communityDetailModel);
             rvCircleDetailList.setAdapter(mMessageAdapter);
+        mMessageAdapter.setDeleteCommunityClickListener(new CircleDetailMessageAdapter.DeleteCommunityClickListener() {
+            @Override
+            public void deleteCommunity() {
+                mPresenter.deleteCommunity();
+            }
+        });
         mMessageAdapter.setCommentClickListener(new CircleDetailMessageAdapter.setCircleCommentClickListener() {
             @Override
             public void onCommentClickListener(final int position) {
@@ -201,6 +207,11 @@ public class CircleDetailFragmentView extends BaseFragment implements CircleDeta
                     imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
                     etComment.setHint("回复: "+mCommunityDetailModel.getData().getComments().get(position).getName());
                 }
+            }
+
+            @Override
+            public void onCommentDeleteIconClickListener(int position) {
+                mPresenter.deleteComment(String.valueOf(mCommunityDetailModel.getData().getComments().get(position).getId()));
             }
         });
 
@@ -235,6 +246,11 @@ public class CircleDetailFragmentView extends BaseFragment implements CircleDeta
                             .get(childPos).getName());
                 }
             }
+
+            @Override
+            public void onChildDeleteIconListener(int pos, int childPos) {
+                mPresenter.deleteComment(String.valueOf(mCommunityDetailModel.getData().getComments().get(pos).getCommunityCommentsOuts().get(childPos).getId()));
+            }
         });
     }
 
@@ -265,6 +281,11 @@ public class CircleDetailFragmentView extends BaseFragment implements CircleDeta
     @Override
     public void refreshComment() {
 
+    }
+
+    @Override
+    public void CircleDetailFinish() {
+        getActivity().finish();
     }
 
     @Override
