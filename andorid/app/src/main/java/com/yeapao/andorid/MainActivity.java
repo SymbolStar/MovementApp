@@ -15,6 +15,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.util.SparseIntArray;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -93,6 +94,9 @@ public class MainActivity extends PermissionActivity {
     private CirclePresenter circlePresenter;
     private MyselfPresenter myselfPresenter;
     private VideoPresenter videoPresenter;
+
+
+    private long exitTime = 0;
 
     protected Subscription subscription;
     protected void unsubscribe() {
@@ -398,7 +402,7 @@ public class MainActivity extends PermissionActivity {
 
     /**
      * 主要是为了解决在首页 店铺少的时候 无法实现筛选栏的顶部悬浮。 课程功能去掉
-     * @param ev
+     * @param
      * @return
      */
 //    @Override
@@ -486,5 +490,29 @@ public class MainActivity extends PermissionActivity {
                         }
                     }
                 };
+
+
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent event) {
+        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+            exit();
+            return true;
+        }
+        return super.dispatchKeyEvent(event);
+    }
+
+    /**
+     * 程序退出提醒
+     */
+    public void exit() {
+        if ((System.currentTimeMillis() - exitTime) > 2000) {
+            exitTime = System.currentTimeMillis();
+            ToastManager.showToast(this, getResources().getString(R.string.exit_again));
+        } else {
+            mapFragmentView.onDestroy();
+            finish();
+            System.exit(0);
+        }
+    }
 
 }

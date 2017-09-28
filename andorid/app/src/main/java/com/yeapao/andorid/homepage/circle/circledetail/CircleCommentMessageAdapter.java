@@ -35,7 +35,7 @@ public class CircleCommentMessageAdapter extends RecyclerView.Adapter<RecyclerVi
     private LayoutInflater inflater;
     private GlideUtil glideUtil = new GlideUtil();
 
-    private static boolean commentListStatus = false;  //注意static 要做好创建时的初始化
+    private  boolean commentListStatus = false;  //注意不要用static 要做好创建时的初始化
 
     private List<CommunityDetailModel.DataBean.CommentsBean.CommunityCommentsOutsBean> communityCommentsOutsBeanList = new ArrayList<>();
 

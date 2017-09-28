@@ -45,6 +45,7 @@ public class StartSportActivity extends BaseActivity {
 
     private String currentSS;
     private String currentMM;
+    private String sumMM;
 
 
     private Date currentDate;
@@ -101,6 +102,12 @@ public class StartSportActivity extends BaseActivity {
         long ss = time / 1000;
         long ss1 = ss % 60;
         long mm = ss / 60;
+
+        if (mm < 0) {
+            mm = 1;
+        }
+
+        sumMM = String.valueOf(mm);
 
         currentSS = String.valueOf(ss1);
         if (currentSS.length() == 1) {
@@ -176,7 +183,7 @@ public class StartSportActivity extends BaseActivity {
                     @Override
                     public void onRightClick() {
                         timer.cancel();
-                        SportFinishActivity.start(getContext(),actualId,currentMM);
+                        SportFinishActivity.start(getContext(),actualId,sumMM);
                     }
                 });
                 break;

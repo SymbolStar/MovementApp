@@ -88,8 +88,7 @@ public class CangDetailActivity extends BaseActivity {
                     startFitFlag++;
                     if (startFitFlag == 1) {
                         LogUtil.e(TAG, deviceNo + "   " + type);
-                        requestCreateCangOrders(GlobalDataYepao.getUser(getContext()).getId(),mCangDetail.getData().getWarehouseId(),
-                                "1");
+                        requestCreateCangOrdersV2(GlobalDataYepao.getUser(getContext()).getId(),mCangDetail.getData().getWarehouseId());
 
                     }
 
@@ -297,7 +296,7 @@ public class CangDetailActivity extends BaseActivity {
 
                     @Override
                     public void onNext(CreateActualOrdersModel model) {
-                        LogUtil.e(TAG, model.getErrmsg());
+                        LogUtil.e(TAG+"createActualOrdersModelObserver", model.getErrmsg());
                         if (model.getErrmsg().equals("ok")) {
                             StartSportActivity.start(getContext(),model.getData().getActualOrdersId(),model.getData().getStartDate());
                             finish();

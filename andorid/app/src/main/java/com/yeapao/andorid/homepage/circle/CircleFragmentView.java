@@ -130,6 +130,9 @@ public class CircleFragmentView extends BaseFragment implements CircleContract.V
                 getNetWorkSingleCommunity(String.valueOf(mCircleListModel.getData().getCommunityList().get(singleCommunotyPosition).getCommunityId()),
                         GlobalDataYepao.getUser(getContext()).getId());
                 singleCommunityFlag = false;
+            } else {
+                currentPage = 0;
+                getNetWorkWithAccount(GlobalDataYepao.getUser(getContext()).getId(), String.valueOf(currentPage));
             }
 
         } else {
@@ -420,7 +423,8 @@ public class CircleFragmentView extends BaseFragment implements CircleContract.V
                     @Override
                     public void onError(Throwable e) {
                         LogUtil.e(TAG,e.toString());
-
+                        currentPage = 0;
+                        getNetWorkWithAccount(GlobalDataYepao.getUser(getContext()).getId(), String.valueOf(currentPage));
                     }
 
                     @Override
@@ -428,7 +432,7 @@ public class CircleFragmentView extends BaseFragment implements CircleContract.V
                         LogUtil.e(TAG, model.getErrmsg());
                         if (model.getErrmsg().equals("ok")) {
                             mSingleCommunityModel = model;
-                            RecyclerView.ViewHolder viewHolder = rvCircleList.findViewHolderForAdapterPosition(singleCommunotyPosition+1);//这边的praisePosition+1 为布局的位置
+                            RecyclerView.ViewHolder viewHolder = rvCircleList.findViewHolderForAdapterPosition(singleCommunotyPosition + 1);//这边的praisePosition+1 为布局的位置
                             if (viewHolder != null && viewHolder instanceof CircleMessageAdapter.CircleItemViewHolder) {
                                 CircleMessageAdapter.CircleItemViewHolder itemHolder = (CircleMessageAdapter.CircleItemViewHolder) viewHolder;
                                 if (model.getData().getFabulous().equals("1")) {
@@ -450,6 +454,9 @@ public class CircleFragmentView extends BaseFragment implements CircleContract.V
                                 itemHolder.tvComment.setText(String.valueOf(model.getData().getCommentNumber()));
 
                             }
+                        } else {
+                            currentPage = 0;
+                            getNetWorkWithAccount(GlobalDataYepao.getUser(getContext()).getId(), String.valueOf(currentPage));
                         }
                     }
                 };
