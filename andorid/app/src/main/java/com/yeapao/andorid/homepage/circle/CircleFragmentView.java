@@ -19,9 +19,11 @@ import android.widget.ImageView;
 import com.scottfu.sflibrary.recyclerview.OnRecyclerViewClickListener;
 import com.scottfu.sflibrary.util.LogUtil;
 import com.scottfu.sflibrary.util.ToastManager;
+import com.yeapao.andorid.MainActivity;
 import com.yeapao.andorid.R;
 import com.yeapao.andorid.api.Network;
 import com.yeapao.andorid.base.BaseFragment;
+import com.yeapao.andorid.dialog.DialogUtils;
 import com.yeapao.andorid.homepage.circle.circledetail.CircleDetailActivity;
 import com.yeapao.andorid.homepage.map.repository.PaySuccessActivity;
 import com.yeapao.andorid.homepage.message.MyMessageActivity;
@@ -47,6 +49,8 @@ import static github.chenupt.multiplemodel.aa.AAModelFactory.TAG;
  */
 
 public class CircleFragmentView extends BaseFragment implements CircleContract.View {
+
+    private static final String TAG = "CircleFragment";
 
     @BindView(R.id.iv_circle_write)
     ImageView ivCircleWrite;
@@ -75,6 +79,7 @@ public class CircleFragmentView extends BaseFragment implements CircleContract.V
 
     private SingleCommunityModel mSingleCommunityModel = new SingleCommunityModel();
 
+    public static boolean isPhotoPreView = true;
 
     public CircleFragmentView() {
 
@@ -94,7 +99,7 @@ public class CircleFragmentView extends BaseFragment implements CircleContract.V
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
+        LogUtil.e(TAG,"onCreateView");
         View view = inflater.inflate(R.layout.fragment_circle, container, false);
         unbinder = ButterKnife.bind(this, view);
         currentPage = 0;
@@ -103,18 +108,22 @@ public class CircleFragmentView extends BaseFragment implements CircleContract.V
             public void onRefresh() {
                 currentPage = 0;
                 if (GlobalDataYepao.isLogin()) {
+                    LogUtil.e(TAG,"onRefreshSwipe" +
+                            "getnetWorkwithAccount");
                     getNetWorkWithAccount(GlobalDataYepao.getUser(getContext()).getId(), String.valueOf(currentPage));
                 } else {
+                    LogUtil.e(TAG,"onRefreshSwipe" +
+                            "getnetWork");
                     getNetWork(String.valueOf(currentPage));
                 }
             }
         });
         refreshLayout.setColorSchemeResources(R.color.colorPrimary);
-        if (GlobalDataYepao.isLogin()) {
-            getNetWorkWithAccount(GlobalDataYepao.getUser(getContext()).getId(), String.valueOf(currentPage));
-        } else {
-            getNetWork(String.valueOf(currentPage));
-        }
+//        if (GlobalDataYepao.isLogin()) {
+//            getNetWorkWithAccount(GlobalDataYepao.getUser(getContext()).getId(), String.valueOf(currentPage));
+//        } else {
+//            getNetWork(String.valueOf(currentPage));
+//        }
         initViews(view);
         return view;
     }
@@ -125,26 +134,33 @@ public class CircleFragmentView extends BaseFragment implements CircleContract.V
         super.onResume();
         LogUtil.e(TAG, "onResume");
 
-        if (GlobalDataYepao.isLogin()) {
-            if (singleCommunityFlag) {
-                getNetWorkSingleCommunity(String.valueOf(mCircleListModel.getData().getCommunityList().get(singleCommunotyPosition).getCommunityId()),
-                        GlobalDataYepao.getUser(getContext()).getId());
-                singleCommunityFlag = false;
+        if (MainActivity.currentTab == 2) {
+            DialogUtils.showProgressDialog(getContext(),true);
+            if (GlobalDataYepao.isLogin() ) {
+                if (isPhotoPreView) {
+                    if (singleCommunityFlag) {
+                        getNetWorkSingleCommunity(String.valueOf(mCircleListModel.getData().getCommunityList().get(singleCommunotyPosition).getCommunityId()),
+                                GlobalDataYepao.getUser(getContext()).getId());
+                        singleCommunityFlag = false;
+                    } else {
+                        currentPage = 0;
+                        getNetWorkWithAccount(GlobalDataYepao.getUser(getContext()).getId(), String.valueOf(currentPage));
+                    }
+                } else {
+                    DialogUtils.cancelProgressDialog();
+                    isPhotoPreView = true;
+                }
+
+
+
             } else {
                 currentPage = 0;
-                getNetWorkWithAccount(GlobalDataYepao.getUser(getContext()).getId(), String.valueOf(currentPage));
+                getNetWork(String.valueOf(currentPage));
             }
-
-        } else {
-
         }
 
-//        currentPage = 0;
-//        if (GlobalDataYepao.isLogin()) {
-//            getNetWorkWithAccount(GlobalDataYepao.getUser(getContext()).getId(), String.valueOf(currentPage));
-//        } else {
-//            getNetWork(String.valueOf(currentPage));
-//        }
+
+
     }
 
     @OnClick(R.id.iv_circle_write)
@@ -167,7 +183,7 @@ public class CircleFragmentView extends BaseFragment implements CircleContract.V
 
     @Override
     public void initViews(View view) {
-
+        LogUtil.e(TAG,"initViews");
         llm = new LinearLayoutManager(getContext());
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         rvCircleList.setLayoutManager(llm);
@@ -234,36 +250,45 @@ public class CircleFragmentView extends BaseFragment implements CircleContract.V
 
     @Override
     public void showResult(CircleListModel circleListModel) {
-        circleMessageAdapter = new CircleMessageAdapter(getContext(), circleListModel);
-        rvCircleList.setAdapter(circleMessageAdapter);
-        circleMessageAdapter.setItemClickListener(new OnRecyclerViewClickListener() {
-            @Override
-            public void OnItemClick(View v, int position) {
-                singleCommunityFlag = true;
-                singleCommunotyPosition = position;
+
+        try {
+            circleMessageAdapter = new CircleMessageAdapter(getContext(), mCircleListModel);
+
+            rvCircleList.setAdapter(circleMessageAdapter);
+            circleMessageAdapter.setItemClickListener(new OnRecyclerViewClickListener() {
+                @Override
+                public void OnItemClick(View v, int position) {
+                    singleCommunityFlag = true;
+                    singleCommunotyPosition = position;
                     CircleDetailActivity.start(getContext(), String.valueOf(mCircleListModel.getData().getCommunityList().get(position).getCommunityId()),
                             mCircleListModel.getData().getCommunityList().get(position).getFabulous());
 
 //                CircleDetailActivity.start(getContext(), String.valueOf(mCircleListModel.getData().getCommunityList().get(position).getCommunityId()),
 //                        mCircleListModel.getData().getCommunityList().get(position).getFabulous());
 //                    startActivity(new Intent(getActivity(), CircleDetailActivity.class));
-            }
-        });
-
-        circleMessageAdapter.setmPraiseListener(new CircleMessageAdapter.PraiseClickListener() {
-
-            @Override
-            public void onPraiseClicklistener(int position) {
-                praisePosition = position;
-                if (mCircleListModel.getData().getCommunityList().get(position).getFabulous().equals("1")) {
-
-                    deletePraise(position);
-                } else {
-                    getPraise(position);
                 }
+            });
 
-            }
-        });
+            circleMessageAdapter.setmPraiseListener(new CircleMessageAdapter.PraiseClickListener() {
+
+                @Override
+                public void onPraiseClicklistener(int position) {
+                    praisePosition = position;
+                    if (mCircleListModel.getData().getCommunityList().get(position).getFabulous().equals("1")) {
+
+                        deletePraise(position);
+                    } else {
+                        getPraise(position);
+                    }
+
+                }
+            });
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+
+
+
     }
 
     private void getNetWorkWithAccount(String customerId, String page) {
@@ -288,6 +313,7 @@ public class CircleFragmentView extends BaseFragment implements CircleContract.V
         @Override
         public void onCompleted() {
             refreshLayout.setRefreshing(false);
+            DialogUtils.cancelProgressDialog();
         }
 
         @Override
@@ -301,6 +327,7 @@ public class CircleFragmentView extends BaseFragment implements CircleContract.V
         public void onNext(CircleListModel model) {
             LogUtil.e(TAG, model.getErrmsg());
             if (model.getErrmsg().equals("ok")) {
+                DialogUtils.cancelProgressDialog();
                 if (currentPage == 0) {
                     LogUtil.e("---====--===", model.getData().getCommunityList().get(0).getFabulous());
                     mCircleListModel = model;
@@ -417,7 +444,7 @@ public class CircleFragmentView extends BaseFragment implements CircleContract.V
                   Observer<SingleCommunityModel> modelObserverSingleCommunity = new Observer<SingleCommunityModel>() {
                     @Override
                     public void onCompleted() {
-
+                        DialogUtils.cancelProgressDialog();
                     }
 
                     @Override
@@ -431,6 +458,7 @@ public class CircleFragmentView extends BaseFragment implements CircleContract.V
                     public void onNext(SingleCommunityModel model) {
                         LogUtil.e(TAG, model.getErrmsg());
                         if (model.getErrmsg().equals("ok")) {
+                            DialogUtils.cancelProgressDialog();
                             mSingleCommunityModel = model;
                             RecyclerView.ViewHolder viewHolder = rvCircleList.findViewHolderForAdapterPosition(singleCommunotyPosition + 1);//这边的praisePosition+1 为布局的位置
                             if (viewHolder != null && viewHolder instanceof CircleMessageAdapter.CircleItemViewHolder) {

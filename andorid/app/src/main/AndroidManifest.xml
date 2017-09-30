@@ -481,6 +481,9 @@
         <activity
             android:name=".homepage.map.repository.PaySuccessActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".photo.PhotoViewPagerActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
 
     </application>
 

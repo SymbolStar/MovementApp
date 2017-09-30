@@ -17,6 +17,7 @@ import com.yeapao.andorid.base.BaseActivity;
 import com.yeapao.andorid.homepage.circle.*;
 import com.yeapao.andorid.homepage.circle.circledetail.CircleDetailActivity;
 import com.yeapao.andorid.model.CircleMessageModel;
+import com.yeapao.andorid.model.NormalDataModel;
 import com.yeapao.andorid.model.PunchTheClockModel;
 import com.yeapao.andorid.util.GlobalDataYepao;
 
@@ -66,7 +67,7 @@ public class CircleMessageActivity extends BaseActivity {
 
     private void getData() {
 //        getNetWork(GlobalDataYepao.getUser(getContext()).getId(),"4");
-        getNetWork(GlobalDataYepao.getUser(getContext()).getId(),"4");
+        getNetWork(GlobalDataYepao.getUser(getContext()).getId(), "4");
 
     }
 
@@ -77,7 +78,7 @@ public class CircleMessageActivity extends BaseActivity {
             messageAdapter.setCardClickListener(new CircleMessageAdapter.gotoCardListener() {
                 @Override
                 public void gotoCard(int position) {
-                    CircleDetailActivity.start(getContext(),mMessageModel.getData().get(position).getCommunityCommentId(),"1");
+                    CircleDetailActivity.start(getContext(), mMessageModel.getData().get(position).getCommunityCommentId(), "1");
                 }
             });
 
@@ -96,6 +97,8 @@ public class CircleMessageActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
 //                TODO clear
+
+                getNetWorkDeleteMessage("4");
             }
         });
     }
@@ -135,5 +138,35 @@ public class CircleMessageActivity extends BaseActivity {
             }
         }
 
+    };
+
+    private void getNetWorkDeleteMessage(String type) {
+        LogUtil.e(TAG, type);
+        subscription = Network.getYeapaoApi()
+                .requsetDeleteMessage(GlobalDataYepao.getUser(getContext()).getId(), type)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(modelObserverDeleteMessage);
+    }
+
+    Observer<NormalDataModel> modelObserverDeleteMessage = new Observer<NormalDataModel>() {
+        @Override
+        public void onCompleted() {
+
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            LogUtil.e(TAG, e.toString());
+
+        }
+
+        @Override
+        public void onNext(NormalDataModel model) {
+            LogUtil.e(TAG, model.getErrmsg());
+            if (model.getErrmsg().equals("ok")) {
+                initView();
+            }
+        }
     };
 }

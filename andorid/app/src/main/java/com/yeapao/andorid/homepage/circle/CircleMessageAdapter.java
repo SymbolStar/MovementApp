@@ -133,21 +133,24 @@ public class CircleMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
 
             ((CircleItemViewHolder) holder).tvNickName.setText(mCircleListModel.getData().getCommunityList().get(position - 1).getUserName());
 
-            if (mCircleListModel.getData().getCommunityList().get(position - 1).getType().equals("community")) {
-                ((CircleItemViewHolder) holder).tvContent.setText(mCircleListModel.getData().getCommunityList().get(position - 1).getContent());
-            } else if (mCircleListModel.getData().getCommunityList().get(position - 1).getType().equals("breakfast")) {
-                String breakfast = "#早餐打卡#";
-                ((CircleItemViewHolder) holder).tvContent.setText(SpannableTextUtils.setTextTwoColor(breakfast,
-                        mCircleListModel.getData().getCommunityList().get(position - 1).getContent()));
-            } else if (mCircleListModel.getData().getCommunityList().get(position - 1).getType().equals("lunch")) {
-                String lunch = "#午餐打卡#";
-                ((CircleItemViewHolder) holder).tvContent.setText(SpannableTextUtils.setTextTwoColor(lunch,
-                        mCircleListModel.getData().getCommunityList().get(position - 1).getContent()));
+            if (mCircleListModel.getData().getCommunityList().get(position - 1).getContent() == null || mCircleListModel.getData().getCommunityList().get(position - 1).getContent().equals("")) {
+                ((CircleItemViewHolder) holder).tvContent.setVisibility(View.GONE);
             } else {
-                String dinner = "#晚餐打卡#";
-                ((CircleItemViewHolder) holder).tvContent.setText(SpannableTextUtils.setTextTwoColor(dinner,
-                        mCircleListModel.getData().getCommunityList().get(position - 1).getContent()));
-
+                if (mCircleListModel.getData().getCommunityList().get(position - 1).getType().equals("community")) {
+                    ((CircleItemViewHolder) holder).tvContent.setText(mCircleListModel.getData().getCommunityList().get(position - 1).getContent());
+                } else if (mCircleListModel.getData().getCommunityList().get(position - 1).getType().equals("breakfast")) {
+                    String breakfast = "#早餐打卡#";
+                    ((CircleItemViewHolder) holder).tvContent.setText(SpannableTextUtils.setTextTwoColor(breakfast,
+                            mCircleListModel.getData().getCommunityList().get(position - 1).getContent()));
+                } else if (mCircleListModel.getData().getCommunityList().get(position - 1).getType().equals("lunch")) {
+                    String lunch = "#午餐打卡#";
+                    ((CircleItemViewHolder) holder).tvContent.setText(SpannableTextUtils.setTextTwoColor(lunch,
+                            mCircleListModel.getData().getCommunityList().get(position - 1).getContent()));
+                } else {
+                    String dinner = "#晚餐打卡#";
+                    ((CircleItemViewHolder) holder).tvContent.setText(SpannableTextUtils.setTextTwoColor(dinner,
+                            mCircleListModel.getData().getCommunityList().get(position - 1).getContent()));
+                }
             }
 
             ((CircleItemViewHolder) holder).tvPublishTime.setText(CircleDateUtils.getCircleDate(mCircleListModel.getData().getCommunityList().get(position-1).getCreateTime()));

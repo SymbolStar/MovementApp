@@ -14,12 +14,14 @@ import com.scottfu.sflibrary.util.GlideUtil;
 import com.scottfu.sflibrary.util.ScreenUtil;
 import com.yeapao.andorid.R;
 import com.yeapao.andorid.model.CircleListModel;
+import com.yeapao.andorid.photo.PhotoViewPagerActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import uk.co.senab.photoview.PhotoView;
 
 /**
  * Created by fujindong on 2017/9/21.
@@ -36,12 +38,16 @@ public class ImageRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
 
 
     private List<CircleListModel.DataBean.CommunityListBean.imagesUrl> imagesUrlList = new ArrayList<>();
+    private ArrayList<String> images = new ArrayList<>();
 
 
     public ImageRecyclerAdapter(Context context, List<CircleListModel.DataBean.CommunityListBean.imagesUrl> list) {
         mContext = context;
         inflater = LayoutInflater.from(context);
         imagesUrlList = list;
+        for (int i = 0; i < imagesUrlList.size(); i++) {
+            images.add(imagesUrlList.get(i).getImageUrl());
+        }
     }
 
 
@@ -51,14 +57,20 @@ public class ImageRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         if (imagesUrlList.size() == 1) {
             ((ViewHolder) holder).cvImageCard.setLayoutParams(new ViewGroup.LayoutParams(ScreenUtil.dpToPxInt(mContext, 225), ScreenUtil.dpToPxInt(mContext, 130)));
         } else if (imagesUrlList.size() >= 2) {
             ((ViewHolder) holder).cvImageCard.setLayoutParams(new ViewGroup.LayoutParams(ScreenUtil.dpToPxInt(mContext, 100), ScreenUtil.dpToPxInt(mContext, 85)));
         }
 
-
+        ((ViewHolder) holder).cvImageCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CircleFragmentView.isPhotoPreView = false;
+                PhotoViewPagerActivity.startToImageList(mContext,images,position);
+            }
+        });
 
         glideUtil.glideLoadingImage(mContext,imagesUrlList.get(position).getImageUrl(),R.drawable.home_banner_take_place,((ViewHolder) holder).ivCircleImage);
     }

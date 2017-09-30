@@ -138,7 +138,6 @@ public class MyselfHealthActivity extends BaseActivity {
                 recordMessageAdapter.setOnItemClickListener(new OnRecyclerViewClickListener() {
                     @Override
                     public void OnItemClick(View v, int position) {
-                        ToastManager.showToast(getContext(), "onitemClick");
                         BodySideDetailActivity.start(getContext(),
                                 String.valueOf(healthModel.getData().getTestTecordListOuts().get(position).getBodySideId()));
                     }
@@ -157,7 +156,6 @@ public class MyselfHealthActivity extends BaseActivity {
 //        healthRadarChart.setBackgroundColor(Color.rgb(60, 65, 82));
 
         if (healthModel.getData().getBMIListOut().size() == 0) {
-            ToastManager.showToast(getContext(), "请参加体测");
         } else {
             LineData data1 = chooseData(false);
             //   TODO 折线图
@@ -171,7 +169,6 @@ public class MyselfHealthActivity extends BaseActivity {
         }
 
         if (healthModel.getData().getWeightListOuts().size() == 0) {
-            ToastManager.showToast(getContext(), "请打卡");
         } else {
             LineData data = chooseData(true);
 //

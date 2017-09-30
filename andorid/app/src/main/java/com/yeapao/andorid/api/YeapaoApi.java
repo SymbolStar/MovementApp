@@ -52,6 +52,7 @@ import com.yeapao.andorid.model.VideoTypeModel;
 import com.yeapao.andorid.model.WareHouseListModel;
 import com.yeapao.andorid.model.WeXinRefundModel;
 
+import java.lang.reflect.Type;
 import java.util.Map;
 
 import okhttp3.MultipartBody;
@@ -335,6 +336,14 @@ public interface YeapaoApi {
     Observable<SelectActualTimeModel> requestSelectActualTime(@Query("deviceNo") String deviceNo, @Query("customerId") String customerId,
                                                               @Query("type") String type);
 
+    //    下线提醒
+    @POST("home/offlineReminder")
+    Observable<NormalDataModel> requestOffLine(@Query("customerId") String customerId, @Query("warehouseId") String warehouseId);
+
+    //    取消下线提醒
+    @POST("home/delOfflineReminder")
+    Observable<NormalDataModel> requestDelOffLine(@Query("customerId") String customerId, @Query("warehouseId") String warehouseId);
+
     //    请求开门
     @POST("order/requestDoor")
     Observable<NormalDataModel> requestOpenDoor(@Query("deviceNo") String deviceNo, @Query("customerId") String customerId,
@@ -351,7 +360,8 @@ public interface YeapaoApi {
 
     //    运动支付
     @POST("order/actualOrdersDetail")
-    Observable<ActialOrderDetailModel> requestActualOrderDetail(@Query("actualOrdersId") String actualOrderId, @Query("totalTime") String totalTime);
+    Observable<ActialOrderDetailModel> requestActualOrderDetail(@Query("actualOrdersId") String actualOrderId, @Query("totalTime") String totalTime,
+                                                                @Query("customerId") String customerId, @Query("deviceNo") String deviceNo);
 
     //舱运动订单列表
     @POST("order/actualOrderList")
@@ -454,4 +464,13 @@ public interface YeapaoApi {
     //    单个帖子
     @POST("community/community")
     Observable<SingleCommunityModel> requestSingleCommunity(@Query("communityId") String community, @Query("customerId") String customerId);
+
+    //    删除推送接口
+    @POST("user/deleteMessage")
+    Observable<NormalDataModel> requsetDeleteMessage(@Query("customerId") String customerId, @Query("type") String type);
+
+    @POST("user/forgotPassword")
+    Observable<NormalDataModel> requestForgotPassword(@Query("phone") String phone, @Query("password") String password,
+                                                      @Query("verificationCode") String code);
+
 }

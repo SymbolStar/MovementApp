@@ -50,7 +50,6 @@ public class FoodDetailFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         bgRes = getArguments().getString("data");//get background res
-        ToastManager.showToast(getContext(),bgRes);
     }
 
     @Nullable

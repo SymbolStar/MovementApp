@@ -22,7 +22,7 @@
             android:id="@+id/iv_message_icon"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:src="@drawable/home_information3x"
+            android:src="@drawable/cang_information_n"
             android:layout_centerVertical="true"
             android:layout_gravity="center"
             />

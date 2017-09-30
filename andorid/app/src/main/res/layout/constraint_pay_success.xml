@@ -257,7 +257,7 @@
         android:layout_marginLeft="0dp"
         android:layout_marginRight="0dp"
         android:layout_marginTop="1dp"
-        android:text="@string/sport_tips_1_1"
+        android:text=""
         android:textColor="#37343e"
         android:textSize="15sp"
         android:padding="15dp"

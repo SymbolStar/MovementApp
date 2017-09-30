@@ -56,7 +56,7 @@ public class ActualOrderDetailModel {
         private String startDate;
         private int duration;
         private String warehouseName;
-        private int price;
+        private String price;
         private String types;
 
         public String getReservaOrdersId() {
@@ -118,11 +118,11 @@ public class ActualOrderDetailModel {
             this.warehouseName = warehouseName;
         }
 
-        public int getPrice() {
+        public String getPrice() {
             return price;
         }
 
-        public void setPrice(int price) {
+        public void setPrice(String price) {
             this.price = price;
         }
 

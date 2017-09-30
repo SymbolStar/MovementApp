@@ -219,8 +219,23 @@ public class CircleDetailFragmentView extends BaseFragment implements CircleDeta
             }
 
             @Override
-            public void onCommentDeleteIconClickListener(int position) {
-                mPresenter.deleteComment(String.valueOf(mCommunityDetailModel.getData().getComments().get(position).getId()));
+            public void onCommentDeleteIconClickListener(final int position) {
+                DialogUtils.showMessageTwoButtonDialog(getContext(), "提示", "是否删除评论", new DialogCallback() {
+                    @Override
+                    public void onItemClick(int position) {
+
+                    }
+
+                    @Override
+                    public void onLeftClick() {
+
+                    }
+
+                    @Override
+                    public void onRightClick() {
+                        mPresenter.deleteComment(String.valueOf(mCommunityDetailModel.getData().getComments().get(position).getId()));
+                    }
+                });
             }
         });
 
@@ -260,11 +275,31 @@ public class CircleDetailFragmentView extends BaseFragment implements CircleDeta
             }
 
             @Override
-            public void onChildDeleteIconListener(int pos, int childPos) {
-                mPresenter.deleteComment(String.valueOf(mCommunityDetailModel.getData().getComments().get(pos).getCommunityCommentsOuts().get(childPos).getId()));
+            public void onChildDeleteIconListener(final int pos, final int childPos) {
+                DialogUtils.showMessageTwoButtonDialog(getContext(), "提示", "是否删除评论", new DialogCallback() {
+                    @Override
+                    public void onItemClick(int position) {
+
+                    }
+
+                    @Override
+                    public void onLeftClick() {
+
+                    }
+
+                    @Override
+                    public void onRightClick() {
+                        mPresenter.deleteComment(String.valueOf(mCommunityDetailModel.getData().getComments().get(pos).getCommunityCommentsOuts().get(childPos).getId()));
+                    }
+                });
+
             }
         });
     }
+
+
+
+
 
     @Override
     public void startLoading() {

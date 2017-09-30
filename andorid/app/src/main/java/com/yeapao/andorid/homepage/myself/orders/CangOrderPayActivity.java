@@ -153,7 +153,7 @@ public class CangOrderPayActivity extends BaseActivity {
 
     private void initView() {
         tvFitPayPrice.setText(getContext().getResources().getString(R.string.RMB)+String.valueOf(actialOrderDetailModel.getData().getPrice()));
-        tvFitTime.setText(String.valueOf(actialOrderDetailModel.getData().getDuration()));
+        tvFitTime.setText(String.valueOf(actialOrderDetailModel.getData().getDuration())+"分钟");
         tvFitOrderCode.setText(actialOrderDetailModel.getData().getActualOrdersCode());
         tvFitCangId.setText(actialOrderDetailModel.getData().getWarehouseName());
     }

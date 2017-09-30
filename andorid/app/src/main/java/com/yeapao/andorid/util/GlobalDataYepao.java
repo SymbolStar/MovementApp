@@ -3,6 +3,7 @@ package com.yeapao.andorid.util;
 import android.content.Context;
 
 import com.scottfu.sflibrary.cache.ACache;
+import com.yeapao.andorid.model.CangDeviceNoData;
 import com.yeapao.andorid.model.CookListDetailModel;
 import com.yeapao.andorid.model.CustomerData;
 import com.yeapao.andorid.model.UserData;
@@ -71,5 +72,15 @@ public class GlobalDataYepao {
         getCache(context).remove(GlobalDataConstant.USER_FILL);
     }
 
+    public static void setCangDeviceData(Context context, CangDeviceNoData cangDeviceNoData) {
+        getCache(context).put(GlobalDataConstant.CANG_DEVICE, cangDeviceNoData);
+    }
 
+    public static CangDeviceNoData getCangDeviceData(Context context) {
+        return (CangDeviceNoData) getCache(context).getAsObject(GlobalDataConstant.CANG_DEVICE);
+    }
+
+    public static void clearCangDeviceData(Context context) {
+        getCache(context).remove(GlobalDataConstant.CANG_DEVICE);
+    }
 }
