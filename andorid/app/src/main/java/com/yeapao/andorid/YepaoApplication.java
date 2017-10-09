@@ -26,6 +26,7 @@ public class YepaoApplication extends MultiDexApplication {
     private static YepaoApplication application;
     public static ACache ACACHE;
     public static ACache YXTCACHE;
+    private static Context context;
 
     @Override
     protected void attachBaseContext(Context base) {
@@ -37,6 +38,7 @@ public class YepaoApplication extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();
+        context = getApplicationContext();
         application = this;
         ACACHE = ACache.get(getApplicationContext());
         YXTCACHE = ACache.get(getApplicationContext(), "YepaoCache");
@@ -57,5 +59,10 @@ public class YepaoApplication extends MultiDexApplication {
 
         SDKInitializer.initialize(this);
         SDKInitializer.setCoordType(CoordType.BD09LL);
+    }
+
+
+    public static Context getContextObject() {
+        return context;
     }
 }

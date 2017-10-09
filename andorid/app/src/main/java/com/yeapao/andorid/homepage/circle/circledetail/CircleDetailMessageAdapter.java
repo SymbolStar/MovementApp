@@ -12,10 +12,12 @@ import android.widget.TextView;
 
 import com.scottfu.sflibrary.customview.CircleImageView;
 import com.scottfu.sflibrary.recyclerview.GridSpacingItemDecoration;
+import com.scottfu.sflibrary.recyclerview.SpaceItemDecoration;
 import com.scottfu.sflibrary.util.GlideUtil;
 import com.scottfu.sflibrary.util.ScreenUtil;
 import com.scottfu.sflibrary.util.ToastManager;
 import com.yeapao.andorid.R;
+import com.yeapao.andorid.homepage.circle.CircleMessageAdapter;
 import com.yeapao.andorid.homepage.circle.ImageRecyclerAdapter;
 import com.yeapao.andorid.model.CommunityDetailModel;
 import com.yeapao.andorid.util.AccountGradeUtils;
@@ -121,7 +123,12 @@ public class CircleDetailMessageAdapter extends RecyclerView.Adapter<RecyclerVie
 
 //            ((CircleDetailTopViewHolder) holder).ivCircleBadge.setImageDrawable(AccountGradeUtils.getGradeDrawable(mContext,mCommunityDetailList.getData().getGrade()));
             ((CircleDetailTopViewHolder) holder).tvNickName.setText(mCommunityDetailList.getData().getUserName());
-            ((CircleDetailTopViewHolder) holder).tvContent.setText(mCommunityDetailList.getData().getContent());
+            if (mCommunityDetailList.getData().getContent() == null || mCommunityDetailList.getData().getContent().equals("")) {
+                ((CircleDetailTopViewHolder) holder).tvContent.setVisibility(View.GONE);
+            } else {
+                ((CircleDetailTopViewHolder) holder).tvContent.setText(mCommunityDetailList.getData().getContent());
+            }
+
             glideUtil.glideLoadingImage(mContext, mCommunityDetailList.getData().getHeadUrl(), R.drawable.y_you, ((CircleDetailTopViewHolder) holder).ivHeader);
 //            if (mCommunityDetailList.getData().getMaster().equals("1")) {
 //                ((CircleDetailTopViewHolder) holder).ivMaster.setVisibility(View.VISIBLE);
@@ -135,6 +142,19 @@ public class CircleDetailMessageAdapter extends RecyclerView.Adapter<RecyclerVie
             if (mCommunityDetailList.getData().getImages().size() == 0) {
                 ((CircleDetailTopViewHolder) holder).rvImages.setVisibility(View.GONE);
             } else {
+
+                if (mCommunityDetailList.getData().getImages().size() ==  4) {
+                    ((CircleDetailTopViewHolder) holder).rvImages.setLayoutManager(new GridLayoutManager(mContext,2));
+//                    ((CircleItemViewHolder) holder).rvImages.addItemDecoration(new SpaceItemDecoration(ScreenUtil.dpToPxInt(mContext, 8)));
+//                    ((CircleItemViewHolder) holder).rvImages.setLayoutParams(new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                } else {
+                    ((CircleDetailTopViewHolder) holder).rvImages.setLayoutManager(new GridLayoutManager(mContext,3));
+//                    ((CircleItemViewHolder) holder).rvImages.addItemDecoration(new GridSpacingItemDecoration(3, ScreenUtil.dpToPxInt(mContext, 8), false));
+//                    ((CircleItemViewHolder) holder).rvImages.setLayoutParams(new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                }
+
+
+
                 ((CircleDetailTopViewHolder) holder).rvImages.setVisibility(View.VISIBLE);
                 ((CircleDetailTopViewHolder) holder).rvImages.setAdapter(new ImageRecyclerAdapter(mContext, mCommunityDetailList.getData().getImages()));
             }
@@ -228,8 +248,8 @@ public class CircleDetailMessageAdapter extends RecyclerView.Adapter<RecyclerVie
         }
 
         private void initView() {
-            rvImages.setLayoutManager(new GridLayoutManager(mContext, 3));
-            rvImages.addItemDecoration(new GridSpacingItemDecoration(3, ScreenUtil.dpToPxInt(mContext, 8), true));//设置间隔
+//            rvImages.addItemDecoration(new GridSpacingItemDecoration(3, ScreenUtil.dpToPxInt(mContext, 8), true));//设置间隔
+            rvImages.addItemDecoration(new SpaceItemDecoration(ScreenUtil.dpToPxInt(mContext, 8)));
         }
     }
 

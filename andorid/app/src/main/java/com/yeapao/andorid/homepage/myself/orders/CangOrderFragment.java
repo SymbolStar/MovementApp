@@ -52,6 +52,12 @@ public class CangOrderFragment  extends BaseFragment{
         super.onCreate(savedInstanceState);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        getNetWork(GlobalDataYepao.getUser(getContext()).getId());
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

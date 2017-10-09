@@ -84,6 +84,10 @@ import com.yeapao.andorid.homepage.map.overlayutil.OverlayManager;
 import com.yeapao.andorid.homepage.map.repository.DepositActivity;
 import com.yeapao.andorid.homepage.map.repository.RepairActivity;
 import com.yeapao.andorid.homepage.map.repository.ReservationCangActivity;
+import com.yeapao.andorid.homepage.map.repository.StartSportActivity;
+import com.yeapao.andorid.homepage.message.MyMessageActivity;
+import com.yeapao.andorid.homepage.myself.orders.MyselfOrdersActivity;
+import com.yeapao.andorid.model.NormalDataModel;
 import com.yeapao.andorid.model.WareHouseListModel;
 import com.yeapao.andorid.util.GlobalDataYepao;
 
@@ -140,10 +144,14 @@ public class MapFragmentView extends BaseFragment implements SensorEventListener
     private boolean reservationStatus = false;
     private boolean timerFlag = false;
 
+    private static boolean isMessageFlag = false;
+
+
+
     private long timeFlag = 0;
 
     //    倒计时
-    private long countDown= 0;
+    private long countDown = 0;
     Timer timer = new Timer();
 
 
@@ -189,6 +197,10 @@ public class MapFragmentView extends BaseFragment implements SensorEventListener
     RouteLine route = null;
     OverlayManager routeOverlay = null;
 
+
+    public void refreshMessageIcon() {
+        isMessageFlag = true;
+    }
 
     @Override
     public void onMapLoaded() {
@@ -277,7 +289,6 @@ public class MapFragmentView extends BaseFragment implements SensorEventListener
         applyConstraintSet.applyTo(mConstraintLayout);
 //        reservationFrameLayout.setVisibility(View.GONE);
         LogUtil.e(TAG, latLng.toString());
-        ToastManager.showToast(getContext(), latLng.toString());
     }
 
     @Override
@@ -318,8 +329,13 @@ public class MapFragmentView extends BaseFragment implements SensorEventListener
             if (mWareHouseList.getData().getWarehouseListOut().get(index).getActualStatus().equals("1")) {
                 return BitmapDescriptorFactory.fromResource(R.drawable.cang_run_s);
             } else if (mWareHouseList.getData().getWarehouseListOut().get(index).getReservaStatus().equals("1")) {
-                reservationStatus = true;
-                return BitmapDescriptorFactory.fromResource(R.drawable.cang_run_my);
+
+                if (mWareHouseList.getData().getWarehouseListOut().get(index).getIsMyReserva().equals("1")) {
+                    reservationStatus = true;
+                    return BitmapDescriptorFactory.fromResource(R.drawable.cang_run_my);
+                } else {
+                    return BitmapDescriptorFactory.fromResource(R.drawable.cang_run_s);
+                }
 
             } else {
                 return BitmapDescriptorFactory.fromResource(R.drawable.cang_run_n);
@@ -362,7 +378,7 @@ public class MapFragmentView extends BaseFragment implements SensorEventListener
 
     public void onCreate(Bundle var1) {
         super.onCreate(var1);
-        LogUtil.e(TAG,"----onCreate----");
+        LogUtil.e(TAG, "----onCreate----");
 
         // 定位初始化##在此处设置定位的监听 避免重复定位
         mLocClient = new LocationClient(getContext());
@@ -374,9 +390,6 @@ public class MapFragmentView extends BaseFragment implements SensorEventListener
         mLocClient.setLocOption(option);
         mLocClient.start();
     }
-
-
-
 
 
 //    public View onCreateView(LayoutInflater var1, ViewGroup var2, Bundle var3) {
@@ -393,38 +406,36 @@ public class MapFragmentView extends BaseFragment implements SensorEventListener
         LogUtil.e(TAG, "----onCreateView----");
         isFirstLoc = true;
         View view = inflater.inflate(R.layout.fragment_map, container, false);
-
-        initView(view);
-
         unbinder = ButterKnife.bind(this, view);
+        initView(view);
         return view;
     }
 
-    @OnClick(R.id.tv_reservation_warehouse)
-    void setReservationWarehouse(View view) {
-
-        if (reservationStatus) {
-            DialogUtils.showMessageDialog(getContext(), getContext().getResources().getString(R.string.cang_message_hint_1),
-                    getContext().getResources().getString(R.string.cang_message_hint_2),getContext().getResources().getString(R.string.cang_message_hint_3), new DialogCallback() {
-                        @Override
-                        public void onItemClick(int position) {
-
-                        }
-
-                        @Override
-                        public void onLeftClick() {
-
-                        }
-
-                        @Override
-                        public void onRightClick() {
-
-                        }
-                    });
-        } else {
-            ReservationCangActivity.start(getContext(), String.valueOf(mWareHouseList.getData().getWarehouseListOut().get(currentMyItemIndex).getWarehouseId()));
-        }
-    }
+//    @OnClick(R.id.tv_reservation_warehouse)
+//    void setReservationWarehouse(View view) {
+//
+//        if (reservationStatus) {
+//            DialogUtils.showMessageDialog(getContext(), getContext().getResources().getString(R.string.cang_message_hint_1),
+//                    getContext().getResources().getString(R.string.cang_message_hint_2),getContext().getResources().getString(R.string.cang_message_hint_3), new DialogCallback() {
+//                        @Override
+//                        public void onItemClick(int position) {
+//
+//                        }
+//
+//                        @Override
+//                        public void onLeftClick() {
+//
+//                        }
+//
+//                        @Override
+//                        public void onRightClick() {
+//
+//                        }
+//                    });
+//        } else {
+//            ReservationCangActivity.start(getContext(), String.valueOf(mWareHouseList.getData().getWarehouseListOut().get(currentMyItemIndex).getWarehouseId()));
+//        }
+//    }
 
     private void initView(View view) {
         mConstraintLayout = (ConstraintLayout) view.findViewById(R.id.cl_map);
@@ -476,6 +487,12 @@ public class MapFragmentView extends BaseFragment implements SensorEventListener
 //        线路轨迹
         mSearch = RoutePlanSearch.newInstance();
         mSearch.setOnGetRoutePlanResultListener(this);
+
+        if (isMessageFlag) {
+            ivMessage.setImageDrawable(getContext().getResources().getDrawable(R.drawable.cang_information_s));
+        } else {
+            ivMessage.setImageDrawable(getContext().getResources().getDrawable(R.drawable.cang_information_n));
+        }
 
 
     }
@@ -596,16 +613,33 @@ public class MapFragmentView extends BaseFragment implements SensorEventListener
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_message:
+                isMessageFlag = false;
+                ivMessage.setImageDrawable(getContext().getResources().getDrawable(R.drawable.cang_information_n));
+                MyMessageActivity.start(getContext());
                 break;
             case R.id.iv_location:
                 LogUtil.e("location", "location----------");
                 mLocClient.requestLocation();
+                DialogUtils.showProgressDialog(getContext(),true);
+                onResume();
+
                 break;
             case R.id.iv_find_qr:
                 if (GlobalDataYepao.isLogin()) {
                     if (mWareHouseList.getData().getIsQualified().equals("1")) {
-                        TestScanActivity.start(getContext(), "0");
-//                        startActivity(new Intent(getContext(), TestScanActivity.class));
+
+                        if (mWareHouseList.getData().getIsUnpaid() == 1) {
+                            MyselfOrdersActivity.start(getContext());
+                            return;
+                        }
+
+                        if (mWareHouseList.getData().getWarehouseId() != 0) {
+                            TestScanActivity.start(getContext(), "1");
+                        } else {
+                            TestScanActivity.start(getContext(), "0");
+                        }
+
+
                     } else {
                         DepositActivity.start(getContext());
                     }
@@ -641,17 +675,17 @@ public class MapFragmentView extends BaseFragment implements SensorEventListener
             }
             LogUtil.e("MyLocationListener", "xxxxXXXXXX");
             if (isFirstLoc) {
-            LogUtil.e("MyLocationListener", "receiveLocationlllllll");
+                LogUtil.e("MyLocationListener", "receiveLocationlllllll");
 
-            mCurrentLat = location.getLatitude();
-            mCurrentLon = location.getLongitude();
-            mCurrentAccracy = location.getRadius();
-            locData = new MyLocationData.Builder()
-                    .accuracy(location.getRadius())
-                    // 此处设置开发者获取到的方向信息，顺时针0-360
-                    .direction(mCurrentDirection).latitude(location.getLatitude())
-                    .longitude(location.getLongitude()).build();
-            mBaiduMap.setMyLocationData(locData);
+                mCurrentLat = location.getLatitude();
+                mCurrentLon = location.getLongitude();
+                mCurrentAccracy = location.getRadius();
+                locData = new MyLocationData.Builder()
+                        .accuracy(location.getRadius())
+                        // 此处设置开发者获取到的方向信息，顺时针0-360
+                        .direction(mCurrentDirection).latitude(location.getLatitude())
+                        .longitude(location.getLongitude()).build();
+                mBaiduMap.setMyLocationData(locData);
 //            if (isFirstLoc) {
 
                 isFirstLoc = false;
@@ -682,31 +716,48 @@ public class MapFragmentView extends BaseFragment implements SensorEventListener
     Observer<WareHouseListModel> modelObserver = new Observer<WareHouseListModel>() {
         @Override
         public void onCompleted() {
-
+            DialogUtils.cancelProgressDialog();
         }
 
         @Override
         public void onError(Throwable e) {
             LogUtil.e(TAG, e.toString());
+            DialogUtils.cancelProgressDialog();
 
         }
 
         @Override
         public void onNext(WareHouseListModel model) {
-            LogUtil.e(TAG+"WareHouseListModel", model.getErrmsg());
+            DialogUtils.cancelProgressDialog();
+            LogUtil.e(TAG + "WareHouseListModel", model.getErrmsg());
             if (model.getErrmsg().equals("ok")) {
                 mWareHouseList = model;
                 if (mWareHouseList.getData().getWarehouseId() != 0) {
                     tvAccountCangStatus.setVisibility(View.VISIBLE);
                     tvAccountCangStatus.setText(getContext().getResources().getString(R.string.account_cang_status));
+                    tvAccountCangStatus.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            StartSportActivity.start(getContext(), GlobalDataYepao.getCangDeviceData(getContext()).getId(),
+                                    GlobalDataYepao.getCangDeviceData(getContext()).getStartTime());
+                        }
+                    });
+//                    TODO
                 } else {
-//                    tvAccountCangStatus.setVisibility(View.GONE);
+                    tvAccountCangStatus.setVisibility(View.GONE);
                 }
                 if (mWareHouseList.getData().getIsUnpaid() == 1) {
                     tvAccountCangStatus.setVisibility(View.VISIBLE);
                     tvAccountCangStatus.setText(getContext().getResources().getString(R.string.account_cang_status2));
+                    tvAccountCangStatus.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            MyselfOrdersActivity.start(getContext());
+                        }
+                    });
+
                 } else {
-//                    tvAccountCangStatus.setVisibility(View.GONE);
+                    tvAccountCangStatus.setVisibility(View.GONE);
                 }
 
                 addMarkers();
@@ -719,7 +770,7 @@ public class MapFragmentView extends BaseFragment implements SensorEventListener
      * 在地图上添加标记
      */
     public void addMarkers() {
-        LogUtil.e("获取标记的延时",String.valueOf(System.currentTimeMillis()-timeFlag));
+        LogUtil.e("获取标记的延时", String.valueOf(System.currentTimeMillis() - timeFlag));
         mClusterManager = new ClusterManager<MyItem>(getContext(), mBaiduMap);
 //        mClusterManager.clearItems();
         List<MyItem> items = new ArrayList<MyItem>();
@@ -743,42 +794,99 @@ public class MapFragmentView extends BaseFragment implements SensorEventListener
 
         mClusterManager.setOnClusterItemClickListener(new ClusterManager.OnClusterItemClickListener<MyItem>() {
             @Override
-            public boolean onClusterItemClick(MyItem item) {
+            public boolean onClusterItemClick(final MyItem item) {
                 ivFindQr.setVisibility(View.GONE);
                 if (routeOverlay != null) {
                     routeOverlay.removeFromMap();
                 }
                 currentMyItemIndex = item.getIndex();
-                if (mWareHouseList.getData().getWarehouseListOut().get(item.getIndex()).getReservaStatus().equals("1")) {
+                if (mWareHouseList.getData().getWarehouseListOut().get(item.getIndex()).getIsMyReserva().equals("1")) {
                     tvWareHouse.setText("扫码开门");
+                    tvWareHouse.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            ToastManager.showToast(getContext(), "扫码开门");
+                            TestScanActivity.start(getContext(), "0");
+                        }
+                    });
                     tvDistance.setVisibility(View.GONE);
                     ivLocationIcon.setVisibility(View.GONE);
                     tvReservationTime.setVisibility(View.VISIBLE);
                     DateFormatter dateFormatter = new DateFormatter();
-                    long llll = Long.valueOf(mWareHouseList.getData().getWarehouseListOut().get(item.getIndex()).getReservaStartTime()) ;
-                    long l2 = Long.valueOf(mWareHouseList.getData().getWarehouseListOut().get(item.getIndex()).getDuration()) ;
-                    countDown = dateFormatter.getData(llll,l2);
-                    LogUtil.e(TAG,String.valueOf(countDown));
+                    long llll = Long.valueOf(mWareHouseList.getData().getWarehouseListOut().get(item.getIndex()).getReservaStartTime());
+                    long l2 = Long.valueOf(mWareHouseList.getData().getWarehouseListOut().get(item.getIndex()).getDuration());
+                    countDown = dateFormatter.getData(llll, l2);
+                    LogUtil.e(TAG, String.valueOf(countDown));
 //                 TODO 倒计时计算
                     if (timerFlag) {
 
                     } else {
-                        timer.schedule(task,1000,1000);
+                        timer.schedule(task, 1000, 1000);
                     }
 
                     tvCangHint.setText("健身舱：" + mWareHouseList.getData().getWarehouseListOut().get(item.getIndex()).getWarehouseName());
-                } else if (mWareHouseList.getData().getWarehouseListOut().get(item.getIndex()).getActualStatus().equals("1")) {
-                    tvWareHouse.setText("下线提醒");
+                } else if (mWareHouseList.getData().getWarehouseListOut().get(item.getIndex()).getActualStatus().equals("1") ||
+                        mWareHouseList.getData().getWarehouseListOut().get(item.getIndex()).getReservaStatus().equals("1")) {
+
+                    if (mWareHouseList.getData().getWarehouseListOut().get(item.getIndex()).getIsOfflineReminder().equals("1")) {
+                        tvWareHouse.setText("取消下线提醒");
+                    } else {
+                        tvWareHouse.setText("下线提醒");
+                    }
+                    tvWareHouse.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            ToastManager.showToast(getContext(), "下线提醒");
+                            if (mWareHouseList.getData().getWarehouseListOut().get(item.getIndex()).getIsOfflineReminder().equals("1")) {
+                                getNetWorkDelOffLine(String.valueOf(mWareHouseList.getData().getWarehouseListOut().get(item.getIndex()).getWarehouseId()));
+                            } else {
+                                getNetWorkOffLine(String.valueOf(mWareHouseList.getData().getWarehouseListOut().get(item.getIndex()).getWarehouseId()));
+                            }
+
+                        }
+                    });
                     tvDistance.setVisibility(View.VISIBLE);
                     ivLocationIcon.setVisibility(View.VISIBLE);
                     tvReservationTime.setVisibility(View.GONE);
-                    tvCangHint.setText(mWareHouseList.getData().getReservationPrice() + "/5分钟");
+                    tvCangHint.setText(mWareHouseList.getData().getReservationPrice() + "元/5分钟");
 
                 } else {
                     tvWareHouse.setText("预约使用");
+                    tvWareHouse.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            ToastManager.showToast(getContext(), "预约使用");
+
+
+                            if (reservationStatus) {
+                                DialogUtils.showMessageDialog(getContext(), getContext().getResources().getString(R.string.cang_message_hint_1),
+                                        getContext().getResources().getString(R.string.cang_message_hint_2), getContext().getResources().getString(R.string.cang_message_hint_3), new DialogCallback() {
+                                            @Override
+                                            public void onItemClick(int position) {
+
+                                            }
+
+                                            @Override
+                                            public void onLeftClick() {
+
+                                            }
+
+                                            @Override
+                                            public void onRightClick() {
+
+                                            }
+                                        });
+                            } else {
+                                ReservationCangActivity.start(getContext(), String.valueOf(mWareHouseList.getData().getWarehouseListOut().get(currentMyItemIndex).getWarehouseId()));
+                            }
+
+
+                        }
+                    });
                     tvDistance.setVisibility(View.VISIBLE);
                     ivLocationIcon.setVisibility(View.VISIBLE);
                     tvReservationTime.setVisibility(View.GONE);
+                    tvCangHint.setText(mWareHouseList.getData().getReservationPrice() + "元/5分钟");
                 }
 
                 applyConstraintSet.clone(mConstraintLayout);
@@ -815,6 +923,7 @@ public class MapFragmentView extends BaseFragment implements SensorEventListener
                     timerFlag = true;
                     if (countDown < 0) {
                         timer.cancel();
+                        task.cancel();
                         timerFlag = false;
                     }
                 }
@@ -877,6 +986,47 @@ public class MapFragmentView extends BaseFragment implements SensorEventListener
             }
         };
         routeOverlay.addToMap();
+    }
+
+
+    private void getNetWorkOffLine(String warehouseId) {
+        LogUtil.e(TAG + "offline", warehouseId);
+        subscription = Network.getYeapaoApi()
+                .requestOffLine(GlobalDataYepao.getUser(getContext()).getId(), warehouseId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(modelObserverOffLine);
+    }
+
+    Observer<NormalDataModel> modelObserverOffLine = new Observer<NormalDataModel>() {
+        @Override
+        public void onCompleted() {
+
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            LogUtil.e(TAG, e.toString());
+
+        }
+
+        @Override
+        public void onNext(NormalDataModel model) {
+            LogUtil.e(TAG, model.getErrmsg());
+            if (model.getErrmsg().equals("ok")) {
+
+            }
+        }
+    };
+
+
+    private void getNetWorkDelOffLine(String warehouseId) {
+        LogUtil.e(TAG + "deloffline", warehouseId);
+        subscription = Network.getYeapaoApi()
+                .requestDelOffLine(GlobalDataYepao.getUser(getContext()).getId(), warehouseId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(modelObserverOffLine);
     }
 
 

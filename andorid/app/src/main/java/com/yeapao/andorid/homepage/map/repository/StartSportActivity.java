@@ -103,7 +103,7 @@ public class StartSportActivity extends BaseActivity {
         long ss1 = ss % 60;
         long mm = ss / 60;
 
-        if (mm < 0) {
+        if (mm <= 0) {
             mm = 1;
         }
 
@@ -184,6 +184,7 @@ public class StartSportActivity extends BaseActivity {
                     public void onRightClick() {
                         timer.cancel();
                         SportFinishActivity.start(getContext(),actualId,sumMM);
+                        finish();
                     }
                 });
                 break;

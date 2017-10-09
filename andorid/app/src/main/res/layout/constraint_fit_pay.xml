@@ -19,14 +19,14 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="8dp" />
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp" />
 
     <TextView
         android:id="@+id/textView148"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="0dp"
-        android:layout_marginRight="0dp"
         android:layout_marginTop="30dp"
         android:text="本次消费"
         android:textColor="@color/text_color"
@@ -39,8 +39,6 @@
         android:id="@+id/tv_fit_pay_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="0dp"
-        android:layout_marginRight="0dp"
         android:layout_marginTop="5dp"
         android:text="@string/RMB"
         android:textColor="#ff5b45"
@@ -53,8 +51,6 @@
         android:id="@+id/imageView73"
         android:layout_width="0dp"
         android:layout_height="50dp"
-        android:layout_marginLeft="0dp"
-        android:layout_marginRight="0dp"
         android:layout_marginTop="10dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -65,15 +61,14 @@
         android:id="@+id/textView154"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="0dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="0dp"
         android:text="@string/cang_pay1"
         android:textColor="@color/text_hint_title_color"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/imageView73"
         app:layout_constraintLeft_toLeftOf="@+id/imageView73"
-        app:layout_constraintTop_toTopOf="@+id/imageView73" />
+        app:layout_constraintTop_toTopOf="@+id/imageView73"
+        android:layout_marginStart="16dp" />
 
     <TextView
         android:id="@+id/tv_fit_time"
@@ -84,14 +79,13 @@
         android:textColor="@color/text_color"
         android:textSize="16sp"
         app:layout_constraintBaseline_toBaselineOf="@+id/textView154"
-        app:layout_constraintLeft_toRightOf="@+id/textView154" />
+        app:layout_constraintLeft_toRightOf="@+id/textView154"
+        android:layout_marginStart="16dp" />
 
     <ImageView
         android:id="@+id/imageView74"
         android:layout_width="0dp"
         android:layout_height="50dp"
-        android:layout_marginLeft="0dp"
-        android:layout_marginRight="0dp"
         android:layout_marginTop="1dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -102,15 +96,14 @@
         android:id="@+id/textView157"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="0dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="0dp"
         android:text="@string/cang_pay2"
         android:textColor="@color/text_hint_title_color"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/imageView74"
         app:layout_constraintLeft_toLeftOf="@+id/imageView74"
-        app:layout_constraintTop_toTopOf="@+id/imageView74" />
+        app:layout_constraintTop_toTopOf="@+id/imageView74"
+        android:layout_marginStart="16dp" />
 
     <TextView
         android:id="@+id/tv_fit_order_code"
@@ -121,14 +114,13 @@
         android:textColor="@color/text_color"
         android:textSize="16sp"
         app:layout_constraintBaseline_toBaselineOf="@+id/textView157"
-        app:layout_constraintLeft_toRightOf="@+id/textView157" />
+        app:layout_constraintLeft_toRightOf="@+id/textView157"
+        android:layout_marginStart="16dp" />
 
     <ImageView
         android:id="@+id/imageView75"
         android:layout_width="0dp"
         android:layout_height="50dp"
-        android:layout_marginLeft="0dp"
-        android:layout_marginRight="0dp"
         android:layout_marginTop="1dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -139,15 +131,14 @@
         android:id="@+id/textView159"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="0dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="0dp"
         android:text="@string/cang_pay3"
         android:textColor="@color/text_hint_title_color"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/imageView75"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imageView75" />
+        app:layout_constraintTop_toTopOf="@+id/imageView75"
+        android:layout_marginStart="16dp" />
 
     <TextView
         android:id="@+id/tv_fit_cang_id"
@@ -158,7 +149,8 @@
         android:textColor="@color/text_color"
         android:textSize="16sp"
         app:layout_constraintBaseline_toBaselineOf="@+id/textView159"
-        app:layout_constraintLeft_toRightOf="@+id/textView159" />
+        app:layout_constraintLeft_toRightOf="@+id/textView159"
+        android:layout_marginStart="16dp" />
 
 
 
@@ -208,7 +200,8 @@
         app:layout_constraintBottom_toBottomOf="@+id/imageView38"
         android:layout_marginBottom="8dp"
         android:layout_marginLeft="16dp"
-        app:layout_constraintLeft_toLeftOf="@+id/imageView38" />
+        app:layout_constraintLeft_toLeftOf="@+id/imageView38"
+        android:layout_marginStart="16dp" />
 
     <CheckBox
         android:id="@+id/cb_wechat_pay"
@@ -257,6 +250,32 @@
         app:layout_constraintBottom_toTopOf="@+id/imageView43"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView43" />
+
+    <TextView
+        android:id="@+id/textView165"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="微信"
+        android:textColor="@color/text_color"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/imageView38"
+        app:layout_constraintTop_toBottomOf="@+id/imageView38"
+        app:layout_constraintLeft_toRightOf="@+id/imageView40"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintVertical_bias="0.492"
+        android:layout_marginStart="8dp" />
+
+    <TextView
+        android:id="@+id/textView169"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="支付宝"
+        android:textColor="@color/text_color"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/imageView43"
+        app:layout_constraintTop_toBottomOf="@+id/imageView43"
+        app:layout_constraintLeft_toRightOf="@+id/imageView44"
+        android:layout_marginLeft="8dp" />
 
 
 </android.support.constraint.ConstraintLayout>

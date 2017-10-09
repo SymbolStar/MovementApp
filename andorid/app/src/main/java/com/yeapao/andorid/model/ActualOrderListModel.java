@@ -53,18 +53,18 @@ public class ActualOrderListModel {
          * actualOrdersId : 27
          */
 
-        private int price;
+        private String price;
         private int duration;
         private String status;
         private String warehouseName;
         private String actualOrdersCode;
         private int actualOrdersId;
 
-        public int getPrice() {
+        public String getPrice() {
             return price;
         }
 
-        public void setPrice(int price) {
+        public void setPrice(String price) {
             this.price = price;
         }
 

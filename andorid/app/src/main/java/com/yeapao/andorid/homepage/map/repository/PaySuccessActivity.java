@@ -2,9 +2,14 @@ package com.yeapao.andorid.homepage.map.repository;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -69,7 +74,10 @@ public class PaySuccessActivity extends BaseActivity {
         tvSportOrder.setText(getSportOrder(mMessageModel.getData().getObjectiveId()));
         tvFoodName.setText("("+getSprotText()+")");
         ivFood.setImageDrawable(getSprotImage());
-        tvSportTime.setText(getTimeLevel());
+        tvSportEvaluate.setText(getTimeLevel());
+        tvFoodSum.setText("X"+String.valueOf(mMessageModel.getData().getNumber()));
+        tvSprotTips.setText(getSportTips());
+        GlobalDataYepao.clearCangDeviceData(getContext());
     }
 
     @Override
@@ -108,6 +116,7 @@ public class PaySuccessActivity extends BaseActivity {
         public void onNext(CalorieMessageModel model) {
             LogUtil.e(TAG, model.getErrmsg());
             if (model.getErrmsg().equals("ok")) {
+                mMessageModel = model;
                 showResult();
             }
         }
@@ -200,4 +209,65 @@ public class PaySuccessActivity extends BaseActivity {
             return "较长";
         }
     }
+
+    private SpannableStringBuilder getSportTips() {
+
+        int times = Integer.valueOf(time);
+        switch (mMessageModel.getData().getObjectiveId()) {
+            case 1:
+                if (times < 30) {
+                    SpannableStringBuilder stringBuilder = new SpannableStringBuilder(getResources().getString(R.string.sport_tips_1));
+                    int color = Color.rgb(225, 204, 0);
+                    stringBuilder.setSpan(new ForegroundColorSpan(color),21,25, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+                    stringBuilder.setSpan(new ForegroundColorSpan(color),38,47, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+                    return stringBuilder;
+                } else {
+                    SpannableStringBuilder stringBuilder = new SpannableStringBuilder(getResources().getString(R.string.sport_tips_1_1));
+                    int color = Color.rgb(225, 204, 0);
+                    stringBuilder.setSpan(new ForegroundColorSpan(color),32,41, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+                    return stringBuilder;
+                }
+
+            case 2:
+                if (times < 30) {
+                    SpannableStringBuilder stringBuilder = new SpannableStringBuilder(getResources().getString(R.string.sport_tips_2));
+                    int color = Color.rgb(225, 204, 0);
+                    stringBuilder.setSpan(new ForegroundColorSpan(color),21,29, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+                    stringBuilder.setSpan(new ForegroundColorSpan(color),42,51, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+                    return stringBuilder;
+                } else {
+                    SpannableStringBuilder stringBuilder = new SpannableStringBuilder(getResources().getString(R.string.sport_tips_2_1));
+                    int color = Color.rgb(225, 204, 0);
+                    stringBuilder.setSpan(new ForegroundColorSpan(color),35,44, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+                    return stringBuilder;
+                }
+            case 3:
+                if (times < 30) {
+                    SpannableStringBuilder stringBuilder = new SpannableStringBuilder(getResources().getString(R.string.sport_tips_3));
+                    int color = Color.rgb(225, 204, 0);
+                    stringBuilder.setSpan(new ForegroundColorSpan(color),21,27, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+                    return stringBuilder;
+                } else {
+                    SpannableStringBuilder stringBuilder = new SpannableStringBuilder(getResources().getString(R.string.sport_tips_3_1));
+                    int color = Color.rgb(225, 204, 0);
+                    stringBuilder.setSpan(new ForegroundColorSpan(color),13,19, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+                    return stringBuilder;
+                }
+            case 4:
+                if (times < 30) {
+                    SpannableStringBuilder stringBuilder = new SpannableStringBuilder(getResources().getString(R.string.sport_tips_4));
+                    int color = Color.rgb(225, 204, 0);
+                    stringBuilder.setSpan(new ForegroundColorSpan(color),21,30, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+                    return stringBuilder;
+                } else {
+                    SpannableStringBuilder stringBuilder = new SpannableStringBuilder(getResources().getString(R.string.sport_tips_4_1));
+                    int color = Color.rgb(225, 204, 0);
+                    stringBuilder.setSpan(new ForegroundColorSpan(color),35,44, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+                    return stringBuilder;
+                }
+
+        }
+        return null;
+    }
+
 }
