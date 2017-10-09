@@ -28,6 +28,7 @@ import com.yeapao.andorid.homepage.myself.tab.food.MyselfFoodV2Activity;
 import com.yeapao.andorid.homepage.myself.tab.shopkeeper.MyselfClockOutActivityV2;
 import com.yeapao.andorid.model.MyselfTabModel;
 import com.yeapao.andorid.model.UserData;
+import com.yeapao.andorid.util.AccountGradeUtils;
 import com.yeapao.andorid.util.GlobalDataYepao;
 
 import java.math.MathContext;
@@ -75,7 +76,7 @@ public class MyselfMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
 
             myselfTabModels.clear();
 
-        for (int i = 0; i < 7; i++) {
+        for (int i = 0; i < 3; i++) {
 
             MyselfTabModel myselfTabModel = new MyselfTabModel();
             switch (i) {
@@ -90,10 +91,14 @@ public class MyselfMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
                     myselfTabModels.add(myselfTabModel);
                     break;
                 case 2:
-                    myselfTabModel.setViewId(mContext.getResources().getDrawable(R.drawable.my_order));
-                    myselfTabModel.setTabName("我的预约");
+                    myselfTabModel.setViewId(mContext.getResources().getDrawable(R.drawable.my_phacse_order));
+                    myselfTabModel.setTabName("我的订单");
                     myselfTabModels.add(myselfTabModel);
                     break;
+//                    myselfTabModel.setViewId(mContext.getResources().getDrawable(R.drawable.my_order));
+//                    myselfTabModel.setTabName("我的预约");
+//                    myselfTabModels.add(myselfTabModel);
+//                    break;
                 case 3:
                     myselfTabModel.setViewId(mContext.getResources().getDrawable(R.drawable.my_lesson));
                     myselfTabModel.setTabName("我的课程");
@@ -123,16 +128,16 @@ public class MyselfMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         }
 
-        if (GlobalDataYepao.isLogin()) {
-            if (GlobalDataYepao.getUser(mContext).getPost().equals("1")) {
-                myselfTabModels.remove(5);
-            } else if (GlobalDataYepao.getUser(mContext).getPost().equals("2")) {
-                myselfTabModels.remove(6);
-            } else {
-                myselfTabModels.remove(5);
-                myselfTabModels.remove(5);
-            }
-        }
+//        if (GlobalDataYepao.isLogin()) {
+//            if (GlobalDataYepao.getUser(mContext).getPost().equals("1")) {
+//                myselfTabModels.remove(5);
+//            } else if (GlobalDataYepao.getUser(mContext).getPost().equals("2")) {
+//                myselfTabModels.remove(6);
+//            } else {
+//                myselfTabModels.remove(5);
+//                myselfTabModels.remove(5);
+//            }
+//        }
 
 
 
@@ -183,53 +188,7 @@ public class MyselfMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
                 ((HeaderViewHolder) holder).tvAccountTell.setText(mUserData.getPhone());
 
                 int grade = Integer.valueOf(mUserData.getGrade());
-                switch (grade) {
-                    case 1:
-                        ((HeaderViewHolder) holder).ivAccountBadge.setImageDrawable(mContext.getResources().getDrawable(R.drawable.level1));
-                        break;
-                    case 2:
-                        ((HeaderViewHolder) holder).ivAccountBadge.setImageDrawable(mContext.getResources().getDrawable(R.drawable.level2));
-                        break;
-                    case 3:
-                        ((HeaderViewHolder) holder).ivAccountBadge.setImageDrawable(mContext.getResources().getDrawable(R.drawable.level3));
-                        break;
-                    case 4:
-                        ((HeaderViewHolder) holder).ivAccountBadge.setImageDrawable(mContext.getResources().getDrawable(R.drawable.level4));
-                        break;
-                    case 5:
-                        ((HeaderViewHolder) holder).ivAccountBadge.setImageDrawable(mContext.getResources().getDrawable(R.drawable.level5));
-                        break;
-                    case 6:
-                        ((HeaderViewHolder) holder).ivAccountBadge.setImageDrawable(mContext.getResources().getDrawable(R.drawable.level6));
-                        break;
-                    case 7:
-                        ((HeaderViewHolder) holder).ivAccountBadge.setImageDrawable(mContext.getResources().getDrawable(R.drawable.level7));
-                        break;
-                    case 8:
-                        ((HeaderViewHolder) holder).ivAccountBadge.setImageDrawable(mContext.getResources().getDrawable(R.drawable.level8));
-                        break;
-                    case 9:
-                        ((HeaderViewHolder) holder).ivAccountBadge.setImageDrawable(mContext.getResources().getDrawable(R.drawable.level9));
-                        break;
-                    case 10:
-                        ((HeaderViewHolder) holder).ivAccountBadge.setImageDrawable(mContext.getResources().getDrawable(R.drawable.level10));
-                        break;
-                    case 11:
-                        ((HeaderViewHolder) holder).ivAccountBadge.setImageDrawable(mContext.getResources().getDrawable(R.drawable.level11));
-                        break;
-                    case 12:
-                        ((HeaderViewHolder) holder).ivAccountBadge.setImageDrawable(mContext.getResources().getDrawable(R.drawable.level12));
-                        break;
-                    case 13:
-                        ((HeaderViewHolder) holder).ivAccountBadge.setImageDrawable(mContext.getResources().getDrawable(R.drawable.level13));
-                        break;
-                    case 14:
-                        ((HeaderViewHolder) holder).ivAccountBadge.setImageDrawable(mContext.getResources().getDrawable(R.drawable.level14));
-                        break;
-                    case 15:
-                        ((HeaderViewHolder) holder).ivAccountBadge.setImageDrawable(mContext.getResources().getDrawable(R.drawable.level15));
-                        break;
-                }
+                ((HeaderViewHolder) holder).ivAccountBadge.setImageDrawable(AccountGradeUtils.getGradeDrawable(mContext,grade));
             } else {
                 ((HeaderViewHolder) holder).ivAccountHead.setImageDrawable(mContext.getResources().getDrawable(R.drawable.y_you));
                 ((HeaderViewHolder) holder).tvAccountName.setText("注册／登录");
@@ -320,8 +279,8 @@ public class MyselfMessageAdapter extends RecyclerView.Adapter<RecyclerView.View
             switch (view.getId()) {
                 case R.id.v_card_click:
                     LogUtil.e(TAG, "card");
-//                    MyselfClockOutActivity.start(mContext);
-                    MyselfClockOutActivityV2.start(mContext);
+                    MyselfClockOutActivity.start(mContext);
+//                    MyselfClockOutActivityV2.start(mContext);
                     break;
                 case R.id.v_food_click:
                     LogUtil.e(TAG, "food");

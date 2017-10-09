@@ -37,11 +37,14 @@ public class MyMessageActivity extends BaseActivity {
     RelativeLayout rlOrder;
     @BindView(R.id.rl_video)
     RelativeLayout rlVideo;
+    @BindView(R.id.rl_circle)
+    RelativeLayout rlCircle;
 
 
     private Badge clockBadge;
     private Badge reservationBadge;
     private Badge videoBadge;
+    private Badge circleBadge;
 
     private MessageListModel messageListModel;
 
@@ -82,18 +85,18 @@ public class MyMessageActivity extends BaseActivity {
                     }
                 });
 
-        reservationBadge = new QBadgeView(this)
-                .setBadgeNumber(messageListModel.getData().getAppointments())
-                .setGravityOffset(15, 15, true)
-                .bindTarget(rlOrder)
-                .setOnDragStateChangedListener(new Badge.OnDragStateChangedListener() {
-                    @Override
-                    public void onDragStateChanged(int dragState, Badge badge, View targetView) {
-                        if (Badge.OnDragStateChangedListener.STATE_SUCCEED == dragState) {
-                            ToastManager.showToast(getContext(), "badge is removed");
-                        }
-                    }
-                });
+//        reservationBadge = new QBadgeView(this)
+//                .setBadgeNumber(messageListModel.getData().getAppointments())
+//                .setGravityOffset(15, 15, true)
+//                .bindTarget(rlOrder)
+//                .setOnDragStateChangedListener(new Badge.OnDragStateChangedListener() {
+//                    @Override
+//                    public void onDragStateChanged(int dragState, Badge badge, View targetView) {
+//                        if (Badge.OnDragStateChangedListener.STATE_SUCCEED == dragState) {
+//                            ToastManager.showToast(getContext(), "badge is removed");
+//                        }
+//                    }
+//                });
 
         videoBadge = new QBadgeView(this)
                 .setBadgeNumber(messageListModel.getData().getVideos())
@@ -107,6 +110,19 @@ public class MyMessageActivity extends BaseActivity {
                         }
                     }
                 });
+        circleBadge = new QBadgeView(this)
+                .setBadgeNumber(messageListModel.getData().getCommunityComments())
+                .setGravityOffset(15, 15, true)
+                .bindTarget(rlCircle)
+                .setOnDragStateChangedListener(new Badge.OnDragStateChangedListener() {
+                    @Override
+                    public void onDragStateChanged(int dragState, Badge badge, View targetView) {
+                        if (Badge.OnDragStateChangedListener.STATE_SUCCEED == dragState) {
+                            ToastManager.showToast(getContext(), "badge is removed");
+                        }
+                    }
+                });
+
 
     }
 
@@ -121,7 +137,7 @@ public class MyMessageActivity extends BaseActivity {
         return this;
     }
 
-    @OnClick({R.id.rl_clock_out, R.id.rl_order, R.id.rl_video})
+    @OnClick({R.id.rl_clock_out, R.id.rl_order, R.id.rl_video,R.id.rl_circle})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.rl_clock_out:
@@ -132,6 +148,10 @@ public class MyMessageActivity extends BaseActivity {
                 break;
             case R.id.rl_video:
                 VideoMessageActivity.start(getContext());
+                break;
+            case R.id.rl_circle:
+                CircleMessageActivity.start(getContext());
+                circleBadge.setBadgeNumber(0);
                 break;
         }
     }

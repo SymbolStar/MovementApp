@@ -116,6 +116,7 @@
                 android:layout_height="175dp"/>
 
             <RelativeLayout
+                android:visibility="gone"
                 android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
@@ -177,12 +178,14 @@
 
             </RelativeLayout>
             <View
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/bg_grey"/>
 
 
             <android.support.v7.widget.RecyclerView
+                android:visibility="gone"
                 android:id="@+id/rv_health_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

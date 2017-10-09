@@ -24,7 +24,7 @@ public class MyselfRefundActivity extends BaseActivity {
         setContentView(R.layout.activity_refund);
         initTopBar();
         mWebView = (WebView) findViewById(R.id.wv_refund);
-        mWebView.loadUrl("http://47.92.113.97:8008/refund/explain.html");
+        mWebView.loadUrl("http://47.92.113.97:8080/refund/explain.html");
     }
 
     @Override

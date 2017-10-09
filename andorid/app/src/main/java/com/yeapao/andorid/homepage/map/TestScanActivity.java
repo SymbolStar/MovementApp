@@ -13,19 +13,26 @@ import android.widget.Toast;
 import com.scottfu.sflibrary.util.LogUtil;
 import com.scottfu.sflibrary.util.ToastManager;
 import com.yeapao.andorid.R;
+import com.yeapao.andorid.api.Network;
+import com.yeapao.andorid.base.BaseActivity;
 import com.yeapao.andorid.dialog.CangInputCallback;
 import com.yeapao.andorid.dialog.DialogCallback;
 import com.yeapao.andorid.dialog.DialogUtils;
 import com.yeapao.andorid.homepage.map.repository.CangDetailActivity;
 import com.yeapao.andorid.homepage.myself.tab.food.TestActivity;
+import com.yeapao.andorid.model.NormalDataModel;
+import com.yeapao.andorid.util.GlobalDataYepao;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.bingoogolapple.qrcode.core.QRCodeView;
 import cn.bingoogolapple.qrcode.zxing.ZXingView;
+import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
-public class TestScanActivity extends AppCompatActivity implements QRCodeView.Delegate {
+public class TestScanActivity extends BaseActivity implements QRCodeView.Delegate {
     private static final String TAG = TestScanActivity.class.getSimpleName();
     private static final int REQUEST_CODE_CHOOSE_QRCODE_FROM_GALLERY = 666;
     @BindView(R.id.iv_left)
@@ -50,6 +57,16 @@ public class TestScanActivity extends AppCompatActivity implements QRCodeView.De
 
     }
 
+
+    @Override
+    protected void initTopBar() {
+
+    }
+
+    @Override
+    protected Context getContext() {
+        return null;
+    }
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,14 +115,15 @@ public class TestScanActivity extends AppCompatActivity implements QRCodeView.De
     @Override
     public void onScanQRCodeSuccess(String result) {
         Log.i(TAG, "result:" + result);
-        Toast.makeText(this, result, Toast.LENGTH_SHORT).show();
         vibrate();
         mQRCodeView.stopSpot();
 
         if (type.equals("1")) {
                 //TODO 开门操作
+            requestOpenDoor(result, GlobalDataYepao.getUser(getContext()).getId(),"1");
+            finish();
         } else {
-            CangDetailActivity.start(TestScanActivity.this,result,"1");
+            CangDetailActivity.start(TestScanActivity.this,result,"1",result);
         }
 
 
@@ -174,8 +192,13 @@ public class TestScanActivity extends AppCompatActivity implements QRCodeView.De
                         if (content == null || content.equals("")) {
                             ToastManager.showToast(TestScanActivity.this, "请重新输入健身舱ID");
                         } else {
-                            ToastManager.showToast(TestScanActivity.this, content);
-                            CangDetailActivity.start(TestScanActivity.this,content,"2");
+                            if (type.equals("1")) {
+                                requestOpenDoor(content, GlobalDataYepao.getUser(getContext()).getId(), "2");
+                                finish();
+                            } else {
+                                CangDetailActivity.start(TestScanActivity.this,content,"2",content);
+                            }
+
                         }
                     }
                 });
@@ -191,4 +214,38 @@ public class TestScanActivity extends AppCompatActivity implements QRCodeView.De
                 break;
         }
     }
+
+
+
+    private void requestOpenDoor(String deviceNo, String customerId, String type) {
+        LogUtil.e(TAG, deviceNo + customerId + type);
+        subscription = Network.getYeapaoApi()
+                .requestOpenDoor(deviceNo, customerId, type)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(DoorModelObserver);
+    }
+
+    Observer<NormalDataModel> DoorModelObserver = new Observer<NormalDataModel>() {
+        @Override
+        public void onCompleted() {
+
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            LogUtil.e(TAG, e.toString());
+
+        }
+
+        @Override
+        public void onNext(NormalDataModel model) {
+            LogUtil.e(TAG, model.getErrmsg());
+            if (model.getErrmsg().equals("ok")) {
+
+            }
+        }
+    };
+
+
 }

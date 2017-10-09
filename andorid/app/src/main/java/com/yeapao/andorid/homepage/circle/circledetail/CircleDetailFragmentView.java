@@ -22,6 +22,7 @@ import android.widget.TextView;
 import com.scottfu.sflibrary.util.LogUtil;
 import com.scottfu.sflibrary.util.SoftInputUtils;
 import com.scottfu.sflibrary.util.ToastManager;
+import com.yeapao.andorid.LoginActivity;
 import com.yeapao.andorid.R;
 import com.yeapao.andorid.base.BaseFragment;
 import com.yeapao.andorid.dialog.DialogCallback;
@@ -143,39 +144,53 @@ public class CircleDetailFragmentView extends BaseFragment implements CircleDeta
 
     @OnClick(R.id.tv_circle_publish)
     void setTvCirclePublish(View view) {
-        String content = etComment.getText().toString();
-        if (content == null || content.equals("")) {
-            return;
-        }
+        if (!GlobalDataYepao.isLogin()) {
+            LoginActivity.start(getContext());
+        } else {
+            String content = etComment.getText().toString();
+            if (content == null || content.equals("")) {
+                return;
+            }
 
-        if (commentStatus == 0) {
-            mPresenter.getComment(content);
-        } else if (commentStatus == 1) {//回复评论
-            mPresenter.getFromToComment(commentPos,content);
-        } else {//回复评论子评论
-            mPresenter.getFromToChildComment(commentPos,childCommentPos,content);
-        }
-
-
-
+            if (commentStatus == 0) {
+                mPresenter.getComment(content);
+            } else if (commentStatus == 1) {//回复评论
+                mPresenter.getFromToComment(commentPos,content);
+            } else {//回复评论子评论
+                mPresenter.getFromToChildComment(commentPos,childCommentPos,content);
+            }
 
 //设置默认状态
-        etComment.setText("");
-        etComment.setHint("写评论");
-        SoftInputUtils.hideSoftinput(getActivity());
-
+            etComment.setText("");
+            etComment.setHint("写评论");
+            SoftInputUtils.hideSoftinput(getActivity());
+        }
     }
 
 
     @Override
     public void showResult(CommunityDetailModel communityDetailModel) {
         mCommunityDetailModel = communityDetailModel;
+        if (communityDetailModel.getData().getIsFabulous().equals("1")) {
+            refreshPraise(true);
+        } else {
+            refreshPraise(false);
+        }
         LogUtil.e(TAG+"---thumbsUp",String.valueOf(communityDetailModel.getData().getThumbsUp()));
             mMessageAdapter = new CircleDetailMessageAdapter(getContext(), communityDetailModel);
             rvCircleDetailList.setAdapter(mMessageAdapter);
+        mMessageAdapter.setDeleteCommunityClickListener(new CircleDetailMessageAdapter.DeleteCommunityClickListener() {
+            @Override
+            public void deleteCommunity() {
+                mPresenter.deleteCommunity();
+            }
+        });
         mMessageAdapter.setCommentClickListener(new CircleDetailMessageAdapter.setCircleCommentClickListener() {
             @Override
             public void onCommentClickListener(final int position) {
+                if (!GlobalDataYepao.isLogin()) {
+                    return;
+                }
                 if (String.valueOf(mCommunityDetailModel.getData().getComments().get(position).getCustomerId()).equals(GlobalDataYepao.getUser(getContext()).getId())) {
                     DialogUtils.showMessageTwoButtonDialog(getContext(), "提示", "是否删除评论", new DialogCallback() {
                         @Override
@@ -202,11 +217,34 @@ public class CircleDetailFragmentView extends BaseFragment implements CircleDeta
                     etComment.setHint("回复: "+mCommunityDetailModel.getData().getComments().get(position).getName());
                 }
             }
+
+            @Override
+            public void onCommentDeleteIconClickListener(final int position) {
+                DialogUtils.showMessageTwoButtonDialog(getContext(), "提示", "是否删除评论", new DialogCallback() {
+                    @Override
+                    public void onItemClick(int position) {
+
+                    }
+
+                    @Override
+                    public void onLeftClick() {
+
+                    }
+
+                    @Override
+                    public void onRightClick() {
+                        mPresenter.deleteComment(String.valueOf(mCommunityDetailModel.getData().getComments().get(position).getId()));
+                    }
+                });
+            }
         });
 
         mMessageAdapter.setChildCommentClickListener(new CircleDetailMessageAdapter.ChildCommentClickListener() {
             @Override
             public void onChildCommentListener(final int pos, final int childPos) {
+                if (!GlobalDataYepao.isLogin()) {
+                    return;
+                }
                 if (String.valueOf(mCommunityDetailModel.getData().getComments().get(pos).getCommunityCommentsOuts().get(childPos).getCustomerId()).equals(GlobalDataYepao.getUser(getContext()).getId())) {
                     DialogUtils.showMessageTwoButtonDialog(getContext(), "提示", "是否删除评论", new DialogCallback() {
                         @Override
@@ -235,8 +273,33 @@ public class CircleDetailFragmentView extends BaseFragment implements CircleDeta
                             .get(childPos).getName());
                 }
             }
+
+            @Override
+            public void onChildDeleteIconListener(final int pos, final int childPos) {
+                DialogUtils.showMessageTwoButtonDialog(getContext(), "提示", "是否删除评论", new DialogCallback() {
+                    @Override
+                    public void onItemClick(int position) {
+
+                    }
+
+                    @Override
+                    public void onLeftClick() {
+
+                    }
+
+                    @Override
+                    public void onRightClick() {
+                        mPresenter.deleteComment(String.valueOf(mCommunityDetailModel.getData().getComments().get(pos).getCommunityCommentsOuts().get(childPos).getId()));
+                    }
+                });
+
+            }
         });
     }
+
+
+
+
 
     @Override
     public void startLoading() {
@@ -268,6 +331,11 @@ public class CircleDetailFragmentView extends BaseFragment implements CircleDeta
     }
 
     @Override
+    public void CircleDetailFinish() {
+        getActivity().finish();
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
@@ -277,10 +345,14 @@ public class CircleDetailFragmentView extends BaseFragment implements CircleDeta
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_circle_finger:
-                if (!fingerStatus) {
-                    mPresenter.getPraise();
+                if (!GlobalDataYepao.isLogin()) {
+                    LoginActivity.start(getContext());
                 } else {
-                    mPresenter.deletePraise();
+                    if (!fingerStatus) {
+                        mPresenter.getPraise();
+                    } else {
+                        mPresenter.deletePraise();
+                    }
                 }
                 break;
             case R.id.et_comment:

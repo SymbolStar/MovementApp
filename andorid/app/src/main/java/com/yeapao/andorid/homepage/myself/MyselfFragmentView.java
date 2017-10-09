@@ -134,7 +134,6 @@ public class MyselfFragmentView extends Fragment implements MyselfContract.View 
 
     @OnClick(R.id.iv_myself_setting)
     void onSettingClick(View view) {
-        ToastManager.showToast(getContext(),"onClick");
 //        LoginActivity.start(getContext());
         MyselfSettingActivity.start(getContext());
 //        FillUserInfoActivity.start(getContext());
@@ -148,7 +147,6 @@ public class MyselfFragmentView extends Fragment implements MyselfContract.View 
             myselfMessageAdapter.setItemClickListener(new OnRecyclerViewClickListener() {
                 @Override
                 public void OnItemClick(View v, int position) {
-                    ToastManager.showToast(getContext(), "header onclick");
                     ChangeDataActivity.start(getContext());
                 }
             });
@@ -156,7 +154,6 @@ public class MyselfFragmentView extends Fragment implements MyselfContract.View 
                 @Override
                 public void onTabClick(View v, int position,String name) {
 //            TODO 重新定义以枚举的形式
-                    ToastManager.showToast(getContext(), "tab onclick"+name);
                     if (name.equals("我的帖子")) {
                         MyselfPostActivity.start(getContext());
                     } else if (name.equals("我的课程")) {
@@ -235,11 +232,12 @@ public class MyselfFragmentView extends Fragment implements MyselfContract.View 
         public void onNext(UserDetailsModel model) {
             LogUtil.e(TAG, model.getErrmsg());
             if (model.getErrmsg().equals("ok")) {
-                int status = GlobalDataYepao.getUser(getContext()).getStatus();
-                String password = GlobalDataYepao.getUser(getContext()).getPassword();
+                GlobalDataYepao.clearUser(getContext());
+//                int status = GlobalDataYepao.getUser(getContext()).getStatus();
+//                String password = GlobalDataYepao.getUser(getContext()).getPassword();
                 UserData userData = model.getData();
-                userData.setStatus(status);
-                userData.setPassword(password);
+//                userData.setStatus(status);
+//                userData.setPassword(password);
                 GlobalDataYepao.setUser(getContext(),userData);
                 showResult(userData);
             }

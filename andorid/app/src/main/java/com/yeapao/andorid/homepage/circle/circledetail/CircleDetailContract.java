@@ -23,6 +23,8 @@ public interface CircleDetailContract  {
 
         void refreshComment();
 
+        void CircleDetailFinish();
+
     }
 
 
@@ -41,6 +43,8 @@ public interface CircleDetailContract  {
         void getFromToComment(int position,String content);
 
         void getFromToChildComment(int pos, int childPos, String content);
+
+        void deleteCommunity();
     }
 
 

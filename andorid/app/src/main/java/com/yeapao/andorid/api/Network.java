@@ -1,5 +1,11 @@
 package com.yeapao.andorid.api;
 
+import android.app.Application;
+
+import com.scottfu.sflibrary.util.NetworkState;
+import com.scottfu.sflibrary.util.ToastManager;
+import com.yeapao.andorid.YepaoApplication;
+
 import okhttp3.OkHttpClient;
 import retrofit2.CallAdapter;
 import retrofit2.Converter;
@@ -20,6 +26,9 @@ public class Network {
 
 
     public static YeapaoApi getYeapaoApi() {
+        if (!NetworkState.networkConnected(YepaoApplication.getContextObject())) {
+            ToastManager.repeatToast(YepaoApplication.getContextObject(),"无法连接到网络，请检查网络连接");
+        }
         if ( yeapaoApi == null) {
             Retrofit retrofit = new Retrofit.Builder()
                     .client(okHttpClient)

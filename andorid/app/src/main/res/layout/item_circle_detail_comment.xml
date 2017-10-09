@@ -44,6 +44,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_nick_name" />
 
     <ImageView
+        android:visibility="gone"
         android:id="@+id/iv_circle_badge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -95,6 +96,7 @@
         android:id="@+id/view15" />
 
     <ImageView
+        android:visibility="gone"
         android:id="@+id/iv_master"
         android:layout_width="10dp"
         android:layout_height="12dp"
@@ -116,5 +118,15 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view15"
         app:srcCompat="@color/bg_grey" />
+
+    <ImageView
+        android:id="@+id/iv_comment_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/circle_delete_note" />
 
 </android.support.constraint.ConstraintLayout>

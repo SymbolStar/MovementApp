@@ -6,4 +6,6 @@ package com.yeapao.andorid.homepage.circle.circledetail;
 
 public interface CommentOnClickListener {
     void itemOnClickListener(int position );
+
+    void itemDeleteIconClickListener(int position);
 }

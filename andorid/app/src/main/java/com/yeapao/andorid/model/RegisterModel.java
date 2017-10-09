@@ -14,7 +14,7 @@ public class RegisterModel {
 
     private int errcode;
     private String errmsg;
-    private DataBean data;
+    private UserData data;
 
     public int getErrcode() {
         return errcode;
@@ -32,11 +32,11 @@ public class RegisterModel {
         this.errmsg = errmsg;
     }
 
-    public DataBean getData() {
+    public UserData getData() {
         return data;
     }
 
-    public void setData(DataBean data) {
+    public void setData(UserData data) {
         this.data = data;
     }
 

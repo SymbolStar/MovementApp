@@ -31,8 +31,12 @@ import com.yeapao.andorid.api.Network;
 import com.yeapao.andorid.base.BaseActivity;
 import com.yeapao.andorid.model.ActialOrderDetailModel;
 import com.yeapao.andorid.model.CallPaymentModel;
+import com.yeapao.andorid.model.CangDeviceNoData;
+import com.yeapao.andorid.util.GlobalDataYepao;
 
 import java.util.Map;
+
+import javax.microedition.khronos.opengles.GL;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -99,7 +103,10 @@ public class SportFinishActivity extends BaseActivity {
         actualOrderId = intent.getStringExtra("actualOrderId");
         totalTime = intent.getStringExtra("totalTime");
 
-        getNetWork(actualOrderId,totalTime);
+        CangDeviceNoData cangDevice = new CangDeviceNoData();
+        cangDevice = GlobalDataYepao.getCangDeviceData(getContext());
+
+        getNetWork(actualOrderId,totalTime,cangDevice.getDeviceNo());
 
         if (numberReceiver == null) {
             numberReceiver = new MessageSendReceiver();
@@ -121,10 +128,10 @@ public class SportFinishActivity extends BaseActivity {
         return this;
     }
 
-    private void getNetWork(String actualOrdersId, String totalTime) {
+    private void getNetWork(String actualOrdersId, String totalTime,String deviceNo) {
         LogUtil.e(TAG, actualOrdersId + "___" + totalTime);
         subscription = Network.getYeapaoApi()
-                .requestActualOrderDetail(actualOrdersId, totalTime)
+                .requestActualOrderDetail(actualOrdersId, totalTime, GlobalDataYepao.getUser(getContext()).getId(),deviceNo)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(modelObserver);
@@ -154,7 +161,7 @@ public class SportFinishActivity extends BaseActivity {
 
     private void initView() {
         tvFitPayPrice.setText(getContext().getResources().getString(R.string.RMB)+actialOrderDetailModel.getData().getPrice());
-        tvFitTime.setText(actialOrderDetailModel.getData().getTime());
+        tvFitTime.setText(actialOrderDetailModel.getData().getTime()+"min");
         tvFitOrderCode.setText(actialOrderDetailModel.getData().getActualOrdersCode());
         tvFitCangId.setText(actialOrderDetailModel.getData().getWarehouseName());
     }
@@ -300,6 +307,7 @@ public class SportFinishActivity extends BaseActivity {
                         // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
                         Toast.makeText(getContext(), "支付成功", Toast.LENGTH_SHORT).show();
                         ((Activity)getContext()).finish();
+                        PaySuccessActivity.start(getContext(),totalTime);
                     } else {
                         // 该笔订单真实的支付结果，需要依赖服务端的异步通知。
                         Toast.makeText(getContext(), "支付失败", Toast.LENGTH_SHORT).show();
@@ -346,6 +354,7 @@ public class SportFinishActivity extends BaseActivity {
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equals("wxPay.action")) {
                 ((Activity)getContext()).finish();
+                PaySuccessActivity.start(getContext(), totalTime);
             }
         }
     }

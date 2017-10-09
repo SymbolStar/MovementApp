@@ -37,6 +37,7 @@ public class MyselfOrdersActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_myself_order);
+        initTopBar();
         if (savedInstanceState != null) {
             FragmentManager manager = getSupportFragmentManager();
             cangOrderFragment = (CangOrderFragment) manager.getFragment(savedInstanceState, "order");

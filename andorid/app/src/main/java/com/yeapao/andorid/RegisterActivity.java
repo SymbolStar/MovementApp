@@ -145,7 +145,12 @@ public class RegisterActivity extends BaseActivity {
                 ToastManager.showToast(getContext(),registerModel.getErrmsg());
             LogUtil.e(TAG, registerModel.getErrmsg());
             if (registerModel.getErrmsg().equals("ok")) {
+                UserData userData = registerModel.getData();
+                userData.setLogin(true);
+                GlobalDataYepao.setUser(getContext(),userData);
+                GlobalDataYepao.setIsLogin(true);
                 FillUserInfoActivity.start(getContext());
+                finish();
             }
         }
     };

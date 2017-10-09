@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -53,15 +54,18 @@ public class DialogUtils {
     }
 
     public static void showProgressDialog(Context context, boolean cancelable) {
-        showProgressDialog(context,DEFAULT_DIALOG_MESSAGE,cancelable);
+        showProgressDialog(context,DEFAULT_DIALOG_MESSAGE,cancelable,false);
+    }
+    public static void showProgressDialog(Context context, boolean cancelable,boolean isCang) {
+        showProgressDialog(context,DEFAULT_DIALOG_MESSAGE,cancelable,isCang);
     }
 
     public static void showProgressDialog(Context context, String message){
-        showProgressDialog(context, message, false);
+        showProgressDialog(context, message, false,false);
     }
 
 
-    public static void showProgressDialog(Context context, String message, boolean cancelable){
+    public static void showProgressDialog(Context context, String message, boolean cancelable, boolean isCang){
         if(pDialog != null){
             pDialog.dismiss();
             pDialog = null;
@@ -69,8 +73,13 @@ public class DialogUtils {
         pDialog = new ProgressDialog(context);
         pDialog.setCancelable(cancelable);
         pDialog.show();
+        View v;
+        if (isCang) {
+            v = LayoutInflater.from(context).inflate(R.layout.dialog_loading_cang, null);
+        } else {
+             v = LayoutInflater.from(context).inflate(R.layout.dialog_loading, null);
+        }
 
-        View v = LayoutInflater.from(context).inflate(R.layout.dialog_loading, null);
 
 
         pDialog.setContentView(v);
@@ -437,6 +446,7 @@ public class DialogUtils {
     public static void showCangInputDialog(Context context, final CangInputCallback listener) {
         final AlertDialog dialog = new AlertDialog.Builder(context).create();
         dialog.show();
+        dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
 
         final EditText cangId;
         TextView startFit;
@@ -449,6 +459,9 @@ public class DialogUtils {
         startFit = (TextView) v.findViewById(R.id.tv_start_fit);
         cancelImageView = (ImageView) v.findViewById(R.id.iv_cancel_input);
 
+//        cangId.requestFocus();
+//        InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+//        imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
 
         cancelImageView.setOnClickListener(new View.OnClickListener() {
             @Override

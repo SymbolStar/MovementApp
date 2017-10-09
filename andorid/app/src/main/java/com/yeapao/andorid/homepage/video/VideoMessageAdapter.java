@@ -61,17 +61,17 @@ public class VideoMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         if (count == 4) {
             count = 0;
         }
-//        ((ViewHolder)holder).jpsVideoPlay.setUp(videoModels.getData().get(position).getUrl()
-//                , JCVideoPlayerStandard.SCREEN_LAYOUT_LIST, videoModels.getData().get(position).getTitle());
-//        ((ViewHolder) holder).jpsVideoPlay.thumbImageView.setImageDrawable(mContext.getResources().getDrawable(R.drawable.pic01));
-//        glideUtil.glideLoadingImage(mContext,videoModels.getData().get(position).getImageUrl(),
-//                R.drawable.pic01,((ViewHolder) holder).jpsVideoPlay.thumbImageView);
-
-
         ((ViewHolder)holder).jpsVideoPlay.setUp(videoModels.getData().get(position).getUrl()
                 , JCVideoPlayerStandard.SCREEN_LAYOUT_LIST, videoModels.getData().get(position).getTitle());
         ((ViewHolder) holder).jpsVideoPlay.thumbImageView.setImageDrawable(mContext.getResources().getDrawable(R.drawable.pic01));
-       ((ViewHolder) holder).jpsVideoPlay.thumbImageView.setImageDrawable(mContext.getResources().getDrawable(resList.get(count)));
+        glideUtil.glideLoadingImage(mContext,videoModels.getData().get(position).getImageUrl(),
+                R.drawable.pic01,((ViewHolder) holder).jpsVideoPlay.thumbImageView);
+
+//
+//        ((ViewHolder)holder).jpsVideoPlay.setUp(videoModels.getData().get(position).getUrl()
+//                , JCVideoPlayerStandard.SCREEN_LAYOUT_LIST, videoModels.getData().get(position).getTitle());
+//        ((ViewHolder) holder).jpsVideoPlay.thumbImageView.setImageDrawable(mContext.getResources().getDrawable(R.drawable.pic01));
+//       ((ViewHolder) holder).jpsVideoPlay.thumbImageView.setImageDrawable(mContext.getResources().getDrawable(resList.get(count)));
 
 
             ((ViewHolder) holder).jpsVideoPlay.thumbImageView.setScaleType(ImageView.ScaleType.FIT_XY);

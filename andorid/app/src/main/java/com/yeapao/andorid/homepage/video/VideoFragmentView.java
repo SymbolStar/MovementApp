@@ -180,7 +180,6 @@ public class VideoFragmentView extends Fragment implements VideoContract.View {
             videoTabMessageAdapter.setOnItemCLickListener(new OnRecyclerViewClickListener() {
                 @Override
                 public void OnItemClick(View v, int position) {
-                    ToastManager.showToast(getContext(), "on tab click");
                     type = String.valueOf(videoTypeModel.getData().get(position).getType_index()) ;
                     tvVideoType.setText(videoTypeModel.getData().get(position).getType_name());
                     rvVideoTabList.setVisibility(View.GONE);

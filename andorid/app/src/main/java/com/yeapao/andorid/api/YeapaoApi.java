@@ -14,9 +14,11 @@ import com.yeapao.andorid.model.BodySideThreeGetDataModel;
 import com.yeapao.andorid.model.BodySideTwoBackModel;
 import com.yeapao.andorid.model.BodySideTwoGetBackModel;
 import com.yeapao.andorid.model.CallPaymentModel;
+import com.yeapao.andorid.model.CalorieMessageModel;
 import com.yeapao.andorid.model.CangDeleteActualOrdersModel;
 import com.yeapao.andorid.model.CangReservationOrderListModel;
 import com.yeapao.andorid.model.CircleListModel;
+import com.yeapao.andorid.model.CircleMessageModel;
 import com.yeapao.andorid.model.ClassBeginsModel;
 import com.yeapao.andorid.model.CommunityDetailModel;
 import com.yeapao.andorid.model.CookListDetailModel;
@@ -42,6 +44,7 @@ import com.yeapao.andorid.model.RollCallListModel;
 import com.yeapao.andorid.model.SaveReservation;
 import com.yeapao.andorid.model.SelectActualTimeModel;
 import com.yeapao.andorid.model.SelectReservationTimeModel;
+import com.yeapao.andorid.model.SingleCommunityModel;
 import com.yeapao.andorid.model.TestData;
 import com.yeapao.andorid.model.UserDetailsModel;
 import com.yeapao.andorid.model.VideoDataModel;
@@ -49,6 +52,7 @@ import com.yeapao.andorid.model.VideoTypeModel;
 import com.yeapao.andorid.model.WareHouseListModel;
 import com.yeapao.andorid.model.WeXinRefundModel;
 
+import java.lang.reflect.Type;
 import java.util.Map;
 
 import okhttp3.MultipartBody;
@@ -236,6 +240,11 @@ public interface YeapaoApi {
     @POST("user/punchTheClocks")
     Observable<PunchTheClockModel> requestPunchTheClock(@Query("customerId") String customerId, @Query("type") String type);
 
+    //消息详情列表(circle)
+    @POST("user/punchTheClocks")
+    Observable<CircleMessageModel> requestCircleMessage(@Query("customerId") String customerId, @Query("type") String type);
+
+
 
     //   意见反馈
     @POST("user/feedbackSave")
@@ -327,6 +336,14 @@ public interface YeapaoApi {
     Observable<SelectActualTimeModel> requestSelectActualTime(@Query("deviceNo") String deviceNo, @Query("customerId") String customerId,
                                                               @Query("type") String type);
 
+    //    下线提醒
+    @POST("home/offlineReminder")
+    Observable<NormalDataModel> requestOffLine(@Query("customerId") String customerId, @Query("warehouseId") String warehouseId);
+
+    //    取消下线提醒
+    @POST("home/delOfflineReminder")
+    Observable<NormalDataModel> requestDelOffLine(@Query("customerId") String customerId, @Query("warehouseId") String warehouseId);
+
     //    请求开门
     @POST("order/requestDoor")
     Observable<NormalDataModel> requestOpenDoor(@Query("deviceNo") String deviceNo, @Query("customerId") String customerId,
@@ -343,7 +360,8 @@ public interface YeapaoApi {
 
     //    运动支付
     @POST("order/actualOrdersDetail")
-    Observable<ActialOrderDetailModel> requestActualOrderDetail(@Query("actualOrdersId") String actualOrderId, @Query("totalTime") String totalTime);
+    Observable<ActialOrderDetailModel> requestActualOrderDetail(@Query("actualOrdersId") String actualOrderId, @Query("totalTime") String totalTime,
+                                                                @Query("customerId") String customerId, @Query("deviceNo") String deviceNo);
 
     //舱运动订单列表
     @POST("order/actualOrderList")
@@ -424,9 +442,35 @@ public interface YeapaoApi {
     @POST("community/deleteCommunityComment")
     Observable<NormalDataModel> requestDeleteComment(@Query("communityCommentId") String communityCommentId);
 
+    @POST("community/deleteCommunity")
+    Observable<NormalDataModel> requestDeleteCommunity(@Query("communityId") String communityId);
+
     //    回复评论
     @POST("community/comment/addComment")
     Observable<NormalDataModel> requestFromToComment(@Query("comment") String comment, @Query("communityId") String communityId,
                                                      @Query("communityCommentId") String communityCommentId, @Query("customerId") String customerId,
                                                      @Query("passiveCustomerId") String passiveCustomerId);
+//打卡
+    @Multipart
+    @POST("community/savePunch")
+    Observable<NormalDataModel> requestPushClock(@Query("customerId") String customerId, @Query("content") String content,
+                                                 @Query("type") String type, @Query("status") String status,
+                                                 @PartMap() Map<String, RequestBody> maps);
+
+    //   消耗卡路里
+    @POST("order/calorie")
+    Observable<CalorieMessageModel> requestCalorie(@Query("customerId") String customerId, @Query("time") String time);
+
+    //    单个帖子
+    @POST("community/community")
+    Observable<SingleCommunityModel> requestSingleCommunity(@Query("communityId") String community, @Query("customerId") String customerId);
+
+    //    删除推送接口
+    @POST("user/deleteMessage")
+    Observable<NormalDataModel> requsetDeleteMessage(@Query("customerId") String customerId, @Query("type") String type);
+
+    @POST("user/forgotPassword")
+    Observable<NormalDataModel> requestForgotPassword(@Query("phone") String phone, @Query("password") String password,
+                                                      @Query("verificationCode") String code);
+
 }

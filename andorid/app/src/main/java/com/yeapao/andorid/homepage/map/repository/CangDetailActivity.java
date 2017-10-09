@@ -13,6 +13,7 @@ import com.yeapao.andorid.R;
 import com.yeapao.andorid.api.Network;
 import com.yeapao.andorid.base.BaseActivity;
 import com.yeapao.andorid.dialog.DialogUtils;
+import com.yeapao.andorid.model.CangDeviceNoData;
 import com.yeapao.andorid.model.CreateActualOrdersModel;
 import com.yeapao.andorid.model.NormalDataModel;
 import com.yeapao.andorid.model.SelectActualTimeModel;
@@ -49,6 +50,7 @@ public class CangDetailActivity extends BaseActivity {
 
     private String deviceNo;
     private String type;
+    private String cangDevice;
 
     private Timer timer = new Timer();
     private int countTime = 0;
@@ -58,10 +60,11 @@ public class CangDetailActivity extends BaseActivity {
     private SelectActualTimeModel mCangDetail = new SelectActualTimeModel();
 
 
-    public static void start(Context context, String deviceId, String type) {
+    public static void start(Context context, String deviceId, String type,String cangDeviceId) {
         Intent intent = new Intent();
         intent.putExtra("deviceNo", deviceId);
         intent.putExtra("type", type);
+        intent.putExtra("cangDevice", cangDeviceId);
         intent.setClass(context, CangDetailActivity.class);
         context.startActivity(intent);
     }
@@ -76,6 +79,7 @@ public class CangDetailActivity extends BaseActivity {
         Intent intent = getIntent();
         deviceNo = intent.getStringExtra("deviceNo");
         type = intent.getStringExtra("type");
+        cangDevice = intent.getStringExtra("cangDevice");
         getNetWork(deviceNo, GlobalDataYepao.getUser(getContext()).getId(), type);
 
         MyReceiver.setJpushMessageListener(new JpushMessageListener() {
@@ -87,9 +91,8 @@ public class CangDetailActivity extends BaseActivity {
                     JpushMessageFlag = true;
                     startFitFlag++;
                     if (startFitFlag == 1) {
-//                        LogUtil.e(TAG, deviceNo + "   " + type);
-//                        requestCreateCangOrders(GlobalDataYepao.getUser(getContext()).getId(),mCangDetail.getData().getWarehouseId(),
-//                                "1");
+                        LogUtil.e(TAG, deviceNo + "   " + type);
+                        requestCreateCangOrdersV2(GlobalDataYepao.getUser(getContext()).getId(),mCangDetail.getData().getWarehouseId());
 
                     }
 
@@ -194,7 +197,7 @@ public class CangDetailActivity extends BaseActivity {
 
     @OnClick(R.id.tv_reservation_cang_sure)
     public void onViewClicked() {
-        DialogUtils.showProgressDialog(getContext(),true);
+        DialogUtils.showProgressDialog(getContext(),true,true);
         countTime = 0;
         JpushMessageFlag = false;
         new Thread(new Runnable() {
@@ -297,8 +300,13 @@ public class CangDetailActivity extends BaseActivity {
 
                     @Override
                     public void onNext(CreateActualOrdersModel model) {
-                        LogUtil.e(TAG, model.getErrmsg());
+                        LogUtil.e(TAG+"createActualOrdersModelObserver", model.getErrmsg());
                         if (model.getErrmsg().equals("ok")) {
+                            CangDeviceNoData cangDeviceNoData = new CangDeviceNoData();
+                            cangDeviceNoData.setDeviceNo(cangDevice);
+                            cangDeviceNoData.setId(model.getData().getActualOrdersId());
+                            cangDeviceNoData.setStartTime(model.getData().getStartDate());
+                            GlobalDataYepao.setCangDeviceData(getContext(),cangDeviceNoData);
                             StartSportActivity.start(getContext(),model.getData().getActualOrdersId(),model.getData().getStartDate());
                             finish();
                         }

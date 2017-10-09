@@ -50,6 +50,15 @@ public class MessageListModel {
         private int punchTheClocks;
         private int videos;
         private int appointments;
+        private int communityComments;
+
+        public int getCommunityComments() {
+            return communityComments;
+        }
+
+        public void setCommunityComments(int communityComments) {
+            this.communityComments = communityComments;
+        }
 
         public int getPunchTheClocks() {
             return punchTheClocks;
