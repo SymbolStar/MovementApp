@@ -16,10 +16,12 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.baidu.mapapi.map.Text;
 import com.scottfu.sflibrary.util.GlideUtil;
 import com.scottfu.sflibrary.util.ScreenUtil;
 import com.scottfu.sflibrary.zxing.GenerateQRCode;
@@ -48,6 +50,10 @@ public class DialogUtils {
 
     public static void showProgressDialog(Context context){
         showProgressDialog(context, DEFAULT_DIALOG_MESSAGE);
+    }
+
+    public static void showProgressDialog(Context context, boolean cancelable) {
+        showProgressDialog(context,DEFAULT_DIALOG_MESSAGE,cancelable);
     }
 
     public static void showProgressDialog(Context context, String message){
@@ -313,4 +319,161 @@ public class DialogUtils {
         params.width = (int) (display.getWidth() * 0.9);
         dialog.getWindow().setAttributes(params);
     }
+
+
+    public static void showRefundDialog(Context context, final DialogCallback listener) {
+        final AlertDialog dialog = new AlertDialog.Builder(context).create();
+        dialog.show();
+        Button cancel;
+        Button sure;
+
+        View v = LayoutInflater.from(context).inflate(R.layout.dialog_refund, null);
+
+        cancel = (Button) v.findViewById(R.id.btn_cancel);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onLeftClick();
+                dialog.dismiss();
+            }
+        });
+        sure = (Button) v.findViewById(R.id.btn_sure);
+        sure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onRightClick();
+                dialog.dismiss();
+            }
+        });
+
+        Window window = dialog.getWindow();
+        window.setContentView(v);
+        WindowManager m = ((Activity) context).getWindowManager();
+        Display display = m.getDefaultDisplay();
+        WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
+        params.width = (int) (display.getWidth() * 0.9);
+        dialog.getWindow().setAttributes(params);
+    }
+
+    public static void showMessageTwoButtonDialog(Context context,String title,String content, final DialogCallback listener) {
+        final AlertDialog dialog = new AlertDialog.Builder(context).create();
+        dialog.show();
+        Button cancel;
+        Button sure;
+        TextView titleTextView;
+        TextView hintTextView;
+
+        View v = LayoutInflater.from(context).inflate(R.layout.dialog_refund, null);
+
+        titleTextView = (TextView) v.findViewById(R.id.tv_order_title);
+        hintTextView = (TextView) v.findViewById(R.id.tv_dialog_hint);
+
+        titleTextView.setText(title);
+        hintTextView.setText(content);
+
+        cancel = (Button) v.findViewById(R.id.btn_cancel);
+        cancel.setText("取消");
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onLeftClick();
+                dialog.dismiss();
+            }
+        });
+        sure = (Button) v.findViewById(R.id.btn_sure);
+        sure.setText("确定");
+        sure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onRightClick();
+                dialog.dismiss();
+            }
+        });
+
+        Window window = dialog.getWindow();
+        window.setContentView(v);
+        WindowManager m = ((Activity) context).getWindowManager();
+        Display display = m.getDefaultDisplay();
+        WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
+        params.width = (int) (display.getWidth() * 0.9);
+        dialog.getWindow().setAttributes(params);
+    }
+
+    public static void showMessageDialog(Context context,String title,String content,String buttonContent, final DialogCallback listener) {
+        final AlertDialog dialog = new AlertDialog.Builder(context).create();
+        dialog.show();
+        Button sure;
+
+        TextView contentTextView;
+        TextView titleTextView;
+
+        View v = LayoutInflater.from(context).inflate(R.layout.dialog_single_bottom_title, null);
+
+        titleTextView = (TextView) v.findViewById(R.id.tv_order_title);
+        titleTextView.setText(title);
+        contentTextView = (TextView) v.findViewById(R.id.tv_dialog_hint);
+        contentTextView.setText(content);
+
+        sure = (Button) v.findViewById(R.id.btn_sure);
+        sure.setText(buttonContent);
+        sure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onRightClick();
+                dialog.dismiss();
+            }
+        });
+
+        Window window = dialog.getWindow();
+        window.setContentView(v);
+        WindowManager m = ((Activity) context).getWindowManager();
+        Display display = m.getDefaultDisplay();
+        WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
+        params.width = (int) (display.getWidth() * 0.9);
+        dialog.getWindow().setAttributes(params);
+    }
+
+
+    public static void showCangInputDialog(Context context, final CangInputCallback listener) {
+        final AlertDialog dialog = new AlertDialog.Builder(context).create();
+        dialog.show();
+
+        final EditText cangId;
+        TextView startFit;
+        ImageView cancelImageView;
+
+
+        View v = LayoutInflater.from(context).inflate(R.layout.dialog_input_cang_code, null);
+
+        cangId = (EditText) v.findViewById(R.id.et_cang_id);
+        startFit = (TextView) v.findViewById(R.id.tv_start_fit);
+        cancelImageView = (ImageView) v.findViewById(R.id.iv_cancel_input);
+
+
+        cancelImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        startFit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.getContent(cangId.getText().toString());
+                dialog.dismiss();
+            }
+        });
+
+        Window window = dialog.getWindow();
+        window.setContentView(v);
+        WindowManager m = ((Activity) context).getWindowManager();
+        Display display = m.getDefaultDisplay();
+        WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
+        params.width = (int) (display.getWidth() * 0.9);
+        dialog.getWindow().setAttributes(params);
+    }
+
+
+
 }

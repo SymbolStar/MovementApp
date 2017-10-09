@@ -17,6 +17,7 @@ import com.scottfu.sflibrary.util.ToastManager;
 import com.yeapao.andorid.LoginActivity;
 import com.yeapao.andorid.R;
 import com.yeapao.andorid.api.Network;
+import com.yeapao.andorid.homepage.myself.orders.MyselfOrdersActivity;
 import com.yeapao.andorid.homepage.myself.tab.MyselfHealthActivity;
 import com.yeapao.andorid.homepage.myself.tab.MyselfLessonActivity;
 import com.yeapao.andorid.homepage.myself.tab.MyselfOrderActivity;
@@ -161,7 +162,8 @@ public class MyselfFragmentView extends Fragment implements MyselfContract.View 
                     } else if (name.equals("我的课程")) {
                         MyselfLessonActivity.start(getContext());
                     } else if (name.equals("我的订单")) {
-                        MyselfOrderActivity.start(getContext());
+                        MyselfOrdersActivity.start(getContext());
+//                        MyselfOrderActivity.start(getContext());
                     } else if (name.equals("我的预约")) {
                         MyselfReservationActivity.start(getContext());
                     } else if (name.equals("我是店长")) {
@@ -173,6 +175,8 @@ public class MyselfFragmentView extends Fragment implements MyselfContract.View 
                         MyselfHealthActivity.start(getContext());
 //                        HealthRepositoryActivity.start(getContext());
 //                        getContext().startActivity(new Intent(getContext(),testCoordinatorLayoutActivity.class));
+                    } else if (name.equals("认证")) {
+                        MyselfCertificationActivity.start(getContext());
                     }
                 }
             });

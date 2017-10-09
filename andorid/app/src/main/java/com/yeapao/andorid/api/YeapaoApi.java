@@ -1,5 +1,9 @@
 package com.yeapao.andorid.api;
 
+import com.yeapao.andorid.model.ActialOrderDetailModel;
+import com.yeapao.andorid.model.ActualOrderDetailModel;
+import com.yeapao.andorid.model.ActualOrderListModel;
+import com.yeapao.andorid.model.AliRefundModel;
 import com.yeapao.andorid.model.BodySideDetailModel;
 import com.yeapao.andorid.model.BodySideForthBackModel;
 import com.yeapao.andorid.model.BodySideListModel;
@@ -10,14 +14,22 @@ import com.yeapao.andorid.model.BodySideThreeGetDataModel;
 import com.yeapao.andorid.model.BodySideTwoBackModel;
 import com.yeapao.andorid.model.BodySideTwoGetBackModel;
 import com.yeapao.andorid.model.CallPaymentModel;
+import com.yeapao.andorid.model.CangDeleteActualOrdersModel;
+import com.yeapao.andorid.model.CangReservationOrderListModel;
+import com.yeapao.andorid.model.CircleListModel;
 import com.yeapao.andorid.model.ClassBeginsModel;
+import com.yeapao.andorid.model.CommunityDetailModel;
 import com.yeapao.andorid.model.CookListDetailModel;
+import com.yeapao.andorid.model.CreateActualOrdersModel;
+import com.yeapao.andorid.model.CreateReservationTimeModel;
+import com.yeapao.andorid.model.DepositOrdersModel;
 import com.yeapao.andorid.model.FoodInfoModel;
 import com.yeapao.andorid.model.HealthDataModel;
 import com.yeapao.andorid.model.IAmCoachListModel;
 import com.yeapao.andorid.model.IsAmShopModel;
 import com.yeapao.andorid.model.LessonOrderModel;
 import com.yeapao.andorid.model.MessageListModel;
+import com.yeapao.andorid.model.MyAuthenticationModel;
 import com.yeapao.andorid.model.MyOrderDataModel;
 import com.yeapao.andorid.model.Myfiles;
 import com.yeapao.andorid.model.MyselfLessonModel;
@@ -28,11 +40,16 @@ import com.yeapao.andorid.model.RecommendLessonModel;
 import com.yeapao.andorid.model.RegisterModel;
 import com.yeapao.andorid.model.RollCallListModel;
 import com.yeapao.andorid.model.SaveReservation;
+import com.yeapao.andorid.model.SelectActualTimeModel;
+import com.yeapao.andorid.model.SelectReservationTimeModel;
 import com.yeapao.andorid.model.TestData;
 import com.yeapao.andorid.model.UserDetailsModel;
 import com.yeapao.andorid.model.VideoDataModel;
 import com.yeapao.andorid.model.VideoTypeModel;
 import com.yeapao.andorid.model.WareHouseListModel;
+import com.yeapao.andorid.model.WeXinRefundModel;
+
+import java.util.Map;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -40,6 +57,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
+import retrofit2.http.PartMap;
 import retrofit2.http.Query;
 import rx.Observable;
 
@@ -90,14 +108,12 @@ public interface YeapaoApi {
     Observable<FoodInfoModel> getFoodInfos(@Query("dateStr") String date);
 
 
-
     //    体测第一节
     @Multipart
     @POST("curriculum/saveBodySideOne")
     Observable<BodySideOneModel> uploadFile(@Query("quietHeartRate") String rate, @Query("bloodPressure") String blood, @Query("heights") String height,
                                             @Query("weight") String weight, @Query("inBody") String inbody, @Query("scheduleId") String sid,
                                             @Query("customerId") String cid, @Query("bodySideOne") String bid, @Part("files\";filename=\"image.jpeg") RequestBody file);
-
 
 
     //    体测第一节返回数据
@@ -107,9 +123,9 @@ public interface YeapaoApi {
     //    体测第二节
     @POST("curriculum/saveBodySideTwo")
     Observable<BodySideTwoBackModel> uploadDataSecond(@Query("upperRight") String upperRight, @Query("upperLeft") String upperLeft,
-                                                @Query("abdomen") String abdomen, @Query("waist") String waist, @Query("hips") String hips,
-                                                @Query("lowerRight") String lowerRight, @Query("lowerLeft") String lowerLeft,
-                                                @Query("bodySideId") String bodySideId, @Query("bodySideTwo") String bodySideTwo);
+                                                      @Query("abdomen") String abdomen, @Query("waist") String waist, @Query("hips") String hips,
+                                                      @Query("lowerRight") String lowerRight, @Query("lowerLeft") String lowerLeft,
+                                                      @Query("bodySideId") String bodySideId, @Query("bodySideTwo") String bodySideTwo);
 
     @POST("curriculum/selectBodySideTwo")
     Observable<BodySideTwoGetBackModel> getBodySideTwo(@Query("scheduleId") String id);
@@ -118,19 +134,19 @@ public interface YeapaoApi {
     //    体测第三节
     @POST("curriculum/saveBodySideThree")
     Observable<BodySideThreeBackModel> uploadDataThird(@Query("upperLimbStrength") String str1, @Query("lowerExtremityStrength") String str2,
-                                                        @Query("precursor") String str3, @Query("heartRateOne") String str4, @Query("heartRateTwo") String str5,
-                                                        @Query("heartRateThree") String str6,
-                                                        @Query("bodySideId") String bodySideId, @Query("bodySideThree") String bodySideThree);
+                                                       @Query("precursor") String str3, @Query("heartRateOne") String str4, @Query("heartRateTwo") String str5,
+                                                       @Query("heartRateThree") String str6,
+                                                       @Query("bodySideId") String bodySideId, @Query("bodySideThree") String bodySideThree);
 
     @POST("curriculum/selectBodySideThree")
     Observable<BodySideThreeGetDataModel> getBodySideThree(@Query("scheduleId") String id);
 
-//    //    第四节体测
+    //    //    第四节体测
     @Multipart
     @POST("curriculum/saveBodySideFour")
     Observable<BodySideForthBackModel> uploadDataForth(@Part("positive\";filename=\"image.jpg") RequestBody file1, @Part("side\";filename=\"image.jpg") RequestBody file2,
                                                        @Part("back\";filename=\"image.jpg") RequestBody file3, @Part("furredTongue\";filename=\"image.jpg") RequestBody file4,
-                                                       @Query("bodySideId")String bodySideId);
+                                                       @Query("bodySideId") String bodySideId);
 
 
     //    我是教练
@@ -150,13 +166,15 @@ public interface YeapaoApi {
     @POST("user/classBegins")
     Observable<ClassBeginsModel> getClassBegins(@Query("scheduleId") String Id);
 
-//早退
+    //早退
     @POST("user/leaveEarly")
     Observable<NormalDataModel> requestLeaveEarly(@Query("ids") String ids);
-//签到
+
+    //签到
     @POST("user/normal")
     Observable<NormalDataModel> requestNormal(@Query("ids") String ids);
-//下课
+
+    //下课
     @POST("user/ClassIsOver")
     Observable<NormalDataModel> requestClassIsOver(@Query("scheduleId") String ids);
 
@@ -167,11 +185,11 @@ public interface YeapaoApi {
     @POST("user/healthDatabase")
     Observable<HealthDataModel> getHealthData(@Query("customerId") String id);
 
-//食谱 食品库
+    //食谱 食品库
     @POST("cookbook/detail")
     Observable<CookListDetailModel> getCookDetail(@Query("threeMeals") String meal, @Query("type") String type);
 
-//体测记录详情
+    //体测记录详情
     @POST("user/testDetails")
     Observable<BodySideDetailModel> getBodySideDetail(@Query("bodySideId") String id);
 
@@ -184,15 +202,16 @@ public interface YeapaoApi {
     Observable<LessonOrderModel> requestlessonOrder(@Query("mapCurriculumTypesId") String typeId,
                                                     @Query("price") String price, @Query("id") String id);
 
-//支付
+    //支付
     @POST("payment/callPayment")
     Observable<CallPaymentModel> requestPayment(@Query("price") String price, @Query("orderCode") String orderCode,
                                                 @Query("paymentType") String paymentType);
-//打卡
+
+    //打卡
     @POST("community/savePunch")
     Observable<NormalDataModel> requestClockOut(@Query("customerId") String id, @Query("weight") String weight);
 
-//提交疼痛度
+    //提交疼痛度
     @POST("curriculum/savePainDegree")
     Observable<NormalDataModel> requestPainData(@Query("reservationDetailsId") String reservationId, @Query("position") String position, @Query("degree") String degree);
 
@@ -205,13 +224,15 @@ public interface YeapaoApi {
     Observable<RecommendLessonModel> requesetRecommendLesson(@Query("shopId") String shopId, @Query("id") String id,
                                                              @Query("time") String time);
 
-//    视频类型
+    //    视频类型
     @GET("video/types")
     Observable<VideoTypeModel> requestVideoType();
-//  消息列表
+
+    //  消息列表
     @POST("user/messageList")
     Observable<MessageListModel> requestMessageList(@Query("customerId") String id);
-//消息详情列表
+
+    //消息详情列表
     @POST("user/punchTheClocks")
     Observable<PunchTheClockModel> requestPunchTheClock(@Query("customerId") String customerId, @Query("type") String type);
 
@@ -228,16 +249,17 @@ public interface YeapaoApi {
     @Multipart
     @POST("user/updateCustomerById")
     Observable<NormalDataModel> requestChangeUserData(@Query("customerId") String customerId,
-                                                       @Query("gender") String gender,
-                                                       @Query("name") String name,
-                                                        @Query("age") String age,
-                                                       @Part("files\";filename=\"image.jpeg") RequestBody file);
+                                                      @Query("gender") String gender,
+                                                      @Query("name") String name,
+                                                      @Query("age") String age,
+                                                      @Part("files\";filename=\"image.jpeg") RequestBody file);
+
     //    修改资料2
     @POST("user/updateCustomerById")
     Observable<NormalDataModel> requestChangeUserDataV2(@Query("customerId") String customerId,
-                                                      @Query("gender") String gender,
-                                                      @Query("name") String name,
-                                                      @Query("age") String age);
+                                                        @Query("gender") String gender,
+                                                        @Query("name") String name,
+                                                        @Query("age") String age);
 
     //完善资料
     @POST("user/updateCustomer")
@@ -248,7 +270,8 @@ public interface YeapaoApi {
                                                     @Query("objective") String objective,
                                                     @Query("physicalCondition") String physical,
                                                     @Query("id") String id);
-//订单列表
+
+    //订单列表
     @POST("order/findOrderList")
     Observable<MyOrderDataModel> getOrderInfo(@Query("customerId") String customerId);
 
@@ -269,7 +292,141 @@ public interface YeapaoApi {
     @POST("home/selectWareHouseList")
     Observable<WareHouseListModel> requestWareHouseList(@Query("customerId") String customerId);
 
+    //报修
     @POST("home/saveGuarantee")
     Observable<NormalDataModel> requestSaveGuarantee(@Query("customerId") String id, @Query("warehouseName") String warehouseId,
                                                      @Query("content") String content);
+
+    //   押金订单
+    @POST("order/crateDepositOrders")
+    Observable<DepositOrdersModel> requestDeposit(@Query("customerId") String customerId);
+
+    //    我的认证
+    @POST("user/myAuthentication")
+    Observable<MyAuthenticationModel> requestCertification(@Query("customerId") String id);
+
+    //    微信退款
+    @POST("refund/weXinRefund")
+    Observable<WeXinRefundModel> requestWeXinRefund(@Query("code") String code, @Query("price") String price);
+
+    //支付宝退款
+    @POST("refund/aliRefund")
+    Observable<AliRefundModel> requestAliRefund(@Query("code") String code, @Query("price") String price);
+
+    //    预约舱详情
+    @POST("order/selectReservaTime")
+    Observable<SelectReservationTimeModel> requestReservationTime(@Query("wareHouseId") String id);
+
+    //    预约订单
+    @POST("order/createReservaTimeOrder")
+    Observable<CreateReservationTimeModel> requestCreateReservationTime(@Query("warehouseId") String id, @Query("customerId") String customerId,
+                                                                        @Query("time") String time, @Query("warehouseName") String warehoustName);
+
+    //    舱详情
+    @POST("order/selectActualTime")
+    Observable<SelectActualTimeModel> requestSelectActualTime(@Query("deviceNo") String deviceNo, @Query("customerId") String customerId,
+                                                              @Query("type") String type);
+
+    //    请求开门
+    @POST("order/requestDoor")
+    Observable<NormalDataModel> requestOpenDoor(@Query("deviceNo") String deviceNo, @Query("customerId") String customerId,
+                                                @Query("type") String type);
+
+    //    创建舱订单
+    @POST("order/createActualOrders")
+    Observable<CreateActualOrdersModel> requestCreateActualOrders(@Query("customerId") String customerId, @Query("wareHouseId") String wareHouseId,
+                                                                  @Query("type") String type);
+
+    //    创建舱订单2
+    @POST("order/createActualOrders")
+    Observable<CreateActualOrdersModel> requestCreateActualOrdersV2(@Query("customerId") String customerId, @Query("wareHouseId") String wareHouseIdActual);
+
+    //    运动支付
+    @POST("order/actualOrdersDetail")
+    Observable<ActialOrderDetailModel> requestActualOrderDetail(@Query("actualOrdersId") String actualOrderId, @Query("totalTime") String totalTime);
+
+    //舱运动订单列表
+    @POST("order/actualOrderList")
+    Observable<ActualOrderListModel> requestActualOrderList(@Query("customerId") String customerId);
+
+    //    运动舱订单详情
+    @POST("order/actualOrderDetail")
+    Observable<ActualOrderDetailModel> requestActualOrderDetail(@Query("actualOrderId") String id);
+
+
+    //    预约舱订单
+    @POST("order/reservationOrderList")
+    Observable<CangReservationOrderListModel> requestCangReservationOrderList(@Query("customerId") String id);
+
+    //    预约舱详情
+    @POST("order/reservationOrderDetail")
+    Observable<ActualOrderDetailModel> requestCangReservationDetail(@Query("reservaOrdersId") String id);
+
+    //    舱预约订单删除
+    @POST("order/delReserOrders")
+    Observable<NormalDataModel> requestDeleteCangReservationOrders(@Query("reservaOrdersId") String id);
+
+    //    舱运动订单删除
+    @POST("order/delActualOrders")
+    Observable<NormalDataModel> requestDeleteActualOrders(@Query("actualOrderId") String id);
+
+    //    圈子首页
+    @GET("community/list")
+    Observable<CircleListModel> requestCircleListModel();
+
+    //    圈子首页分页
+    @POST("community/list")
+    Observable<CircleListModel> requestCircleListPage(@Query("page") String page);
+
+    //    圈子首页分页 用户Id
+    @POST("community/list")
+    Observable<CircleListModel> requestCircleListPageWithAccount(@Query("customerId") String customerId, @Query("page") String page);
+
+
+    //    发帖
+    @Multipart
+    @POST("community/add")
+    Observable<NormalDataModel> uploadCommunity(@Query("customerId") String customerId, @Query("content") String content,
+                                                @Part("imageUrls\";filename=\"image.jpg") RequestBody file1);
+
+    @POST("community/add")
+    Observable<NormalDataModel> uploadCommunityNoImage(@Query("customerId") String customerId, @Query("content") String content);
+
+    //    发帖
+    @Multipart
+    @POST("community/add")
+    Observable<NormalDataModel> uploadCommunityImages(@Query("customerId") String customerId, @Query("content") String content,
+                                                      @Part("imageUrls\";filename=\"image.jpg") RequestBody file1, @Part("imageUrls\";filename=\"image.jpg") RequestBody file2);
+
+    //发帖多图
+    @Multipart
+    @POST("community/add")
+    Observable<NormalDataModel> uploadCommunityImageMap(@Query("customerId") String customerId, @Query("content") String content,
+                                                        @PartMap() Map<String, RequestBody> maps);
+
+    @POST("community/CommunityDetail")
+    Observable<CommunityDetailModel> requestCommunityDetail(@Query("communityId") String communityId, @Query("customerId") String customerId);
+
+    //点赞
+    @POST("community/thumbsUpCommunity")
+    Observable<NormalDataModel> requestFinger(@Query("communityId") String communityId, @Query("customerId") String customerId);
+
+    //取消赞
+    @POST("community/deleteThumbsUpCommunity")
+    Observable<NormalDataModel> requestDeleteFinger(@Query("communityId") String communityId, @Query("customerId") String customerId);
+
+    //发表评论
+    @POST("community/comment/add")
+    Observable<NormalDataModel> requestComment(@Query("comment") String comment, @Query("communityId") String communityId,
+                                               @Query("customerId") String customerId);
+
+    //删除回复
+    @POST("community/deleteCommunityComment")
+    Observable<NormalDataModel> requestDeleteComment(@Query("communityCommentId") String communityCommentId);
+
+    //    回复评论
+    @POST("community/comment/addComment")
+    Observable<NormalDataModel> requestFromToComment(@Query("comment") String comment, @Query("communityId") String communityId,
+                                                     @Query("communityCommentId") String communityCommentId, @Query("customerId") String customerId,
+                                                     @Query("passiveCustomerId") String passiveCustomerId);
 }

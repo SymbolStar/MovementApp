@@ -9,4 +9,55 @@
     <string name="lesson_find_hint">搜索场馆名称／地址／运动项目</string>
     <string name="lesson_hint">此课程仅限本人使用\n课前1小时停止预约\n取消预约请于课前2小时提出申请</string>
     <string name="pain_hint">填写疼痛感受时，1为不疼，10为重度疼痛，填写时只需要填写3个疼痛最为明显的部位，以便教练帮您进行拉伸处理</string>
+    
+    <string name="RMB">￥</string>
+    
+    <string name="certification">认证</string>
+    <string name="refunds_doc">退款说明</string>
+    <string name="deposit_status">押金已支付</string>
+    <string name="deposit_status2">已支付</string>
+    <string name="deposit_status3">我要退押金</string>
+    <string name="dialog_refunds">退押金提示</string>
+    <string name="dialog_refund1">退完押金就不能再使用健身舱喽～</string>
+    <string name="dialog_refund_bottom">我再想想</string>
+    <string name="dialog_refund_bottom2">坚持退款</string>
+    <string name="refund_success">退款成功</string>
+    <string name="deposit_hint">为确保您合法合规使用也跑健身舱，需缴纳押金99元，可随时退还到账户</string>
+    
+    <!--预约舱-->
+    <string name="reservation_cang">预约时间</string>
+    <string name="reservation_cang_1">也跑健身舱ID</string>
+    <string name="reservation_cang_2">状态</string>
+    <string name="reservation_cang_status">空闲</string>
+    <string name="reservation_cang_status1">使用中</string>
+    <string name="reservation_cang_status2">报修</string>
+    <string name="reservation_cang_status3">禁用</string>
+    <string name="reservation_cang_price">预约费用</string>
+    <string name="reservation_cang_price_1">1元/5分钟</string>
+    <string name="reservation_cang_sure">确认预约</string>
+    <string name="reservation_cang_time">请选择预约时间</string>
+
+    <!--预约支付-->
+    <string name="cang_reservation_pay">预约费用:</string>
+    <string name="cang_reservation_pay1">预约时长</string>
+    <string name="cang_reservation_pay2">订单编号</string>
+    <string name="cang_reservation_pay3">健身舱编号</string>
+
+    <string name="cang_message_hint_1">消息提示</string>
+    <string name="cang_message_hint_2">您已经有预约的健身舱了，不要重复预约哦～</string>
+    <string name="cang_message_hint_3">我知道了</string>
+
+    <string name="cang_message_down_1">您关注的健身舱现在已经可预约啦，不要错过哦～</string>
+    <string name="cang_input_code">输入建生舱ID，也可以运动哦～</string>
+    <string name="cang_input_id">请输入ID</string>
+    <string name="cang_input_button">立即运动</string>
+    <string name="cang_run_people">加油哦，很快就能瘦如闪电啦～</string>
+
+    <string name="cang_pay1">使用时长</string>
+    <string name="cang_pay2">订单编号</string>
+    <string name="cang_pay3">健身舱编号</string>
+
+    <string name="account_cang_status">您有正在进行的运动，点击查看</string>
+    <string name="account_cang_status2">您有未支付的运动订单，点击支付</string>
+
 </resources>

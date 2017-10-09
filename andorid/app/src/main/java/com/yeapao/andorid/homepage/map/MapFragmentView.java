@@ -66,6 +66,7 @@ import com.baidu.mapapi.search.route.PlanNode;
 import com.baidu.mapapi.search.route.RoutePlanSearch;
 import com.baidu.mapapi.search.route.TransitRouteResult;
 import com.baidu.mapapi.search.route.WalkingRouteResult;
+import com.scottfu.sflibrary.util.DateFormatter;
 import com.scottfu.sflibrary.util.LogUtil;
 import com.scottfu.sflibrary.util.ToastManager;
 import com.yeapao.andorid.LoginActivity;
@@ -73,6 +74,8 @@ import com.yeapao.andorid.R;
 import com.yeapao.andorid.api.ConstantYeaPao;
 import com.yeapao.andorid.api.Network;
 import com.yeapao.andorid.base.BaseFragment;
+import com.yeapao.andorid.dialog.DialogCallback;
+import com.yeapao.andorid.dialog.DialogUtils;
 import com.yeapao.andorid.homepage.map.clusterutil.Cluster;
 import com.yeapao.andorid.homepage.map.clusterutil.ClusterItem;
 import com.yeapao.andorid.homepage.map.clusterutil.ClusterManager;
@@ -80,11 +83,16 @@ import com.yeapao.andorid.homepage.map.overlayutil.DrivingRouteOverlay;
 import com.yeapao.andorid.homepage.map.overlayutil.OverlayManager;
 import com.yeapao.andorid.homepage.map.repository.DepositActivity;
 import com.yeapao.andorid.homepage.map.repository.RepairActivity;
+import com.yeapao.andorid.homepage.map.repository.ReservationCangActivity;
 import com.yeapao.andorid.model.WareHouseListModel;
 import com.yeapao.andorid.util.GlobalDataYepao;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -100,7 +108,7 @@ import static android.content.Context.SENSOR_SERVICE;
  * Created by fujindong on 2017/9/7.
  */
 
-public class MapFragmentView extends BaseFragment implements SensorEventListener ,BaiduMap.OnMapClickListener,BaiduMap.OnMapLoadedCallback,OnGetRoutePlanResultListener{
+public class MapFragmentView extends BaseFragment implements SensorEventListener, BaiduMap.OnMapClickListener, BaiduMap.OnMapLoadedCallback, OnGetRoutePlanResultListener {
 
     private static final String TAG = "MapFragmentView";
     @BindView(R.id.iv_message)
@@ -115,11 +123,28 @@ public class MapFragmentView extends BaseFragment implements SensorEventListener
     TextView tvDistance;
     @BindView(R.id.tv_reservation_warehouse)
     TextView tvWareHouse;
+    @BindView(R.id.iv_location_icon)
+    ImageView ivLocationIcon;
+    @BindView(R.id.tv_reservation_time)
+    TextView tvReservationTime;
+    @BindView(R.id.tv_cang_hint)
+    TextView tvCangHint;
+    @BindView(R.id.tv_account_cang_status)
+    TextView tvAccountCangStatus;
 
     Unbinder unbinder;
     private MapView mMapView;
     private BaiduMapOptions mapOptions;
     private BaiduMap mBaiduMap;
+    private int currentMyItemIndex = 0;
+    private boolean reservationStatus = false;
+    private boolean timerFlag = false;
+
+    private long timeFlag = 0;
+
+    //    倒计时
+    private long countDown= 0;
+    Timer timer = new Timer();
 
 
     private ConstraintLayout mConstraintLayout;
@@ -154,7 +179,7 @@ public class MapFragmentView extends BaseFragment implements SensorEventListener
     private WareHouseListModel mWareHouseList = new WareHouseListModel();
 
 
-//    地图标记
+    //    地图标记
     private ClusterManager<MyItem> mClusterManager;
 
     //    线路轨迹
@@ -167,9 +192,11 @@ public class MapFragmentView extends BaseFragment implements SensorEventListener
 
     @Override
     public void onMapLoaded() {
-         mBaiduMap.animateMapStatus(MapStatusUpdateFactory.newMapStatus(new MapStatus.Builder().zoom(9).build()));
-    }
 
+        LogUtil.e(TAG + "onMapLoaded", "9");
+
+        mBaiduMap.animateMapStatus(MapStatusUpdateFactory.newMapStatus(new MapStatus.Builder().zoom(9).build()));
+    }
 
 
     @Override
@@ -189,7 +216,7 @@ public class MapFragmentView extends BaseFragment implements SensorEventListener
 
     @Override
     public void onGetDrivingRouteResult(DrivingRouteResult result) {
-        LogUtil.e(TAG,"ongetDrivingRouteResult");
+        LogUtil.e(TAG, "ongetDrivingRouteResult");
         if (result == null || result.error != SearchResult.ERRORNO.NO_ERROR) {
             Toast.makeText(getContext(), "抱歉，未找到结果", Toast.LENGTH_SHORT).show();
         }
@@ -215,12 +242,12 @@ public class MapFragmentView extends BaseFragment implements SensorEventListener
                 double distance = (double) result.getRouteLines().get(0).getDistance();
                 if (distance > 1000) {
                     ddd = String.valueOf(distance / 1000);
-                    tvDistance.setText(ddd+"km");
+                    tvDistance.setText(ddd + "km");
                 } else {
                     ddd = String.valueOf(result.getRouteLines().get(0).getDistance());
-                    tvDistance.setText(ddd+"m");
+                    tvDistance.setText(ddd + "m");
                 }
-                LogUtil.e(TAG,"_____"+ddd+"+++++");
+                LogUtil.e(TAG, "_____" + ddd + "+++++");
 
 
             } else {
@@ -245,15 +272,17 @@ public class MapFragmentView extends BaseFragment implements SensorEventListener
     public void onMapClick(LatLng latLng) {
         applyConstraintSet.clone(mConstraintLayout);
         applyConstraintSet.setVisibility(R.id.fl_reservation, ConstraintSet.GONE);
+        applyConstraintSet.setVisibility(R.id.iv_find_qr, ConstraintSet.VISIBLE);
+
         applyConstraintSet.applyTo(mConstraintLayout);
 //        reservationFrameLayout.setVisibility(View.GONE);
-        LogUtil.e(TAG,latLng.toString());
-        ToastManager.showToast(getContext(),latLng.toString());
+        LogUtil.e(TAG, latLng.toString());
+        ToastManager.showToast(getContext(), latLng.toString());
     }
 
     @Override
     public boolean onMapPoiClick(MapPoi mapPoi) {
-        LogUtil.e(TAG,"onMapPoiClick");
+        LogUtil.e(TAG, "onMapPoiClick");
         return false;
     }
 
@@ -274,6 +303,10 @@ public class MapFragmentView extends BaseFragment implements SensorEventListener
             this.index = index;
         }
 
+        public int getIndex() {
+            return index;
+        }
+
         @Override
         public LatLng getPosition() {
             return mPosition;
@@ -282,14 +315,15 @@ public class MapFragmentView extends BaseFragment implements SensorEventListener
         @Override
         public BitmapDescriptor getBitmapDescriptor() {
 
-        if (mWareHouseList.getData().getWarehouseListOut().get(index).getActualStatus().equals("1")){
-            return BitmapDescriptorFactory.fromResource(R.drawable.cang_run_s);
-        } else if (mWareHouseList.getData().getWarehouseListOut().get(index).getReservaStatus().equals("1")) {
-            return BitmapDescriptorFactory.fromResource(R.drawable.cang_run_my);
-        } else {
-            return BitmapDescriptorFactory.fromResource(R.drawable.cang_run_n);
-        }
+            if (mWareHouseList.getData().getWarehouseListOut().get(index).getActualStatus().equals("1")) {
+                return BitmapDescriptorFactory.fromResource(R.drawable.cang_run_s);
+            } else if (mWareHouseList.getData().getWarehouseListOut().get(index).getReservaStatus().equals("1")) {
+                reservationStatus = true;
+                return BitmapDescriptorFactory.fromResource(R.drawable.cang_run_my);
 
+            } else {
+                return BitmapDescriptorFactory.fromResource(R.drawable.cang_run_n);
+            }
 
 
         }
@@ -328,6 +362,7 @@ public class MapFragmentView extends BaseFragment implements SensorEventListener
 
     public void onCreate(Bundle var1) {
         super.onCreate(var1);
+        LogUtil.e(TAG,"----onCreate----");
     }
 
 //    public View onCreateView(LayoutInflater var1, ViewGroup var2, Bundle var3) {
@@ -341,17 +376,43 @@ public class MapFragmentView extends BaseFragment implements SensorEventListener
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        LogUtil.e(TAG,"onCreateView");
+        LogUtil.e(TAG, "----onCreateView----");
 
         View view = inflater.inflate(R.layout.fragment_map, container, false);
+
         initView(view);
 
         unbinder = ButterKnife.bind(this, view);
         return view;
     }
 
-    private void initView(View view) {
+    @OnClick(R.id.tv_reservation_warehouse)
+    void setReservationWarehouse(View view) {
 
+        if (reservationStatus) {
+            DialogUtils.showMessageDialog(getContext(), getContext().getResources().getString(R.string.cang_message_hint_1),
+                    getContext().getResources().getString(R.string.cang_message_hint_2),getContext().getResources().getString(R.string.cang_message_hint_3), new DialogCallback() {
+                        @Override
+                        public void onItemClick(int position) {
+
+                        }
+
+                        @Override
+                        public void onLeftClick() {
+
+                        }
+
+                        @Override
+                        public void onRightClick() {
+
+                        }
+                    });
+        } else {
+            ReservationCangActivity.start(getContext(), String.valueOf(mWareHouseList.getData().getWarehouseListOut().get(currentMyItemIndex).getWarehouseId()));
+        }
+    }
+
+    private void initView(View view) {
         mConstraintLayout = (ConstraintLayout) view.findViewById(R.id.cl_map);
         reservationFrameLayout = (FrameLayout) view.findViewById(R.id.fl_reservation);
         applyConstraintSet.clone(mConstraintLayout);
@@ -360,6 +421,8 @@ public class MapFragmentView extends BaseFragment implements SensorEventListener
         mMapView = (MapView) view.findViewById(R.id.mv_repository);
         mBaiduMap = getBaiduMap();
         mBaiduMap.setOnMapClickListener(this);
+
+
 //        隐藏必要的属性
         mMapView.showScaleControl(false);//地图上比例尺
         mMapView.showZoomControls(false);// 隐藏缩放控件
@@ -373,13 +436,19 @@ public class MapFragmentView extends BaseFragment implements SensorEventListener
         mUiSettings.setCompassEnabled(false);
 
         mSensorManager = (SensorManager) getActivity().getSystemService(SENSOR_SERVICE);//获取传感器管理服务
+
+        mSensorManager.registerListener(this, mSensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION),
+                SensorManager.SENSOR_DELAY_UI);
+
+
         mCurrentMode = LocationMode.FOLLOWING;
         mBaiduMap.setMyLocationConfiguration(new MyLocationConfiguration(mCurrentMode, true, mCurrentMarker));
         MapStatus.Builder builder = new MapStatus.Builder();
-        builder.overlook(0).zoom(18.0f);//设置地图俯视角，
+        builder.overlook(0).zoom(17.0f);//设置地图俯视角，
         mBaiduMap.animateMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));
         // 开启定位图层
         mBaiduMap.setMyLocationEnabled(true);
+
         // 定位初始化
         mLocClient = new LocationClient(getContext());
         mLocClient.registerLocationListener(myListener);
@@ -393,9 +462,6 @@ public class MapFragmentView extends BaseFragment implements SensorEventListener
 //        线路轨迹
         mSearch = RoutePlanSearch.newInstance();
         mSearch.setOnGetRoutePlanResultListener(this);
-
-
-
 
 
     }
@@ -422,21 +488,33 @@ public class MapFragmentView extends BaseFragment implements SensorEventListener
 
     public void onResume() {
         super.onResume();
-        LogUtil.e(TAG,"onResume");
+        LogUtil.e(TAG, "onResume");
         this.mMapView.onResume();
-        //为系统的方向传感器注册监听器
-        mSensorManager.registerListener(this, mSensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION),
-                SensorManager.SENSOR_DELAY_UI);
 
 
-//        获取舱的位置数据
         if (!GlobalDataYepao.isLogin()) {
             getNetWork("0");
         } else {
             getNetWork(GlobalDataYepao.getUser(getContext()).getId());
         }
+
+        applyConstraintSet.clone(mConstraintLayout);
+        applyConstraintSet.setVisibility(R.id.fl_reservation, ConstraintSet.GONE);
+        applyConstraintSet.setVisibility(R.id.iv_find_qr, ConstraintSet.VISIBLE);
+        applyConstraintSet.applyTo(mConstraintLayout);
+        //为系统的方向传感器注册监听器
+//        mSensorManager.registerListener(this, mSensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION),
+//                SensorManager.SENSOR_DELAY_UI);
+//
+
+//        获取舱的位置数据
+//        if (!GlobalDataYepao.isLogin()) {
+//            getNetWork("0");
+//        } else {
+//            getNetWork(GlobalDataYepao.getUser(getContext()).getId());
+//        }
 //        定义点聚合管理类
-        mClusterManager = new ClusterManager<MyItem>(getContext(), mBaiduMap);
+//        mClusterManager = new ClusterManager<MyItem>(getContext(), mBaiduMap);
 
     }
 
@@ -505,13 +583,14 @@ public class MapFragmentView extends BaseFragment implements SensorEventListener
             case R.id.iv_message:
                 break;
             case R.id.iv_location:
-                LogUtil.e("location","location----------");
+                LogUtil.e("location", "location----------");
                 mLocClient.requestLocation();
                 break;
             case R.id.iv_find_qr:
                 if (GlobalDataYepao.isLogin()) {
                     if (mWareHouseList.getData().getIsQualified().equals("1")) {
-                        startActivity(new Intent(getContext(), TestScanActivity.class));
+                        TestScanActivity.start(getContext(), "0");
+//                        startActivity(new Intent(getContext(), TestScanActivity.class));
                     } else {
                         DepositActivity.start(getContext());
                     }
@@ -522,9 +601,9 @@ public class MapFragmentView extends BaseFragment implements SensorEventListener
                 break;
             case R.id.iv_open_light:
                 if (GlobalDataYepao.isLogin()) {
-                        RepairActivity.start(getContext(), GlobalDataYepao.getUser(getContext()).getId());
+                    RepairActivity.start(getContext(), GlobalDataYepao.getUser(getContext()).getId());
                 } else {
-                    ToastManager.showToast(getContext(),"请先登录");
+                    ToastManager.showToast(getContext(), "请先登录");
                     LoginActivity.start(getContext());
                 }
 
@@ -546,7 +625,7 @@ public class MapFragmentView extends BaseFragment implements SensorEventListener
                 return;
             }
 
-            LogUtil.e("MyLocationListener","receiveLocation");
+            LogUtil.e("MyLocationListener", "receiveLocation");
 
             mCurrentLat = location.getLatitude();
             mCurrentLon = location.getLongitude();
@@ -562,7 +641,7 @@ public class MapFragmentView extends BaseFragment implements SensorEventListener
                 LatLng ll = new LatLng(location.getLatitude(),
                         location.getLongitude());
                 MapStatus.Builder builder = new MapStatus.Builder();
-                builder.target(ll).zoom(18.0f);
+                builder.target(ll).zoom(17.0f);
                 mBaiduMap.animateMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));
             }
         }
@@ -573,47 +652,65 @@ public class MapFragmentView extends BaseFragment implements SensorEventListener
     }
 
 
-            private void getNetWork(String id) {
-                    LogUtil.e(TAG,id);
-                    subscription = Network.getYeapaoApi()
-                            .requestWareHouseList(id)
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(modelObserver );
+    private void getNetWork(String id) {
+        timeFlag = System.currentTimeMillis();
+        LogUtil.e(TAG, id);
+        subscription = Network.getYeapaoApi()
+                .requestWareHouseList(id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(modelObserver);
+    }
+
+    Observer<WareHouseListModel> modelObserver = new Observer<WareHouseListModel>() {
+        @Override
+        public void onCompleted() {
+
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            LogUtil.e(TAG, e.toString());
+
+        }
+
+        @Override
+        public void onNext(WareHouseListModel model) {
+            LogUtil.e(TAG+"WareHouseListModel", model.getErrmsg());
+            if (model.getErrmsg().equals("ok")) {
+                mWareHouseList = model;
+                if (mWareHouseList.getData().getWarehouseId() != 0) {
+                    tvAccountCangStatus.setVisibility(View.VISIBLE);
+                    tvAccountCangStatus.setText(getContext().getResources().getString(R.string.account_cang_status));
+                } else {
+                    tvAccountCangStatus.setVisibility(View.GONE);
+                }
+                if (mWareHouseList.getData().getIsUnpaid() == 1) {
+                    tvAccountCangStatus.setVisibility(View.VISIBLE);
+                    tvAccountCangStatus.setText(getContext().getResources().getString(R.string.account_cang_status2));
+                } else {
+                    tvAccountCangStatus.setVisibility(View.GONE);
                 }
 
-                  Observer<WareHouseListModel> modelObserver = new Observer<WareHouseListModel>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        LogUtil.e(TAG,e.toString());
-
-                    }
-
-                    @Override
-                    public void onNext(WareHouseListModel model) {
-                        LogUtil.e(TAG, model.getErrmsg());
-                        if (model.getErrmsg().equals("ok")) {
-                            mWareHouseList = model;
-                            addMarkers();
-                        }
-                    }
-                };
-
+                addMarkers();
+            }
+        }
+    };
 
 
     /**
      * 在地图上添加标记
      */
     public void addMarkers() {
+        LogUtil.e("获取标记的延时",String.valueOf(System.currentTimeMillis()-timeFlag));
+        mClusterManager = new ClusterManager<MyItem>(getContext(), mBaiduMap);
+//        mClusterManager.clearItems();
         List<MyItem> items = new ArrayList<MyItem>();
         for (int i = 0; i < mWareHouseList.getData().getWarehouseListOut().size(); i++) {
             items.add(new MyItem(new LatLng(mWareHouseList.getData().getWarehouseListOut().get(i).getLatitude(),
-                    mWareHouseList.getData().getWarehouseListOut().get(i).getLongitude())));
+                    mWareHouseList.getData().getWarehouseListOut().get(i).getLongitude()), i));
+//            items.add(new MyItem(new LatLng(mWareHouseList.getData().getWarehouseListOut().get(i).getLatitude(),
+//                    mWareHouseList.getData().getWarehouseListOut().get(i).getLongitude())));
         }
         mClusterManager.addItems(items);
 
@@ -622,7 +719,7 @@ public class MapFragmentView extends BaseFragment implements SensorEventListener
         mClusterManager.setOnClusterClickListener(new ClusterManager.OnClusterClickListener<MyItem>() {
             @Override
             public boolean onClusterClick(Cluster<MyItem> cluster) {
-                LogUtil.e("ClusterClickListener",String.valueOf(cluster.getSize()));
+                LogUtil.e("ClusterClickListener", String.valueOf(cluster.getSize()));
                 return false;
             }
         });
@@ -630,12 +727,46 @@ public class MapFragmentView extends BaseFragment implements SensorEventListener
         mClusterManager.setOnClusterItemClickListener(new ClusterManager.OnClusterItemClickListener<MyItem>() {
             @Override
             public boolean onClusterItemClick(MyItem item) {
-                ToastManager.showToast(getContext(),"item");
+                ivFindQr.setVisibility(View.GONE);
                 if (routeOverlay != null) {
                     routeOverlay.removeFromMap();
                 }
+                currentMyItemIndex = item.getIndex();
+                if (mWareHouseList.getData().getWarehouseListOut().get(item.getIndex()).getReservaStatus().equals("1")) {
+                    tvWareHouse.setText("扫码开门");
+                    tvDistance.setVisibility(View.GONE);
+                    ivLocationIcon.setVisibility(View.GONE);
+                    tvReservationTime.setVisibility(View.VISIBLE);
+                    DateFormatter dateFormatter = new DateFormatter();
+                    long llll = Long.valueOf(mWareHouseList.getData().getWarehouseListOut().get(item.getIndex()).getReservaStartTime()) ;
+                    long l2 = Long.valueOf(mWareHouseList.getData().getWarehouseListOut().get(item.getIndex()).getDuration()) ;
+                    countDown = dateFormatter.getData(llll,l2);
+                    LogUtil.e(TAG,String.valueOf(countDown));
+//                 TODO 倒计时计算
+                    if (timerFlag) {
+
+                    } else {
+                        timer.schedule(task,1000,1000);
+                    }
+
+                    tvCangHint.setText("健身舱：" + mWareHouseList.getData().getWarehouseListOut().get(item.getIndex()).getWarehouseName());
+                } else if (mWareHouseList.getData().getWarehouseListOut().get(item.getIndex()).getActualStatus().equals("1")) {
+                    tvWareHouse.setText("下线提醒");
+                    tvDistance.setVisibility(View.VISIBLE);
+                    ivLocationIcon.setVisibility(View.VISIBLE);
+                    tvReservationTime.setVisibility(View.GONE);
+                    tvCangHint.setText(mWareHouseList.getData().getReservationPrice() + "/5分钟");
+
+                } else {
+                    tvWareHouse.setText("预约使用");
+                    tvDistance.setVisibility(View.VISIBLE);
+                    ivLocationIcon.setVisibility(View.VISIBLE);
+                    tvReservationTime.setVisibility(View.GONE);
+                }
+
                 applyConstraintSet.clone(mConstraintLayout);
                 applyConstraintSet.setVisibility(R.id.fl_reservation, ConstraintSet.VISIBLE);
+                applyConstraintSet.setVisibility(R.id.iv_find_qr, ConstraintSet.GONE);
                 applyConstraintSet.applyTo(mConstraintLayout);
 //                reservationFrameLayout.setVisibility(View.VISIBLE);
                 PlanNode stNode = PlanNode.withLocation(new LatLng(mCurrentLat, mCurrentLon));
@@ -645,8 +776,34 @@ public class MapFragmentView extends BaseFragment implements SensorEventListener
                 return false;
             }
         });
-
+        LatLng ll = new LatLng(mCurrentLat,
+                mCurrentLon);
+        MapStatus.Builder builder = new MapStatus.Builder();
+        builder.target(ll).zoom(17.0f);
+        mBaiduMap.animateMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));
     }
+
+
+    TimerTask task = new TimerTask() {
+        @Override
+        public void run() {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    countDown -= 1000;
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("mm:ss", Locale.getDefault());
+                    String time1 = simpleDateFormat.format(countDown);
+                    LogUtil.e(TAG, time1);
+                    tvReservationTime.setText(time1);
+                    timerFlag = true;
+                    if (countDown < 0) {
+                        timer.cancel();
+                        timerFlag = false;
+                    }
+                }
+            });
+        }
+    };
 
 
     private class MyDrivingRouteOverLay extends DrivingRouteOverlay {
@@ -672,11 +829,10 @@ public class MapFragmentView extends BaseFragment implements SensorEventListener
 
     }
 
-
     private void test(DrivingRouteLine drivingRouteLine) {
         final ArrayList<OverlayOptions> list = new ArrayList<OverlayOptions>();
         PolylineOptions object = new PolylineOptions();
-        List<LatLng> arg0=new ArrayList<LatLng>();
+        List<LatLng> arg0 = new ArrayList<LatLng>();
         List<DrivingRouteLine.DrivingStep> allStep = drivingRouteLine.getAllStep();
         for (int i = 0; i < allStep.size(); i++) {
             DrivingRouteLine.DrivingStep drivingStep = allStep.get(i);
@@ -686,7 +842,7 @@ public class MapFragmentView extends BaseFragment implements SensorEventListener
         object.color(getContext().getResources().getColor(R.color.route_color)).width(5).points(arg0);
 
         list.add(object);
-       routeOverlay= new OverlayManager(mBaiduMap) {
+        routeOverlay = new OverlayManager(mBaiduMap) {
 
             @Override
             public boolean onPolylineClick(Polyline arg0) {
@@ -704,7 +860,6 @@ public class MapFragmentView extends BaseFragment implements SensorEventListener
             }
         };
         routeOverlay.addToMap();
-
     }
 
 

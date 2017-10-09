@@ -139,9 +139,10 @@ public class MainActivity extends PermissionActivity {
                         showMsg.append(KEY_EXTRAS + " : " + extras + "\n");
                     }
 //                    toast key
-                    ToastManager.showToast(getContext(),showMsg.toString());
+                    LogUtil.e("Jpush_MessageReceiver","-------"+messge);
                 }
             } catch (Exception e){
+
             }
         }
     }
@@ -155,6 +156,7 @@ public class MainActivity extends PermissionActivity {
         setTheme(R.style.AppTheme_NoActionBar);
         setContentView(R.layout.activity_main);
 
+        isForeground = true;
 
 
 
@@ -174,39 +176,39 @@ public class MainActivity extends PermissionActivity {
 
         if (savedInstanceState != null) {
             FragmentManager fragmentManager = getSupportFragmentManager();
-            lessonFragmentView = (LessonFragmentView) fragmentManager.getFragment(savedInstanceState, "lesson");
+//            lessonFragmentView = (LessonFragmentView) fragmentManager.getFragment(savedInstanceState, "lesson");
 //            shoppingFragmentView = (ShoppingFragmentView) fragmentManager.getFragment(savedInstanceState, "shopping");
-//            circleFragmentView = (CircleFragmentView) fragmentManager.getFragment(savedInstanceState, "circle");
+            circleFragmentView = (CircleFragmentView) fragmentManager.getFragment(savedInstanceState, "circle");
             myselfFragmentView = (MyselfFragmentView) fragmentManager.getFragment(savedInstanceState, "myself");
             videoFragmentView = (VideoFragmentView) fragmentManager.getFragment(savedInstanceState, "video");
             mapFragmentView = (MapFragmentView) fragmentManager.getFragment(savedInstanceState, "map");
 
             fragments.add(mapFragmentView);
             fragments.add(videoFragmentView);
-            fragments.add(lessonFragmentView);
+//            fragments.add(lessonFragmentView);
 //            fragments.add(shoppingFragmentView);
-//            fragments.add(circleFragmentView);
+            fragments.add(circleFragmentView);
             fragments.add(myselfFragmentView);
 
         } else {
-            lessonFragmentView = LessonFragmentView.newInstance();
+//            lessonFragmentView = LessonFragmentView.newInstance();
 //            shoppingFragmentView = ShoppingFragmentView.newInstance();
-//            circleFragmentView = CircleFragmentView.newInstance();
+            circleFragmentView = CircleFragmentView.newInstance();
             myselfFragmentView = MyselfFragmentView.newInstance();
             videoFragmentView = VideoFragmentView.newInstance();
             mapFragmentView = MapFragmentView.newInstance();
 
             fragments.add(mapFragmentView);
             fragments.add(videoFragmentView);
-            fragments.add(lessonFragmentView);
+//            fragments.add(lessonFragmentView);
 //            fragments.add(shoppingFragmentView);
-//            fragments.add(circleFragmentView);
+            fragments.add(circleFragmentView);
             fragments.add(myselfFragmentView);
         }
 
-        lessonPresenter = new LessonPresenter(getContext(), lessonFragmentView);
+//        lessonPresenter = new LessonPresenter(getContext(), lessonFragmentView);
 //        shoppingPresenter = new ShoppingPresenter(getContext(), shoppingFragmentView);
-//        circlePresenter = new CirclePresenter(getContext(), circleFragmentView);
+        circlePresenter = new CirclePresenter(getContext(), circleFragmentView);
         myselfPresenter = new MyselfPresenter(getContext(), myselfFragmentView);
         videoPresenter = new VideoPresenter(getContext(), videoFragmentView);
 
@@ -218,7 +220,7 @@ public class MainActivity extends PermissionActivity {
 
         items.put(R.id.home_cang,0);
         items.put(R.id.home_video, 1);
-        items.put(R.id.home_lesson, 2);
+        items.put(R.id.home_circle, 2);
 //        items.put(R.id.home_circle, 2);
         items.put(R.id.home_myself, 3);
 
@@ -236,6 +238,7 @@ public class MainActivity extends PermissionActivity {
         super.onDestroy();
         unsubscribe();
         ActivityCollector.removeActivity(this);
+        isForeground = false;
 
     }
 
@@ -394,18 +397,18 @@ public class MainActivity extends PermissionActivity {
     }
 
     /**
-     * 主要是为了解决在首页 店铺少的时候 无法实现筛选栏的顶部悬浮。
+     * 主要是为了解决在首页 店铺少的时候 无法实现筛选栏的顶部悬浮。 课程功能去掉
      * @param ev
      * @return
      */
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent ev) {
-
-        if (bind.bnvTab.getCurrentItem() == 1) {
-            lessonFragmentView.goneScreening();
-        }
-        return super.dispatchTouchEvent(ev);
-    }
+//    @Override
+//    public boolean dispatchTouchEvent(MotionEvent ev) {
+//
+//        if (bind.bnvTab.getCurrentItem() == 1) {
+//            lessonFragmentView.goneScreening();
+//        }
+//        return super.dispatchTouchEvent(ev);
+//    }
 
 
 
@@ -423,7 +426,7 @@ public class MainActivity extends PermissionActivity {
             } else {
 
             }
-            JPushInterface.setAlias(this,22,GlobalDataYepao.getUser(getContext()).getPhone());
+            JPushInterface.setAlias(this,22,GlobalDataYepao.getUser(getContext()).getId());
 
 //            getNetWork(GlobalDataYepao.getUser(getContext()).getPhone(),GlobalDataYepao.getUser(getContext()).getPassword());
 //            CloudClient.doHttpRequest(getContext(), ConstantYeaPao.LOGIN,

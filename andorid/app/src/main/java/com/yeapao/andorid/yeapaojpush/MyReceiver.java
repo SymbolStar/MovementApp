@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 
+import com.scottfu.sflibrary.util.LogUtil;
 import com.yeapao.andorid.MainActivity;
 import com.yeapao.andorid.yeapaojpush.Logger;
 
@@ -31,6 +32,14 @@ import cn.jpush.android.api.JPushInterface;
 public class MyReceiver extends BroadcastReceiver {
     private static final String TAG = "JIGUANG-Example";
 
+    public static JpushMessageListener jpushMessageListener;
+
+
+    public static void setJpushMessageListener(JpushMessageListener Listener) {
+
+        jpushMessageListener = Listener;
+    }
+
     @Override
     public void onReceive(Context context, Intent intent) {
         try {
@@ -45,6 +54,7 @@ public class MyReceiver extends BroadcastReceiver {
             } else if (JPushInterface.ACTION_MESSAGE_RECEIVED.equals(intent.getAction())) {
                 Logger.d(TAG, "[MyReceiver] 接收到推送下来的自定义消息: " + bundle.getString(JPushInterface.EXTRA_MESSAGE));
                 processCustomMessage(context, bundle);
+                sendMessageListener( bundle);
 
             } else if (JPushInterface.ACTION_NOTIFICATION_RECEIVED.equals(intent.getAction())) {
                 Logger.d(TAG, "[MyReceiver] 接收到推送下来的通知");
@@ -108,8 +118,27 @@ public class MyReceiver extends BroadcastReceiver {
                 sb.append("\nkey:" + key + ", value:" + bundle.getString(key));
             }
         }
+
+        LogUtil.e("JPush_Mreceiver",sb.toString());
         return sb.toString();
     }
+
+
+    private void sendMessageListener( Bundle bundle) {
+        if (jpushMessageListener != null) {
+            String message = bundle.getString(JPushInterface.EXTRA_MESSAGE);
+            LogUtil.e(TAG,"sendMessageListener"+message);
+            if (message.equals("-1")) {
+                LogUtil.e(TAG,"12313131321321321321313");
+                jpushMessageListener.getMessage(message);
+            } else {
+
+            }
+        } else {
+            LogUtil.e(TAG,"jpushMessageListener is null");
+        }
+    }
+
 
     //send msg to MainActivity
     private void processCustomMessage(Context context, Bundle bundle) {
